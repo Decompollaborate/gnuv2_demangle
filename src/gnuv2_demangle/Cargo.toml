@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: © 2025 Decompollaborate
+# SPDX-License-Identifier: MIT
+
+[package]
+name = "gnuv2_demangle"
+version.workspace = true
+edition.workspace = true
+# rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+# description = ""
+readme = "README.md"
+# keywords = []
+
+[lib]
+path = "src/lib.rs"
+
+[features]
+default = []
+std = []
+
+[dependencies]
