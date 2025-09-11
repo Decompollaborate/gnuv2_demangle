@@ -1,7 +1,9 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT */
 
-use gnuv2_demangle::{DemangleOptions, demangle};
+use gnuv2_demangle::{demangle, DemangleOptions};
+
+use pretty_assertions::assert_eq;
 
 #[test]
 fn test_demangling_funcs() {
@@ -54,3 +56,47 @@ fn test_demangling_funcs_const_pointer_const() {
     }
 }
 
+#[test]
+fn test_demangle_func_argless() {
+    static CASES: [(&str, Option<&str>); 1] = [("argless__Fv", Some("argless(void)"))];
+    let mut options = DemangleOptions::new();
+    options.try_recover_on_failure = true;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &options).as_deref(), demangled);
+    }
+}
+
+/*
+#[test]
+fn test_demangle_constructor_destructors() {
+    static CASES: [(&str, Option<&str>); 5] = [
+        (
+            "__5tName",
+            Some("tName::tName(void)"),
+        ),
+        (
+            "__5tNamePCc",
+            Some("tName::tName(char const *)"),
+        ),
+        (
+            "__5tNameG13tUidUnaligned",
+            Some("tName::tName(tUidUnaligned)"),
+        ),
+        (
+            "__5tNameRC5tName",
+            Some("tName::tName(tName const &)"),
+        ),
+        (
+            "_$_5tName",
+            Some("tName::~tName(void)"),
+        ),
+    ];
+    let mut options = DemangleOptions::new();
+    options.try_recover_on_failure = true;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &options).as_deref(), demangled);
+    }
+}
+*/

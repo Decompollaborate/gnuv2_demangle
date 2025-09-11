@@ -104,6 +104,7 @@ fn demangle_argument(mut args: &str) -> Option<(&str, String)> {
         'r' => out.push_str("long double"),
         'b' => out.push_str("bool"),
         'w' => out.push_str("wchar_t"),
+        'v' => out.push_str("void"),
         _ => {
             return None;
         }
