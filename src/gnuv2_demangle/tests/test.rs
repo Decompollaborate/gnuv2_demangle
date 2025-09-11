@@ -86,3 +86,52 @@ fn test_demangle_constructor_destructors() {
         assert_eq!(demangle(mangled, &options).as_deref(), demangled);
     }
 }
+
+#[test]
+fn test_demangle_methods() {
+    static CASES: [(&str, Option<&str>); 5] = [
+        ("SetText__5tNamePCc", Some("tName::SetText(char const *)")),
+        (
+            "SetTextOnly__5tNamePCc",
+            Some("tName::SetTextOnly(char const *)"),
+        ),
+        (
+            "SetUID__5tNameG13tUidUnaligned",
+            Some("tName::SetUID(tUidUnaligned)"),
+        ),
+        ("GetText__C5tName", Some("tName::GetText(void) const")),
+        ("MakeUID__5tNamePCc", Some("tName::MakeUID(char const *)")),
+    ];
+    let mut options = DemangleOptions::new();
+    options.try_recover_on_failure = true;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &options).as_deref(), demangled);
+    }
+}
+
+/*
+#[test]
+fn test_demangle_operators() {
+    static CASES: [(&str, Option<&str>); 3] = [
+        (
+            "__eq__C5tNameRC5tName",
+            Some("tName::operator==(tName const &) const"),
+        ),
+        (
+            "__ne__C5tNameRC5tName",
+            Some("tName::operator!=(tName const &) const"),
+        ),
+        (
+            "__as__5tNameRC5tName",
+            Some("tName::operator=(tName const &)"),
+        ),
+    ];
+    let mut options = DemangleOptions::new();
+    options.try_recover_on_failure = true;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &options).as_deref(), demangled);
+    }
+}
+*/

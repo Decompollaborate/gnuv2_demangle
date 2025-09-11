@@ -46,6 +46,10 @@ pub fn demangle(sym: &str, options: &DemangleOptions) -> Option<String> {
         demangle_constructor(options, s)
     } else if let Some((func_name, args)) = str_split_2(sym, "__F") {
         demangle_free_function(options, func_name, args)
+    } else if let Some((method_name, class_and_args)) =
+        str_split_2_second_starts_with(sym, "__", |c| matches!(c, '1'..='9' | 'C'))
+    {
+        demangle_method(options, method_name, class_and_args)
     } else {
         None
     }
@@ -56,6 +60,27 @@ fn str_split_2<'a>(s: &'a str, pat: &str) -> Option<(&'a str, &'a str)> {
 
     if let (Some(l), Some(r)) = (iter.next(), iter.next()) {
         Some((l, r))
+    } else {
+        None
+    }
+}
+
+fn str_split_2_second_starts_with<'a, F>(
+    s: &'a str,
+    pat: &str,
+    second_start: F,
+) -> Option<(&'a str, &'a str)>
+where
+    F: Fn(char) -> bool,
+{
+    let mut iter = s.splitn(2, pat);
+
+    if let (Some(l), Some(r)) = (iter.next(), iter.next()) {
+        if r.starts_with(second_start) {
+            Some((l, r))
+        } else {
+            None
+        }
     } else {
         None
     }
@@ -106,6 +131,31 @@ fn demangle_argument_list(options: &DemangleOptions, mut args: &str) -> Option<S
     Some(demangled)
 }
 
+fn demangle_method(
+    options: &DemangleOptions,
+    method_name: &str,
+    mut class_and_args: &str,
+) -> Option<String> {
+    let suffix = if class_and_args.starts_with('C') {
+        class_and_args = &class_and_args[1..];
+        " const"
+    } else {
+        ""
+    };
+
+    let (s, class_name) = demangle_class_name(class_and_args)?;
+
+    let argument_list = if s.is_empty() {
+        "void"
+    } else {
+        &demangle_argument_list(options, s)?
+    };
+
+    Some(format!(
+        "{class_name}::{method_name}({argument_list}){suffix}"
+    ))
+}
+
 fn demangle_argument(mut args: &str) -> Option<(&str, String)> {
     let mut out = String::new();
     let mut post = String::new();
@@ -146,7 +196,7 @@ fn demangle_argument(mut args: &str) -> Option<(&str, String)> {
         'b' => out.push_str("bool"),
         'w' => out.push_str("wchar_t"),
         'v' => out.push_str("void"),
-        '1'..'9' => {
+        '1'..='9' => {
             let (remaining, class_name) = demangle_class_name(args)?;
             args = remaining;
             out.push_str(class_name);
