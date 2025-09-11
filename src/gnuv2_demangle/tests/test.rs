@@ -67,30 +67,17 @@ fn test_demangle_func_argless() {
     }
 }
 
-/*
 #[test]
 fn test_demangle_constructor_destructors() {
     static CASES: [(&str, Option<&str>); 5] = [
-        (
-            "__5tName",
-            Some("tName::tName(void)"),
-        ),
-        (
-            "__5tNamePCc",
-            Some("tName::tName(char const *)"),
-        ),
+        ("_$_5tName", Some("tName::~tName(void)")),
+        ("__5tName", Some("tName::tName(void)")),
+        ("__5tNamePCc", Some("tName::tName(char const *)")),
         (
             "__5tNameG13tUidUnaligned",
             Some("tName::tName(tUidUnaligned)"),
         ),
-        (
-            "__5tNameRC5tName",
-            Some("tName::tName(tName const &)"),
-        ),
-        (
-            "_$_5tName",
-            Some("tName::~tName(void)"),
-        ),
+        ("__5tNameRC5tName", Some("tName::tName(tName const &)")),
     ];
     let mut options = DemangleOptions::new();
     options.try_recover_on_failure = true;
@@ -99,4 +86,3 @@ fn test_demangle_constructor_destructors() {
         assert_eq!(demangle(mangled, &options).as_deref(), demangled);
     }
 }
-*/
