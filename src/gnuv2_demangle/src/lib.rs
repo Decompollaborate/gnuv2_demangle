@@ -9,6 +9,10 @@ extern crate alloc;
 use alloc::string::String;
 */
 
+mod demangle_error;
+
+pub use demangle_error::DemangleError;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
 pub struct DemangleOptions {
@@ -29,18 +33,18 @@ impl Default for DemangleOptions {
     }
 }
 
-pub fn demangle(sym: &str, options: &DemangleOptions) -> Option<String> {
+pub fn demangle<'s>(sym: &'s str, options: &DemangleOptions) -> Result<String, DemangleError<'s>> {
     if !sym.is_ascii() {
-        return None;
+        return Err(DemangleError::NonAscii);
     }
 
     if let Some(s) = sym.strip_prefix("_$_") {
         let (remaining, class_name) = demangle_class_name(s)?;
 
         if remaining.is_empty() {
-            Some(format!("{class_name}::~{class_name}(void)"))
+            Ok(format!("{class_name}::~{class_name}(void)"))
         } else {
-            None
+            Err(DemangleError::TrailingData)
         }
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_constructor(options, s)
@@ -51,7 +55,7 @@ pub fn demangle(sym: &str, options: &DemangleOptions) -> Option<String> {
     {
         demangle_method(options, method_name, class_and_args)
     } else {
-        None
+        Err(DemangleError::Invalid)
     }
 }
 
@@ -86,7 +90,10 @@ where
     }
 }
 
-fn demangle_constructor(options: &DemangleOptions, s: &str) -> Option<String> {
+fn demangle_constructor<'s>(
+    options: &DemangleOptions,
+    s: &'s str,
+) -> Result<String, DemangleError<'s>> {
     let (s, class_name) = demangle_class_name(s)?;
 
     let argument_list = if s.is_empty() {
@@ -95,30 +102,36 @@ fn demangle_constructor(options: &DemangleOptions, s: &str) -> Option<String> {
         &demangle_argument_list(options, s)?
     };
 
-    Some(format!("{class_name}::{class_name}({argument_list})"))
+    Ok(format!("{class_name}::{class_name}({argument_list})"))
 }
 
-fn demangle_free_function(
+fn demangle_free_function<'s>(
     options: &DemangleOptions,
-    func_name: &str,
-    args: &str,
-) -> Option<String> {
+    func_name: &'s str,
+    args: &'s str,
+) -> Result<String, DemangleError<'s>> {
     let argument_list = demangle_argument_list(options, args)?;
 
-    Some(format!("{func_name}({argument_list})"))
+    Ok(format!("{func_name}({argument_list})"))
 }
 
-fn demangle_argument_list(options: &DemangleOptions, mut args: &str) -> Option<String> {
+fn demangle_argument_list<'s>(
+    options: &DemangleOptions,
+    mut args: &'s str,
+) -> Result<String, DemangleError<'s>> {
     let mut demangled = String::new();
 
     let mut first = true;
     while !args.is_empty() {
-        let Some((a, b)) = demangle_argument(args) else {
-            return if options.try_recover_on_failure {
-                Some(demangled)
-            } else {
-                None
-            };
+        let (a, b) = match demangle_argument(args) {
+            Ok((a, b)) => (a, b),
+            Err(e) => {
+                return if options.try_recover_on_failure {
+                    Ok(demangled)
+                } else {
+                    Err(e)
+                };
+            }
         };
         args = a;
         if !first {
@@ -128,14 +141,14 @@ fn demangle_argument_list(options: &DemangleOptions, mut args: &str) -> Option<S
         demangled.push_str(&b);
     }
 
-    Some(demangled)
+    Ok(demangled)
 }
 
-fn demangle_method(
+fn demangle_method<'s>(
     options: &DemangleOptions,
-    method_name: &str,
-    mut class_and_args: &str,
-) -> Option<String> {
+    method_name: &'s str,
+    mut class_and_args: &'s str,
+) -> Result<String, DemangleError<'s>> {
     let suffix = if class_and_args.starts_with('C') {
         class_and_args = &class_and_args[1..];
         " const"
@@ -151,18 +164,21 @@ fn demangle_method(
         &demangle_argument_list(options, s)?
     };
 
-    Some(format!(
+    Ok(format!(
         "{class_name}::{method_name}({argument_list}){suffix}"
     ))
 }
 
-fn demangle_argument(mut args: &str) -> Option<(&str, String)> {
+fn demangle_argument<'s>(mut args: &'s str) -> Result<(&'s str, String), DemangleError<'s>> {
     let mut out = String::new();
     let mut post = String::new();
 
     // Qualifiers
     while !args.is_empty() {
-        let c = args.chars().next()?;
+        let c = args
+            .chars()
+            .next()
+            .ok_or(DemangleError::RanOutOfArguments)?;
 
         match c {
             'P' => post.insert(0, '*'),
@@ -176,11 +192,17 @@ fn demangle_argument(mut args: &str) -> Option<(&str, String)> {
         args = &args[1..];
     }
 
-    let mut c = args.chars().next()?;
+    let mut c = args
+        .chars()
+        .next()
+        .ok_or(DemangleError::RanOutOfArguments)?;
     if c == 'G' {
         // TODO: figure out what does 'G' mean
         args = &args[1..];
-        c = args.chars().next()?
+        c = args
+            .chars()
+            .next()
+            .ok_or(DemangleError::RanOutOfArguments)?;
     }
 
     // Plain types
@@ -202,7 +224,7 @@ fn demangle_argument(mut args: &str) -> Option<(&str, String)> {
             out.push_str(class_name);
         }
         _ => {
-            return None;
+            return Err(DemangleError::UnknownType(c));
         }
     }
 
@@ -216,16 +238,16 @@ fn demangle_argument(mut args: &str) -> Option<(&str, String)> {
         out
     };
 
-    Some((args, out))
+    Ok((args, out))
 }
 
-fn demangle_class_name(s: &str) -> Option<(&str, &str)> {
-    let (s, length) = parse_number(s)?;
+fn demangle_class_name<'s>(s: &'s str) -> Result<(&'s str, &'s str), DemangleError<'s>> {
+    let (remaining, length) = parse_number(s).ok_or(DemangleError::InvalidClassName(s))?;
 
-    if s.len() < length {
-        None
+    if remaining.len() < length {
+        Err(DemangleError::InvalidClassName(s))
     } else {
-        Some((&s[length..], &s[..length]))
+        Ok((&remaining[length..], &remaining[..length]))
     }
 }
 
