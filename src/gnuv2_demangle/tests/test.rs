@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use gnuv2_demangle::{demangle, DemangleOptions};
+use gnuv2_demangle::{demangle, DemangleConfig};
 
 use pretty_assertions::assert_eq;
 
@@ -16,11 +16,10 @@ fn test_demangling_funcs() {
         ("whatever_pointer__FPcPsPiPlPx", "whatever_pointer(char *, short *, int *, long *, long long *)"),
         ("whatever_const_pointer__FPCcPCsPCiPClPCx", "whatever_const_pointer(char const *, short const *, int const *, long const *, long long const *)"),
     ];
-    let mut options = DemangleOptions::new();
-    options.try_recover_on_failure = true;
+    let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
 
@@ -48,22 +47,20 @@ fn test_demangling_funcs_const_pointer_const() {
             "silly_function(char const *const *const *const *const *)",
         ),
     ];
-    let mut options = DemangleOptions::new();
-    options.try_recover_on_failure = true;
+    let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
 
 #[test]
 fn test_demangle_func_argless() {
     static CASES: [(&str, &str); 1] = [("argless__Fv", "argless(void)")];
-    let mut options = DemangleOptions::new();
-    options.try_recover_on_failure = true;
+    let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
 
@@ -76,11 +73,10 @@ fn test_demangle_constructor_destructors() {
         ("__5tNameG13tUidUnaligned", "tName::tName(tUidUnaligned)"),
         ("__5tNameRC5tName", "tName::tName(tName const &)"),
     ];
-    let mut options = DemangleOptions::new();
-    options.try_recover_on_failure = true;
+    let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
 
@@ -96,11 +92,10 @@ fn test_demangle_methods() {
         ("GetText__C5tName", "tName::GetText(void) const"),
         ("MakeUID__5tNamePCc", "tName::MakeUID(char const *)"),
     ];
-    let mut options = DemangleOptions::new();
-    options.try_recover_on_failure = true;
+    let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
 
@@ -117,11 +112,10 @@ fn test_demangle_operators() {
         ),
         ("__as__5tNameRC5tName", "tName::operator=(tName const &)"),
     ];
-    let mut options = DemangleOptions::new();
-    options.try_recover_on_failure = true;
+    let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
 
@@ -153,10 +147,9 @@ fn test_demangle_new_delete() {
             "operator new [](unsigned int, GameMemoryAllocator)",
         ),
     ];
-    let mut options = DemangleOptions::new();
-    options.try_recover_on_failure = false;
+    let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }

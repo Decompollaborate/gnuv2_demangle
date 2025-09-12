@@ -15,25 +15,21 @@ pub use demangle_error::DemangleError;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
-pub struct DemangleOptions {
-    pub try_recover_on_failure: bool,
-}
+pub struct DemangleConfig {}
 
-impl DemangleOptions {
+impl DemangleConfig {
     pub fn new() -> Self {
-        Self {
-            try_recover_on_failure: false,
-        }
+        Self {}
     }
 }
 
-impl Default for DemangleOptions {
+impl Default for DemangleConfig {
     fn default() -> Self {
         Self::new()
     }
 }
 
-pub fn demangle<'s>(sym: &'s str, options: &DemangleOptions) -> Result<String, DemangleError<'s>> {
+pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, DemangleError<'s>> {
     if !sym.is_ascii() {
         return Err(DemangleError::NonAscii);
     }
@@ -47,13 +43,13 @@ pub fn demangle<'s>(sym: &'s str, options: &DemangleOptions) -> Result<String, D
             Err(DemangleError::TrailingData)
         }
     } else if let Some(s) = sym.strip_prefix("__") {
-        demangle_special(options, s)
+        demangle_special(config, s)
     } else if let Some((func_name, args)) = str_split_2(sym, "__F") {
-        demangle_free_function(options, func_name, args)
+        demangle_free_function(config, func_name, args)
     } else if let Some((method_name, class_and_args)) =
         str_split_2_second_starts_with(sym, "__", |c| matches!(c, '1'..='9' | 'C'))
     {
-        demangle_method(options, method_name, class_and_args)
+        demangle_method(config, method_name, class_and_args)
     } else {
         Err(DemangleError::Invalid)
     }
@@ -90,10 +86,7 @@ where
     }
 }
 
-fn demangle_special<'s>(
-    options: &DemangleOptions,
-    s: &'s str,
-) -> Result<String, DemangleError<'s>> {
+fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, DemangleError<'s>> {
     let c = s
         .chars()
         .next()
@@ -132,7 +125,7 @@ fn demangle_special<'s>(
     let argument_list = if s.is_empty() {
         "void"
     } else {
-        &demangle_argument_list(options, s)?
+        &demangle_argument_list(config, s)?
     };
 
     let out = if let Some(class_name) = class_name {
@@ -144,33 +137,24 @@ fn demangle_special<'s>(
 }
 
 fn demangle_free_function<'s>(
-    options: &DemangleOptions,
+    config: &DemangleConfig,
     func_name: &'s str,
     args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let argument_list = demangle_argument_list(options, args)?;
+    let argument_list = demangle_argument_list(config, args)?;
 
     Ok(format!("{func_name}({argument_list})"))
 }
 
 fn demangle_argument_list<'s>(
-    options: &DemangleOptions,
+    _config: &DemangleConfig,
     mut args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
     let mut demangled = String::new();
 
     let mut first = true;
     while !args.is_empty() {
-        let (a, b) = match demangle_argument(args) {
-            Ok((a, b)) => (a, b),
-            Err(e) => {
-                return if options.try_recover_on_failure {
-                    Ok(demangled)
-                } else {
-                    Err(e)
-                };
-            }
-        };
+        let (a, b) = demangle_argument(args)?;
         args = a;
         if !first {
             demangled.push_str(", ");
@@ -183,7 +167,7 @@ fn demangle_argument_list<'s>(
 }
 
 fn demangle_method<'s>(
-    options: &DemangleOptions,
+    config: &DemangleConfig,
     method_name: &'s str,
     class_and_args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
@@ -192,7 +176,7 @@ fn demangle_method<'s>(
     let argument_list = if s.is_empty() {
         "void"
     } else {
-        &demangle_argument_list(options, s)?
+        &demangle_argument_list(config, s)?
     };
 
     Ok(format!(
