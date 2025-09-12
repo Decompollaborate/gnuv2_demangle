@@ -103,12 +103,15 @@ fn demangle_special<'s>(
         // class constructor
         let (s, class_name, suffix) = demangle_class_name(s)?;
 
-        (s, class_name, class_name, suffix)
+        (s, Some(class_name), class_name, suffix)
     } else {
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
         let op = &s[..end_index];
 
         let method_name = match op {
+            "nw" => "operator new",
+            "dl" => "operator delete",
+            "vn" => "operator new []",
             "eq" => "operator==",
             "ne" => "operator!=",
             "as" => "operator=",
@@ -116,9 +119,14 @@ fn demangle_special<'s>(
         };
 
         let s = &s[end_index + 2..];
-        let (s, class_name, suffix) = demangle_class_name(s)?;
 
-        (s, class_name, method_name, suffix)
+        if let Some(s) = s.strip_prefix('F') {
+            (s, None, method_name, "")
+        } else {
+            let (s, class_name, suffix) = demangle_class_name(s)?;
+
+            (s, Some(class_name), method_name, suffix)
+        }
     };
 
     let argument_list = if s.is_empty() {
@@ -127,9 +135,12 @@ fn demangle_special<'s>(
         &demangle_argument_list(options, s)?
     };
 
-    Ok(format!(
-        "{class_name}::{method_name}({argument_list}){suffix}"
-    ))
+    let out = if let Some(class_name) = class_name {
+        format!("{class_name}::{method_name}({argument_list}){suffix}")
+    } else {
+        format!("{method_name}({argument_list}){suffix}")
+    };
+    Ok(out)
 }
 
 fn demangle_free_function<'s>(

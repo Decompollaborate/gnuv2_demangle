@@ -124,3 +124,39 @@ fn test_demangle_operators() {
         assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
     }
 }
+
+#[test]
+fn test_demangle_new_delete() {
+    static CASES: [(&str, &str); 6] = [
+        (
+            "__nw__12AnimatedIconUi",
+            "AnimatedIcon::operator new(unsigned int)",
+        ),
+        (
+            "__nw__12AnimatedIconUi19GameMemoryAllocator",
+            "AnimatedIcon::operator new(unsigned int, GameMemoryAllocator)",
+        ),
+        (
+            "__dl__12AnimatedIconPv",
+            "AnimatedIcon::operator delete(void *)",
+        ),
+        (
+            "__nw__FUi19GameMemoryAllocator",
+            "operator new(unsigned int, GameMemoryAllocator)",
+        ),
+        (
+            "__dl__FPv19GameMemoryAllocator",
+            "operator delete(void *, GameMemoryAllocator)",
+        ),
+        (
+            "__vn__FUi19GameMemoryAllocator",
+            "operator new [](unsigned int, GameMemoryAllocator)",
+        ),
+    ];
+    let mut options = DemangleOptions::new();
+    options.try_recover_on_failure = false;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
+    }
+}
