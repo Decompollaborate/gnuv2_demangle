@@ -104,7 +104,6 @@ fn test_demangle_methods() {
     }
 }
 
-/*
 #[test]
 fn test_demangle_operators() {
     static CASES: [(&str, &str); 3] = [
@@ -116,10 +115,7 @@ fn test_demangle_operators() {
             "__ne__C5tNameRC5tName",
             "tName::operator!=(tName const &) const",
         ),
-        (
-            "__as__5tNameRC5tName",
-            "tName::operator=(tName const &)",
-        ),
+        ("__as__5tNameRC5tName", "tName::operator=(tName const &)"),
     ];
     let mut options = DemangleOptions::new();
     options.try_recover_on_failure = true;
@@ -128,4 +124,3 @@ fn test_demangle_operators() {
         assert_eq!(demangle(mangled, &options).as_deref(), Ok(demangled));
     }
 }
-*/

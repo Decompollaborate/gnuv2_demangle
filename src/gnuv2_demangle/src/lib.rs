@@ -39,15 +39,15 @@ pub fn demangle<'s>(sym: &'s str, options: &DemangleOptions) -> Result<String, D
     }
 
     if let Some(s) = sym.strip_prefix("_$_") {
-        let (remaining, class_name) = demangle_class_name(s)?;
+        let (remaining, class_name, suffix) = demangle_class_name(s)?;
 
         if remaining.is_empty() {
-            Ok(format!("{class_name}::~{class_name}(void)"))
+            Ok(format!("{class_name}::~{class_name}(void){suffix}"))
         } else {
             Err(DemangleError::TrailingData)
         }
     } else if let Some(s) = sym.strip_prefix("__") {
-        demangle_constructor(options, s)
+        demangle_special(options, s)
     } else if let Some((func_name, args)) = str_split_2(sym, "__F") {
         demangle_free_function(options, func_name, args)
     } else if let Some((method_name, class_and_args)) =
@@ -90,11 +90,36 @@ where
     }
 }
 
-fn demangle_constructor<'s>(
+fn demangle_special<'s>(
     options: &DemangleOptions,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let (s, class_name) = demangle_class_name(s)?;
+    let c = s
+        .chars()
+        .next()
+        .ok_or(DemangleError::RanOutWhileDemanglingSpecial)?;
+
+    let (s, class_name, method_name, suffix) = if matches!(c, '1'..='9') {
+        // class constructor
+        let (s, class_name, suffix) = demangle_class_name(s)?;
+
+        (s, class_name, class_name, suffix)
+    } else {
+        let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
+        let op = &s[..end_index];
+
+        let method_name = match op {
+            "eq" => "operator==",
+            "ne" => "operator!=",
+            "as" => "operator=",
+            _ => return Err(DemangleError::UnrecognizedSpecialMethod(op)),
+        };
+
+        let s = &s[end_index + 2..];
+        let (s, class_name, suffix) = demangle_class_name(s)?;
+
+        (s, class_name, method_name, suffix)
+    };
 
     let argument_list = if s.is_empty() {
         "void"
@@ -102,7 +127,9 @@ fn demangle_constructor<'s>(
         &demangle_argument_list(options, s)?
     };
 
-    Ok(format!("{class_name}::{class_name}({argument_list})"))
+    Ok(format!(
+        "{class_name}::{method_name}({argument_list}){suffix}"
+    ))
 }
 
 fn demangle_free_function<'s>(
@@ -147,16 +174,9 @@ fn demangle_argument_list<'s>(
 fn demangle_method<'s>(
     options: &DemangleOptions,
     method_name: &'s str,
-    mut class_and_args: &'s str,
+    class_and_args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let suffix = if class_and_args.starts_with('C') {
-        class_and_args = &class_and_args[1..];
-        " const"
-    } else {
-        ""
-    };
-
-    let (s, class_name) = demangle_class_name(class_and_args)?;
+    let (s, class_name, suffix) = demangle_class_name(class_and_args)?;
 
     let argument_list = if s.is_empty() {
         "void"
@@ -219,7 +239,7 @@ fn demangle_argument<'s>(mut args: &'s str) -> Result<(&'s str, String), Demangl
         'w' => out.push_str("wchar_t"),
         'v' => out.push_str("void"),
         '1'..='9' => {
-            let (remaining, class_name) = demangle_class_name(args)?;
+            let (remaining, class_name, _suffix) = demangle_class_name(args)?;
             args = remaining;
             out.push_str(class_name);
         }
@@ -241,13 +261,21 @@ fn demangle_argument<'s>(mut args: &'s str) -> Result<(&'s str, String), Demangl
     Ok((args, out))
 }
 
-fn demangle_class_name<'s>(s: &'s str) -> Result<(&'s str, &'s str), DemangleError<'s>> {
-    let (remaining, length) = parse_number(s).ok_or(DemangleError::InvalidClassName(s))?;
+fn demangle_class_name<'s>(
+    s: &'s str,
+) -> Result<(&'s str, &'s str, &'static str), DemangleError<'s>> {
+    let (remaining, suffix) = if let Some(remaining) = s.strip_prefix('C') {
+        (remaining, " const")
+    } else {
+        (s, "")
+    };
+
+    let (remaining, length) = parse_number(remaining).ok_or(DemangleError::InvalidClassName(s))?;
 
     if remaining.len() < length {
         Err(DemangleError::InvalidClassName(s))
     } else {
-        Ok((&remaining[length..], &remaining[..length]))
+        Ok((&remaining[length..], &remaining[..length], suffix))
     }
 }
 

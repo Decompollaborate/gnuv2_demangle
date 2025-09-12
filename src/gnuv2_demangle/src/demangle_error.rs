@@ -10,7 +10,10 @@ pub enum DemangleError<'s> {
     TrailingData,
     InvalidClassName(&'s str),
     UnknownType(char),
+    RanOutWhileDemanglingSpecial,
     RanOutOfArguments,
+    InvalidSpecialMethod(&'s str),
+    UnrecognizedSpecialMethod(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {
