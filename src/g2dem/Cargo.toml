@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 [package]
-name = "gnuv2_demangle"
+name = "g2dem"
 version.workspace = true
 edition.workspace = true
 # rust-version.workspace = true
@@ -12,16 +12,15 @@ repository.workspace = true
 # description = ""
 readme = "README.md"
 # keywords = []
-# categories = []
+categories = ["command-line-utilities"]
 
-[lib]
-path = "src/lib.rs"
+[[bin]]
+name = "g2dem"
+path = "src/bin.rs"
 
 [features]
 default = []
-std = []
 
 [dependencies]
-
-[dev-dependencies]
-pretty_assertions = "1.4"
+argp = "0.4.0"
+gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.1.0" }
