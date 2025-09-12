@@ -19,6 +19,7 @@ pub struct DemangleConfig {}
 
 impl DemangleConfig {
     pub fn new() -> Self {
+        // The default config should mimic c++filt's behavior.
         Self {}
     }
 }
@@ -184,9 +185,10 @@ fn demangle_method<'s>(
     ))
 }
 
-fn demangle_argument<'s>(mut args: &'s str) -> Result<(&'s str, String), DemangleError<'s>> {
+fn demangle_argument<'s>(full_args: &'s str) -> Result<(&'s str, String), DemangleError<'s>> {
     let mut out = String::new();
     let mut post = String::new();
+    let mut args = full_args;
 
     // Qualifiers
     while !args.is_empty() {
@@ -207,19 +209,21 @@ fn demangle_argument<'s>(mut args: &'s str) -> Result<(&'s str, String), Demangl
         args = &args[1..];
     }
 
-    let mut c = args
+    // 'G' is used for classes, structs and unions, so we must make sure we
+    // don't parse a primitive type next, otherwise this is not properly
+    // mangled.
+    let must_be_class_like = if let Some(a) = args.strip_prefix('G') {
+        args = a;
+        true
+    } else {
+        false
+    };
+
+    let c = args
         .chars()
         .next()
         .ok_or(DemangleError::RanOutOfArguments)?;
-    if c == 'G' {
-        // TODO: figure out what does 'G' mean
-        args = &args[1..];
-        c = args
-            .chars()
-            .next()
-            .ok_or(DemangleError::RanOutOfArguments)?;
-    }
-
+    let mut is_class_like = false;
     // Plain types
     match c {
         'c' => out.push_str("char"),
@@ -236,6 +240,7 @@ fn demangle_argument<'s>(mut args: &'s str) -> Result<(&'s str, String), Demangl
         '1'..='9' => {
             let (remaining, class_name, _suffix) = demangle_class_name(args)?;
             args = remaining;
+            is_class_like = true;
             out.push_str(class_name);
         }
         _ => {
@@ -243,7 +248,11 @@ fn demangle_argument<'s>(mut args: &'s str) -> Result<(&'s str, String), Demangl
         }
     }
 
-    if !args.is_empty() {
+    if must_be_class_like && !is_class_like {
+        return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
+    }
+
+    if !is_class_like {
         args = &args[1..];
     }
 

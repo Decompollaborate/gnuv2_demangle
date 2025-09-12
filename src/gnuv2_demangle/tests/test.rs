@@ -82,7 +82,7 @@ fn test_demangle_constructor_destructors() {
 
 #[test]
 fn test_demangle_methods() {
-    static CASES: [(&str, &str); 5] = [
+    static CASES: [(&str, &str); 6] = [
         ("SetText__5tNamePCc", "tName::SetText(char const *)"),
         ("SetTextOnly__5tNamePCc", "tName::SetTextOnly(char const *)"),
         (
@@ -91,6 +91,10 @@ fn test_demangle_methods() {
         ),
         ("GetText__C5tName", "tName::GetText(void) const"),
         ("MakeUID__5tNamePCc", "tName::MakeUID(char const *)"),
+        (
+            "AddActionEventLocator__19ActionButtonManagerP18ActionEventLocatorP12tEntityStore",
+            "ActionButtonManager::AddActionEventLocator(ActionEventLocator *, tEntityStore *)",
+        ),
     ];
     let config = DemangleConfig::new();
 
@@ -153,3 +157,24 @@ fn test_demangle_new_delete() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+/*
+#[test]
+fn test_demangle_namespaced() {
+    static CASES: [(&str, &str); 8] = [
+        ("__Q212ActionButton29AnimCollisionEntityDSGWrapper", "ActionButton::AnimCollisionEntityDSGWrapper::AnimCollisionEntityDSGWrapper(void)"),
+        ("_$_Q212ActionButton29AnimCollisionEntityDSGWrapper", "ActionButton::AnimCollisionEntityDSGWrapper::~AnimCollisionEntityDSGWrapper(void)"),
+        ("UpdateVisibility__Q212ActionButton29AnimCollisionEntityDSGWrapper", "ActionButton::AnimCollisionEntityDSGWrapper::UpdateVisibility(void)"),
+        ("SetGameObject__Q212ActionButton29AnimCollisionEntityDSGWrapperP22AnimCollisionEntityDSG", "ActionButton::AnimCollisionEntityDSGWrapper::SetGameObject(AnimCollisionEntityDSG *)"),
+        ("__as__Q33sim15CollisionObject20CollisionVolumeOwnerRCQ33sim15CollisionObject20CollisionVolumeOwner", "sim::CollisionObject::CollisionVolumeOwner::operator=(sim::CollisionObject::CollisionVolumeOwner const &)"),
+        ("__Q33sim16CollisionManager4Area", "sim::CollisionManager::Area::Area(void)"),
+        ("Reset__Q33sim16CollisionManager4Area", "sim::CollisionManager::Area::Reset(void)"),
+        ("AddPair__Q33sim16CollisionManager4AreaPQ23sim15CollisionObjectT1", "sim::CollisionManager::Area::AddPair(sim::CollisionObject *, sim::CollisionObject *)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+*/

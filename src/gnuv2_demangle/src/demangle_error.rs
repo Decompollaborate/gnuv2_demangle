@@ -14,6 +14,7 @@ pub enum DemangleError<'s> {
     RanOutOfArguments,
     InvalidSpecialMethod(&'s str),
     UnrecognizedSpecialMethod(&'s str),
+    PrimitiveInsteadOfClass(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {
