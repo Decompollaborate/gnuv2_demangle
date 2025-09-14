@@ -226,7 +226,7 @@ fn demangle_method<'s>(
         let argument_list = if remaining.is_empty() {
             "void"
         } else {
-            &demangle_argument_list(config, remaining, Some(&class_name))?
+            &demangle_argument_list(config, remaining, Some(class_name))?
         };
 
         Ok(format!(
@@ -330,11 +330,13 @@ fn demangle_argument<'s>(
                     namespace
                 } else {
                     parsed_arguments
-                    .get(lookback - 1).ok_or(DemangleError::LookbackCountTooBig(args, lookback))?
+                        .get(lookback - 1)
+                        .ok_or(DemangleError::LookbackCountTooBig(args, lookback))?
                 }
             } else {
-                    parsed_arguments
-                    .get(lookback).ok_or(DemangleError::LookbackCountTooBig(args, lookback))?
+                parsed_arguments
+                    .get(lookback)
+                    .ok_or(DemangleError::LookbackCountTooBig(args, lookback))?
             };
 
             args = remaining;
