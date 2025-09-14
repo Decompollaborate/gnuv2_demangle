@@ -259,3 +259,17 @@ fn test_demangle_repeater_arg() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+#[test]
+fn test_demangle_funcs_starting_with_double_underscore() {
+    static CASES: [(&str, &str); 3] = [
+        ("__overflow__FP9streambufi", "__overflow(streambuf *, int)"),
+        ("__default_unexpected__Fv", "__default_unexpected(void)"),
+        ("__is_pointer__FPv", "__is_pointer(void *)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}

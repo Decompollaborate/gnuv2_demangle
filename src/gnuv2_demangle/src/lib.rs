@@ -56,7 +56,7 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
             }
         }
     } else if let Some(s) = sym.strip_prefix("__") {
-        demangle_special(config, s)
+        demangle_special(config, s, sym)
     } else if let Some((func_name, args)) = str_split_2(sym, "__F") {
         demangle_free_function(config, func_name, args)
     } else if let Some((method_name, class_and_args)) =
@@ -74,7 +74,11 @@ fn str_split_2<'a>(s: &'a str, pat: &str) -> Option<(&'a str, &'a str)> {
     let mut iter = s.splitn(2, pat);
 
     if let (Some(l), Some(r)) = (iter.next(), iter.next()) {
-        Some((l, r))
+        if l.is_empty() {
+            None
+        } else {
+            Some((l, r))
+        }
     } else {
         None
     }
@@ -91,7 +95,9 @@ where
     let mut iter = s.splitn(2, pat);
 
     if let (Some(l), Some(r)) = (iter.next(), iter.next()) {
-        if r.starts_with(second_start) {
+        if l.is_empty() {
+            None
+        } else if r.starts_with(second_start) {
             Some((l, r))
         } else {
             None
@@ -101,7 +107,11 @@ where
     }
 }
 
-fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, DemangleError<'s>> {
+fn demangle_special<'s>(
+    config: &DemangleConfig,
+    s: &'s str,
+    full_sym: &'s str,
+) -> Result<String, DemangleError<'s>> {
     let c = s
         .chars()
         .next()
@@ -128,6 +138,8 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
         let op = &s[..end_index];
 
+        let s = &s[end_index + 2..];
+
         let method_name = match op {
             "nw" => "operator new",
             "dl" => "operator delete",
@@ -135,10 +147,18 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
             "eq" => "operator==",
             "ne" => "operator!=",
             "as" => "operator=",
-            _ => return Err(DemangleError::UnrecognizedSpecialMethod(op)),
+            _ => {
+                return {
+                    // This may be a plain function that got confused with a
+                    // special symbol, so try to decode as a function instead.
+                    if let Some((func_name, args)) = str_split_2(full_sym, "__F") {
+                        demangle_free_function(config, func_name, args)
+                    } else {
+                        Err(DemangleError::UnrecognizedSpecialMethod(op))
+                    }
+                };
+            }
         };
-
-        let s = &s[end_index + 2..];
 
         if let Some(s) = s.strip_prefix('F') {
             (s, None, method_name, "")
