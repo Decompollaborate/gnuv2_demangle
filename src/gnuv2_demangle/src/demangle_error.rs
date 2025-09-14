@@ -11,6 +11,7 @@ pub enum DemangleError<'s> {
     InvalidCustomNameCount(&'s str),
     RanOutOfCharactersForCustomName(&'s str),
     UnknownType(char),
+    InvalidRepeatingArgument(&'s str),
     RanOutWhileDemanglingSpecial,
     RanOutOfArguments,
     InvalidSpecialMethod(&'s str),

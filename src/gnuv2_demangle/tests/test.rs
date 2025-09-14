@@ -233,3 +233,29 @@ fn test_demangle_const_namespaced_methods() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+#[test]
+fn test_demangle_repeater_arg() {
+    static CASES: [(&str, &str); 6] = [
+        (
+            "LinkActionToObjectJoint__19ActionButtonManagerPCcN41",
+            "ActionButtonManager::LinkActionToObjectJoint(char const *, char const *, char const *, char const *, char const *)",
+        ),
+        (
+            "repeating__FPCcN24_0",
+            "repeating(char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *)",
+        ),
+        (
+            "repeating_2__FPiN24_0PCcN24_25_",
+            "repeating_2(int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, int *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *, char const *)",
+        ),
+        ("do_thing__C6StupidG6StupidN25_1", "Stupid::do_thing(Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid) const"),
+        ("do_thing__C6StupidR6StupidN25_1", "Stupid::do_thing(Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &) const"),
+        ("do_thing__C6StupidRC6StupidN25_1", "Stupid::do_thing(Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &) const"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}

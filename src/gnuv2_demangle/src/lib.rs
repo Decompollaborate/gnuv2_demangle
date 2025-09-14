@@ -194,8 +194,31 @@ fn demangle_argument_list<'s>(
 
     while !args.is_empty() {
         let (a, b) = demangle_argument(args, namespace, &arguments)?;
+
+        match b {
+            DemangledArg::Plain(s) => arguments.push(s),
+            DemangledArg::Repeat { count, index } => {
+                for _ in 0..count {
+                    let arg = if let Some(namespace) = namespace {
+                        if index == 0 {
+                            namespace
+                        } else {
+                            arguments
+                                .get(index - 1)
+                                .ok_or(DemangleError::InvalidRepeatingArgument(args))?
+                        }
+                    } else {
+                        arguments
+                            .get(index)
+                            .ok_or(DemangleError::InvalidRepeatingArgument(args))?
+                    };
+                    // TODO: Look up for a way to avoid cloning.
+                    arguments.push(arg.to_string());
+                }
+            }
+        }
+
         args = a;
-        arguments.push(b);
     }
 
     Ok(arguments.join(", "))
@@ -252,11 +275,29 @@ fn demangle_namespaced_function<'s>(
     Ok(out)
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+enum DemangledArg {
+    Plain(String),
+    Repeat { count: usize, index: usize },
+}
+
 fn demangle_argument<'s>(
     full_args: &'s str,
     namespace: Option<&str>,
     parsed_arguments: &[String],
-) -> Result<(&'s str, String), DemangleError<'s>> {
+) -> Result<(&'s str, DemangledArg), DemangleError<'s>> {
+    if let Some(repeater) = full_args.strip_prefix('N') {
+        let remaining = repeater;
+        let (remaining, count) = parse_number_maybe_multi_digit(remaining)
+            .ok_or(DemangleError::InvalidRepeatingArgument(full_args))?;
+        if count == 0 {
+            return Err(DemangleError::InvalidRepeatingArgument(full_args));
+        }
+        let (remaining, index) = parse_number_maybe_multi_digit(remaining)
+            .ok_or(DemangleError::InvalidRepeatingArgument(full_args))?;
+        return Ok((remaining, DemangledArg::Repeat { count, index }));
+    }
+
     let mut out = String::new();
     let mut post = String::new();
     let mut args = full_args;
@@ -365,7 +406,7 @@ fn demangle_argument<'s>(
         out
     };
 
-    Ok((args, out))
+    Ok((args, DemangledArg::Plain(out)))
 }
 
 // 'Q' must be stripped already
@@ -446,7 +487,9 @@ fn parse_digit(s: &str) -> Option<(&str, usize)> {
 /// Parse either a single digit followed by nondigits or a multidigit followed
 /// by an underscore.
 fn parse_number_maybe_multi_digit(s: &str) -> Option<(&str, usize)> {
-    if s.len() == 1 {
+    if s.is_empty() {
+        None
+    } else if s.len() == 1 {
         // Single digit should be fine to just parse
         Some(("", s.parse().ok()?))
     } else if let Some(index) = s.find(|c: char| !c.is_ascii_digit()) {
@@ -460,13 +503,13 @@ fn parse_number_maybe_multi_digit(s: &str) -> Option<(&str, usize)> {
             } else {
                 None
             }
-        } else if index == 1 {
-            Some((&s[index..], s[..index].parse().ok()?))
         } else {
-            None
+            // Only consume a single digit
+            Some((&s[1..], s[..1].parse().ok()?))
         }
     } else {
-        None
+        // Only consume a single digit
+        Some((&s[1..], s[..1].parse().ok()?))
     }
 }
 
@@ -481,9 +524,9 @@ mod tests {
             parse_number_maybe_multi_digit("12_junk"),
             Some(("junk", 12)),
         );
-        assert_eq!(parse_number_maybe_multi_digit("54junk"), None,);
+        assert_eq!(parse_number_maybe_multi_digit("54junk"), Some(("4junk", 5)),);
         assert_eq!(parse_number_maybe_multi_digit("2"), Some(("", 2)),);
-        assert_eq!(parse_number_maybe_multi_digit("32"), None,);
+        assert_eq!(parse_number_maybe_multi_digit("32"), Some(("2", 3)),);
         assert_eq!(parse_number_maybe_multi_digit("1_junk"), None,);
     }
 }
