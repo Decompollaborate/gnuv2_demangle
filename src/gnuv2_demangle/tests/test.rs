@@ -191,3 +191,17 @@ fn test_demangle_namespaced_methods() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+#[test]
+fn test_demangle_remembered_types() {
+    static CASES: [(&str, &str); 3] = [
+        ("AddPair__Q33sim16CollisionManager4AreaPQ23sim15CollisionObjectT1", "sim::CollisionManager::Area::AddPair(sim::CollisionObject *, sim::CollisionObject *)"),
+        ("CollisionEvent__Q23sim20CollisionSolverAgentPQ23sim8SimStateiT1iRCQ218RadicalMathLibrary6VectorffPPQ23sim15SimulatedObjectT8", "sim::CollisionSolverAgent::CollisionEvent(sim::SimState *, int, sim::SimState *, int, RadicalMathLibrary::Vector const &, float, float, sim::SimulatedObject **, sim::SimulatedObject **)"),
+        ("EdgeEdge__Q23sim20SubCollisionDetectorRbRQ218RadicalMathLibrary6VectorT2fT2T2fT2ffPQ23sim15CollisionVolumeT11_", "sim::SubCollisionDetector::EdgeEdge(bool &, RadicalMathLibrary::Vector &, RadicalMathLibrary::Vector &, float, RadicalMathLibrary::Vector &, RadicalMathLibrary::Vector &, float, RadicalMathLibrary::Vector &, float, float, sim::CollisionVolume *, sim::CollisionVolume *)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}

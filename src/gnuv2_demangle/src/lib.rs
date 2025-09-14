@@ -188,20 +188,15 @@ fn demangle_argument_list<'s>(
     _config: &DemangleConfig,
     mut args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let mut demangled = String::new();
+    let mut arguments = Vec::new();
 
-    let mut first = true;
     while !args.is_empty() {
-        let (a, b) = demangle_argument(args)?;
+        let (a, b) = demangle_argument(args, &arguments)?;
         args = a;
-        if !first {
-            demangled.push_str(", ");
-        }
-        first = false;
-        demangled.push_str(&b);
+        arguments.push(b);
     }
 
-    Ok(demangled)
+    Ok(arguments.join(", "))
 }
 
 fn demangle_method<'s>(
@@ -239,7 +234,10 @@ fn demangle_namespaced_function<'s>(
     Ok(out)
 }
 
-fn demangle_argument<'s>(full_args: &'s str) -> Result<(&'s str, String), DemangleError<'s>> {
+fn demangle_argument<'s>(
+    full_args: &'s str,
+    parsed_arguments: &[String],
+) -> Result<(&'s str, String), DemangleError<'s>> {
     let mut out = String::new();
     let mut post = String::new();
     let mut args = full_args;
@@ -298,11 +296,26 @@ fn demangle_argument<'s>(full_args: &'s str) -> Result<(&'s str, String), Demang
             out.push_str(class_name);
         }
         'Q' => {
-            let (remaining, namespaces, _trailing_namespace) =
-                demangle_namespaces(args.trim_start_matches('Q'))?;
+            let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(&args[1..])?;
             args = remaining;
             is_class_like = true;
             out.push_str(namespaces.trim_end_matches("::"));
+        }
+        'T' => {
+            // Remembered type / look back
+            let (remaining, lookback) = parse_number_maybe_multi_digit(&args[1..])
+                .ok_or(DemangleError::InvalidLookbackCount(args))?;
+            if lookback == 0 {
+                return Err(DemangleError::InvalidLookbackCount(args));
+            }
+
+            let a = parsed_arguments
+                .get(lookback - 1)
+                .ok_or(DemangleError::LookbackCountTooBig(args, lookback))?;
+
+            args = remaining;
+            is_class_like = true;
+            out.push_str(a);
         }
         _ => {
             return Err(DemangleError::UnknownType(c));
@@ -397,5 +410,50 @@ fn parse_digit(s: &str) -> Option<(&str, usize)> {
         Some((&s[1..], digit))
     } else {
         None
+    }
+}
+
+/// Parse either a single digit followed by nondigits or a multidigit followed
+/// by an underscore.
+fn parse_number_maybe_multi_digit(s: &str) -> Option<(&str, usize)> {
+    if s.len() == 1 {
+        // Single digit should be fine to just parse
+        Some(("", s.parse().ok()?))
+    } else if let Some(index) = s.find(|c: char| !c.is_ascii_digit()) {
+        if index == 0 {
+            None
+        } else if s[index..].starts_with('_') {
+            // Number can be followed by an underscore only if it is a
+            // multidigit value
+            if index > 1 {
+                Some((&s[index + 1..], s[..index].parse().ok()?))
+            } else {
+                None
+            }
+        } else if index == 1 {
+            Some((&s[index..], s[..index].parse().ok()?))
+        } else {
+            None
+        }
+    } else {
+        None
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_parse_number_maybe_multi_digit() {
+        assert_eq!(parse_number_maybe_multi_digit("1junk"), Some(("junk", 1)),);
+        assert_eq!(
+            parse_number_maybe_multi_digit("12_junk"),
+            Some(("junk", 12)),
+        );
+        assert_eq!(parse_number_maybe_multi_digit("54junk"), None,);
+        assert_eq!(parse_number_maybe_multi_digit("2"), Some(("", 2)),);
+        assert_eq!(parse_number_maybe_multi_digit("32"), None,);
+        assert_eq!(parse_number_maybe_multi_digit("1_junk"), None,);
     }
 }

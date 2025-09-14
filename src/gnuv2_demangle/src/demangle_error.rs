@@ -17,6 +17,8 @@ pub enum DemangleError<'s> {
     UnrecognizedSpecialMethod(&'s str),
     PrimitiveInsteadOfClass(&'s str),
     InvalidNamespaceCount(&'s str),
+    InvalidLookbackCount(&'s str),
+    LookbackCountTooBig(&'s str, usize),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {
