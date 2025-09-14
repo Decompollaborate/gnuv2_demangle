@@ -42,15 +42,15 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
             let (remaining, namespaces, trailing_namespace) = demangle_namespaces(s)?;
 
             if remaining.is_empty() {
-                Ok(format!("{namespaces}~{trailing_namespace}(void)"))
+                Ok(format!("{namespaces}::~{trailing_namespace}(void)"))
             } else {
                 Err(DemangleError::TrailingDataOnDestructor)
             }
         } else {
-            let (remaining, class_name, suffix) = demangle_custom_name(s)?;
+            let (remaining, class_name) = demangle_custom_name(s)?;
 
             if remaining.is_empty() {
-                Ok(format!("{class_name}::~{class_name}(void){suffix}"))
+                Ok(format!("{class_name}::~{class_name}(void)"))
             } else {
                 Err(DemangleError::TrailingDataOnDestructor)
             }
@@ -109,9 +109,9 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
 
     let (s, class_name, method_name, suffix) = if matches!(c, '1'..='9') {
         // class constructor
-        let (s, class_name, suffix) = demangle_custom_name(s)?;
+        let (s, class_name) = demangle_custom_name(s)?;
 
-        (s, Some(class_name), class_name, suffix)
+        (s, Some(class_name), class_name, "")
     } else if let Some(q_less) = s.strip_prefix('Q') {
         // This block is silly, it may be worth to refactor it
         let (remaining, namespaces, trailing_namespace) = demangle_namespaces(q_less)?;
@@ -122,7 +122,7 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
             &demangle_argument_list(config, remaining)?
         };
 
-        let out = format!("{namespaces}{trailing_namespace}({argument_list})");
+        let out = format!("{namespaces}::{trailing_namespace}({argument_list})");
         return Ok(out);
     } else {
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
@@ -151,10 +151,11 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
                 &demangle_argument_list(config, remaining)?
             };
 
-            let out = format!("{namespaces}{method_name}({argument_list})");
+            let out = format!("{namespaces}::{method_name}({argument_list})");
             return Ok(out);
         } else {
-            let (s, class_name, suffix) = demangle_custom_name(s)?;
+            let (s, suffix) = demangle_method_qualifier(s);
+            let (s, class_name) = demangle_custom_name(s)?;
 
             (s, Some(class_name), method_name, suffix)
         }
@@ -204,17 +205,33 @@ fn demangle_method<'s>(
     method_name: &'s str,
     class_and_args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let (s, class_name, suffix) = demangle_custom_name(class_and_args)?;
+    let (remaining, suffix) = demangle_method_qualifier(class_and_args);
 
-    let argument_list = if s.is_empty() {
-        "void"
+    if let Some(q_less) = remaining.strip_prefix('Q') {
+        let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(q_less)?;
+
+        let argument_list = if remaining.is_empty() {
+            "void"
+        } else {
+            &demangle_argument_list(config, remaining)?
+        };
+
+        Ok(format!(
+            "{namespaces}::{method_name}({argument_list}){suffix}"
+        ))
     } else {
-        &demangle_argument_list(config, s)?
-    };
+        let (remaining, class_name) = demangle_custom_name(remaining)?;
 
-    Ok(format!(
-        "{class_name}::{method_name}({argument_list}){suffix}"
-    ))
+        let argument_list = if remaining.is_empty() {
+            "void"
+        } else {
+            &demangle_argument_list(config, remaining)?
+        };
+
+        Ok(format!(
+            "{class_name}::{method_name}({argument_list}){suffix}"
+        ))
+    }
 }
 
 fn demangle_namespaced_function<'s>(
@@ -230,7 +247,7 @@ fn demangle_namespaced_function<'s>(
         &demangle_argument_list(config, remaining)?
     };
 
-    let out = format!("{namespaces}{func_name}({argument_list})");
+    let out = format!("{namespaces}::{func_name}({argument_list})");
     Ok(out)
 }
 
@@ -290,7 +307,7 @@ fn demangle_argument<'s>(
         'w' => out.push_str("wchar_t"),
         'v' => out.push_str("void"),
         '1'..='9' => {
-            let (remaining, class_name, _suffix) = demangle_custom_name(args)?;
+            let (remaining, class_name) = demangle_custom_name(args)?;
             args = remaining;
             is_class_like = true;
             out.push_str(class_name);
@@ -299,7 +316,7 @@ fn demangle_argument<'s>(
             let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(&args[1..])?;
             args = remaining;
             is_class_like = true;
-            out.push_str(namespaces.trim_end_matches("::"));
+            out.push_str(&namespaces);
         }
         'T' => {
             // Remembered type / look back
@@ -363,32 +380,33 @@ fn demangle_namespaces_impl<'s>(
     let mut trailing_namespace = &s[0..0];
 
     for _ in 0..namespace_count.get() {
-        let (r, ns, _suffix) = demangle_custom_name(remaining)?;
+        let (r, ns) = demangle_custom_name(remaining)?;
         remaining = r;
         trailing_namespace = ns;
+        if !namespaces.is_empty() {
+            namespaces.push_str("::");
+        }
         namespaces.push_str(ns);
-        namespaces.push_str("::");
     }
 
     Ok((remaining, namespaces, trailing_namespace))
 }
 
-fn demangle_custom_name<'s>(
-    s: &'s str,
-) -> Result<(&'s str, &'s str, &'static str), DemangleError<'s>> {
-    let (remaining, suffix) = if let Some(remaining) = s.strip_prefix('C') {
-        (remaining, " const")
-    } else {
-        (s, "")
-    };
-
-    let (remaining, length) =
-        parse_number(remaining).ok_or(DemangleError::InvalidCustomNameCount(s))?;
+fn demangle_custom_name<'s>(s: &'s str) -> Result<(&'s str, &'s str), DemangleError<'s>> {
+    let (remaining, length) = parse_number(s).ok_or(DemangleError::InvalidCustomNameCount(s))?;
 
     if remaining.len() < length {
         Err(DemangleError::RanOutOfCharactersForCustomName(s))
     } else {
-        Ok((&remaining[length..], &remaining[..length], suffix))
+        Ok((&remaining[length..], &remaining[..length]))
+    }
+}
+
+fn demangle_method_qualifier(s: &str) -> (&str, &str) {
+    if let Some(remaining) = s.strip_prefix('C') {
+        (remaining, " const")
+    } else {
+        (s, "")
     }
 }
 

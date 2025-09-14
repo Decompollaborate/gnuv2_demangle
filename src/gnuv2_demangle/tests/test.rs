@@ -205,3 +205,26 @@ fn test_demangle_remembered_types() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+#[test]
+fn test_demangle_const_namespaced_methods() {
+    static CASES: [(&str, &str); 3] = [
+        (
+            "GetAnimController__CQ212ActionButton29AnimCollisionEntityDSGWrapper",
+            "ActionButton::AnimCollisionEntityDSGWrapper::GetAnimController(void) const",
+        ),
+        (
+            "GetDrawable__CQ212ActionButton29AnimCollisionEntityDSGWrapper",
+            "ActionButton::AnimCollisionEntityDSGWrapper::GetDrawable(void) const",
+        ),
+        (
+            "FindFaceIndexOrder__CQ23sim20SubCollisionDetectorPifff",
+            "sim::SubCollisionDetector::FindFaceIndexOrder(int *, float, float, float) const",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
