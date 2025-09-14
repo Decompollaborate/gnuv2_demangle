@@ -194,10 +194,15 @@ fn test_demangle_namespaced_methods() {
 
 #[test]
 fn test_demangle_remembered_types() {
-    static CASES: [(&str, &str); 3] = [
+    static CASES: [(&str, &str); 8] = [
         ("AddPair__Q33sim16CollisionManager4AreaPQ23sim15CollisionObjectT1", "sim::CollisionManager::Area::AddPair(sim::CollisionObject *, sim::CollisionObject *)"),
         ("CollisionEvent__Q23sim20CollisionSolverAgentPQ23sim8SimStateiT1iRCQ218RadicalMathLibrary6VectorffPPQ23sim15SimulatedObjectT8", "sim::CollisionSolverAgent::CollisionEvent(sim::SimState *, int, sim::SimState *, int, RadicalMathLibrary::Vector const &, float, float, sim::SimulatedObject **, sim::SimulatedObject **)"),
         ("EdgeEdge__Q23sim20SubCollisionDetectorRbRQ218RadicalMathLibrary6VectorT2fT2T2fT2ffPQ23sim15CollisionVolumeT11_", "sim::SubCollisionDetector::EdgeEdge(bool &, RadicalMathLibrary::Vector &, RadicalMathLibrary::Vector &, float, RadicalMathLibrary::Vector &, RadicalMathLibrary::Vector &, float, RadicalMathLibrary::Vector &, float, float, sim::CollisionVolume *, sim::CollisionVolume *)"),
+        ("AddPair__Q33sim16CollisionManager4AreaPQ23sim15CollisionObjectT0", "sim::CollisionManager::Area::AddPair(sim::CollisionObject *, sim::CollisionManager::Area)"),
+        ("AddPair__FQ33sim16CollisionManager4AreaPQ23sim15CollisionObjectT0", "AddPair(sim::CollisionManager::Area, sim::CollisionObject *, sim::CollisionManager::Area)"),
+        ("do_thing__C6StupidG6StupidT1", "Stupid::do_thing(Stupid, Stupid) const"),
+        ("do_thing__C6StupidRC6StupidT1", "Stupid::do_thing(Stupid const &, Stupid const &) const"),
+        ("do_thing__C6StupidRC6StupidT1", "Stupid::do_thing(Stupid const &, Stupid const &) const"),
     ];
     let config = DemangleConfig::new();
 

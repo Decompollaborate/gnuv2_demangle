@@ -119,7 +119,7 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
         let argument_list = if remaining.is_empty() {
             "void"
         } else {
-            &demangle_argument_list(config, remaining)?
+            &demangle_argument_list(config, remaining, Some(&namespaces))?
         };
 
         let out = format!("{namespaces}::{trailing_namespace}({argument_list})");
@@ -148,7 +148,7 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
             let argument_list = if remaining.is_empty() {
                 "void"
             } else {
-                &demangle_argument_list(config, remaining)?
+                &demangle_argument_list(config, remaining, Some(&namespaces))?
             };
 
             let out = format!("{namespaces}::{method_name}({argument_list})");
@@ -164,7 +164,7 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
     let argument_list = if s.is_empty() {
         "void"
     } else {
-        &demangle_argument_list(config, s)?
+        &demangle_argument_list(config, s, class_name)?
     };
 
     let out = if let Some(class_name) = class_name {
@@ -180,7 +180,7 @@ fn demangle_free_function<'s>(
     func_name: &'s str,
     args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let argument_list = demangle_argument_list(config, args)?;
+    let argument_list = demangle_argument_list(config, args, None)?;
 
     Ok(format!("{func_name}({argument_list})"))
 }
@@ -188,11 +188,12 @@ fn demangle_free_function<'s>(
 fn demangle_argument_list<'s>(
     _config: &DemangleConfig,
     mut args: &'s str,
+    namespace: Option<&str>,
 ) -> Result<String, DemangleError<'s>> {
     let mut arguments = Vec::new();
 
     while !args.is_empty() {
-        let (a, b) = demangle_argument(args, &arguments)?;
+        let (a, b) = demangle_argument(args, namespace, &arguments)?;
         args = a;
         arguments.push(b);
     }
@@ -213,7 +214,7 @@ fn demangle_method<'s>(
         let argument_list = if remaining.is_empty() {
             "void"
         } else {
-            &demangle_argument_list(config, remaining)?
+            &demangle_argument_list(config, remaining, Some(&namespaces))?
         };
 
         Ok(format!(
@@ -225,7 +226,7 @@ fn demangle_method<'s>(
         let argument_list = if remaining.is_empty() {
             "void"
         } else {
-            &demangle_argument_list(config, remaining)?
+            &demangle_argument_list(config, remaining, Some(&class_name))?
         };
 
         Ok(format!(
@@ -244,7 +245,7 @@ fn demangle_namespaced_function<'s>(
     let argument_list = if remaining.is_empty() {
         "void"
     } else {
-        &demangle_argument_list(config, remaining)?
+        &demangle_argument_list(config, remaining, Some(&namespaces))?
     };
 
     let out = format!("{namespaces}::{func_name}({argument_list})");
@@ -253,6 +254,7 @@ fn demangle_namespaced_function<'s>(
 
 fn demangle_argument<'s>(
     full_args: &'s str,
+    namespace: Option<&str>,
     parsed_arguments: &[String],
 ) -> Result<(&'s str, String), DemangleError<'s>> {
     let mut out = String::new();
@@ -322,17 +324,25 @@ fn demangle_argument<'s>(
             // Remembered type / look back
             let (remaining, lookback) = parse_number_maybe_multi_digit(&args[1..])
                 .ok_or(DemangleError::InvalidLookbackCount(args))?;
-            if lookback == 0 {
-                return Err(DemangleError::InvalidLookbackCount(args));
-            }
 
-            let a = parsed_arguments
-                .get(lookback - 1)
-                .ok_or(DemangleError::LookbackCountTooBig(args, lookback))?;
+            let referenced_arg = if let Some(namespace) = namespace {
+                if lookback == 0 {
+                    namespace
+                } else {
+                    parsed_arguments
+                    .get(lookback - 1).ok_or(DemangleError::LookbackCountTooBig(args, lookback))?
+                }
+            } else {
+                    parsed_arguments
+                    .get(lookback).ok_or(DemangleError::LookbackCountTooBig(args, lookback))?
+            };
 
             args = remaining;
+
+            // Not really, since lookback could reference anything...
             is_class_like = true;
-            out.push_str(a);
+
+            out.push_str(referenced_arg);
         }
         _ => {
             return Err(DemangleError::UnknownType(c));
