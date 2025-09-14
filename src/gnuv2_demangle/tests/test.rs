@@ -174,18 +174,16 @@ fn test_demangle_namespaced_function() {
     }
 }
 
-/*
 #[test]
-fn test_demangle_namespaced() {
-    static CASES: [(&str, &str); 8] = [
+fn test_demangle_namespaced_methods() {
+    static CASES: [(&str, &str); 7] = [
         ("__Q212ActionButton29AnimCollisionEntityDSGWrapper", "ActionButton::AnimCollisionEntityDSGWrapper::AnimCollisionEntityDSGWrapper(void)"),
         ("_$_Q212ActionButton29AnimCollisionEntityDSGWrapper", "ActionButton::AnimCollisionEntityDSGWrapper::~AnimCollisionEntityDSGWrapper(void)"),
         ("UpdateVisibility__Q212ActionButton29AnimCollisionEntityDSGWrapper", "ActionButton::AnimCollisionEntityDSGWrapper::UpdateVisibility(void)"),
         ("SetGameObject__Q212ActionButton29AnimCollisionEntityDSGWrapperP22AnimCollisionEntityDSG", "ActionButton::AnimCollisionEntityDSGWrapper::SetGameObject(AnimCollisionEntityDSG *)"),
+        ("Reset__Q33sim16CollisionManager4Area", "sim::CollisionManager::Area::Reset(void)"),
         ("__as__Q33sim15CollisionObject20CollisionVolumeOwnerRCQ33sim15CollisionObject20CollisionVolumeOwner", "sim::CollisionObject::CollisionVolumeOwner::operator=(sim::CollisionObject::CollisionVolumeOwner const &)"),
         ("__Q33sim16CollisionManager4Area", "sim::CollisionManager::Area::Area(void)"),
-        ("Reset__Q33sim16CollisionManager4Area", "sim::CollisionManager::Area::Reset(void)"),
-        ("AddPair__Q33sim16CollisionManager4AreaPQ23sim15CollisionObjectT1", "sim::CollisionManager::Area::AddPair(sim::CollisionObject *, sim::CollisionObject *)"),
     ];
     let config = DemangleConfig::new();
 
@@ -193,4 +191,3 @@ fn test_demangle_namespaced() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
-*/

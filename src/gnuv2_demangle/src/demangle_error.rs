@@ -7,7 +7,7 @@ use core::{error, fmt};
 pub enum DemangleError<'s> {
     NonAscii,
     NotMangled,
-    TrailingData,
+    TrailingDataOnDestructor,
     InvalidCustomNameCount(&'s str),
     RanOutOfCharactersForCustomName(&'s str),
     UnknownType(char),

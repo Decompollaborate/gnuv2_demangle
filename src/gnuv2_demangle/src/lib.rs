@@ -38,12 +38,22 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
     }
 
     if let Some(s) = sym.strip_prefix("_$_") {
-        let (remaining, class_name, suffix) = demangle_custom_name(s)?;
+        if let Some(s) = s.strip_prefix('Q') {
+            let (remaining, namespaces, trailing_namespace) = demangle_namespaces(s)?;
 
-        if remaining.is_empty() {
-            Ok(format!("{class_name}::~{class_name}(void){suffix}"))
+            if remaining.is_empty() {
+                Ok(format!("{namespaces}~{trailing_namespace}(void)"))
+            } else {
+                Err(DemangleError::TrailingDataOnDestructor)
+            }
         } else {
-            Err(DemangleError::TrailingData)
+            let (remaining, class_name, suffix) = demangle_custom_name(s)?;
+
+            if remaining.is_empty() {
+                Ok(format!("{class_name}::~{class_name}(void){suffix}"))
+            } else {
+                Err(DemangleError::TrailingDataOnDestructor)
+            }
         }
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s)
@@ -102,6 +112,18 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
         let (s, class_name, suffix) = demangle_custom_name(s)?;
 
         (s, Some(class_name), class_name, suffix)
+    } else if let Some(q_less) = s.strip_prefix('Q') {
+        // This block is silly, it may be worth to refactor it
+        let (remaining, namespaces, trailing_namespace) = demangle_namespaces(q_less)?;
+
+        let argument_list = if remaining.is_empty() {
+            "void"
+        } else {
+            &demangle_argument_list(config, remaining)?
+        };
+
+        let out = format!("{namespaces}{trailing_namespace}({argument_list})");
+        return Ok(out);
     } else {
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
         let op = &s[..end_index];
@@ -120,6 +142,17 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
 
         if let Some(s) = s.strip_prefix('F') {
             (s, None, method_name, "")
+        } else if let Some(q_less) = s.strip_prefix('Q') {
+            let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(q_less)?;
+
+            let argument_list = if remaining.is_empty() {
+                "void"
+            } else {
+                &demangle_argument_list(config, remaining)?
+            };
+
+            let out = format!("{namespaces}{method_name}({argument_list})");
+            return Ok(out);
         } else {
             let (s, class_name, suffix) = demangle_custom_name(s)?;
 
@@ -194,17 +227,7 @@ fn demangle_namespaced_function<'s>(
     func_name: &'s str,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let (remaining, namespace_count) = if let Some(r) = s.strip_prefix('_') {
-        // More than a single digit of namespaces
-        parse_number(r).and_then(|(r, l)| r.strip_prefix('_').map(|new_r| (new_r, l)))
-    } else {
-        parse_digit(s)
-    }
-    .ok_or(DemangleError::InvalidNamespaceCount(s))?;
-    let namespace_count =
-        NonZeroUsize::new(namespace_count).ok_or(DemangleError::InvalidNamespaceCount(s))?;
-
-    let (remaining, namespaces) = demangle_namespaces(remaining, namespace_count)?;
+    let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(s)?;
 
     let argument_list = if remaining.is_empty() {
         "void"
@@ -274,6 +297,13 @@ fn demangle_argument<'s>(full_args: &'s str) -> Result<(&'s str, String), Demang
             is_class_like = true;
             out.push_str(class_name);
         }
+        'Q' => {
+            let (remaining, namespaces, _trailing_namespace) =
+                demangle_namespaces(args.trim_start_matches('Q'))?;
+            args = remaining;
+            is_class_like = true;
+            out.push_str(namespaces.trim_end_matches("::"));
+        }
         _ => {
             return Err(DemangleError::UnknownType(c));
         }
@@ -296,21 +326,38 @@ fn demangle_argument<'s>(full_args: &'s str) -> Result<(&'s str, String), Demang
     Ok((args, out))
 }
 
-fn demangle_namespaces<'s>(
+// 'Q' must be stripped already
+fn demangle_namespaces<'s>(s: &'s str) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
+    let (remaining, namespace_count) = if let Some(r) = s.strip_prefix('_') {
+        // More than a single digit of namespaces
+        parse_number(r).and_then(|(r, l)| r.strip_prefix('_').map(|new_r| (new_r, l)))
+    } else {
+        parse_digit(s)
+    }
+    .ok_or(DemangleError::InvalidNamespaceCount(s))?;
+    let namespace_count =
+        NonZeroUsize::new(namespace_count).ok_or(DemangleError::InvalidNamespaceCount(s))?;
+
+    demangle_namespaces_impl(remaining, namespace_count)
+}
+
+fn demangle_namespaces_impl<'s>(
     s: &'s str,
     namespace_count: NonZeroUsize,
-) -> Result<(&'s str, String), DemangleError<'s>> {
+) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let mut namespaces = String::new();
     let mut remaining = s;
+    let mut trailing_namespace = &s[0..0];
 
     for _ in 0..namespace_count.get() {
         let (r, ns, _suffix) = demangle_custom_name(remaining)?;
         remaining = r;
+        trailing_namespace = ns;
         namespaces.push_str(ns);
         namespaces.push_str("::");
     }
 
-    Ok((remaining, namespaces))
+    Ok((remaining, namespaces, trailing_namespace))
 }
 
 fn demangle_custom_name<'s>(
