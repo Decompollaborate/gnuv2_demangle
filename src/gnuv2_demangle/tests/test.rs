@@ -158,6 +158,22 @@ fn test_demangle_new_delete() {
     }
 }
 
+#[test]
+fn test_demangle_namespaced_function() {
+    static CASES: [(&str, &str); 4] = [
+        // A namespaced function inside a single namespace and a method in a class without namespace are mangled the same, awesome...
+        ("a_function__4smolfffi", "smol::a_function(float, float, float, int)"),
+        ("a_function__Q26medium3yesfffi", "medium::yes::a_function(float, float, float, int)"),
+        ("a_function__Q35silly8my_thing17another_namespacefffi", "silly::my_thing::another_namespace::a_function(float, float, float, int)"),
+        ("a_function__Q_18_5silly8my_thing17another_namespace7stacked7stacked7stacked7stacked7stacked7stacked7stacked7stacked7stacked7stacked7stacked7stacked7stacked7stacked7stackedfffi", "silly::my_thing::another_namespace::stacked::stacked::stacked::stacked::stacked::stacked::stacked::stacked::stacked::stacked::stacked::stacked::stacked::stacked::stacked::a_function(float, float, float, int)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_namespaced() {

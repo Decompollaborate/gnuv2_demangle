@@ -6,15 +6,17 @@ use core::{error, fmt};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum DemangleError<'s> {
     NonAscii,
-    Invalid,
+    NotMangled,
     TrailingData,
-    InvalidClassName(&'s str),
+    InvalidCustomNameCount(&'s str),
+    RanOutOfCharactersForCustomName(&'s str),
     UnknownType(char),
     RanOutWhileDemanglingSpecial,
     RanOutOfArguments,
     InvalidSpecialMethod(&'s str),
     UnrecognizedSpecialMethod(&'s str),
     PrimitiveInsteadOfClass(&'s str),
+    InvalidNamespaceCount(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {

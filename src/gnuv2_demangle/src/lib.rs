@@ -9,6 +9,8 @@ extern crate alloc;
 use alloc::string::String;
 */
 
+use core::num::NonZeroUsize;
+
 mod demangle_error;
 
 pub use demangle_error::DemangleError;
@@ -36,7 +38,7 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
     }
 
     if let Some(s) = sym.strip_prefix("_$_") {
-        let (remaining, class_name, suffix) = demangle_class_name(s)?;
+        let (remaining, class_name, suffix) = demangle_custom_name(s)?;
 
         if remaining.is_empty() {
             Ok(format!("{class_name}::~{class_name}(void){suffix}"))
@@ -51,8 +53,10 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
         str_split_2_second_starts_with(sym, "__", |c| matches!(c, '1'..='9' | 'C'))
     {
         demangle_method(config, method_name, class_and_args)
+    } else if let Some(q_index) = sym.find("__Q") {
+        demangle_namespaced_function(config, &sym[..q_index], &sym[q_index + 3..])
     } else {
-        Err(DemangleError::Invalid)
+        Err(DemangleError::NotMangled)
     }
 }
 
@@ -95,7 +99,7 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
 
     let (s, class_name, method_name, suffix) = if matches!(c, '1'..='9') {
         // class constructor
-        let (s, class_name, suffix) = demangle_class_name(s)?;
+        let (s, class_name, suffix) = demangle_custom_name(s)?;
 
         (s, Some(class_name), class_name, suffix)
     } else {
@@ -117,7 +121,7 @@ fn demangle_special<'s>(config: &DemangleConfig, s: &'s str) -> Result<String, D
         if let Some(s) = s.strip_prefix('F') {
             (s, None, method_name, "")
         } else {
-            let (s, class_name, suffix) = demangle_class_name(s)?;
+            let (s, class_name, suffix) = demangle_custom_name(s)?;
 
             (s, Some(class_name), method_name, suffix)
         }
@@ -172,7 +176,7 @@ fn demangle_method<'s>(
     method_name: &'s str,
     class_and_args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let (s, class_name, suffix) = demangle_class_name(class_and_args)?;
+    let (s, class_name, suffix) = demangle_custom_name(class_and_args)?;
 
     let argument_list = if s.is_empty() {
         "void"
@@ -183,6 +187,33 @@ fn demangle_method<'s>(
     Ok(format!(
         "{class_name}::{method_name}({argument_list}){suffix}"
     ))
+}
+
+fn demangle_namespaced_function<'s>(
+    config: &DemangleConfig,
+    func_name: &'s str,
+    s: &'s str,
+) -> Result<String, DemangleError<'s>> {
+    let (remaining, namespace_count) = if let Some(r) = s.strip_prefix('_') {
+        // More than a single digit of namespaces
+        parse_number(r).and_then(|(r, l)| r.strip_prefix('_').map(|new_r| (new_r, l)))
+    } else {
+        parse_digit(s)
+    }
+    .ok_or(DemangleError::InvalidNamespaceCount(s))?;
+    let namespace_count =
+        NonZeroUsize::new(namespace_count).ok_or(DemangleError::InvalidNamespaceCount(s))?;
+
+    let (remaining, namespaces) = demangle_namespaces(remaining, namespace_count)?;
+
+    let argument_list = if remaining.is_empty() {
+        "void"
+    } else {
+        &demangle_argument_list(config, remaining)?
+    };
+
+    let out = format!("{namespaces}{func_name}({argument_list})");
+    Ok(out)
 }
 
 fn demangle_argument<'s>(full_args: &'s str) -> Result<(&'s str, String), DemangleError<'s>> {
@@ -238,7 +269,7 @@ fn demangle_argument<'s>(full_args: &'s str) -> Result<(&'s str, String), Demang
         'w' => out.push_str("wchar_t"),
         'v' => out.push_str("void"),
         '1'..='9' => {
-            let (remaining, class_name, _suffix) = demangle_class_name(args)?;
+            let (remaining, class_name, _suffix) = demangle_custom_name(args)?;
             args = remaining;
             is_class_like = true;
             out.push_str(class_name);
@@ -265,7 +296,24 @@ fn demangle_argument<'s>(full_args: &'s str) -> Result<(&'s str, String), Demang
     Ok((args, out))
 }
 
-fn demangle_class_name<'s>(
+fn demangle_namespaces<'s>(
+    s: &'s str,
+    namespace_count: NonZeroUsize,
+) -> Result<(&'s str, String), DemangleError<'s>> {
+    let mut namespaces = String::new();
+    let mut remaining = s;
+
+    for _ in 0..namespace_count.get() {
+        let (r, ns, _suffix) = demangle_custom_name(remaining)?;
+        remaining = r;
+        namespaces.push_str(ns);
+        namespaces.push_str("::");
+    }
+
+    Ok((remaining, namespaces))
+}
+
+fn demangle_custom_name<'s>(
     s: &'s str,
 ) -> Result<(&'s str, &'s str, &'static str), DemangleError<'s>> {
     let (remaining, suffix) = if let Some(remaining) = s.strip_prefix('C') {
@@ -274,10 +322,11 @@ fn demangle_class_name<'s>(
         (s, "")
     };
 
-    let (remaining, length) = parse_number(remaining).ok_or(DemangleError::InvalidClassName(s))?;
+    let (remaining, length) =
+        parse_number(remaining).ok_or(DemangleError::InvalidCustomNameCount(s))?;
 
     if remaining.len() < length {
-        Err(DemangleError::InvalidClassName(s))
+        Err(DemangleError::RanOutOfCharactersForCustomName(s))
     } else {
         Ok((&remaining[length..], &remaining[..length], suffix))
     }
@@ -291,4 +340,15 @@ fn parse_number(s: &str) -> Option<(&str, usize)> {
     };
 
     Some(ret)
+}
+
+fn parse_digit(s: &str) -> Option<(&str, usize)> {
+    let c = s.chars().next()?;
+    if c.is_ascii_digit() {
+        let digit = (c as usize).wrapping_sub('0' as usize);
+
+        Some((&s[1..], digit))
+    } else {
+        None
+    }
 }
