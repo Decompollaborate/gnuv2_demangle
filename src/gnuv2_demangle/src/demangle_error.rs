@@ -24,6 +24,7 @@ pub enum DemangleError<'s> {
     TrailingDataOnTypeInfoFunction(&'s str),
     InvalidTypeOnTypeInfoNode(&'s str),
     TrailingDataOnTypeInfoNode(&'s str),
+    TrailingDataAfterEllipsis(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {

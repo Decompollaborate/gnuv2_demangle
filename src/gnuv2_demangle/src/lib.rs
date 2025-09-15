@@ -215,9 +215,10 @@ fn demangle_argument_list<'s>(
     namespace: Option<&str>,
 ) -> Result<String, DemangleError<'s>> {
     let mut arguments = Vec::new();
+    let mut trailing_ellipsis = false;
 
     while !args.is_empty() {
-        let (a, b) = demangle_argument(args, namespace, &arguments)?;
+        let (remaining, b) = demangle_argument(args, namespace, &arguments)?;
 
         match b {
             DemangledArg::Plain(s) => arguments.push(s),
@@ -236,16 +237,28 @@ fn demangle_argument_list<'s>(
                             .get(index)
                             .ok_or(DemangleError::InvalidRepeatingArgument(args))?
                     };
-                    // TODO: Look up for a way to avoid cloning.
+                    // TODO: Look up for a way to avoid cloning, maybe use Cow?
                     arguments.push(arg.to_string());
                 }
             }
+            DemangledArg::Ellipsis => {
+                if !remaining.is_empty() {
+                    return Err(DemangleError::TrailingDataAfterEllipsis(remaining));
+                }
+                trailing_ellipsis = true;
+            }
         }
 
-        args = a;
+        args = remaining;
     }
 
-    Ok(arguments.join(", "))
+    let mut out = arguments.join(", ");
+    if trailing_ellipsis {
+        // Special case to mimic c++filt, since it doesn't use an space between
+        // the comma and the ellipsis.
+        out.push_str(",...");
+    }
+    Ok(out)
 }
 
 fn demangle_method<'s>(
@@ -333,6 +346,7 @@ fn demangle_type_info_node<'s>(
 enum DemangledArg {
     Plain(String),
     Repeat { count: usize, index: usize },
+    Ellipsis,
 }
 
 fn demangle_argument<'s>(
@@ -350,6 +364,8 @@ fn demangle_argument<'s>(
         let (remaining, index) = parse_number_maybe_multi_digit(remaining)
             .ok_or(DemangleError::InvalidRepeatingArgument(full_args))?;
         return Ok((remaining, DemangledArg::Repeat { count, index }));
+    } else if let Some(remaining) = full_args.strip_prefix('e') {
+        return Ok((remaining, DemangledArg::Ellipsis));
     }
 
     let mut out = String::new();

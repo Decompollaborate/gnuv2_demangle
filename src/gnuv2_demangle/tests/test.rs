@@ -353,3 +353,20 @@ fn test_demangle_type_info_node() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+#[test]
+fn test_demangle_ellipsis() {
+    static CASES: [(&str, &str); 3] = [
+        ("Printf__7ConsolePce", "Console::Printf(char *,...)"),
+        (
+            "StrPrintf__6choreoPciPCce",
+            "choreo::StrPrintf(char *, int, char const *,...)",
+        ),
+        ("printf__3p3dPCce", "p3d::printf(char const *,...)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
