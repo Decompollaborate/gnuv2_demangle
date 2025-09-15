@@ -7,7 +7,7 @@ use core::{error, fmt};
 pub enum DemangleError<'s> {
     NonAscii,
     NotMangled,
-    TrailingDataOnDestructor,
+    TrailingDataOnDestructor(&'s str),
     InvalidCustomNameCount(&'s str),
     RanOutOfCharactersForCustomName(&'s str),
     UnknownType(char),
@@ -20,6 +20,8 @@ pub enum DemangleError<'s> {
     InvalidNamespaceCount(&'s str),
     InvalidLookbackCount(&'s str),
     LookbackCountTooBig(&'s str, usize),
+    InvalidTypeOnTypeInfoFunction(&'s str),
+    TrailingDataOnTypeInfoFunction(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {

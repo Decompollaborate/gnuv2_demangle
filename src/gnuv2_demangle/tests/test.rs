@@ -273,3 +273,43 @@ fn test_demangle_funcs_starting_with_double_underscore() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+#[test]
+fn test_demangle_type_info_func() {
+    static CASES: [(&str, &str); 20] = [
+        (
+            "__tf18AssignValueToFloat",
+            "AssignValueToFloat type_info function",
+        ),
+        (
+            "__tfQ212ActionButton29AnimCollisionEntityDSGWrapper",
+            "ActionButton::AnimCollisionEntityDSGWrapper type_info function",
+        ),
+        (
+            "__tf17__array_type_info",
+            "__array_type_info type_info function",
+        ),
+        ("__tfv", "void type_info function"),
+        ("__tfx", "long long type_info function"),
+        ("__tfl", "long type_info function"),
+        ("__tfi", "int type_info function"),
+        ("__tfs", "short type_info function"),
+        ("__tfb", "bool type_info function"),
+        ("__tfc", "char type_info function"),
+        ("__tfw", "wchar_t type_info function"),
+        ("__tfr", "long double type_info function"),
+        ("__tfd", "double type_info function"),
+        ("__tff", "float type_info function"),
+        ("__tfUi", "unsigned int type_info function"),
+        ("__tfUl", "unsigned long type_info function"),
+        ("__tfUx", "unsigned long long type_info function"),
+        ("__tfUs", "unsigned short type_info function"),
+        ("__tfUc", "unsigned char type_info function"),
+        ("__tfSc", "signed char type_info function"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
