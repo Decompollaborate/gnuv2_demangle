@@ -63,8 +63,8 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
         str_split_2_second_starts_with(sym, "__", |c| matches!(c, '1'..='9' | 'C'))
     {
         demangle_method(config, method_name, class_and_args)
-    } else if let Some(q_index) = sym.find("__Q") {
-        demangle_namespaced_function(config, &sym[..q_index], &sym[q_index + 3..])
+    } else if let Some((func_name, s)) = str_split_2(sym, "__Q") {
+        demangle_namespaced_function(config, func_name, s)
     } else {
         Err(DemangleError::NotMangled)
     }

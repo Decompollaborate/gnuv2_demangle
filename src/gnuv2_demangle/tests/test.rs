@@ -370,3 +370,26 @@ fn test_demangle_ellipsis() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+/*
+#[test]
+fn test_demangle_templated_classes() {
+    static CASES: [(&str, &str); 8] = [
+("begin__t3Map2ZPQ23sim15CollisionObjectZP11DynaPhysDSG", "Map<sim::CollisionObject *, DynaPhysDSG *>::begin(void)"),
+("_$_t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::~ContiguousBinNode(void)"),
+("__t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::ContiguousBinNode(void)"),
+("GetSubTreeSize__t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::GetSubTreeSize(void)"),
+("ResizeArray__Q23simt6TArray1ZQ23sim9Collisioni", "sim::TArray<sim::Collision>::ResizeArray(int)"),
+("Grow__Q23simt6TArray1ZQ23sim9Collision", "sim::TArray<sim::Collision>::Grow(void)"),
+("Add__Q23simt6TArray1ZQ23sim9CollisionRCQ23sim9Collision", "sim::TArray<sim::Collision>::Add(sim::Collision const &)"),
+("_S_oom_malloc__t23__malloc_alloc_template1i0Ui", "__malloc_alloc_template<0>::_S_oom_malloc(unsigned int)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+*/
+
+// TODO: does templated global objects exist?
