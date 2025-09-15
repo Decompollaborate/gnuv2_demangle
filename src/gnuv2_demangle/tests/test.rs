@@ -313,3 +313,43 @@ fn test_demangle_type_info_func() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+#[test]
+fn test_demangle_type_info_node() {
+    static CASES: [(&str, &str); 20] = [
+        (
+            "__ti18AssignValueToFloat",
+            "AssignValueToFloat type_info node",
+        ),
+        (
+            "__tiQ212ActionButton29AnimCollisionEntityDSGWrapper",
+            "ActionButton::AnimCollisionEntityDSGWrapper type_info node",
+        ),
+        (
+            "__ti17__array_type_info",
+            "__array_type_info type_info node",
+        ),
+        ("__tiv", "void type_info node"),
+        ("__tix", "long long type_info node"),
+        ("__til", "long type_info node"),
+        ("__tii", "int type_info node"),
+        ("__tis", "short type_info node"),
+        ("__tib", "bool type_info node"),
+        ("__tic", "char type_info node"),
+        ("__tiw", "wchar_t type_info node"),
+        ("__tir", "long double type_info node"),
+        ("__tid", "double type_info node"),
+        ("__tif", "float type_info node"),
+        ("__tiUi", "unsigned int type_info node"),
+        ("__tiUl", "unsigned long type_info node"),
+        ("__tiUx", "unsigned long long type_info node"),
+        ("__tiUs", "unsigned short type_info node"),
+        ("__tiUc", "unsigned char type_info node"),
+        ("__tiSc", "signed char type_info node"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
