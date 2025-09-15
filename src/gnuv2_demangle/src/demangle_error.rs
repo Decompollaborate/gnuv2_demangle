@@ -22,6 +22,8 @@ pub enum DemangleError<'s> {
     LookbackCountTooBig(&'s str, usize),
     InvalidTypeOnTypeInfoFunction(&'s str),
     TrailingDataOnTypeInfoFunction(&'s str),
+    InvalidTypeOnTypeInfoNode(&'s str),
+    TrailingDataOnTypeInfoNode(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {

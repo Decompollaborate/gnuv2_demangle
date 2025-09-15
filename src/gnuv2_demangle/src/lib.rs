@@ -55,10 +55,6 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
                 Err(DemangleError::TrailingDataOnDestructor(remaining))
             }
         }
-    } else if let Some(s) = sym.strip_prefix("__tf") {
-        demangle_type_info_function(config, s)
-    } else if let Some(s) = sym.strip_prefix("__ti") {
-        demangle_type_info_node(config, s)
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s, sym)
     } else if let Some((func_name, args)) = str_split_2(sym, "__F") {
@@ -138,6 +134,10 @@ fn demangle_special<'s>(
 
         let out = format!("{namespaces}::{trailing_namespace}({argument_list})");
         return Ok(out);
+    } else if let Some(s) = s.strip_prefix("tf") {
+        return demangle_type_info_function(config, s);
+    } else if let Some(s) = s.strip_prefix("ti") {
+        return demangle_type_info_node(config, s);
     } else {
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
         let op = &s[..end_index];
@@ -322,10 +322,10 @@ fn demangle_type_info_node<'s>(
         if remaining.is_empty() {
             Ok(format!("{demangled_type} type_info node"))
         } else {
-            Err(DemangleError::TrailingDataOnTypeInfoFunction(remaining))
+            Err(DemangleError::TrailingDataOnTypeInfoNode(remaining))
         }
     } else {
-        Err(DemangleError::InvalidTypeOnTypeInfoFunction(s))
+        Err(DemangleError::InvalidTypeOnTypeInfoNode(s))
     }
 }
 
