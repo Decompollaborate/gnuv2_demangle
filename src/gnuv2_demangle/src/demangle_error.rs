@@ -10,7 +10,7 @@ pub enum DemangleError<'s> {
     TrailingDataOnDestructor(&'s str),
     InvalidCustomNameCount(&'s str),
     RanOutOfCharactersForCustomName(&'s str),
-    UnknownType(char),
+    UnknownType(char, &'s str),
     InvalidRepeatingArgument(&'s str),
     RanOutWhileDemanglingSpecial,
     RanOutOfArguments,
@@ -25,6 +25,12 @@ pub enum DemangleError<'s> {
     InvalidTypeOnTypeInfoNode(&'s str),
     TrailingDataOnTypeInfoNode(&'s str),
     TrailingDataAfterEllipsis(&'s str),
+    InvalidTypeValueForTemplated(char, &'s str),
+    InvalidValueForIntegralTemplated(&'s str),
+    InvalidTemplatedPointerReferenceValue(&'s str),
+    InvalidTemplatedNumberForCharacterValue(&'s str),
+    InvalidTemplatedCharacterValue(&'s str, usize),
+    InvalidTemplatedBoolean(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {

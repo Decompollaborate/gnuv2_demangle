@@ -371,18 +371,85 @@ fn test_demangle_ellipsis() {
     }
 }
 
-/*
 #[test]
 fn test_demangle_templated_classes() {
-    static CASES: [(&str, &str); 8] = [
-("begin__t3Map2ZPQ23sim15CollisionObjectZP11DynaPhysDSG", "Map<sim::CollisionObject *, DynaPhysDSG *>::begin(void)"),
-("_$_t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::~ContiguousBinNode(void)"),
-("__t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::ContiguousBinNode(void)"),
-("GetSubTreeSize__t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::GetSubTreeSize(void)"),
-("ResizeArray__Q23simt6TArray1ZQ23sim9Collisioni", "sim::TArray<sim::Collision>::ResizeArray(int)"),
-("Grow__Q23simt6TArray1ZQ23sim9Collision", "sim::TArray<sim::Collision>::Grow(void)"),
-("Add__Q23simt6TArray1ZQ23sim9CollisionRCQ23sim9Collision", "sim::TArray<sim::Collision>::Add(sim::Collision const &)"),
-("_S_oom_malloc__t23__malloc_alloc_template1i0Ui", "__malloc_alloc_template<0>::_S_oom_malloc(unsigned int)"),
+    static CASES: [(&str, &str); 10] = [
+        ("begin__t3Map2ZPQ23sim15CollisionObjectZP11DynaPhysDSG", "Map<sim::CollisionObject *, DynaPhysDSG *>::begin(void)"),
+        ("find__t8_Rb_tree5ZUiZt4pair2ZCUiZiZt10_Select1st1Zt4pair2ZCUiZiZt4less1ZUiZt9allocator1ZiRCUi", "_Rb_tree<unsigned int, pair<unsigned int const, int>, _Select1st<pair<unsigned int const, int> >, less<unsigned int>, allocator<int> >::find(unsigned int const &)"),
+        ("ResizeArray__Q23simt6TArray1ZQ23sim9Collisioni", "sim::TArray<sim::Collision>::ResizeArray(int)"),
+        ("Grow__Q23simt6TArray1ZQ23sim9Collision", "sim::TArray<sim::Collision>::Grow(void)"),
+        ("Add__Q23simt6TArray1ZQ23sim9CollisionRCQ23sim9Collision", "sim::TArray<sim::Collision>::Add(sim::Collision const &)"),
+        ("__tit9AllocPool1Z8FMVEvent", "AllocPool<FMVEvent> type_info node"),
+        ("_$_t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::~ContiguousBinNode(void)"),
+        ("__t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::ContiguousBinNode(void)"),
+        ("GetSubTreeSize__t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::GetSubTreeSize(void)"),
+        ("other_function__FPQ215other_namespacet11PlainVector1ZQ215other_namespacet11PlainVector1ZQ215other_namespacet11PlainVector1Zi", "other_function(other_namespace::PlainVector<other_namespace::PlainVector<other_namespace::PlainVector<int> > > *)"),
+        // ("a_function__Q25silly9SomeClassRCQ224namespace_for_the_vectort7rVector13ZiZcZbZwZrZsZQ213more_stacking11APlainClassZQ213more_stacking11APlainClassZQ213more_stacking11APlainClassZPvZPiZPCcZRCc", "silly::SomeClass::a_function(const namespace_for_the_vector::rVector<int, char, bool, wchar_t, long double, short, more_stacking::APlainClass, more_stacking::APlainClass, more_stacking::APlainClass, void*, int*, const char *, const char &> &)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_templated_classes_with_numbers() {
+    static CASES: [(&str, &str); 10] = [
+        (
+            "template_with_number__FRt9Something1x39",
+            "template_with_number(Something<39> &)",
+        ),
+        (
+            "template_with_number__FRt9Something1xm39",
+            "template_with_number(Something<-39> &)",
+        ),
+        (
+            "template_with_unsigned_number__FRt10Something21Ui39",
+            "template_with_unsigned_number(Something2<39> &)",
+        ),
+        (
+            "template_with_many_numbers__FRt10Something32Ul39b1",
+            "template_with_many_numbers(Something3<39, true> &)",
+        ),
+        (
+            "template_with_numbers_and_types__FRt10Something43Sc39ZiUc32",
+            "template_with_numbers_and_types(Something4<''', int, ' '> &)",
+        ),
+        (
+            "_S_oom_malloc__t23__malloc_alloc_template1i0Ui",
+            "__malloc_alloc_template<0>::_S_oom_malloc(unsigned int)",
+        ),
+        (
+            "template_with_numbers_and_types__FRt10Something43Sc39ZiPCc7example",
+            "template_with_numbers_and_types(Something4<''', int, &example> &)",
+        ),
+        (
+            "actual_function__FRt10SomeVector2Z4NodeR13TestAllocator17AllocatorInstanceG4Node",
+            "actual_function(SomeVector<Node, AllocatorInstance> &, Node)",
+        ),
+        (
+            "push__t10SomeVector2Z4NodeR13TestAllocator17AllocatorInstanceG4Node",
+            "SomeVector<Node, AllocatorInstance>::push(Node)",
+        ),
+        (
+            "get__Ct10SomeVector2Z4NodeR13TestAllocator17AllocatorInstanceUi",
+            "SomeVector<Node, AllocatorInstance>::get(unsigned int) const",
+        ),
+        // ("wrapper__H1Z4Node_Rt10SomeVector2ZX01R13TestAllocator17AllocatorInstanceX01_RCX01", "Node const & wrapper<Node>(SomeVector<Node, AllocatorInstance> &, Node)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+/*
+#[test]
+fn test_demangle_single() {
+    static CASES: [(&str, &str); 1] = [
+        ("actual_function__FRt10SomeVector2Z4NodeR13TestAllocator17AllocatorInstanceG4Node", "actual_function(SomeVector<Node, AllocatorInstance> &, Node)"),
     ];
     let config = DemangleConfig::new();
 
