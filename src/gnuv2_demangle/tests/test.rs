@@ -105,7 +105,7 @@ fn test_demangle_methods() {
 
 #[test]
 fn test_demangle_operators() {
-    static CASES: [(&str, &str); 16] = [
+    static CASES: [(&str, &str); 17] = [
         (
             "__eq__C5tNameRC5tName",
             "tName::operator==(tName const &) const",
@@ -152,6 +152,10 @@ fn test_demangle_operators() {
         (
             "__vc__C13UnicodeStringi",
             "UnicodeString::operator[](int) const",
+        ),
+        (
+            "__eq__CQ23ods7pointerRCQ23ods7pointer",
+            "ods::pointer::operator==(ods::pointer const &) const",
         ),
         // ("__vc__t4List1Z15tSpriteParticles", "List<tSpriteParticle>::operator[](short)"),
         (

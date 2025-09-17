@@ -258,22 +258,26 @@ fn demangle_special<'s>(
 
         if let Some(s) = s.strip_prefix('F') {
             (s, None, method_name, "")
-        } else if let Some(q_less) = s.strip_prefix('Q') {
-            let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(config, q_less)?;
-
-            let argument_list = if remaining.is_empty() {
-                "void"
-            } else {
-                &demangle_argument_list(config, remaining, Some(&namespaces))?
-            };
-
-            let out = format!("{namespaces}::{method_name}({argument_list})");
-            return Ok(out);
         } else {
             let (s, suffix) = demangle_method_qualifier(s);
-            let (s, class_name) = demangle_custom_name(s)?;
 
-            (s, Some(class_name), method_name, suffix)
+            if let Some(q_less) = s.strip_prefix('Q') {
+                let (remaining, namespaces, _trailing_namespace) =
+                    demangle_namespaces(config, q_less)?;
+
+                let argument_list = if remaining.is_empty() {
+                    "void"
+                } else {
+                    &demangle_argument_list(config, remaining, Some(&namespaces))?
+                };
+
+                let out = format!("{namespaces}::{method_name}({argument_list}){suffix}");
+                return Ok(out);
+            } else {
+                let (s, class_name) = demangle_custom_name(s)?;
+
+                (s, Some(class_name), method_name, suffix)
+            }
         }
     };
 
