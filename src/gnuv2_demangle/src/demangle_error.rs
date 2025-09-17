@@ -38,6 +38,8 @@ pub enum DemangleError<'s> {
     MissingReturnTypeForFunctionPointer(&'s str),
     InvalidReturnTypeForFunctionPointer(&'s str),
     InvalidGlobalSymKeyed(&'s str),
+    InvalidArraySize(&'s str),
+    MalformedArrayArgumment(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {

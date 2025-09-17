@@ -548,6 +548,24 @@ fn test_demangle_global_sym_keyed_weird_cases() {
     }
 }
 
+#[test]
+fn test_demangle_argument_array() {
+    static CASES: [(&str, &str); 7] = [
+        ("SetShadowAdjustments__15GeometryVehiclePA1_f", "GeometryVehicle::SetShadowAdjustments(float (*)[1])"),
+        ("SetShadowAdjustments__7VehiclePA1_f", "Vehicle::SetShadowAdjustments(float (*)[1])"),
+        ("simpler_array__FPA41_A24_Ci", "simpler_array(int const (*)[41][24])"),
+        ("simpler_array__FPA41_A24_CUi", "simpler_array(unsigned int const (*)[41][24])"),
+        ("an_arg_of_an_array_of_arrays_of_arrays__FPA38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_i", "an_arg_of_an_array_of_arrays_of_arrays(int (*)[38][38][38][38][38][38][38][38][38][38][38][38][38][38][38][38][38][38][38][38][38][38])"),
+        ("an_arg_of_an_array_of_arrays_of_arrays__FPA41_A24_A38_A38_A38_A38_A38_A38_A38_A419_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A6_A0_i", "an_arg_of_an_array_of_arrays_of_arrays(int (*)[41][24][38][38][38][38][38][38][38][419][38][38][38][38][38][38][38][38][38][38][6][0])"),
+        ("an_arg_of_an_array_of_arrays_of_arrays__FPA41_A24_A38_A38_A38_A38_A38_A38_A38_A419_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A6_A0_ifPA13_b", "an_arg_of_an_array_of_arrays_of_arrays(int (*)[41][24][38][38][38][38][38][38][38][419][38][38][38][38][38][38][38][38][38][38][6][0], float, bool (*)[13])"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {

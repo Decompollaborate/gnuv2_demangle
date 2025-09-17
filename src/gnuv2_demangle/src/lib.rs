@@ -18,9 +18,18 @@ pub use demangle_error::DemangleError;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
 pub struct DemangleConfig {
-    /// Recreate a c++filt bug where it won't emit the 
+    /// Recreate a c++filt bug where it won't emit the
     /// "global constructors keyed to " prefix for a namespaced function.
     pub preserve_namespaced_global_constructor_bug: bool,
+    /// By default g++ subtracts 1 from the length of array arguments, thus
+    /// producing a confusing mangled name.
+    ///
+    /// c++filt uses this length as-is, which produces a demangled symbol that
+    /// does not match the original C++ symbol.
+    ///
+    /// This setting adds 1 to the length, making the demangled symbol match
+    /// more accurately the real symbol.
+    pub fix_array_length_arg: bool,
 }
 
 impl DemangleConfig {
@@ -29,6 +38,7 @@ impl DemangleConfig {
     pub fn new() -> Self {
         Self {
             preserve_namespaced_global_constructor_bug: true,
+            fix_array_length_arg: false,
         }
     }
 
@@ -36,6 +46,7 @@ impl DemangleConfig {
     pub fn new_no_cfilt_mimics() -> Self {
         Self {
             preserve_namespaced_global_constructor_bug: false,
+            fix_array_length_arg: true,
         }
     }
 }
@@ -50,7 +61,11 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
     demangle_impl(sym, config, true)
 }
 
-fn demangle_impl<'s>(sym: &'s str, config: &DemangleConfig, allow_global_sym_keyed: bool) -> Result<String, DemangleError<'s>> {
+fn demangle_impl<'s>(
+    sym: &'s str,
+    config: &DemangleConfig,
+    allow_global_sym_keyed: bool,
+) -> Result<String, DemangleError<'s>> {
     if !sym.is_ascii() {
         return Err(DemangleError::NonAscii);
     }
@@ -120,11 +135,11 @@ where
 }
 
 fn demangle_destructor<'s>(
-    _config: &DemangleConfig,
+    config: &DemangleConfig,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
     if let Some(s) = s.strip_prefix('t') {
-        let (remaining, template, typ) = demangle_template(s)?;
+        let (remaining, template, typ) = demangle_template(config, s)?;
 
         if remaining.is_empty() {
             Ok(format!("{template}::~{typ}(void)"))
@@ -132,7 +147,7 @@ fn demangle_destructor<'s>(
             Err(DemangleError::TrailingDataOnDestructor(remaining))
         }
     } else if let Some(s) = s.strip_prefix('Q') {
-        let (remaining, namespaces, trailing_namespace) = demangle_namespaces(s)?;
+        let (remaining, namespaces, trailing_namespace) = demangle_namespaces(config, s)?;
 
         if remaining.is_empty() {
             Ok(format!("{namespaces}::~{trailing_namespace}(void)"))
@@ -170,7 +185,7 @@ fn demangle_special<'s>(
     } else if let Some(s) = s.strip_prefix("ti") {
         return demangle_type_info_node(config, s);
     } else if let Some(s) = s.strip_prefix('t') {
-        let (remaining, template, typ) = demangle_template(s)?;
+        let (remaining, template, typ) = demangle_template(config, s)?;
 
         let argument_list = if remaining.is_empty() {
             "void"
@@ -182,7 +197,7 @@ fn demangle_special<'s>(
         return Ok(out);
     } else if let Some(q_less) = s.strip_prefix('Q') {
         // This block is silly, it may be worth to refactor it
-        let (remaining, namespaces, trailing_namespace) = demangle_namespaces(q_less)?;
+        let (remaining, namespaces, trailing_namespace) = demangle_namespaces(config, q_less)?;
 
         let argument_list = if remaining.is_empty() {
             "void"
@@ -221,7 +236,7 @@ fn demangle_special<'s>(
         if let Some(s) = s.strip_prefix('F') {
             (s, None, method_name, "")
         } else if let Some(q_less) = s.strip_prefix('Q') {
-            let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(q_less)?;
+            let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(config, q_less)?;
 
             let argument_list = if remaining.is_empty() {
                 "void"
@@ -264,7 +279,7 @@ fn demangle_free_function<'s>(
 }
 
 fn demangle_argument_list<'s>(
-    _config: &DemangleConfig,
+    config: &DemangleConfig,
     mut args: &'s str,
     namespace: Option<&str>,
 ) -> Result<String, DemangleError<'s>> {
@@ -272,7 +287,7 @@ fn demangle_argument_list<'s>(
     let mut trailing_ellipsis = false;
 
     while !args.is_empty() {
-        let (remaining, b) = demangle_argument(args, namespace, &arguments)?;
+        let (remaining, b) = demangle_argument(config, args, namespace, &arguments)?;
 
         match b {
             DemangledArg::Plain(s) => arguments.push(s),
@@ -324,7 +339,7 @@ fn demangle_method<'s>(
     let (remaining, suffix) = demangle_method_qualifier(class_and_args);
 
     if let Some(templated) = remaining.strip_prefix('t') {
-        let (remaining, template, _typ) = demangle_template(templated)?;
+        let (remaining, template, _typ) = demangle_template(config, templated)?;
 
         let argument_list = if remaining.is_empty() {
             "void"
@@ -336,7 +351,7 @@ fn demangle_method<'s>(
             "{template}::{method_name}({argument_list}){suffix}"
         ))
     } else if let Some(q_less) = remaining.strip_prefix('Q') {
-        let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(q_less)?;
+        let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(config, q_less)?;
 
         let argument_list = if remaining.is_empty() {
             "void"
@@ -367,7 +382,7 @@ fn demangle_namespaced_function<'s>(
     func_name: &'s str,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(s)?;
+    let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(config, s)?;
 
     let argument_list = if remaining.is_empty() {
         "void"
@@ -380,10 +395,12 @@ fn demangle_namespaced_function<'s>(
 }
 
 fn demangle_type_info_function<'s>(
-    _config: &DemangleConfig,
+    config: &DemangleConfig,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    if let (remaining, DemangledArg::Plain(demangled_type)) = demangle_argument(s, None, &[])? {
+    if let (remaining, DemangledArg::Plain(demangled_type)) =
+        demangle_argument(config, s, None, &[])?
+    {
         if remaining.is_empty() {
             Ok(format!("{demangled_type} type_info function"))
         } else {
@@ -395,10 +412,12 @@ fn demangle_type_info_function<'s>(
 }
 
 fn demangle_type_info_node<'s>(
-    _config: &DemangleConfig,
+    config: &DemangleConfig,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    if let (remaining, DemangledArg::Plain(demangled_type)) = demangle_argument(s, None, &[])? {
+    if let (remaining, DemangledArg::Plain(demangled_type)) =
+        demangle_argument(config, s, None, &[])?
+    {
         if remaining.is_empty() {
             Ok(format!("{demangled_type} type_info node"))
         } else {
@@ -410,7 +429,7 @@ fn demangle_type_info_node<'s>(
 }
 
 fn demangle_virtual_table<'s>(
-    _config: &DemangleConfig,
+    config: &DemangleConfig,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
     let mut remaining = s;
@@ -422,12 +441,12 @@ fn demangle_virtual_table<'s>(
             .ok_or(DemangleError::VTableMissingDollarSeparator(remaining))?;
 
         remaining = if let Some(r) = remaining.strip_prefix('t') {
-            let (r, template, _typ) = demangle_template(r)?;
+            let (r, template, _typ) = demangle_template(config, r)?;
 
             stuff.push(template);
             r
         } else if let Some(r) = remaining.strip_prefix('Q') {
-            let (r, namespaces, _trailing_namespace) = demangle_namespaces(r)?;
+            let (r, namespaces, _trailing_namespace) = demangle_namespaces(config, r)?;
 
             stuff.push(namespaces);
             r
@@ -443,7 +462,7 @@ fn demangle_virtual_table<'s>(
 }
 
 fn demangle_namespaced_global<'s>(
-    _config: &DemangleConfig,
+    config: &DemangleConfig,
     s: &'s str,
     name: &'s str,
 ) -> Result<String, DemangleError<'s>> {
@@ -452,11 +471,11 @@ fn demangle_namespaced_global<'s>(
     };
 
     let (r, space) = if let Some(r) = remaining.strip_prefix('t') {
-        let (r, template, _typ) = demangle_template(r)?;
+        let (r, template, _typ) = demangle_template(config, r)?;
 
         (r, template)
     } else if let Some(r) = remaining.strip_prefix('Q') {
-        let (r, namespaces, _trailing_namespace) = demangle_namespaces(r)?;
+        let (r, namespaces, _trailing_namespace) = demangle_namespaces(config, r)?;
 
         (r, namespaces)
     } else {
@@ -485,7 +504,10 @@ fn demangle_global_sym_keyed<'s>(
     };
 
     let demangled_sym = demangle_impl(remaining, config, false);
-    if config.preserve_namespaced_global_constructor_bug && is_constructor && remaining.starts_with("__Q") {
+    if config.preserve_namespaced_global_constructor_bug
+        && is_constructor
+        && remaining.starts_with("__Q")
+    {
         // !HACK(c++filt): Seems like c++filt has a bug where it won't output
         // !the "global constructors keyed to " prefix for namespaced functions
         return demangled_sym;
@@ -504,6 +526,7 @@ enum DemangledArg {
 }
 
 fn demangle_argument<'s>(
+    config: &DemangleConfig,
     full_args: &'s str,
     namespace: Option<&str>,
     parsed_arguments: &[String],
@@ -521,7 +544,7 @@ fn demangle_argument<'s>(
     } else if let Some(remaining) = full_args.strip_prefix('e') {
         return Ok((remaining, DemangledArg::Ellipsis));
     } else if let Some(remaining) = full_args.strip_prefix('t') {
-        let (remaining, template, _typ) = demangle_template(remaining)?;
+        let (remaining, template, _typ) = demangle_template(config, remaining)?;
 
         return Ok((remaining, DemangledArg::Plain(template)));
     }
@@ -547,6 +570,49 @@ fn demangle_argument<'s>(
         }
 
         args = &args[1..];
+    }
+
+    if args.starts_with('A') {
+        post.insert(0, '(');
+        post.push(')');
+
+        while let Some(remaining) = args.strip_prefix('A') {
+            let Some((remaining, array_length)) = parse_number(remaining) else {
+                return Err(DemangleError::InvalidArraySize(remaining));
+            };
+            let Some(remaining) = remaining.strip_prefix('_') else {
+                return Err(DemangleError::MalformedArrayArgumment(remaining));
+            };
+
+            let array_length = if config.fix_array_length_arg {
+                array_length + 1
+            } else {
+                array_length
+            };
+
+            post.push_str(&format!("[{array_length}]"));
+
+            args = remaining;
+        }
+
+        // Do qualifiers again for the type
+        while !args.is_empty() {
+            let c = args
+                .chars()
+                .next()
+                .ok_or(DemangleError::RanOutOfArguments)?;
+
+            match c {
+                'P' => post.insert(0, '*'),
+                'R' => post.insert(0, '&'),
+                'C' => post.insert_str(0, "const "),
+                'S' => out.push_str("signed "),
+                'U' => out.push_str("unsigned "),
+                _ => break,
+            }
+
+            args = &args[1..];
+        }
     }
 
     // 'G' is used for classes, structs and unions, so we must make sure we
@@ -584,7 +650,8 @@ fn demangle_argument<'s>(
             out.push_str(class_name);
         }
         'Q' => {
-            let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(&args[1..])?;
+            let (remaining, namespaces, _trailing_namespace) =
+                demangle_namespaces(config, &args[1..])?;
             args = remaining;
             is_class_like = true;
             out.push_str(&namespaces);
@@ -617,7 +684,7 @@ fn demangle_argument<'s>(
         }
         't' => {
             // templates
-            let (remaining, template, _typ) = demangle_template(&args[1..])?;
+            let (remaining, template, _typ) = demangle_template(config, &args[1..])?;
 
             args = remaining;
 
@@ -632,7 +699,7 @@ fn demangle_argument<'s>(
             let namespace = None;
             let mut trailing_ellipsis = false;
             while !args.starts_with('_') {
-                let (r, arg) = demangle_argument(args, namespace, &subargs)?;
+                let (r, arg) = demangle_argument(config, args, namespace, &subargs)?;
 
                 match arg {
                     DemangledArg::Plain(s) => subargs.push(s),
@@ -667,7 +734,8 @@ fn demangle_argument<'s>(
             };
             args = r;
 
-            let (r, DemangledArg::Plain(ret)) = demangle_argument(args, namespace, &subargs)?
+            let (r, DemangledArg::Plain(ret)) =
+                demangle_argument(config, args, namespace, &subargs)?
             else {
                 return Err(DemangleError::InvalidReturnTypeForFunctionPointer(args));
             };
@@ -711,7 +779,10 @@ fn demangle_argument<'s>(
 }
 
 // 'Q' must be stripped already
-fn demangle_namespaces<'s>(s: &'s str) -> Result<(&'s str, String, String), DemangleError<'s>> {
+fn demangle_namespaces<'s>(
+    config: &DemangleConfig,
+    s: &'s str,
+) -> Result<(&'s str, String, String), DemangleError<'s>> {
     let (remaining, namespace_count) = if let Some(r) = s.strip_prefix('_') {
         // More than a single digit of namespaces
         parse_number(r).and_then(|(r, l)| r.strip_prefix('_').map(|new_r| (new_r, l)))
@@ -722,10 +793,11 @@ fn demangle_namespaces<'s>(s: &'s str) -> Result<(&'s str, String, String), Dema
     let namespace_count =
         NonZeroUsize::new(namespace_count).ok_or(DemangleError::InvalidNamespaceCount(s))?;
 
-    demangle_namespaces_impl(remaining, namespace_count)
+    demangle_namespaces_impl(config, remaining, namespace_count)
 }
 
 fn demangle_namespaces_impl<'s>(
+    config: &DemangleConfig,
     s: &'s str,
     namespace_count: NonZeroUsize,
 ) -> Result<(&'s str, String, String), DemangleError<'s>> {
@@ -739,7 +811,7 @@ fn demangle_namespaces_impl<'s>(
         }
 
         let r = if let Some(temp) = remaining.strip_prefix('t') {
-            let (r, template, _typ) = demangle_template(temp)?;
+            let (r, template, _typ) = demangle_template(config, temp)?;
             trailing_namespace = template;
             r
         } else {
@@ -754,7 +826,10 @@ fn demangle_namespaces_impl<'s>(
     Ok((remaining, namespaces, trailing_namespace))
 }
 
-fn demangle_template<'s>(s: &'s str) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
+fn demangle_template<'s>(
+    config: &DemangleConfig,
+    s: &'s str,
+) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let (remaining, class_name) = demangle_custom_name(s)?;
     let (mut remaining, digit) = parse_digit(remaining).unwrap();
 
@@ -763,7 +838,7 @@ fn demangle_template<'s>(s: &'s str) -> Result<(&'s str, String, &'s str), Deman
 
     for _ in 0..digit {
         let r = if let Some(r) = remaining.strip_prefix('Z') {
-            let (r, arg) = demangle_argument(r, namespace, &types)?;
+            let (r, arg) = demangle_argument(config, r, namespace, &types)?;
 
             match arg {
                 DemangledArg::Plain(s) => types.push(s),
@@ -821,7 +896,8 @@ fn demangle_template<'s>(s: &'s str) -> Result<(&'s str, String, &'s str), Deman
             }
 
             if is_pointer || is_reference {
-                let (aux, DemangledArg::Plain(_arg)) = demangle_argument(r, None, &[])? else {
+                let (aux, DemangledArg::Plain(_arg)) = demangle_argument(config, r, None, &[])?
+                else {
                     return Err(DemangleError::InvalidTemplatedPointerReferenceValue(r));
                 };
                 let (aux, symbol) = demangle_custom_name(aux)?;
