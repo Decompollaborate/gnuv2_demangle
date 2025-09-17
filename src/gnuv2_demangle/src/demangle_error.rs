@@ -35,6 +35,8 @@ pub enum DemangleError<'s> {
     VTableMissingDollarSeparator(&'s str),
     InvalidNamespacedGlobal(&'s str, &'s str),
     TrailingDataOnNamespacedGlobal(&'s str),
+    MissingReturnTypeForFunctionPointer(&'s str),
+    InvalidReturnTypeForFunctionPointer(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {

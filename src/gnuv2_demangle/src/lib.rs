@@ -576,6 +576,70 @@ fn demangle_argument<'s>(
             is_class_like = true;
             out.push_str(&template);
         }
+        'F' => {
+            // Function pointer/reference
+            args = &args[1..];
+
+            let mut subargs = Vec::new();
+            let namespace = None;
+            let mut trailing_ellipsis = false;
+            while !args.starts_with('_') {
+                let (r, arg) = demangle_argument(args, namespace, &subargs)?;
+
+                match arg {
+                    DemangledArg::Plain(s) => subargs.push(s),
+                    DemangledArg::Repeat { count, index } => {
+                        for _ in 0..count {
+                            let arg = if let Some(namespace) = namespace {
+                                if index == 0 {
+                                    namespace
+                                } else {
+                                    subargs
+                                        .get(index - 1)
+                                        .ok_or(DemangleError::InvalidRepeatingArgument(args))?
+                                }
+                            } else {
+                                subargs
+                                    .get(index)
+                                    .ok_or(DemangleError::InvalidRepeatingArgument(args))?
+                            };
+                            // TODO: Look up for a way to avoid cloning, maybe use Cow?
+                            subargs.push(arg.to_string());
+                        }
+                    }
+                    DemangledArg::Ellipsis => {
+                        trailing_ellipsis = true;
+                    }
+                }
+                args = r;
+            }
+
+            let Some(r) = args.strip_prefix('_') else {
+                return Err(DemangleError::MissingReturnTypeForFunctionPointer(args));
+            };
+            args = r;
+
+            let (r, DemangledArg::Plain(ret)) = demangle_argument(args, namespace, &subargs)?
+            else {
+                return Err(DemangleError::InvalidReturnTypeForFunctionPointer(args));
+            };
+            args = r;
+
+            let mut argument_list = subargs.join(", ");
+            if trailing_ellipsis {
+                argument_list.push_str(",...");
+            }
+            return Ok((
+                args,
+                DemangledArg::Plain(format!(
+                    "{}{}({})({})",
+                    ret,
+                    if ret.ends_with(['*', '&']) { "" } else { " " },
+                    post.trim_matches(' '),
+                    argument_list
+                )),
+            ));
+        }
         _ => {
             return Err(DemangleError::UnknownType(c, args));
         }

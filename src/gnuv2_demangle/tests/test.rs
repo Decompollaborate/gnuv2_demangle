@@ -485,6 +485,25 @@ fn test_demangle_namespaced_globals() {
     }
 }
 
+#[test]
+fn test_demangle_function_pointers() {
+    static CASES: [(&str, &str); 5] = [
+        ("set_terminate__FPFv_v", "set_terminate(void (*)(void))"),
+        (
+            "set_unexpected__FPFv_v",
+            "set_unexpected(void (*)(void))",
+        ),
+        ("pointerness__FPFiGt9Something1x42_t9Something1x39iPFiRt9Something1x42_RCt9Something1x39", "pointerness(Something<39> (*)(int, Something<42>), int, Something<39> const &(*)(int, Something<42> &))"),
+        ("pointerness__FPFiGt9Something1x42_t9Something1x39iPFiRt9Something1x42_RCt9Something1x39RFPCce_RQ55First6Second5Third6Fourth1A", "pointerness(Something<39> (*)(int, Something<42>), int, Something<39> const &(*)(int, Something<42> &), First::Second::Third::Fourth::A &(&)(char const *,...))"),
+        ("InstallShader__14pddiBaseShaderPCcPFP17pddiRenderContextPCcPCc_P14pddiBaseShaderT1", "pddiBaseShader::InstallShader(char const *, pddiBaseShader *(*)(pddiRenderContext *, char const *, char const *), char const *)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {
