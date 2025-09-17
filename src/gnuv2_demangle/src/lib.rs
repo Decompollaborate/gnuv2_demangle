@@ -51,6 +51,8 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
         demangle_namespaced_function(config, func_name, s)
     } else if let Some(sym) = sym.strip_prefix("_vt") {
         demangle_virtual_table(config, sym)
+    } else if let Some((s, name)) = str_split_2(sym, "$") {
+        demangle_namespaced_global(config, s, name)
     } else {
         Err(DemangleError::NotMangled)
     }
@@ -414,6 +416,36 @@ fn demangle_virtual_table<'s>(
     }
 
     Ok(format!("{} virtual table", stuff.join("::")))
+}
+
+fn demangle_namespaced_global<'s>(
+    _config: &DemangleConfig,
+    s: &'s str,
+    name: &'s str,
+) -> Result<String, DemangleError<'s>> {
+    let Some(remaining) = s.strip_prefix('_') else {
+        return Err(DemangleError::InvalidNamespacedGlobal(s, name));
+    };
+
+    let (r, space) = if let Some(r) = remaining.strip_prefix('t') {
+        let (r, template, _typ) = demangle_template(r)?;
+
+        (r, template)
+    } else if let Some(r) = remaining.strip_prefix('Q') {
+        let (r, namespaces, _trailing_namespace) = demangle_namespaces(r)?;
+
+        (r, namespaces)
+    } else {
+        let (r, class_name) = demangle_custom_name(remaining)?;
+
+        (r, class_name.to_string())
+    };
+
+    if !r.is_empty() {
+        return Err(DemangleError::TrailingDataOnNamespacedGlobal(r));
+    }
+
+    Ok(format!("{space}::{name}"))
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]

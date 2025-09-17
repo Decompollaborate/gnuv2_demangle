@@ -4,6 +4,7 @@
 use core::{error, fmt};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[non_exhaustive]
 pub enum DemangleError<'s> {
     NonAscii,
     NotMangled,
@@ -32,6 +33,8 @@ pub enum DemangleError<'s> {
     InvalidTemplatedCharacterValue(&'s str, usize),
     InvalidTemplatedBoolean(&'s str),
     VTableMissingDollarSeparator(&'s str),
+    InvalidNamespacedGlobal(&'s str, &'s str),
+    TrailingDataOnNamespacedGlobal(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {

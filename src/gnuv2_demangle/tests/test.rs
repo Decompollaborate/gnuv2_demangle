@@ -465,6 +465,26 @@ fn test_demangle_vtable() {
     }
 }
 
+#[test]
+fn test_demangle_namespaced_globals() {
+    static CASES: [(&str, &str); 3] = [
+        ("_9TrafficAI$LOOKAHEAD_MIN", "TrafficAI::LOOKAHEAD_MIN"),
+        (
+            "_Q45First6Second5Third6Fourth$global",
+            "First::Second::Third::Fourth::global",
+        ),
+        (
+            "_Q75First6Second5Third6Fourth1A1B1C$funny",
+            "First::Second::Third::Fourth::A::B::C::funny",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {
