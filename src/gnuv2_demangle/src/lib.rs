@@ -49,6 +49,8 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
         demangle_method(config, method_name, class_and_args)
     } else if let Some((func_name, s)) = str_split_2(sym, "__Q") {
         demangle_namespaced_function(config, func_name, s)
+    } else if let Some(sym) = sym.strip_prefix("_vt") {
+        demangle_virtual_table(config, sym)
     } else {
         Err(DemangleError::NotMangled)
     }
@@ -379,6 +381,39 @@ fn demangle_type_info_node<'s>(
     } else {
         Err(DemangleError::InvalidTypeOnTypeInfoNode(s))
     }
+}
+
+fn demangle_virtual_table<'s>(
+    _config: &DemangleConfig,
+    s: &'s str,
+) -> Result<String, DemangleError<'s>> {
+    let mut remaining = s;
+    let mut stuff = Vec::new();
+
+    while !remaining.is_empty() {
+        remaining = remaining
+            .strip_prefix('$')
+            .ok_or(DemangleError::VTableMissingDollarSeparator(remaining))?;
+
+        remaining = if let Some(r) = remaining.strip_prefix('t') {
+            let (r, template, _typ) = demangle_template(r)?;
+
+            stuff.push(template);
+            r
+        } else if let Some(r) = remaining.strip_prefix('Q') {
+            let (r, namespaces, _trailing_namespace) = demangle_namespaces(r)?;
+
+            stuff.push(namespaces);
+            r
+        } else {
+            let (r, class_name) = demangle_custom_name(remaining)?;
+
+            stuff.push(class_name.to_string());
+            r
+        };
+    }
+
+    Ok(format!("{} virtual table", stuff.join("::")))
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]

@@ -31,6 +31,7 @@ pub enum DemangleError<'s> {
     InvalidTemplatedNumberForCharacterValue(&'s str),
     InvalidTemplatedCharacterValue(&'s str, usize),
     InvalidTemplatedBoolean(&'s str),
+    VTableMissingDollarSeparator(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {
