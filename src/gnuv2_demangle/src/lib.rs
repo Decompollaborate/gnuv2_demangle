@@ -17,12 +17,26 @@ pub use demangle_error::DemangleError;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
-pub struct DemangleConfig {}
+pub struct DemangleConfig {
+    /// Recreate a c++filt bug where it won't emit the 
+    /// "global constructors keyed to " prefix for a namespaced function.
+    pub preserve_namespaced_global_constructor_bug: bool,
+}
 
 impl DemangleConfig {
+    /// The default config mimics the default (rather questionable) c++filt's
+    /// behavior, including what may be considered c++filt bugs.
     pub fn new() -> Self {
-        // The default config should mimic c++filt's behavior.
-        Self {}
+        Self {
+            preserve_namespaced_global_constructor_bug: true,
+        }
+    }
+
+    /// Avoid using any option that mimics c++filt faults.
+    pub fn new_no_cfilt_mimics() -> Self {
+        Self {
+            preserve_namespaced_global_constructor_bug: false,
+        }
     }
 }
 
@@ -33,6 +47,10 @@ impl Default for DemangleConfig {
 }
 
 pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, DemangleError<'s>> {
+    demangle_impl(sym, config, true)
+}
+
+fn demangle_impl<'s>(sym: &'s str, config: &DemangleConfig, allow_global_sym_keyed: bool) -> Result<String, DemangleError<'s>> {
     if !sym.is_ascii() {
         return Err(DemangleError::NonAscii);
     }
@@ -41,6 +59,12 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
         demangle_destructor(config, s)
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s, sym)
+    } else if let Some(s) = sym.strip_prefix("_GLOBAL_$") {
+        if allow_global_sym_keyed {
+            demangle_global_sym_keyed(config, s)
+        } else {
+            Err(DemangleError::NotMangled)
+        }
     } else if let Some((func_name, args)) = str_split_2(sym, "__F") {
         demangle_free_function(config, func_name, args)
     } else if let Some((method_name, class_and_args)) =
@@ -446,6 +470,30 @@ fn demangle_namespaced_global<'s>(
     }
 
     Ok(format!("{space}::{name}"))
+}
+
+fn demangle_global_sym_keyed<'s>(
+    config: &DemangleConfig,
+    s: &'s str,
+) -> Result<String, DemangleError<'s>> {
+    let (remaining, which, is_constructor) = if let Some(r) = s.strip_prefix("I$") {
+        (r, "constructors", true)
+    } else if let Some(r) = s.strip_prefix("D$") {
+        (r, "destructors", false)
+    } else {
+        return Err(DemangleError::InvalidGlobalSymKeyed(s));
+    };
+
+    let demangled_sym = demangle_impl(remaining, config, false);
+    if config.preserve_namespaced_global_constructor_bug && is_constructor && remaining.starts_with("__Q") {
+        // !HACK(c++filt): Seems like c++filt has a bug where it won't output
+        // !the "global constructors keyed to " prefix for namespaced functions
+        return demangled_sym;
+    }
+
+    let actual_sym = demangled_sym.unwrap_or_else(|_| remaining.to_string());
+
+    Ok(format!("global {which} keyed to {actual_sym}"))
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]

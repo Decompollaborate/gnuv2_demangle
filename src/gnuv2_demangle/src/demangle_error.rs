@@ -37,6 +37,7 @@ pub enum DemangleError<'s> {
     TrailingDataOnNamespacedGlobal(&'s str),
     MissingReturnTypeForFunctionPointer(&'s str),
     InvalidReturnTypeForFunctionPointer(&'s str),
+    InvalidGlobalSymKeyed(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {

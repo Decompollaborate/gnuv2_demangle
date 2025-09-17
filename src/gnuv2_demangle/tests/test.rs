@@ -504,6 +504,50 @@ fn test_demangle_function_pointers() {
     }
 }
 
+#[test]
+fn test_demangle_global_sym_keyed() {
+    static CASES: [(&str, &str); 14] = [
+        ("_GLOBAL_$I$_13BootupContext$spInstance", "global constructors keyed to BootupContext::spInstance"),
+        ("_GLOBAL_$I$_12ActorManager$ActorRemovalRangeSqr", "global constructors keyed to ActorManager::ActorRemovalRangeSqr"),
+        ("_GLOBAL_$D$_12ActorManager$ActorRemovalRangeSqr", "global destructors keyed to ActorManager::ActorRemovalRangeSqr"),
+        ("_GLOBAL_$D$_6Action$sMemoryPool", "global destructors keyed to Action::sMemoryPool"),
+        ("_GLOBAL_$I$__9FMVPlayer", "global constructors keyed to FMVPlayer::FMVPlayer(void)"),
+        ("_GLOBAL_$I$__7ChaseAIP7Vehiclef", "global constructors keyed to ChaseAI::ChaseAI(Vehicle *, float)"),
+        ("_GLOBAL_$D$__Q212ActionButton29AnimCollisionEntityDSGWrapper", "global destructors keyed to ActionButton::AnimCollisionEntityDSGWrapper::AnimCollisionEntityDSGWrapper(void)"),
+        ("_GLOBAL_$I$GetContext__10ps2Context", "global constructors keyed to ps2Context::GetContext(void)"),
+        ("_GLOBAL_$I$_t14radLinkedClass1ZQ25Sound17daSoundPlayerBase$s_pLinkedClassHead", "global constructors keyed to radLinkedClass<Sound::daSoundPlayerBase>::s_pLinkedClassHead"),
+        ("_GLOBAL_$D$_t14radLinkedClass1ZQ25Sound17daSoundPlayerBase$s_pLinkedClassHead", "global destructors keyed to radLinkedClass<Sound::daSoundPlayerBase>::s_pLinkedClassHead"),
+        ("_GLOBAL_$I$malloc_uncached__Fi", "global constructors keyed to malloc_uncached(int)"),
+        ("_GLOBAL_$D$malloc_uncached__Fi", "global destructors keyed to malloc_uncached(int)"),
+        ("_GLOBAL_$I$gErrFileName", "global constructors keyed to gErrFileName"),
+        ("_GLOBAL_$D$gErrFileName", "global destructors keyed to gErrFileName"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_global_sym_keyed_weird_cases() {
+    static CASES: [(&str, &str, &str); 2] = [
+        ("_GLOBAL_$I$__Q212ActionButton29AnimCollisionEntityDSGWrapper", "ActionButton::AnimCollisionEntityDSGWrapper::AnimCollisionEntityDSGWrapper(void)", "global constructors keyed to ActionButton::AnimCollisionEntityDSGWrapper::AnimCollisionEntityDSGWrapper(void)"),
+        ("_GLOBAL_$I$__Q210Scenegraph10Scenegraph", "Scenegraph::Scenegraph::Scenegraph(void)", "global constructors keyed to Scenegraph::Scenegraph::Scenegraph(void)"),
+    ];
+    let mut config = DemangleConfig::new();
+
+    config.preserve_namespaced_global_constructor_bug = true;
+    for (mangled, demangled, _) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+
+    config.preserve_namespaced_global_constructor_bug = false;
+    for (mangled, _, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {
@@ -517,5 +561,3 @@ fn test_demangle_single() {
     }
 }
 */
-
-// TODO: does templated global objects exist?
