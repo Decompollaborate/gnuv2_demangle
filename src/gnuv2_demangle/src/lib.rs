@@ -180,7 +180,7 @@ fn demangle_special<'s>(
         // class constructor
         let (s, class_name) = demangle_custom_name(s)?;
 
-        (s, Some(class_name), Cow::from(class_name), "")
+        (s, Some(Cow::from(class_name)), Cow::from(class_name), "")
     } else if let Some(s) = s.strip_prefix("tf") {
         return demangle_type_info_function(config, s);
     } else if let Some(s) = s.strip_prefix("ti") {
@@ -188,26 +188,16 @@ fn demangle_special<'s>(
     } else if let Some(s) = s.strip_prefix('t') {
         let (remaining, template, typ) = demangle_template(config, s)?;
 
-        let argument_list = if remaining.is_empty() {
-            "void"
-        } else {
-            &demangle_argument_list(config, remaining, Some(&template))?
-        };
-
-        let out = format!("{template}::{typ}({argument_list})");
-        return Ok(out);
+        (remaining, Some(Cow::from(template)), Cow::from(typ), "")
     } else if let Some(q_less) = s.strip_prefix('Q') {
-        // This block is silly, it may be worth to refactor it
         let (remaining, namespaces, trailing_namespace) = demangle_namespaces(config, q_less)?;
 
-        let argument_list = if remaining.is_empty() {
-            "void"
-        } else {
-            &demangle_argument_list(config, remaining, Some(&namespaces))?
-        };
-
-        let out = format!("{namespaces}::{trailing_namespace}({argument_list})");
-        return Ok(out);
+        (
+            remaining,
+            Some(Cow::from(namespaces)),
+            Cow::from(trailing_namespace),
+            "",
+        )
     } else {
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
         let op = &s[..end_index];
@@ -261,30 +251,25 @@ fn demangle_special<'s>(
         } else {
             let (s, suffix) = demangle_method_qualifier(s);
 
-            if let Some(q_less) = s.strip_prefix('Q') {
+            let (remaining, namespaces) = if let Some(q_less) = s.strip_prefix('Q') {
                 let (remaining, namespaces, _trailing_namespace) =
                     demangle_namespaces(config, q_less)?;
 
-                let argument_list = if remaining.is_empty() {
-                    "void"
-                } else {
-                    &demangle_argument_list(config, remaining, Some(&namespaces))?
-                };
-
-                let out = format!("{namespaces}::{method_name}({argument_list}){suffix}");
-                return Ok(out);
+                (remaining, Cow::from(namespaces))
             } else {
-                let (s, class_name) = demangle_custom_name(s)?;
+                let (remaining, class_name) = demangle_custom_name(s)?;
 
-                (s, Some(class_name), method_name, suffix)
-            }
+                (remaining, Cow::from(class_name))
+            };
+
+            (remaining, Some(namespaces), method_name, suffix)
         }
     };
 
     let argument_list = if s.is_empty() {
         "void"
     } else {
-        &demangle_argument_list(config, s, class_name)?
+        &demangle_argument_list(config, s, class_name.as_deref())?
     };
 
     let out = if let Some(class_name) = class_name {
