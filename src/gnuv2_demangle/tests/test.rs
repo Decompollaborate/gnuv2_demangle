@@ -105,7 +105,7 @@ fn test_demangle_methods() {
 
 #[test]
 fn test_demangle_operators() {
-    static CASES: [(&str, &str); 3] = [
+    static CASES: [(&str, &str); 16] = [
         (
             "__eq__C5tNameRC5tName",
             "tName::operator==(tName const &) const",
@@ -115,6 +115,50 @@ fn test_demangle_operators() {
             "tName::operator!=(tName const &) const",
         ),
         ("__as__5tNameRC5tName", "tName::operator=(tName const &)"),
+        (
+            "__ad__C13tUidUnalignedG13tUidUnaligned",
+            "tUidUnaligned::operator&(tUidUnaligned) const",
+        ),
+        (
+            "__aml__13tUidUnalignedUl",
+            "tUidUnaligned::operator*=(unsigned long)",
+        ),
+        (
+            "__apl__13PascalCStringRC13PascalCString",
+            "PascalCString::operator+=(PascalCString const &)",
+        ),
+        (
+            "__er__C13tUidUnalignedG13tUidUnaligned",
+            "tUidUnaligned::operator^(tUidUnaligned) const",
+        ),
+        ("__ls__7ostreamc", "ostream::operator<<(char)"),
+        (
+            "__ls__7ostreamP9streambuf",
+            "ostream::operator<<(streambuf *)",
+        ),
+        (
+            "__lt__C13tUidUnalignedG13tUidUnaligned",
+            "tUidUnaligned::operator<(tUidUnaligned) const",
+        ),
+        ("__nt__C3ios", "ios::operator!(void) const"),
+        (
+            "__rs__C13tUidUnalignedi",
+            "tUidUnaligned::operator>>(int) const",
+        ),
+        (
+            "__rs__C13tUidUnalignedi",
+            "tUidUnaligned::operator>>(int) const",
+        ),
+        (
+            "__vc__C13UnicodeStringi",
+            "UnicodeString::operator[](int) const",
+        ),
+        // ("__vc__t4List1Z15tSpriteParticles", "List<tSpriteParticle>::operator[](short)"),
+        (
+            "__opPc__13PascalCString",
+            "PascalCString::operator char *(void)",
+        ),
+        ("__opPv__C3ios", "ios::operator void *(void) const"),
     ];
     let config = DemangleConfig::new();
 

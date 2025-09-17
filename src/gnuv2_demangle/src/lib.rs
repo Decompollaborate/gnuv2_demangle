@@ -3,13 +3,14 @@
 
 /*
 #![no_std]
+*/
 
 extern crate alloc;
 
-use alloc::string::String;
-*/
-
 use core::num::NonZeroUsize;
+
+use alloc::borrow::Cow;
+use alloc::string::String;
 
 mod demangle_error;
 
@@ -179,7 +180,7 @@ fn demangle_special<'s>(
         // class constructor
         let (s, class_name) = demangle_custom_name(s)?;
 
-        (s, Some(class_name), class_name, "")
+        (s, Some(class_name), Cow::from(class_name), "")
     } else if let Some(s) = s.strip_prefix("tf") {
         return demangle_type_info_function(config, s);
     } else if let Some(s) = s.strip_prefix("ti") {
@@ -214,22 +215,44 @@ fn demangle_special<'s>(
         let s = &s[end_index + 2..];
 
         let method_name = match op {
-            "nw" => "operator new",
-            "dl" => "operator delete",
-            "vn" => "operator new []",
-            "eq" => "operator==",
-            "ne" => "operator!=",
-            "as" => "operator=",
+            "nw" => Cow::from("operator new"),
+            "dl" => Cow::from("operator delete"),
+            "vn" => Cow::from("operator new []"),
+            "eq" => Cow::from("operator=="),
+            "ne" => Cow::from("operator!="),
+            "as" => Cow::from("operator="),
+            "vc" => Cow::from("operator[]"),
+            "ad" => Cow::from("operator&"),
+            "nt" => Cow::from("operator!"),
+            "ls" => Cow::from("operator<<"),
+            "rs" => Cow::from("operator>>"),
+            "er" => Cow::from("operator^"),
+            "lt" => Cow::from("operator<"),
+            "aml" => Cow::from("operator*="),
+            "apl" => Cow::from("operator+="),
             _ => {
-                return {
-                    // This may be a plain function that got confused with a
-                    // special symbol, so try to decode as a function instead.
-                    if let Some((func_name, args)) = str_split_2(full_sym, "__F") {
-                        demangle_free_function(config, func_name, args)
-                    } else {
-                        Err(DemangleError::UnrecognizedSpecialMethod(op))
+                if let Some(cast) = op.strip_prefix("op") {
+                    let (remaining, DemangledArg::Plain(typ)) =
+                        demangle_argument(config, cast, None, &[])?
+                    else {
+                        return Err(DemangleError::UnrecognizedSpecialMethod(op));
+                    };
+                    if !remaining.is_empty() {
+                        return Err(DemangleError::MalformedCastOperatorOverload(remaining));
                     }
-                };
+
+                    Cow::from(format!("operator {typ}"))
+                } else {
+                    return {
+                        // This may be a plain function that got confused with a
+                        // special symbol, so try to decode as a function instead.
+                        if let Some((func_name, args)) = str_split_2(full_sym, "__F") {
+                            demangle_free_function(config, func_name, args)
+                        } else {
+                            Err(DemangleError::UnrecognizedSpecialMethod(op))
+                        }
+                    };
+                }
             }
         };
 

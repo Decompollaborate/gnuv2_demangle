@@ -40,6 +40,7 @@ pub enum DemangleError<'s> {
     InvalidGlobalSymKeyed(&'s str),
     InvalidArraySize(&'s str),
     MalformedArrayArgumment(&'s str),
+    MalformedCastOperatorOverload(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {
