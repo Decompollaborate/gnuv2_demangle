@@ -75,3 +75,15 @@ at your option.
 Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in the work by you, as defined in the Apache-2.0 license, shall
 be dual licensed as above, without any additional terms or conditions.
+
+## Versioning and changelog
+
+This library follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+We try to always keep backwards compatibility, so no breaking changes should
+happen until a major release (i.e. jumping from 1.X.X to 2.0.0).
+
+To see what changed on each release visit either the
+[CHANGELOG.md](https://github.com/Decompollaborate/gnuv2_demangle/blob/main/CHANGELOG.md)
+file or check the [releases page on Github](https://github.com/Decompollaborate/gnuv2_demangle/releases).
+You can also use [this link](https://github.com/Decompollaborate/gnuv2_demangle/releases/latest)
+to check the latest release.
