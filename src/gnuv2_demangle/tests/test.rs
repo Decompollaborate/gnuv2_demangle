@@ -672,6 +672,20 @@ fn test_more_templated_func_cases() {
     }
 }
 
+#[test]
+fn test_demangle_operator_on_templated() {
+    static CASES: [(&str, &str); 3] = [
+        ("__as__t10MapElement2Z13tUidUnalignedZP5tPoseRCt10MapElement2Z13tUidUnalignedZP5tPose", "MapElement<tUidUnaligned, tPose *>::operator=(MapElement<tUidUnaligned, tPose *> const &)"),
+        ("__as__t10MapElement2Z13tUidUnalignedZ13tUidUnalignedRCt10MapElement2Z13tUidUnalignedZ13tUidUnaligned", "MapElement<tUidUnaligned, tUidUnaligned>::operator=(MapElement<tUidUnaligned, tUidUnaligned> const &)"),
+        ("__vc__t4List1Z15tSpriteParticles", "List<tSpriteParticle>::operator[](short)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {

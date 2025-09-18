@@ -275,6 +275,10 @@ fn demangle_special<'s>(
                     demangle_namespaces(config, q_less, &[])?;
 
                 (remaining, Cow::from(namespaces))
+            } else if let Some(r) = remaining.strip_prefix('t') {
+                let (remaining, template, _typ) = demangle_template(config, r, &[])?;
+
+                (remaining, Cow::from(template))
             } else {
                 let (remaining, class_name) = demangle_custom_name(remaining)?;
 
