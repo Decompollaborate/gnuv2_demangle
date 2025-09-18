@@ -18,7 +18,7 @@ readme = "README.md"
 # cargo install cargo-msrv --locked --force
 # cargo msrv find -- cargo check -p gnuv2_demangle
 # ```
-# rust-version.workspace = true
+rust-version = "1.81"
 
 [lib]
 path = "src/lib.rs"

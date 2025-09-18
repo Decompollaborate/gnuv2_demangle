@@ -18,7 +18,7 @@ categories = ["command-line-utilities"]
 # cargo install cargo-msrv --locked --force
 # cargo msrv find -- cargo check -p g2dem
 # ```
-# rust-version.workspace = true
+rust-version = "1.81"
 
 [[bin]]
 name = "g2dem"
