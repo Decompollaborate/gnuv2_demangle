@@ -31,6 +31,58 @@ pub struct DemangleConfig {
     /// This setting adds 1 to the length, making the demangled symbol match
     /// more accurately the real symbol.
     pub fix_array_length_arg: bool,
+
+    /// Recognize and demangle symbols prefixed by `_GLOBAL_$F$`.
+    ///
+    /// c++filt does not recognizes this prefix, so it tries to demangle it as
+    /// other mangled kinds, like functions, methods, etc.
+    ///
+    /// When turned on, the symbol gets demangled the same way `_GLOBAL_$I$`
+    /// and `_GLOBAL_$D$` are demangled, but the word "frames" is used instead
+    /// of "constructors" or "destructors". This name is made-up based on some
+    /// usages from projects that have this symbol present.
+    ///
+    /// # Examples
+    ///
+    /// Turning off this setting (mimicking c++filt behavior):
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.demangle_global_keyed_frames = false;
+    ///
+    /// let demangled = demangle("_GLOBAL_$F$__7istreamiP9streambufP7ostream", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("istream::_GLOBAL_$F$(int, streambuf *, ostream *)")
+    /// );
+    /// let demangled = demangle("_GLOBAL_$F$__default_terminate", &config);
+    /// assert!(
+    ///     demangled.is_err()
+    /// );
+    /// ```
+    ///
+    /// The setting turned on:
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.demangle_global_keyed_frames = true;
+    ///
+    /// let demangled = demangle("_GLOBAL_$F$__7istreamiP9streambufP7ostream", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("global frames keyed to istream::istream(int, streambuf *, ostream *)")
+    /// );
+    /// let demangled = demangle("_GLOBAL_$F$__default_terminate", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("global frames keyed to __default_terminate")
+    /// );
+    /// ```
+    pub demangle_global_keyed_frames: bool,
 }
 
 impl DemangleConfig {
@@ -40,6 +92,7 @@ impl DemangleConfig {
         Self {
             preserve_namespaced_global_constructor_bug: true,
             fix_array_length_arg: false,
+            demangle_global_keyed_frames: false,
         }
     }
 
@@ -48,6 +101,7 @@ impl DemangleConfig {
         Self {
             preserve_namespaced_global_constructor_bug: false,
             fix_array_length_arg: true,
+            demangle_global_keyed_frames: true,
         }
     }
 }
@@ -59,6 +113,10 @@ impl Default for DemangleConfig {
 }
 
 pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, DemangleError<'s>> {
+    if !sym.is_ascii() {
+        return Err(DemangleError::NonAscii);
+    }
+
     demangle_impl(sym, config, true)
 }
 
@@ -67,20 +125,12 @@ fn demangle_impl<'s>(
     config: &DemangleConfig,
     allow_global_sym_keyed: bool,
 ) -> Result<String, DemangleError<'s>> {
-    if !sym.is_ascii() {
-        return Err(DemangleError::NonAscii);
-    }
-
     if let Some(s) = sym.strip_prefix("_$_") {
         demangle_destructor(config, s)
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s, sym)
-    } else if let Some(s) = sym.strip_prefix("_GLOBAL_$") {
-        if allow_global_sym_keyed {
-            demangle_global_sym_keyed(config, s)
-        } else {
-            Err(DemangleError::NotMangled)
-        }
+    } else if let Some(s) = str_strip_global_keyed(sym, allow_global_sym_keyed) {
+        demangle_global_sym_keyed(config, s, sym)
     } else if let Some((func_name, args)) = str_split_2(sym, "__F") {
         demangle_free_function(config, func_name, args)
     } else if let Some((method_name, class_and_args)) =
@@ -130,6 +180,14 @@ where
         } else {
             None
         }
+    } else {
+        None
+    }
+}
+
+fn str_strip_global_keyed(s: &str, allow_global_sym_keyed: bool) -> Option<&str> {
+    if allow_global_sym_keyed {
+        s.strip_prefix("_GLOBAL_$")
     } else {
         None
     }
@@ -577,11 +635,20 @@ fn demangle_namespaced_global<'s>(
 fn demangle_global_sym_keyed<'s>(
     config: &DemangleConfig,
     s: &'s str,
+    full_sym: &'s str,
 ) -> Result<String, DemangleError<'s>> {
     let (remaining, which, is_constructor) = if let Some(r) = s.strip_prefix("I$") {
         (r, "constructors", true)
     } else if let Some(r) = s.strip_prefix("D$") {
         (r, "destructors", false)
+    } else if let Some(r) = s.strip_prefix("F$") {
+        if config.demangle_global_keyed_frames {
+            (r, "frames", false)
+        } else {
+            // !HACK(c++filt): c++filt does not recognize `_GLOBAL_$F$`, so it
+            // !tries to demangle it as anything else.
+            return demangle_impl(full_sym, config, false);
+        }
     } else {
         return Err(DemangleError::InvalidGlobalSymKeyed(s));
     };

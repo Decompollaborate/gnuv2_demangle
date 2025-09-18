@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use gnuv2_demangle::{demangle, DemangleConfig};
+use gnuv2_demangle::{demangle, DemangleConfig, DemangleError};
 
 use pretty_assertions::assert_eq;
 
@@ -592,6 +592,133 @@ fn test_demangle_global_sym_keyed_weird_cases() {
 
     config.preserve_namespaced_global_constructor_bug = false;
     for (mangled, _, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_global_sym_keyed_frame_cfilt() {
+    static CASES: [(&str, Result<&str, DemangleError<'_>>); 14] = [
+        (
+            "_GLOBAL_$F$__7istreamiP9streambufP7ostream",
+            Ok("istream::_GLOBAL_$F$(int, streambuf *, ostream *)"),
+        ),
+        (
+            "_GLOBAL_$F$getline__7istreamPcic",
+            Ok("istream::_GLOBAL_$F$getline(char *, int, char)"),
+        ),
+        (
+            "_GLOBAL_$F$scan__7istreamPCce",
+            Ok("istream::_GLOBAL_$F$scan(char const *,...)"),
+        ),
+        (
+            "_GLOBAL_$F$vscan__9streambufPCcPcP3ios",
+            Ok("streambuf::_GLOBAL_$F$vscan(char const *, char *, ios *)"),
+        ),
+        (
+            "_GLOBAL_$F$cout",
+            Err(DemangleError::InvalidCustomNameCount("GLOBAL_")),
+        ),
+        (
+            "_GLOBAL_$F$_un_link__9streambuf",
+            Ok("streambuf::_GLOBAL_$F$_un_link(void)"),
+        ),
+        (
+            "_GLOBAL_$F$init__7filebuf",
+            Ok("filebuf::_GLOBAL_$F$init(void)"),
+        ),
+        (
+            "_GLOBAL_$F$__as__22_IO_istream_withassignR7istream",
+            Err(DemangleError::InvalidCustomNameCount("GLOBAL_")),
+        ),
+        (
+            "_GLOBAL_$F$_IO_stdin_",
+            Err(DemangleError::InvalidCustomNameCount("GLOBAL_")),
+        ),
+        (
+            "_GLOBAL_$F$__8stdiobufP7__sFILE",
+            Ok("stdiobuf::_GLOBAL_$F$(__sFILE *)"),
+        ),
+        (
+            "_GLOBAL_$F$__default_terminate",
+            Err(DemangleError::InvalidCustomNameCount("GLOBAL_")),
+        ),
+        ("_GLOBAL_$F$terminate__Fv", Ok("_GLOBAL_$F$terminate(void)")),
+        (
+            "_GLOBAL_$F$_$_9type_info",
+            Err(DemangleError::InvalidCustomNameCount("GLOBAL_")),
+        ),
+        (
+            "_GLOBAL_$F$before__C9type_infoRC9type_info",
+            Ok("type_info::_GLOBAL_$F$before(type_info const &) const"),
+        ),
+    ];
+    let mut config = DemangleConfig::new();
+    config.demangle_global_keyed_frames = false;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), demangled.as_deref());
+    }
+}
+
+#[test]
+fn test_demangle_global_sym_keyed_frame_nocfilt() {
+    static CASES: [(&str, &str); 14] = [
+        (
+            "_GLOBAL_$F$__7istreamiP9streambufP7ostream",
+            "global frames keyed to istream::istream(int, streambuf *, ostream *)",
+        ),
+        (
+            "_GLOBAL_$F$getline__7istreamPcic",
+            "global frames keyed to istream::getline(char *, int, char)",
+        ),
+        (
+            "_GLOBAL_$F$scan__7istreamPCce",
+            "global frames keyed to istream::scan(char const *,...)",
+        ),
+        (
+            "_GLOBAL_$F$vscan__9streambufPCcPcP3ios",
+            "global frames keyed to streambuf::vscan(char const *, char *, ios *)",
+        ),
+        ("_GLOBAL_$F$cout", "global frames keyed to cout"),
+        (
+            "_GLOBAL_$F$_un_link__9streambuf",
+            "global frames keyed to streambuf::_un_link(void)",
+        ),
+        (
+            "_GLOBAL_$F$init__7filebuf",
+            "global frames keyed to filebuf::init(void)",
+        ),
+        (
+            "_GLOBAL_$F$__as__22_IO_istream_withassignR7istream",
+            "global frames keyed to _IO_istream_withassign::operator=(istream &)",
+        ),
+        ("_GLOBAL_$F$_IO_stdin_", "global frames keyed to _IO_stdin_"),
+        (
+            "_GLOBAL_$F$__8stdiobufP7__sFILE",
+            "global frames keyed to stdiobuf::stdiobuf(__sFILE *)",
+        ),
+        (
+            "_GLOBAL_$F$__default_terminate",
+            "global frames keyed to __default_terminate",
+        ),
+        (
+            "_GLOBAL_$F$terminate__Fv",
+            "global frames keyed to terminate(void)",
+        ),
+        (
+            "_GLOBAL_$F$_$_9type_info",
+            "global frames keyed to type_info::~type_info(void)",
+        ),
+        (
+            "_GLOBAL_$F$before__C9type_infoRC9type_info",
+            "global frames keyed to type_info::before(type_info const &) const",
+        ),
+    ];
+    let mut config = DemangleConfig::new();
+    config.demangle_global_keyed_frames = true;
+
+    for (mangled, demangled) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
