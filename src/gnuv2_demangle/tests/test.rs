@@ -643,6 +643,22 @@ fn test_demangle_template_with_return_type() {
     }
 }
 
+#[test]
+fn test_avoid_duplicated_template_args_on_constr_destr() {
+    static CASES: [(&str, &str); 5] = [
+        ("__Q216radLoadInventoryt8SafeCast1Z22AnimCollisionEntityDSG", "radLoadInventory::SafeCast<AnimCollisionEntityDSG>::SafeCast(void)"),
+        ("__Q216radLoadInventoryt8SafeCast1ZQ23sim13PhysicsObject", "radLoadInventory::SafeCast<sim::PhysicsObject>::SafeCast(void)"),
+        ("__Q26choreot13BlendPriority1ZQ25poser9Transform", "choreo::BlendPriority<poser::Transform>::BlendPriority(void)"),
+        ("_$_Q23simt5TList1ZPQ23sim15CollisionObject", "sim::TList<sim::CollisionObject *>::~TList(void)"),
+        ("__Q23odst13pointer_templ1ZQ23ods6_groupRCQ23odst13pointer_templ1ZQ23ods6_group", "ods::pointer_templ<ods::_group>::pointer_templ(ods::pointer_templ<ods::_group> const &)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {

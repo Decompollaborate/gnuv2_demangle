@@ -869,7 +869,7 @@ fn demangle_namespaces<'s>(
     config: &DemangleConfig,
     s: &'s str,
     template_args: &[String],
-) -> Result<(&'s str, String, String), DemangleError<'s>> {
+) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let (remaining, namespace_count) = if let Some(r) = s.strip_prefix('_') {
         // More than a single digit of namespaces
         parse_number(r).and_then(|(r, l)| r.strip_prefix('_').map(|new_r| (new_r, l)))
@@ -888,30 +888,30 @@ fn demangle_namespaces_impl<'s>(
     s: &'s str,
     namespace_count: NonZeroUsize,
     template_args: &[String],
-) -> Result<(&'s str, String, String), DemangleError<'s>> {
+) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let mut namespaces = String::new();
     let mut remaining = s;
-    let mut trailing_namespace = "".to_string();
+    let mut trailing_type = "";
 
     for _ in 0..namespace_count.get() {
         if !namespaces.is_empty() {
             namespaces.push_str("::");
         }
 
-        let r = if let Some(temp) = remaining.strip_prefix('t') {
-            let (r, template, _typ) = demangle_template(config, temp, template_args)?;
-            trailing_namespace = template;
-            r
+        let (r, n) = if let Some(temp) = remaining.strip_prefix('t') {
+            let (r, template, typ) = demangle_template(config, temp, template_args)?;
+            trailing_type = typ;
+            (r, Cow::from(template))
         } else {
             let (r, ns) = demangle_custom_name(remaining)?;
-            trailing_namespace = ns.to_string();
-            r
+            trailing_type = ns;
+            (r, Cow::from(ns))
         };
         remaining = r;
-        namespaces.push_str(&trailing_namespace);
+        namespaces.push_str(&n);
     }
 
-    Ok((remaining, namespaces, trailing_namespace))
+    Ok((remaining, namespaces, trailing_type))
 }
 
 fn demangle_template<'s>(
