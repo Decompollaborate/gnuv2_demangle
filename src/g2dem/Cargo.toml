@@ -8,10 +8,17 @@ edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
-# description = ""
+description = "`c++filt` clone cli tool for GNU V2 mangled symbols"
 readme = "README.md"
-# keywords = []
-categories = ["command-line-utilities"]
+keywords = [
+    "demangle",
+    "demangler",
+    "GNU",
+    "V2",
+]
+categories = [
+    "command-line-utilities",
+]
 
 # Use https://github.com/foresterre/cargo-msrv to check the MSRV
 # ```
@@ -28,5 +35,6 @@ path = "src/bin.rs"
 default = []
 
 [dependencies]
+gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.1.0", features = ["std"]}
+
 argp = "0.4.0"
-gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.1.0" }

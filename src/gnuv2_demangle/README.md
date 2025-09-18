@@ -23,6 +23,8 @@ or [`cplus_demangle`](https://crates.io/crates/cplus_demangle)
 - Tries to mimic as closely as possible GNU's `c++filt`, including certain
   bugs. This behavior can be configured to avoid some inconsistencies and bugs
   from the original `c++filt` implementation.
+- Compatible with `no_std` by default.
+  - It still requires access to `alloc`.
 
 ## Installation
 

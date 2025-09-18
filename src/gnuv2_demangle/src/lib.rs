@@ -3,16 +3,18 @@
 
 #![doc = include_str!("../README.md")]
 
-/*
-#![no_std]
-*/
+#![cfg_attr(not(feature = "std"), no_std)]
 
+#[macro_use]
 extern crate alloc;
 
 use core::num::NonZeroUsize;
 
-use alloc::borrow::Cow;
-use alloc::string::String;
+use alloc::{
+    borrow::Cow,
+    string::{String, ToString},
+    vec::Vec,
+};
 
 mod demangle_error;
 

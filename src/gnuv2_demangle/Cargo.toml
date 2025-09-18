@@ -8,10 +8,19 @@ edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
-# description = ""
+description = "GNU V2 C++ symbol demangler"
 readme = "README.md"
-# keywords = []
-# categories = []
+keywords = [
+    "demangle",
+    "demangler",
+    "GNU",
+    "V2",
+]
+categories = [
+    "no-std",
+    "parser-implementations",
+    "development-tools::debugging",
+]
 
 # Use https://github.com/foresterre/cargo-msrv to check the MSRV
 # ```
