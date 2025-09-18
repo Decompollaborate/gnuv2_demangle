@@ -18,8 +18,8 @@ A GNU V2 C++ symbol demangler.
 ## Important note
 
 This crate demangles symbols for the outdated and no-longer-used V2 ABI
-mangling scheme of GNU g++. It is very unlikely this is actually the you are
-looking for, since this stuff is ancient.
+mangling scheme of GNU g++. It is very unlikely this is  actually the thing you
+are looking for, since this stuff is ancient.
 
 Only use this crate if you are sure you want to use the g++ mangling scheme
 used in gcc 2.9 and older.

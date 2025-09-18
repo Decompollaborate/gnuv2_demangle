@@ -12,11 +12,14 @@
 
 A `c++filt` clone cli tool for GNU V2 mangled symbols.
 
+Uses the [`gnuv2_demangle`](https://crates.io/crates/gnuv2_demangle) crate as
+the demangler engine.
+
 ## Important note
 
 This crate demangles symbols for the outdated and no-longer-used V2 ABI
-mangling scheme of GNU g++. It is very unlikely this is actually the you are
-looking for, since this stuff is ancient.
+mangling scheme of GNU g++. It is very unlikely this is  actually the thing you
+are looking for, since this stuff is ancient.
 
 Only use this crate if you are sure you want to use the g++ mangling scheme
 used in gcc 2.9 and older.
