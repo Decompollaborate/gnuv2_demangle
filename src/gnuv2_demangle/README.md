@@ -1,6 +1,9 @@
 # gnuv2_demangle
 
-[![Build Status]][actions] [![Latest Version]][crates.io] ![Crates.io MSRV] [![Api Rustdoc]][rustdoc]
+[![Build Status]][actions]
+[![Latest Version]][crates.io]
+![Crates.io MSRV]
+[![Api Rustdoc]][rustdoc]
 
 [Build Status]: https://img.shields.io/github/actions/workflow/status/Decompollaborate/gnuv2_demangle/build_and_publish_crate.yml
 [actions]: https://github.com/Decompollaborate/gnuv2_demangle/actions
