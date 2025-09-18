@@ -41,11 +41,27 @@ pub enum DemangleError<'s> {
     InvalidArraySize(&'s str),
     MalformedArrayArgumment(&'s str),
     MalformedCastOperatorOverload(&'s str),
+    InvalidTemplateCount(&'s str),
+    InvalidTemplateReturnCount(&'s str),
+    MalformedTemplateWithReturnType(&'s str),
+    // TODO: figure out what is X for and rename this
+    InvalidValueForIndexOnXArgument(&'s str),
+    InvalidValueForNumber1OnXArgument(&'s str),
+    InvalidNumber1OnXArgument(&'s str, usize),
+    IndexTooBigForXArgument(&'s str, usize),
+    TrailingDataAfterArgumentList(&'s str),
+    MalformedTemplateWithReturnTypeMissingReturnType(&'s str),
+    MalformedTemplateWithReturnTypeMissingMalformedReturnType(&'s str),
+    TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(&'s str),
 }
 
 impl<'s> fmt::Display for DemangleError<'s> {
-    fn fmt(&self, _f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
-        todo!()
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        // TODO
+        write!(
+            f,
+            "Sorry, I haven't implemented Display for DemangleError yet :c"
+        )
     }
 }
 

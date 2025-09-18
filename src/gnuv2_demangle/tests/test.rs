@@ -614,6 +614,35 @@ fn test_demangle_argument_array() {
     }
 }
 
+#[test]
+fn test_demangle_template_with_return_type() {
+    static CASES: [(&str, &str); 14] = [
+        ("SetState__H1ZQ211CharacterAi4Loco_11CharacterAiPQ211CharacterAi12StateManager_v", "void CharacterAi::SetState<CharacterAi::Loco>(CharacterAi::StateManager *)"),
+        ("SetState__H1ZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiPQ35Other11CharacterAi12StateManager_v", "void Other::CharacterAi::SetState<Other::CharacterAi::Loco>(Other::CharacterAi::StateManager *)"),
+        ("radBinarySearch__H1ZQ213radPs2CdDrive14DirectoryEntry_RCX01PCX01iPUi_b", "bool radBinarySearch<radPs2CdDrive::DirectoryEntry>(radPs2CdDrive::DirectoryEntry const &, radPs2CdDrive::DirectoryEntry const *, int, unsigned int *)"),
+
+        ("DoThing__H2ZQ35Other11CharacterAi12StateManagerZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiv_28some_return_with_underscores", "some_return_with_underscores Other::CharacterAi::DoThing<Other::CharacterAi::StateManager, Other::CharacterAi::Loco>(void)"),
+        ("DoThing__H2ZQ35Other11CharacterAi12StateManagerZQ35Other11CharacterAi4Loco_Q25Other11CharacterAii_28some_return_with_underscores", "some_return_with_underscores Other::CharacterAi::DoThing<Other::CharacterAi::StateManager, Other::CharacterAi::Loco>(int)"),
+        ("DoThing__H2ZQ35Other11CharacterAi12StateManagerZQ35Other11CharacterAi4Loco_Q25Other11CharacterAi_28some_return_with_underscores", "some_return_with_underscores Other::CharacterAi::DoThing<Other::CharacterAi::StateManager, Other::CharacterAi::Loco>()"),
+
+        ("find__H2ZP5tNameZ5tName_X01X01RCX11G26random_access_iterator_tag_X01", "tName * find<tName *, tName>(tName *, tName *, tName const &, random_access_iterator_tag)"),
+        ("BlendPriorities__H1ZQ218RadicalMathLibrary6Vector_6choreoPCQ26choreot13BlendPriority1ZX01iRX01_b", "bool choreo::BlendPriorities<RadicalMathLibrary::Vector>(choreo::BlendPriority<RadicalMathLibrary::Vector> const *, int, RadicalMathLibrary::Vector &)"),
+        ("SetState__H9ZQ35Other11CharacterAi4LocoZQ35Other11CharacterAi12StateManagerZiZiZiZiZiZQ213radPs2CdDrive14DirectoryEntryZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiRX11X01X21X31X41X51X61X71X81_v", "void Other::CharacterAi::SetState<Other::CharacterAi::Loco, Other::CharacterAi::StateManager, int, int, int, int, int, radPs2CdDrive::DirectoryEntry, Other::CharacterAi::Loco>(Other::CharacterAi::StateManager &, Other::CharacterAi::Loco, int, int, int, int, int, radPs2CdDrive::DirectoryEntry, Other::CharacterAi::Loco)"),
+        ("_M_range_insert__H1ZPC5tName_Gt6vector2Z5tNameZt7s2alloc1Z5tNameP5tNameX01X01G20forward_iterator_tag_v", "void _M_range_insert<tName const *>(vector<tName, s2alloc<tName> >, tName *, tName const *, tName const *, forward_iterator_tag)"),
+        ("_M_range_insert__H1ZPC5tName_t6vector2Z5tNameZt7s2alloc1Z5tNameP5tNameX00X00G20forward_iterator_tag_v", "void vector<tName, s2alloc<tName> >::_M_range_insert<tName const *>(tName *, tName const *, tName const *, forward_iterator_tag)"),
+        ("_M_range_insert__H1ZPC5tName_GQ223some_allocation_libraryt6vector2Z5tNameZt7s2alloc1Z5tNameP5tNameX01X01G20forward_iterator_tag_v", "void _M_range_insert<tName const *>(some_allocation_library::vector<tName, s2alloc<tName> >, tName *, tName const *, tName const *, forward_iterator_tag)"),
+        ("_M_range_insert__H1ZPC5tName_Q223some_allocation_libraryt6vector2Z5tNameZt7s2alloc1Z5tNameP5tNameX00X00G20forward_iterator_tag_v", "void some_allocation_library::vector<tName, s2alloc<tName> >::_M_range_insert<tName const *>(tName *, tName const *, tName const *, forward_iterator_tag)"),
+        ("_M_range_insert__H1ZPC5tName_GQ223some_allocation_libraryt6vector2Z5tNameZt7s2alloc1Z5tNameP5tNameX01X01G20forward_iterator_tag_X01", "tName const * _M_range_insert<tName const *>(some_allocation_library::vector<tName, s2alloc<tName> >, tName *, tName const *, tName const *, forward_iterator_tag)"),
+        // c++filt fails to demangle this symbol
+        // ("SetState__H11ZQ35Other11CharacterAi4LocoZQ35Other11CharacterAi12StateManagerZiZiZiZiZiZiZiZQ213radPs2CdDrive14DirectoryEntryZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiRX11X01X21X31X41X51X61X71X81X91X_10_1_v", ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {
