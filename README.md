@@ -32,7 +32,7 @@ This repository is the home of two Rust crates:
 
 - [`gnuv2_demangle`](src/gnuv2_demangle/): The demangler library crate for GNU
   V2 C++ mangled symbols.
-- [`g2dem`](src/g2dem/): A `c++filt` clone that uses [`gnuv2_demangle`] to
+- [`g2dem`](src/g2dem/): A `c++filt` clone that uses `gnuv2_demangle` to
   demangle symbols.
 
 Please refer to their respective READMEs for more information about each one.
