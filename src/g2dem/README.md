@@ -1,5 +1,13 @@
 # g2dem
 
+[![Build Status]][actions] [![Latest Version]][crates.io] ![Crates.io MSRV]
+
+[Build Status]: https://img.shields.io/github/actions/workflow/status/Decompollaborate/gnuv2_demangle/build_and_publish_crate.yml
+[actions]: https://github.com/Decompollaborate/gnuv2_demangle/actions
+[Latest Version]: https://img.shields.io/crates/v/g2dem
+[crates.io]: https://crates.io/crates/g2dem
+[Crates.io MSRV]: https://img.shields.io/crates/msrv/g2dem
+
 A `c++filt` clone cli tool for GNU V2 mangled symbols.
 
 ## Important note
