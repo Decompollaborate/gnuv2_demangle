@@ -659,6 +659,19 @@ fn test_avoid_duplicated_template_args_on_constr_destr() {
     }
 }
 
+#[test]
+fn test_more_templated_func_cases() {
+    static CASES: [(&str, &str); 2] = [
+        ("__push_heap__H3ZPt10MapElement2ZPQ23sim15CollisionObjectZP11DynaPhysDSGZiZt10MapElement2ZPQ23sim15CollisionObjectZP11DynaPhysDSG_X01X11X11X21_v", "void __push_heap<MapElement<sim::CollisionObject *, DynaPhysDSG *> *, int, MapElement<sim::CollisionObject *, DynaPhysDSG *> >(MapElement<sim::CollisionObject *, DynaPhysDSG *> *, int, int, MapElement<sim::CollisionObject *, DynaPhysDSG *>)"),
+        ("__insertion_sort__H1ZPt10MapElement2ZPQ23sim15CollisionObjectZP11DynaPhysDSG_X01X01_v", "void __insertion_sort<MapElement<sim::CollisionObject *, DynaPhysDSG *> *>(MapElement<sim::CollisionObject *, DynaPhysDSG *> *, MapElement<sim::CollisionObject *, DynaPhysDSG *> *)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {

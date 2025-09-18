@@ -176,17 +176,22 @@ fn demangle_special<'s>(
         .next()
         .ok_or(DemangleError::RanOutWhileDemanglingSpecial)?;
 
-    let (s, class_name, method_name, suffix) = if matches!(c, '1'..='9') {
+    let (remaining, class_name, method_name, suffix) = if matches!(c, '1'..='9') {
         // class constructor
-        let (s, class_name) = demangle_custom_name(s)?;
+        let (remaining, class_name) = demangle_custom_name(s)?;
 
-        (s, Some(Cow::from(class_name)), Cow::from(class_name), "")
-    } else if let Some(s) = s.strip_prefix("tf") {
-        return demangle_type_info_function(config, s);
-    } else if let Some(s) = s.strip_prefix("ti") {
-        return demangle_type_info_node(config, s);
-    } else if let Some(s) = s.strip_prefix('t') {
-        let (remaining, template, typ) = demangle_template(config, s, &[])?;
+        (
+            remaining,
+            Some(Cow::from(class_name)),
+            Cow::from(class_name),
+            "",
+        )
+    } else if let Some(remaining) = s.strip_prefix("tf") {
+        return demangle_type_info_function(config, remaining);
+    } else if let Some(remaining) = s.strip_prefix("ti") {
+        return demangle_type_info_node(config, remaining);
+    } else if let Some(remaining) = s.strip_prefix('t') {
+        let (remaining, template, typ) = demangle_template(config, remaining, &[])?;
 
         (remaining, Some(Cow::from(template)), Cow::from(typ), "")
     } else if let Some(q_less) = s.strip_prefix('Q') {
@@ -202,7 +207,7 @@ fn demangle_special<'s>(
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
         let op = &s[..end_index];
 
-        let s = &s[end_index + 2..];
+        let remaining = &s[end_index + 2..];
 
         let method_name = match op {
             "nw" => Cow::from("operator new"),
@@ -238,6 +243,20 @@ fn demangle_special<'s>(
                         // special symbol, so try to decode as a function instead.
                         if let Some((func_name, args)) = str_split_2(full_sym, "__F") {
                             demangle_free_function(config, func_name, args)
+                        } else if let Some((incomplete_method_name, class_and_args)) =
+                            str_split_2_second_starts_with(s, "__", |c| {
+                                matches!(c, '1'..='9' | 'C' | 't' | 'H')
+                            })
+                        {
+                            // split `s` instead of `full_sym` to skip over the
+                            // first `__`,
+                            // if that check passes, then recover the actual
+                            // method name, including the initial `__`, by
+                            // using the length of the `incomplete_method_name`
+                            // to slice the `full_sym`.
+
+                            let method_name = &full_sym[..incomplete_method_name.len() + 2];
+                            demangle_method(config, method_name, class_and_args)
                         } else {
                             Err(DemangleError::UnrecognizedSpecialMethod(op))
                         }
@@ -246,18 +265,18 @@ fn demangle_special<'s>(
             }
         };
 
-        if let Some(s) = s.strip_prefix('F') {
-            (s, None, method_name, "")
+        if let Some(remaining) = remaining.strip_prefix('F') {
+            (remaining, None, method_name, "")
         } else {
-            let (s, suffix) = demangle_method_qualifier(s);
+            let (remaining, suffix) = demangle_method_qualifier(remaining);
 
-            let (remaining, namespaces) = if let Some(q_less) = s.strip_prefix('Q') {
+            let (remaining, namespaces) = if let Some(q_less) = remaining.strip_prefix('Q') {
                 let (remaining, namespaces, _trailing_namespace) =
                     demangle_namespaces(config, q_less, &[])?;
 
                 (remaining, Cow::from(namespaces))
             } else {
-                let (remaining, class_name) = demangle_custom_name(s)?;
+                let (remaining, class_name) = demangle_custom_name(remaining)?;
 
                 (remaining, Cow::from(class_name))
             };
@@ -266,10 +285,10 @@ fn demangle_special<'s>(
         }
     };
 
-    let argument_list = if s.is_empty() {
+    let argument_list = if remaining.is_empty() {
         "void"
     } else {
-        &demangle_argument_list(config, s, class_name.as_deref(), &[])?
+        &demangle_argument_list(config, remaining, class_name.as_deref(), &[])?
     };
 
     let out = if let Some(class_name) = class_name {
