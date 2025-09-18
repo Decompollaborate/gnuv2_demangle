@@ -1,6 +1,8 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+#![doc = include_str!("../README.md")]
+
 use std::io::{self, BufRead};
 
 use argp::FromArgs;

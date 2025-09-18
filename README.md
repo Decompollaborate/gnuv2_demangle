@@ -2,6 +2,41 @@
 
 A GNU V2 C++ symbol demangler.
 
+## Important note
+
+This crate demangles symbols for the outdated and no-longer-used V2 ABI
+mangling scheme of GNU g++. It is very unlikely this is actually the you are
+looking for, since this stuff is ancient.
+
+Only use this crate if you are sure you want to use the g++ mangling scheme
+used in gcc 2.9 and older.
+
+It is more likely you are looking for crates like
+[`cpp_demangle`](https://crates.io/crates/cpp_demangle),
+[`symbolic-demangle`](https://crates.io/crates/symbolic-demangle)
+or [`cplus_demangle`](https://crates.io/crates/cplus_demangle)
+
+## What's in here?
+
+This repository is the home of two Rust crates:
+
+- [`gnuv2_demangle`](src/gnuv2_demangle/): The demangler library crate for GNU
+  V2 C++ mangled symbols.
+- [`g2dem`](src/g2dem/): A `c++filt` clone that uses [`gnuv2_demangle`] to
+  demangle symbols.
+
+Please refer to their respective READMEs for more information about each one.
+
+## Implementation notes
+
+I implemented this crate by throwing a lot of symbols at an old version of
+`c++filt` (2.9 ish), looking the output and trying to make sense of the
+demangling process.
+
+Because of this, you can expect some inconsistencies, mismangled symbols and
+other issues while using this crate. If you find any problem feel free to reach
+out via Github issues or a PR.
+
 ## License
 
 Licensed under either of
