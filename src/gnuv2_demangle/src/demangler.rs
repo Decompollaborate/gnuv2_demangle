@@ -56,33 +56,23 @@ fn demangle_destructor<'s>(
     config: &DemangleConfig,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    if let Some(s) = s.strip_prefix('t') {
-        let (remaining, template, typ) =
-            demangle_template(config, s, &DemangledArgVec::new(config, None))?;
-
-        if remaining.is_empty() {
-            Ok(format!("{template}::~{typ}(void)"))
-        } else {
-            Err(DemangleError::TrailingDataOnDestructor(remaining))
-        }
+    let (r, namespace, typ) = if let Some(s) = s.strip_prefix('t') {
+        let (r, template, typ) = demangle_template(config, s, &DemangledArgVec::new(config, None))?;
+        (r, Cow::from(template), Cow::from(typ))
     } else if let Some(s) = s.strip_prefix('Q') {
-        let (remaining, namespaces, trailing_namespace) =
+        let (r, namespaces, trailing_namespace) =
             demangle_namespaces(config, s, &DemangledArgVec::new(config, None))?;
-
-        if remaining.is_empty() {
-            Ok(format!("{namespaces}::~{trailing_namespace}(void)"))
-        } else {
-            Err(DemangleError::TrailingDataOnDestructor(remaining))
-        }
+        (r, Cow::from(namespaces), Cow::from(trailing_namespace))
     } else {
         let Remaining { r, d: class_name } =
             demangle_custom_name(s, DemangleError::InvalidClassNameOnDestructor)?;
+        (r, Cow::from(class_name), Cow::from(class_name))
+    };
 
-        if r.is_empty() {
-            Ok(format!("{class_name}::~{class_name}(void)"))
-        } else {
-            Err(DemangleError::TrailingDataOnDestructor(r))
-        }
+    if r.is_empty() {
+        Ok(format!("{namespace}::~{typ}(void)"))
+    } else {
+        Err(DemangleError::TrailingDataOnDestructor(r))
     }
 }
 
@@ -703,19 +693,12 @@ fn demangle_argument<'s>(
         return Ok((remaining, DemangledArg::Repeat { count, index }));
     } else if let Some(remaining) = full_args.strip_prefix('e') {
         return Ok((remaining, DemangledArg::Ellipsis));
-    } else if let Some(remaining) = full_args.strip_prefix('t') {
-        let (remaining, template, _typ) = demangle_template(config, remaining, template_args)?;
-
-        return Ok((remaining, DemangledArg::Plain(template)));
     }
 
-    let mut args = full_args;
-
     let Remaining {
-        r,
+        r: mut args,
         d: (mut pre_qualifier, mut post_qualifiers),
-    } = demangle_arg_qualifiers(args)?;
-    args = r;
+    } = demangle_arg_qualifiers(full_args)?;
 
     if args.starts_with('A') {
         // Avoid stuff like "signed signed"
@@ -772,38 +755,33 @@ fn demangle_argument<'s>(
         .ok_or(DemangleError::RanOutOfArguments)?;
     let mut is_class_like = false;
     // Plain types
-    let typ = match c {
-        'c' => Cow::from("char"),
-        's' => Cow::from("short"),
-        'i' => Cow::from("int"),
-        'l' => Cow::from("long"),
-        'x' => Cow::from("long long"),
-        'f' => Cow::from("float"),
-        'd' => Cow::from("double"),
-        'r' => Cow::from("long double"),
-        'b' => Cow::from("bool"),
-        'w' => Cow::from("wchar_t"),
-        'v' => Cow::from("void"),
+    let (args, typ) = match c {
+        'c' => (&args[1..], Cow::from("char")),
+        's' => (&args[1..], Cow::from("short")),
+        'i' => (&args[1..], Cow::from("int")),
+        'l' => (&args[1..], Cow::from("long")),
+        'x' => (&args[1..], Cow::from("long long")),
+        'f' => (&args[1..], Cow::from("float")),
+        'd' => (&args[1..], Cow::from("double")),
+        'r' => (&args[1..], Cow::from("long double")),
+        'b' => (&args[1..], Cow::from("bool")),
+        'w' => (&args[1..], Cow::from("wchar_t")),
+        'v' => (&args[1..], Cow::from("void")),
         '1'..='9' => {
             let Remaining { r, d: class_name } =
                 demangle_custom_name(args, DemangleError::InvalidCustomNameOnArgument)?;
-            args = r;
             is_class_like = true;
-            Cow::from(class_name)
+            (r, Cow::from(class_name))
         }
         'Q' => {
             let (remaining, namespaces, _trailing_namespace) =
                 demangle_namespaces(config, &args[1..], template_args)?;
-            args = remaining;
             is_class_like = true;
-            Cow::from(namespaces)
+            (remaining, Cow::from(namespaces))
         }
         'T' => {
             // Remembered type / look back
-            let Remaining {
-                r: remaining,
-                d: lookback,
-            } = args[1..]
+            let Remaining { r, d: lookback } = args[1..]
                 .p_number_maybe_multi_digit()
                 .ok_or(DemangleError::InvalidLookbackCount(args))?;
 
@@ -811,22 +789,13 @@ fn demangle_argument<'s>(
                 .get(lookback)
                 .ok_or(DemangleError::LookbackCountTooBig(args, lookback))?;
 
-            args = remaining;
-
-            // Not really, since lookback could reference anything...
-            is_class_like = true;
-
-            Cow::from(referenced_arg)
+            (r, Cow::from(referenced_arg))
         }
-        // TODO :is this dead code?
         't' => {
             // templates
             let (remaining, template, _typ) = demangle_template(config, &args[1..], template_args)?;
-
-            args = remaining;
-
             is_class_like = true;
-            Cow::from(template)
+            (remaining, Cow::from(template))
         }
         'F' => {
             // Function pointer/reference
@@ -837,7 +806,6 @@ fn demangle_argument<'s>(
                 &DemangledArgVec::new(config, None),
                 true,
             )?;
-
             let Some(r) = r.strip_prefix('_') else {
                 return Err(DemangleError::MissingReturnTypeForFunctionPointer(r));
             };
@@ -861,6 +829,7 @@ fn demangle_argument<'s>(
             ));
         }
         'X' => {
+            // Index into type of templated function
             args = &args[1..];
             let Remaining { r, d: index } = if let Some(r) = args.strip_prefix('_') {
                 r.p_number_maybe_multi_digit()
@@ -881,10 +850,7 @@ fn demangle_argument<'s>(
                 return Err(DemangleError::IndexTooBigForXArgument(r, index));
             };
 
-            args = r;
-            is_class_like = true;
-
-            Cow::from(t)
+            (r, Cow::from(t))
         }
         _ => {
             return Err(DemangleError::UnknownType(c, args));
@@ -893,10 +859,6 @@ fn demangle_argument<'s>(
 
     if must_be_class_like && !is_class_like {
         return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
-    }
-
-    if !is_class_like {
-        args = &args[1..];
     }
 
     let out = format!(
@@ -917,7 +879,7 @@ fn demangle_namespaces<'s>(
     template_args: &DemangledArgVec,
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let Remaining {
-        r: remaining,
+        r,
         d: namespace_count,
     } = if let Some(r) = s.strip_prefix('_') {
         // More than a single digit of namespaces
@@ -932,7 +894,7 @@ fn demangle_namespaces<'s>(
     let namespace_count =
         NonZeroUsize::new(namespace_count).ok_or(DemangleError::InvalidNamespaceCount(s))?;
 
-    demangle_namespaces_impl(config, remaining, namespace_count, template_args)
+    demangle_namespaces_impl(config, r, namespace_count, template_args)
 }
 
 fn demangle_namespaces_impl<'s>(
@@ -994,49 +956,35 @@ fn demangle_template<'s>(
     Ok((remaining, template, class_name))
 }
 
-// TODO: fix this
-#[allow(clippy::type_complexity)]
 fn demangle_template_with_return_type<'c, 's>(
     config: &'c DemangleConfig,
     s: &'s str,
 ) -> Result<(&'s str, DemangledArgVec<'c, 's>, Option<Cow<'s, str>>), DemangleError<'s>> {
-    let remaining = s;
-    let Some(Remaining {
-        r: remaining,
-        d: digit,
-    }) = remaining.p_digit()
-    else {
+    let Some(Remaining { r, d: digit }) = s.p_digit() else {
         return Err(DemangleError::InvalidTemplateReturnCount(s));
     };
     let digit = NonZeroUsize::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(s))?;
 
-    let (remaining, types) = demangle_template_types_impl(
-        config,
-        remaining,
-        digit,
-        &DemangledArgVec::new(config, None),
-    )?;
+    let (r, types) =
+        demangle_template_types_impl(config, r, digit, &DemangledArgVec::new(config, None))?;
 
-    let Some(remaining) = remaining.strip_prefix('_') else {
-        return Err(DemangleError::MalformedTemplateWithReturnType(remaining));
+    let Some(r) = r.strip_prefix('_') else {
+        return Err(DemangleError::MalformedTemplateWithReturnType(r));
     };
-    let (remaining, namespaces) = if let Some(q_less) = remaining.strip_prefix('Q') {
+    let (r, namespaces) = if let Some(q_less) = r.strip_prefix('Q') {
         let (r, namespaces, _trailing_namespace) =
             demangle_namespaces(config, q_less, &DemangledArgVec::new(config, None))?;
 
         (r, Some(Cow::from(namespaces)))
-    } else if remaining.starts_with(|c| matches!(c, '1'..='9')) {
-        let Remaining { r, d: namespace } = demangle_custom_name(
-            remaining,
-            DemangleError::InvalidNamespaceOnTemplatedFunction,
-        )?
-        .d_as_cow();
+    } else if r.starts_with(|c| matches!(c, '1'..='9')) {
+        let Remaining { r, d: namespace } =
+            demangle_custom_name(r, DemangleError::InvalidNamespaceOnTemplatedFunction)?.d_as_cow();
         (r, Some(namespace))
     } else {
-        (remaining, None)
+        (r, None)
     };
 
-    Ok((remaining, types, namespaces))
+    Ok((r, types, namespaces))
 }
 
 fn demangle_template_types_impl<'c, 's>(
@@ -1054,10 +1002,7 @@ fn demangle_template_types_impl<'c, 's>(
             let old_args = r;
             let (r, arg) = demangle_argument(config, old_args, &types, template_args)?;
 
-            if types.push(arg, old_args, r, false)? {
-                remaining = r;
-                break;
-            }
+            types.push(arg, old_args, r, true)?;
             r
         } else {
             let mut r = remaining;
