@@ -131,7 +131,7 @@ jobs:
         run: cargo hack check --rust-version --workspace --all-targets --ignore-private --all-features
 
   semver_check_no_features:
-    name: Check semver
+    name: Check semver - no default features
     runs-on: ubuntu-latest
     steps:
       - name: Checkout reposistory
@@ -148,7 +148,7 @@ jobs:
           feature-group: only-explicit-features # equivalent to --no-default-features
 
   semver_check_deafult_features:
-    name: Check semver
+    name: Check semver - deafult features
     runs-on: ubuntu-latest
     steps:
       - name: Checkout reposistory
@@ -160,7 +160,7 @@ jobs:
           feature-group: default-features
 
   semver_check_all_features:
-    name: Check semver
+    name: Check semver - all features
     runs-on: ubuntu-latest
     steps:
       - name: Checkout reposistory

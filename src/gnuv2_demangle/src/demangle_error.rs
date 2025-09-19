@@ -6,8 +6,8 @@ use core::{error, fmt};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
 pub enum DemangleError<'s> {
-    NonAscii,
     NotMangled,
+    NonAscii,
     TrailingDataOnDestructor(&'s str),
     InvalidCustomNameCount(&'s str),
     RanOutOfCharactersForCustomName(&'s str),

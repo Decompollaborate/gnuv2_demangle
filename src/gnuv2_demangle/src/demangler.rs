@@ -9,7 +9,7 @@ use alloc::{
     vec::Vec,
 };
 
-use crate::{DemangleConfig, DemangleError};
+use crate::{str_cutter::StrCutter, DemangleConfig, DemangleError};
 
 pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, DemangleError<'s>> {
     if !sym.is_ascii() {
@@ -28,71 +28,22 @@ fn demangle_impl<'s>(
         demangle_destructor(config, s)
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s, sym)
-    } else if let Some(s) = str_strip_prefix_and(sym, "_GLOBAL_$", allow_global_sym_keyed) {
+    } else if let Some(s) = sym.c_cond_and_strip_prefix(allow_global_sym_keyed, "_GLOBAL_$") {
         demangle_global_sym_keyed(config, s, sym)
-    } else if let Some((func_name, args)) = str_split_2(sym, "__F") {
+    } else if let Some((func_name, args)) = sym.c_split2("__F") {
         demangle_free_function(config, func_name, args)
     } else if let Some((method_name, class_and_args)) =
-        str_split_2_second_starts_with(sym, "__", |c| matches!(c, '1'..='9' | 'C' | 't' | 'H'))
+        sym.c_split2_r_starts_with("__", |c| matches!(c, '1'..='9' | 'C' | 't' | 'H'))
     {
         demangle_method(config, method_name, class_and_args)
-    } else if let Some((func_name, s)) = str_split_2(sym, "__Q") {
+    } else if let Some((func_name, s)) = sym.c_split2("__Q") {
         demangle_namespaced_function(config, func_name, s)
     } else if let Some(sym) = sym.strip_prefix("_vt") {
         demangle_virtual_table(config, sym)
-    } else if let Some((s, name)) = str_split_2(sym, "$") {
+    } else if let Some((s, name)) = sym.c_split2("$") {
         demangle_namespaced_global(config, s, name)
     } else {
         Err(DemangleError::NotMangled)
-    }
-}
-
-fn str_split_2<'a>(s: &'a str, pat: &str) -> Option<(&'a str, &'a str)> {
-    let mut iter = s.splitn(2, pat);
-
-    if let (Some(l), Some(r)) = (iter.next(), iter.next()) {
-        if l.is_empty() {
-            None
-        } else {
-            Some((l, r))
-        }
-    } else {
-        None
-    }
-}
-
-fn str_split_2_second_starts_with<'a, F>(
-    s: &'a str,
-    pat: &str,
-    second_start: F,
-) -> Option<(&'a str, &'a str)>
-where
-    F: Fn(char) -> bool,
-{
-    let mut iter = s.splitn(2, pat);
-
-    if let (Some(l), Some(r)) = (iter.next(), iter.next()) {
-        if l.is_empty() {
-            None
-        } else if r.starts_with(second_start) {
-            Some((l, r))
-        } else {
-            None
-        }
-    } else {
-        None
-    }
-}
-
-fn str_strip_prefix_and<'s>(
-    s: &'s str,
-    prefix: &str,
-    allow_global_sym_keyed: bool,
-) -> Option<&'s str> {
-    if allow_global_sym_keyed {
-        s.strip_prefix(prefix)
-    } else {
-        None
     }
 }
 
@@ -202,10 +153,10 @@ fn demangle_special<'s>(
                     return {
                         // This may be a plain function that got confused with a
                         // special symbol, so try to decode as a function instead.
-                        if let Some((func_name, args)) = str_split_2(full_sym, "__F") {
+                        if let Some((func_name, args)) = full_sym.c_split2("__F") {
                             demangle_free_function(config, func_name, args)
-                        } else if let Some((incomplete_method_name, class_and_args)) =
-                            str_split_2_second_starts_with(s, "__", |c| {
+                        } else if let Some((incomplete_method_name, class_and_args)) = s
+                            .c_split2_r_starts_with("__", |c| {
                                 matches!(c, '1'..='9' | 'C' | 't' | 'H')
                             })
                         {
