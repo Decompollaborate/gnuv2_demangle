@@ -3,8 +3,14 @@
 
 use gnuv2_demangle::{demangle, DemangleConfig, DemangleError};
 
-fn demangle_lines<'s>(contents: &'s str, config: &DemangleConfig) -> Vec<Result<String, DemangleError<'s>>> {
-    contents.lines().map(|line| demangle(&line, &config)).collect()
+fn demangle_lines<'s>(
+    contents: &'s str,
+    config: &DemangleConfig,
+) -> Vec<Result<String, DemangleError<'s>>> {
+    contents
+        .lines()
+        .map(|line| demangle(&line, &config))
+        .collect()
 }
 
 #[test]

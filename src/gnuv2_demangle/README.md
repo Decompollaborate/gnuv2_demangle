@@ -27,7 +27,7 @@ used in gcc 2.9 and older.
 It is more likely you are looking for crates like
 [`cpp_demangle`](https://crates.io/crates/cpp_demangle),
 [`symbolic-demangle`](https://crates.io/crates/symbolic-demangle)
-or [`cplus_demangle`](https://crates.io/crates/cplus_demangle)
+or [`cplus_demangle`](https://crates.io/crates/cplus_demangle).
 
 ## Features
 
