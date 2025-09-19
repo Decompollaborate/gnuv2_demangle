@@ -130,6 +130,47 @@ jobs:
       - name: Run MSRV checker
         run: cargo hack check --rust-version --workspace --all-targets --ignore-private --all-features
 
+  semver_check_no_features:
+    name: Check semver
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout reposistory
+        uses: actions/checkout@main
+
+      # Locally:
+      # ```
+      # cargo install cargo-semver-checks --locked
+      # cargo semver-checks
+      # ```
+      - name: Check semver
+        uses: obi1kenobi/cargo-semver-checks-action@v2
+        with:
+          feature-group: only-explicit-features # equivalent to --no-default-features
+
+  semver_check_deafult_features:
+    name: Check semver
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout reposistory
+        uses: actions/checkout@main
+
+      - name: Check semver
+        uses: obi1kenobi/cargo-semver-checks-action@v2
+        with:
+          feature-group: default-features
+
+  semver_check_all_features:
+    name: Check semver
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout reposistory
+        uses: actions/checkout@main
+
+      - name: Check semver
+        uses: obi1kenobi/cargo-semver-checks-action@v2
+        with:
+          feature-group: all-features
+
   publish_gnuv2_demangle:
     name: Publish crate
     runs-on: ubuntu-latest
@@ -142,6 +183,9 @@ jobs:
       - run_tests
       - msrv
       - msrv_all_features
+      - semver_check_no_features
+      - semver_check_deafult_features
+      - semver_check_all_features
 
     steps:
       - name: Checkout reposistory
@@ -177,6 +221,9 @@ jobs:
       - run_tests
       - msrv
       - msrv_all_features
+      - semver_check_no_features
+      - semver_check_deafult_features
+      - semver_check_all_features
 
     strategy:
       fail-fast: false
