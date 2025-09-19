@@ -9,7 +9,9 @@ use alloc::{
     vec::Vec,
 };
 
-use crate::{str_cutter::StrCutter, DemangleConfig, DemangleError};
+use crate::{DemangleConfig, DemangleError};
+
+use crate::{remainer::{Remaining, StrNumParsing}, str_cutter::StrCutter};
 
 pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, DemangleError<'s>> {
     if !sym.is_ascii() {
@@ -540,12 +542,20 @@ fn demangle_argument<'s>(
 ) -> Result<(&'s str, DemangledArg), DemangleError<'s>> {
     if let Some(repeater) = full_args.strip_prefix('N') {
         let remaining = repeater;
-        let (remaining, count) = parse_number_maybe_multi_digit(remaining)
+        let Remaining {
+            r: remaining,
+            d: count,
+        } = remaining
+            .p_number_maybe_multi_digit()
             .ok_or(DemangleError::InvalidRepeatingArgument(full_args))?;
         if count == 0 {
             return Err(DemangleError::InvalidRepeatingArgument(full_args));
         }
-        let (remaining, index) = parse_number_maybe_multi_digit(remaining)
+        let Remaining {
+            r: remaining,
+            d: index,
+        } = remaining
+            .p_number_maybe_multi_digit()
             .ok_or(DemangleError::InvalidRepeatingArgument(full_args))?;
         return Ok((remaining, DemangledArg::Repeat { count, index }));
     } else if let Some(remaining) = full_args.strip_prefix('e') {
@@ -584,7 +594,11 @@ fn demangle_argument<'s>(
         post.push(')');
 
         while let Some(remaining) = args.strip_prefix('A') {
-            let Some((remaining, array_length)) = parse_number(remaining) else {
+            let Some(Remaining {
+                r: remaining,
+                d: array_length,
+            }) = remaining.p_number()
+            else {
                 return Err(DemangleError::InvalidArraySize(remaining));
             };
             let Some(remaining) = remaining.strip_prefix('_') else {
@@ -665,7 +679,11 @@ fn demangle_argument<'s>(
         }
         'T' => {
             // Remembered type / look back
-            let (remaining, lookback) = parse_number_maybe_multi_digit(&args[1..])
+            let Remaining {
+                r: remaining,
+                d: lookback,
+            } = args[1..]
+                .p_number_maybe_multi_digit()
                 .ok_or(DemangleError::InvalidLookbackCount(args))?;
 
             let referenced_arg = if let Some(namespace) = namespace {
@@ -766,13 +784,14 @@ fn demangle_argument<'s>(
         }
         'X' => {
             args = &args[1..];
-            let (r, index) = if let Some(r) = args.strip_prefix('_') {
-                parse_number_maybe_multi_digit(r)
+            let Remaining { r, d: index } = if let Some(r) = args.strip_prefix('_') {
+                r.p_number_maybe_multi_digit()
             } else {
-                parse_digit(args)
+                args.p_digit()
             }
             .ok_or(DemangleError::InvalidValueForIndexOnXArgument(args))?;
-            let Some((r, number1)) = parse_digit(r) else {
+
+            let Some(Remaining { r, d: number1 }) = r.p_digit() else {
                 return Err(DemangleError::InvalidValueForNumber1OnXArgument(r));
             };
             // TODO: what is this number?
@@ -816,13 +835,19 @@ fn demangle_namespaces<'s>(
     s: &'s str,
     template_args: &[String],
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
-    let (remaining, namespace_count) = if let Some(r) = s.strip_prefix('_') {
+    let Remaining {
+        r: remaining,
+        d: namespace_count,
+    } = if let Some(r) = s.strip_prefix('_') {
         // More than a single digit of namespaces
-        parse_number(r).and_then(|(r, l)| r.strip_prefix('_').map(|new_r| (new_r, l)))
+        r.p_number().and_then(|Remaining { r, d }| {
+            r.strip_prefix('_').map(|new_r| Remaining::new(new_r, d))
+        })
     } else {
-        parse_digit(s)
+        s.p_digit()
     }
     .ok_or(DemangleError::InvalidNamespaceCount(s))?;
+
     let namespace_count =
         NonZeroUsize::new(namespace_count).ok_or(DemangleError::InvalidNamespaceCount(s))?;
 
@@ -866,7 +891,11 @@ fn demangle_template<'s>(
     template_args: &[String],
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let (remaining, class_name) = demangle_custom_name(s)?;
-    let Some((remaining, digit)) = parse_digit(remaining) else {
+    let Some(Remaining {
+        r: remaining,
+        d: digit,
+    }) = remaining.p_digit()
+    else {
         return Err(DemangleError::InvalidTemplateCount(remaining));
     };
 
@@ -887,7 +916,11 @@ fn demangle_template_with_return_type<'s>(
     s: &'s str,
 ) -> Result<(&'s str, Vec<String>, Option<Cow<'s, str>>), DemangleError<'s>> {
     let remaining = s;
-    let Some((remaining, digit)) = parse_digit(remaining) else {
+    let Some(Remaining {
+        r: remaining,
+        d: digit,
+    }) = remaining.p_digit()
+    else {
         return Err(DemangleError::InvalidTemplateReturnCount(remaining));
     };
 
@@ -996,7 +1029,8 @@ fn demangle_template_types_impl<'s>(
                 match c {
                     // "char" | "wchar_t"
                     'c' | 'w' => {
-                        let (r, number) = parse_number(r)
+                        let Remaining { r, d: number } = r
+                            .p_number()
                             .ok_or(DemangleError::InvalidTemplatedNumberForCharacterValue(r))?;
                         let demangled_char = char::from_u32(number.try_into().map_err(|_| {
                             DemangleError::InvalidTemplatedCharacterValue(r, number)
@@ -1012,7 +1046,8 @@ fn demangle_template_types_impl<'s>(
                         } else {
                             (r, false)
                         };
-                        let (r, number) = parse_number(r)
+                        let Remaining { r, d: number } = r
+                            .p_number()
                             .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
                         types.push(format!("{}{}", if negative { "-" } else { "" }, number));
                         r
@@ -1044,12 +1079,14 @@ fn demangle_template_types_impl<'s>(
 }
 
 fn demangle_custom_name<'s>(s: &'s str) -> Result<(&'s str, &'s str), DemangleError<'s>> {
-    let (remaining, length) = parse_number(s).ok_or(DemangleError::InvalidCustomNameCount(s))?;
+    let Remaining { r, d: length } = s
+        .p_number()
+        .ok_or(DemangleError::InvalidCustomNameCount(s))?;
 
-    if remaining.len() < length {
+    if r.len() < length {
         Err(DemangleError::RanOutOfCharactersForCustomName(s))
     } else {
-        Ok((&remaining[length..], &remaining[..length]))
+        Ok((&r[length..], &r[..length]))
     }
 }
 
@@ -1058,73 +1095,5 @@ fn demangle_method_qualifier(s: &str) -> (&str, &str) {
         (remaining, " const")
     } else {
         (s, "")
-    }
-}
-
-fn parse_number(s: &str) -> Option<(&str, usize)> {
-    let ret = if let Some(index) = s.find(|c: char| !c.is_ascii_digit()) {
-        (&s[index..], s[..index].parse().ok()?)
-    } else {
-        ("", s.parse().ok()?)
-    };
-
-    Some(ret)
-}
-
-fn parse_digit(s: &str) -> Option<(&str, usize)> {
-    let c = s.chars().next()?;
-    if c.is_ascii_digit() {
-        let digit = (c as usize).wrapping_sub('0' as usize);
-
-        Some((&s[1..], digit))
-    } else {
-        None
-    }
-}
-
-/// Parse either a single digit followed by nondigits or a multidigit followed
-/// by an underscore.
-fn parse_number_maybe_multi_digit(s: &str) -> Option<(&str, usize)> {
-    if s.is_empty() {
-        None
-    } else if s.len() == 1 {
-        // Single digit should be fine to just parse
-        Some(("", s.parse().ok()?))
-    } else if let Some(index) = s.find(|c: char| !c.is_ascii_digit()) {
-        if index == 0 {
-            None
-        } else if s[index..].starts_with('_') {
-            // Number can be followed by an underscore only if it is a
-            // multidigit value
-            if index > 1 {
-                Some((&s[index + 1..], s[..index].parse().ok()?))
-            } else {
-                None
-            }
-        } else {
-            // Only consume a single digit
-            Some((&s[1..], s[..1].parse().ok()?))
-        }
-    } else {
-        // Only consume a single digit
-        Some((&s[1..], s[..1].parse().ok()?))
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_parse_number_maybe_multi_digit() {
-        assert_eq!(parse_number_maybe_multi_digit("1junk"), Some(("junk", 1)),);
-        assert_eq!(
-            parse_number_maybe_multi_digit("12_junk"),
-            Some(("junk", 12)),
-        );
-        assert_eq!(parse_number_maybe_multi_digit("54junk"), Some(("4junk", 5)),);
-        assert_eq!(parse_number_maybe_multi_digit("2"), Some(("", 2)),);
-        assert_eq!(parse_number_maybe_multi_digit("32"), Some(("2", 3)),);
-        assert_eq!(parse_number_maybe_multi_digit("1_junk"), None,);
     }
 }
