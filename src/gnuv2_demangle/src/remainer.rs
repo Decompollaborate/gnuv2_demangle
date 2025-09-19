@@ -24,6 +24,14 @@ impl<'s, T> Remaining<'s, T> {
     }
 }
 
+impl<'s> Remaining<'s, &'s str> {
+    pub(crate) fn split_at(s: &'s str, mid: usize) -> Self {
+        let (data, remaining) = s.split_at(mid);
+
+        Self::new(remaining, data)
+    }
+}
+
 pub(crate) trait StrNumParsing<'s> {
     fn p_number(&'s self) -> Option<Remaining<'s, usize>>;
     fn p_digit(&'s self) -> Option<Remaining<'s, usize>>;

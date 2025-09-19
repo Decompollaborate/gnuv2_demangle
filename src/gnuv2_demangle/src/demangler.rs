@@ -11,7 +11,10 @@ use alloc::{
 
 use crate::{DemangleConfig, DemangleError};
 
-use crate::{remainer::{Remaining, StrNumParsing}, str_cutter::StrCutter};
+use crate::{
+    remainer::{Remaining, StrNumParsing},
+    str_cutter::StrCutter,
+};
 
 pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, DemangleError<'s>> {
     if !sym.is_ascii() {
@@ -70,12 +73,13 @@ fn demangle_destructor<'s>(
             Err(DemangleError::TrailingDataOnDestructor(remaining))
         }
     } else {
-        let (remaining, class_name) = demangle_custom_name(s)?;
+        let Remaining { r, d: class_name } =
+            demangle_custom_name(s, DemangleError::InvalidClassNameOnDestructor)?;
 
-        if remaining.is_empty() {
+        if r.is_empty() {
             Ok(format!("{class_name}::~{class_name}(void)"))
         } else {
-            Err(DemangleError::TrailingDataOnDestructor(remaining))
+            Err(DemangleError::TrailingDataOnDestructor(r))
         }
     }
 }
@@ -92,14 +96,10 @@ fn demangle_special<'s>(
 
     let (remaining, class_name, method_name, suffix) = if matches!(c, '1'..='9') {
         // class constructor
-        let (remaining, class_name) = demangle_custom_name(s)?;
+        let Remaining { r, d: class_name } =
+            demangle_custom_name(s, DemangleError::InvalidClassNameOnConstructor)?;
 
-        (
-            remaining,
-            Some(Cow::from(class_name)),
-            Cow::from(class_name),
-            "",
-        )
+        (r, Some(Cow::from(class_name)), Cow::from(class_name), "")
     } else if let Some(remaining) = s.strip_prefix("tf") {
         return demangle_type_info_function(config, remaining);
     } else if let Some(remaining) = s.strip_prefix("ti") {
@@ -182,7 +182,10 @@ fn demangle_special<'s>(
         if let Some(remaining) = remaining.strip_prefix('F') {
             (remaining, None, method_name, "")
         } else {
-            let (remaining, suffix) = demangle_method_qualifier(remaining);
+            let Remaining {
+                r: remaining,
+                d: suffix,
+            } = demangle_method_qualifier(remaining);
 
             let (remaining, namespaces) = if let Some(q_less) = remaining.strip_prefix('Q') {
                 let (remaining, namespaces, _trailing_namespace) =
@@ -194,9 +197,10 @@ fn demangle_special<'s>(
 
                 (remaining, Cow::from(template))
             } else {
-                let (remaining, class_name) = demangle_custom_name(remaining)?;
+                let Remaining { r, d: class_name } =
+                    demangle_custom_name(remaining, DemangleError::InvalidClassNameOnOperator)?;
 
-                (remaining, Cow::from(class_name))
+                (r, Cow::from(class_name))
             };
 
             (remaining, Some(namespaces), method_name, suffix)
@@ -303,7 +307,10 @@ fn demangle_method<'s>(
     method_name: &'s str,
     class_and_args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let (remaining, suffix) = demangle_method_qualifier(class_and_args);
+    let Remaining {
+        r: remaining,
+        d: suffix,
+    } = demangle_method_qualifier(class_and_args);
 
     let (remaining, namespace) = if let Some(templated) = remaining.strip_prefix('t') {
         let (remaining, template, _typ) = demangle_template(config, templated, &[])?;
@@ -358,9 +365,10 @@ fn demangle_method<'s>(
             format!("{prefix}{method_name}{formated_template_args}({argument_list}){suffix}")
         });
     } else {
-        let (remaining, class_name) = demangle_custom_name(remaining)?;
+        let Remaining { r, d: class_name } =
+            demangle_custom_name(remaining, DemangleError::InvalidClassNameOnMethod)?;
 
-        (remaining, Cow::from(class_name))
+        (r, Cow::from(class_name))
     };
 
     let argument_list = if remaining.is_empty() {
@@ -448,7 +456,8 @@ fn demangle_virtual_table<'s>(
             stuff.push(Cow::from(namespaces));
             r
         } else {
-            let (r, class_name) = demangle_custom_name(remaining)?;
+            let Remaining { r, d: class_name } =
+                demangle_custom_name(remaining, DemangleError::InvalidClassNameOnVirtualTable)?;
 
             stuff.push(Cow::from(class_name));
             r
@@ -476,7 +485,8 @@ fn demangle_namespaced_global<'s>(
 
         (r, Cow::from(namespaces))
     } else {
-        let (r, class_name) = demangle_custom_name(remaining)?;
+        let Remaining { r, d: class_name } =
+            demangle_custom_name(remaining, DemangleError::InvalidNamespaceOnNamespacedGlobal)?;
 
         (r, Cow::from(class_name))
     };
@@ -665,8 +675,9 @@ fn demangle_argument<'s>(
         'w' => out.push_str("wchar_t"),
         'v' => out.push_str("void"),
         '1'..='9' => {
-            let (remaining, class_name) = demangle_custom_name(args)?;
-            args = remaining;
+            let Remaining { r, d: class_name } =
+                demangle_custom_name(args, DemangleError::InvalidCustomNameOnArgument)?;
+            args = r;
             is_class_like = true;
             out.push_str(class_name);
         }
@@ -874,7 +885,8 @@ fn demangle_namespaces_impl<'s>(
             trailing_type = typ;
             (r, Cow::from(template))
         } else {
-            let (r, ns) = demangle_custom_name(remaining)?;
+            let Remaining { r, d: ns } =
+                demangle_custom_name(remaining, DemangleError::InvalidCustomNameOnNamespace)?;
             trailing_type = ns;
             (r, Cow::from(ns))
         };
@@ -890,13 +902,14 @@ fn demangle_template<'s>(
     s: &'s str,
     template_args: &[String],
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
-    let (remaining, class_name) = demangle_custom_name(s)?;
+    let Remaining { r, d: class_name } =
+        demangle_custom_name(s, DemangleError::InvalidCustomNameOnTemplate)?;
     let Some(Remaining {
         r: remaining,
         d: digit,
-    }) = remaining.p_digit()
+    }) = r.p_digit()
     else {
-        return Err(DemangleError::InvalidTemplateCount(remaining));
+        return Err(DemangleError::InvalidTemplateCount(r));
     };
 
     let (remaining, types) = demangle_template_types_impl(config, remaining, digit, template_args)?;
@@ -934,7 +947,10 @@ fn demangle_template_with_return_type<'s>(
 
         (r, Some(Cow::from(namespaces)))
     } else if remaining.starts_with(|c| matches!(c, '1'..='9')) {
-        let (r, namespace) = demangle_custom_name(remaining)?;
+        let Remaining { r, d: namespace } = demangle_custom_name(
+            remaining,
+            DemangleError::InvalidNamespaceOnTemplatedFunction,
+        )?;
         (r, Some(Cow::from(namespace)))
     } else {
         (remaining, None)
@@ -1019,7 +1035,8 @@ fn demangle_template_types_impl<'s>(
                 else {
                     return Err(DemangleError::InvalidTemplatedPointerReferenceValue(r));
                 };
-                let (aux, symbol) = demangle_custom_name(aux)?;
+                let Remaining { r: aux, d: symbol } =
+                    demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
                 types.push(format!("{}{}", if is_pointer { "&" } else { "" }, symbol));
                 aux
             } else {
@@ -1078,22 +1095,26 @@ fn demangle_template_types_impl<'s>(
     Ok((remaining, types))
 }
 
-fn demangle_custom_name<'s>(s: &'s str) -> Result<(&'s str, &'s str), DemangleError<'s>> {
-    let Remaining { r, d: length } = s
-        .p_number()
-        .ok_or(DemangleError::InvalidCustomNameCount(s))?;
+fn demangle_custom_name<'s, F>(
+    s: &'s str,
+    err: F,
+) -> Result<Remaining<'s, &'s str>, DemangleError<'s>>
+where
+    F: Fn(&'s str) -> DemangleError<'s>,
+{
+    let Remaining { r, d: length } = s.p_number().ok_or_else(|| err(s))?;
 
     if r.len() < length {
-        Err(DemangleError::RanOutOfCharactersForCustomName(s))
+        Err(err(s))
     } else {
-        Ok((&r[length..], &r[..length]))
+        Ok(Remaining::split_at(r, length))
     }
 }
 
-fn demangle_method_qualifier(s: &str) -> (&str, &str) {
+fn demangle_method_qualifier(s: &str) -> Remaining<'_, &str> {
     if let Some(remaining) = s.strip_prefix('C') {
-        (remaining, " const")
+        Remaining::new(remaining, " const")
     } else {
-        (s, "")
+        Remaining::new(s, "")
     }
 }
