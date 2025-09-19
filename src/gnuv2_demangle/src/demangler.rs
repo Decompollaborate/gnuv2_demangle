@@ -198,9 +198,10 @@ fn demangle_special<'s>(
                 (remaining, Cow::from(template))
             } else {
                 let Remaining { r, d: class_name } =
-                    demangle_custom_name(remaining, DemangleError::InvalidClassNameOnOperator)?;
+                    demangle_custom_name(remaining, DemangleError::InvalidClassNameOnOperator)?
+                        .d_as_cow();
 
-                (r, Cow::from(class_name))
+                (r, class_name)
             };
 
             (remaining, Some(namespaces), method_name, suffix)
@@ -366,9 +367,9 @@ fn demangle_method<'s>(
         });
     } else {
         let Remaining { r, d: class_name } =
-            demangle_custom_name(remaining, DemangleError::InvalidClassNameOnMethod)?;
+            demangle_custom_name(remaining, DemangleError::InvalidClassNameOnMethod)?.d_as_cow();
 
-        (r, Cow::from(class_name))
+        (r, class_name)
     };
 
     let argument_list = if remaining.is_empty() {
@@ -457,9 +458,10 @@ fn demangle_virtual_table<'s>(
             r
         } else {
             let Remaining { r, d: class_name } =
-                demangle_custom_name(remaining, DemangleError::InvalidClassNameOnVirtualTable)?;
+                demangle_custom_name(remaining, DemangleError::InvalidClassNameOnVirtualTable)?
+                    .d_as_cow();
 
-            stuff.push(Cow::from(class_name));
+            stuff.push(class_name);
             r
         };
     }
@@ -486,9 +488,10 @@ fn demangle_namespaced_global<'s>(
         (r, Cow::from(namespaces))
     } else {
         let Remaining { r, d: class_name } =
-            demangle_custom_name(remaining, DemangleError::InvalidNamespaceOnNamespacedGlobal)?;
+            demangle_custom_name(remaining, DemangleError::InvalidNamespaceOnNamespacedGlobal)?
+                .d_as_cow();
 
-        (r, Cow::from(class_name))
+        (r, class_name)
     };
 
     if !r.is_empty() {
@@ -950,8 +953,9 @@ fn demangle_template_with_return_type<'s>(
         let Remaining { r, d: namespace } = demangle_custom_name(
             remaining,
             DemangleError::InvalidNamespaceOnTemplatedFunction,
-        )?;
-        (r, Some(Cow::from(namespace)))
+        )?
+        .d_as_cow();
+        (r, Some(namespace))
     } else {
         (remaining, None)
     };

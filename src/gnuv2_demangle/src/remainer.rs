@@ -1,6 +1,8 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+use alloc::borrow::Cow;
+
 /// The result of partially or totally consuming an str from left to right,
 /// storing the part that haven't been consumed yet (`remaining`) and the
 /// consumed part (`data`), possibly converted to a different type.
@@ -21,6 +23,14 @@ impl<'s, T> Remaining<'s, T> {
             r: remaining,
             d: data,
         }
+    }
+}
+
+impl<'s, 'd> Remaining<'s, &'d str> {
+    pub(crate) fn d_as_cow(self) -> Remaining<'s, Cow<'d, str>> {
+        let Self { r, d } = self;
+
+        Remaining::new(r, Cow::from(d))
     }
 }
 
