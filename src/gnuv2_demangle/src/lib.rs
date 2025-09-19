@@ -9,12 +9,16 @@ extern crate alloc;
 
 mod demangle_config;
 mod demangle_error;
-mod demangler;
+pub(crate) mod demangler;
 
 pub use demangle_config::DemangleConfig;
 pub use demangle_error::DemangleError;
 pub use demangler::demangle;
 
 // internal utilities
+pub(crate) mod dem;
+pub(crate) mod dem_arg;
+pub(crate) mod dem_namespace;
+pub(crate) mod dem_template;
 pub(crate) mod remainer;
 pub(crate) mod str_cutter;
