@@ -12,7 +12,7 @@ use alloc::{
 use crate::{DemangleConfig, DemangleError};
 
 use crate::{
-    remainer::{Remaining, StrNumParsing},
+    remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
 };
 
@@ -579,32 +579,21 @@ fn demangle_argument<'s>(
         return Ok((remaining, DemangledArg::Plain(template)));
     }
 
-    let mut out = String::new();
-    let mut post = String::new();
     let mut args = full_args;
 
-    // Qualifiers
-    while !args.is_empty() {
-        let c = args
-            .chars()
-            .next()
-            .ok_or(DemangleError::RanOutOfArguments)?;
-
-        match c {
-            'P' => post.insert(0, '*'),
-            'R' => post.insert(0, '&'),
-            'C' => post.insert_str(0, "const "),
-            'S' => out.push_str("signed "),
-            'U' => out.push_str("unsigned "),
-            _ => break,
-        }
-
-        args = &args[1..];
-    }
+    let Remaining {
+        r,
+        d: (mut pre_qualifier, mut post_qualifiers),
+    } = demangle_arg_qualifiers(args)?;
+    args = r;
 
     if args.starts_with('A') {
-        post.insert(0, '(');
-        post.push(')');
+        // Avoid stuff like "signed signed"
+        if !pre_qualifier.is_empty() {
+            return Err(DemangleError::PrevQualifiersInInvalidPostioniAtArrayArgument(full_args));
+        }
+        post_qualifiers.insert(0, '(');
+        post_qualifiers.push(')');
 
         while let Some(remaining) = args.strip_prefix('A') {
             let Some(Remaining {
@@ -624,30 +613,18 @@ fn demangle_argument<'s>(
                 array_length
             };
 
-            post.push_str(&format!("[{array_length}]"));
+            post_qualifiers.push_str(&format!("[{array_length}]"));
 
             args = remaining;
         }
 
-        // Do qualifiers again for the type
-        while !args.is_empty() {
-            let c = args
-                .chars()
-                .next()
-                .ok_or(DemangleError::RanOutOfArguments)?;
-
-            match c {
-                'P' => post.insert(0, '*'),
-                'R' => post.insert(0, '&'),
-                'C' => post.insert_str(0, "const "),
-                'S' => out.push_str("signed "),
-                'U' => out.push_str("unsigned "),
-                _ => break,
-            }
-
-            args = &args[1..];
-        }
+        let Remaining { r, d: (pre, post) } = demangle_arg_qualifiers(args)?;
+        pre_qualifier = pre;
+        post_qualifiers = post + &post_qualifiers;
+        args = r;
     }
+    let pre_qualifier = pre_qualifier;
+    let post_qualifiers = post_qualifiers;
 
     // 'G' is used for classes, structs and unions, so we must make sure we
     // don't parse a primitive type next, otherwise this is not properly
@@ -665,31 +642,31 @@ fn demangle_argument<'s>(
         .ok_or(DemangleError::RanOutOfArguments)?;
     let mut is_class_like = false;
     // Plain types
-    match c {
-        'c' => out.push_str("char"),
-        's' => out.push_str("short"),
-        'i' => out.push_str("int"),
-        'l' => out.push_str("long"),
-        'x' => out.push_str("long long"),
-        'f' => out.push_str("float"),
-        'd' => out.push_str("double"),
-        'r' => out.push_str("long double"),
-        'b' => out.push_str("bool"),
-        'w' => out.push_str("wchar_t"),
-        'v' => out.push_str("void"),
+    let typ = match c {
+        'c' => Cow::from("char"),
+        's' => Cow::from("short"),
+        'i' => Cow::from("int"),
+        'l' => Cow::from("long"),
+        'x' => Cow::from("long long"),
+        'f' => Cow::from("float"),
+        'd' => Cow::from("double"),
+        'r' => Cow::from("long double"),
+        'b' => Cow::from("bool"),
+        'w' => Cow::from("wchar_t"),
+        'v' => Cow::from("void"),
         '1'..='9' => {
             let Remaining { r, d: class_name } =
                 demangle_custom_name(args, DemangleError::InvalidCustomNameOnArgument)?;
             args = r;
             is_class_like = true;
-            out.push_str(class_name);
+            Cow::from(class_name)
         }
         'Q' => {
             let (remaining, namespaces, _trailing_namespace) =
                 demangle_namespaces(config, &args[1..], template_args)?;
             args = remaining;
             is_class_like = true;
-            out.push_str(&namespaces);
+            Cow::from(namespaces)
         }
         'T' => {
             // Remembered type / look back
@@ -719,7 +696,7 @@ fn demangle_argument<'s>(
             // Not really, since lookback could reference anything...
             is_class_like = true;
 
-            out.push_str(referenced_arg);
+            Cow::from(referenced_arg)
         }
         // TODO :is this dead code?
         't' => {
@@ -729,7 +706,7 @@ fn demangle_argument<'s>(
             args = remaining;
 
             is_class_like = true;
-            out.push_str(&template);
+            Cow::from(template)
         }
         'F' => {
             // Function pointer/reference
@@ -788,10 +765,11 @@ fn demangle_argument<'s>(
             return Ok((
                 args,
                 DemangledArg::Plain(format!(
-                    "{}{}({})({})",
+                    "{}{}{}({})({})",
+                    pre_qualifier,
                     ret,
                     if ret.ends_with(['*', '&']) { "" } else { " " },
-                    post.trim_matches(' '),
+                    post_qualifiers.trim_matches(' '),
                     argument_list
                 )),
             ));
@@ -816,15 +794,16 @@ fn demangle_argument<'s>(
             let Some(t) = template_args.get(index) else {
                 return Err(DemangleError::IndexTooBigForXArgument(r, index));
             };
-            out.push_str(t);
 
             args = r;
             is_class_like = true;
+
+            Cow::from(t)
         }
         _ => {
             return Err(DemangleError::UnknownType(c, args));
         }
-    }
+    };
 
     if must_be_class_like && !is_class_like {
         return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
@@ -834,11 +813,13 @@ fn demangle_argument<'s>(
         args = &args[1..];
     }
 
-    let out = if !post.is_empty() {
-        out + " " + post.trim_matches(' ')
-    } else {
-        out
-    };
+    let out = format!(
+        "{}{}{}{}",
+        pre_qualifier,
+        typ,
+        if !post_qualifiers.is_empty() { " " } else { "" },
+        post_qualifiers.trim_matches(' ')
+    );
 
     Ok((args, DemangledArg::Plain(out)))
 }
@@ -914,6 +895,7 @@ fn demangle_template<'s>(
     else {
         return Err(DemangleError::InvalidTemplateCount(r));
     };
+    let digit = NonZeroUsize::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(r))?;
 
     let (remaining, types) = demangle_template_types_impl(config, remaining, digit, template_args)?;
 
@@ -937,8 +919,9 @@ fn demangle_template_with_return_type<'s>(
         d: digit,
     }) = remaining.p_digit()
     else {
-        return Err(DemangleError::InvalidTemplateReturnCount(remaining));
+        return Err(DemangleError::InvalidTemplateReturnCount(s));
     };
+    let digit = NonZeroUsize::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(s))?;
 
     let (remaining, types) = demangle_template_types_impl(config, remaining, digit, &[])?;
 
@@ -966,7 +949,7 @@ fn demangle_template_with_return_type<'s>(
 fn demangle_template_types_impl<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    count: usize, // TODO: NonZero
+    count: NonZeroUsize,
     template_args: &[String],
 ) -> Result<(&'s str, Vec<String>), DemangleError<'s>> {
     let mut remaining = s;
@@ -974,7 +957,7 @@ fn demangle_template_types_impl<'s>(
     let namespace = None;
     let mut types = Vec::new();
 
-    for _ in 0..count {
+    for _ in 0..count.get() {
         let r = if let Some(r) = remaining.strip_prefix('Z') {
             let (r, arg) = demangle_argument(config, r, namespace, &types, template_args)?;
 
@@ -1121,4 +1104,43 @@ fn demangle_method_qualifier(s: &str) -> Remaining<'_, &str> {
     } else {
         Remaining::new(s, "")
     }
+}
+
+fn demangle_arg_qualifiers<'s>(
+    s: &'s str,
+) -> Result<Remaining<'s, (&'s str, String)>, DemangleError<'s>> {
+    let mut remaining = s;
+    let mut pre_qualifier = "";
+    let mut post_qualifiers = String::new();
+
+    while !remaining.is_empty() {
+        let Remaining { r, d: c } = remaining
+            .p_first()
+            .ok_or(DemangleError::RanOutOfArguments)?;
+
+        match c {
+            'P' => post_qualifiers.insert(0, '*'),
+            'R' => post_qualifiers.insert(0, '&'),
+            'C' => post_qualifiers.insert_str(0, "const "),
+            'S' => {
+                if pre_qualifier.is_empty() {
+                    pre_qualifier = "signed "
+                } else {
+                    return Err(DemangleError::FoundDuplicatedPrevQualifierOnArgument(s, c));
+                }
+            }
+            'U' => {
+                if pre_qualifier.is_empty() {
+                    pre_qualifier = "unsigned "
+                } else {
+                    return Err(DemangleError::FoundDuplicatedPrevQualifierOnArgument(s, c));
+                }
+            }
+            _ => break,
+        }
+
+        remaining = r;
+    }
+
+    Ok(Remaining::new(remaining, (pre_qualifier, post_qualifiers)))
 }

@@ -42,15 +42,17 @@ impl<'s> Remaining<'s, &'s str> {
     }
 }
 
-pub(crate) trait StrNumParsing<'s> {
+pub(crate) trait StrParsing<'s> {
     fn p_number(&'s self) -> Option<Remaining<'s, usize>>;
     fn p_digit(&'s self) -> Option<Remaining<'s, usize>>;
     /// Parse either a single digit followed by nondigits or a multidigit followed
     /// by an underscore.
     fn p_number_maybe_multi_digit(&'s self) -> Option<Remaining<'s, usize>>;
+
+    fn p_first(&'s self) -> Option<Remaining<'s, char>>;
 }
 
-impl<'s> StrNumParsing<'s> for str {
+impl<'s> StrParsing<'s> for str {
     fn p_number(&'s self) -> Option<Remaining<'s, usize>> {
         let (remaining, data) = if let Some(index) = self.find(|c: char| !c.is_ascii_digit()) {
             (&self[index..], self[..index].parse().ok()?)
@@ -100,6 +102,12 @@ impl<'s> StrNumParsing<'s> for str {
             // Only consume a single digit
             Some(Remaining::new(&self[1..], self[..1].parse().ok()?))
         }
+    }
+
+    fn p_first(&'s self) -> Option<Remaining<'s, char>> {
+        let c = self.chars().next()?;
+
+        Some(Remaining::new(&self[1..], c))
     }
 }
 
