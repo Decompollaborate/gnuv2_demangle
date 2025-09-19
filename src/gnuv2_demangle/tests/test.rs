@@ -282,7 +282,7 @@ fn test_demangle_const_namespaced_methods() {
 
 #[test]
 fn test_demangle_repeater_arg() {
-    static CASES: [(&str, &str); 6] = [
+    static CASES: [(&str, &str); 8] = [
         (
             "LinkActionToObjectJoint__19ActionButtonManagerPCcN41",
             "ActionButtonManager::LinkActionToObjectJoint(char const *, char const *, char const *, char const *, char const *)",
@@ -298,6 +298,8 @@ fn test_demangle_repeater_arg() {
         ("do_thing__C6StupidG6StupidN25_1", "Stupid::do_thing(Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid, Stupid) const"),
         ("do_thing__C6StupidR6StupidN25_1", "Stupid::do_thing(Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &, Stupid &) const"),
         ("do_thing__C6StupidRC6StupidN25_1", "Stupid::do_thing(Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &, Stupid const &) const"),
+        ("LinkActionToObjectJoint__19ActionButtonManagerPCcN41N15", "ActionButtonManager::LinkActionToObjectJoint(char const *, char const *, char const *, char const *, char const *, char const *)"),
+        ("LinkActionToObjectJoint__19ActionButtonManagerPCcN41N15N16iN18", "ActionButtonManager::LinkActionToObjectJoint(char const *, char const *, char const *, char const *, char const *, char const *, char const *, int, int)"),
     ];
     let config = DemangleConfig::new();
 
