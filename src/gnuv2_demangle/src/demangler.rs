@@ -28,7 +28,7 @@ fn demangle_impl<'s>(
         demangle_destructor(config, s)
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s, sym)
-    } else if let Some(s) = str_strip_global_keyed(sym, allow_global_sym_keyed) {
+    } else if let Some(s) = str_strip_prefix_and(sym, "_GLOBAL_$", allow_global_sym_keyed) {
         demangle_global_sym_keyed(config, s, sym)
     } else if let Some((func_name, args)) = str_split_2(sym, "__F") {
         demangle_free_function(config, func_name, args)
@@ -84,9 +84,13 @@ where
     }
 }
 
-fn str_strip_global_keyed(s: &str, allow_global_sym_keyed: bool) -> Option<&str> {
+fn str_strip_prefix_and<'s>(
+    s: &'s str,
+    prefix: &str,
+    allow_global_sym_keyed: bool,
+) -> Option<&'s str> {
     if allow_global_sym_keyed {
-        s.strip_prefix("_GLOBAL_$")
+        s.strip_prefix(prefix)
     } else {
         None
     }
@@ -483,17 +487,17 @@ fn demangle_virtual_table<'s>(
         remaining = if let Some(r) = remaining.strip_prefix('t') {
             let (r, template, _typ) = demangle_template(config, r, &[])?;
 
-            stuff.push(template);
+            stuff.push(Cow::from(template));
             r
         } else if let Some(r) = remaining.strip_prefix('Q') {
             let (r, namespaces, _trailing_namespace) = demangle_namespaces(config, r, &[])?;
 
-            stuff.push(namespaces);
+            stuff.push(Cow::from(namespaces));
             r
         } else {
             let (r, class_name) = demangle_custom_name(remaining)?;
 
-            stuff.push(class_name.to_string());
+            stuff.push(Cow::from(class_name));
             r
         };
     }
@@ -513,15 +517,15 @@ fn demangle_namespaced_global<'s>(
     let (r, space) = if let Some(r) = remaining.strip_prefix('t') {
         let (r, template, _typ) = demangle_template(config, r, &[])?;
 
-        (r, template)
+        (r, Cow::from(template))
     } else if let Some(r) = remaining.strip_prefix('Q') {
         let (r, namespaces, _trailing_namespace) = demangle_namespaces(config, r, &[])?;
 
-        (r, namespaces)
+        (r, Cow::from(namespaces))
     } else {
         let (r, class_name) = demangle_custom_name(remaining)?;
 
-        (r, class_name.to_string())
+        (r, Cow::from(class_name))
     };
 
     if !r.is_empty() {
@@ -562,7 +566,9 @@ fn demangle_global_sym_keyed<'s>(
         return demangled_sym;
     }
 
-    let actual_sym = demangled_sym.unwrap_or_else(|_| remaining.to_string());
+    let actual_sym = demangled_sym
+        .map(Cow::from)
+        .unwrap_or_else(|_| Cow::from(remaining));
 
     Ok(format!("global {which} keyed to {actual_sym}"))
 }

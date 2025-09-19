@@ -55,7 +55,7 @@ pub enum DemangleError<'s> {
     TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(&'s str),
 }
 
-impl<'s> fmt::Display for DemangleError<'s> {
+impl fmt::Display for DemangleError<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
         // TODO
         write!(
