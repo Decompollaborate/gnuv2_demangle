@@ -39,4 +39,5 @@ std = []
 [dependencies]
 
 [dev-dependencies]
+insta = { version = "1.43.2" }
 pretty_assertions = "1.4"
