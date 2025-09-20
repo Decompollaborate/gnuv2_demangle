@@ -86,104 +86,106 @@ fn demangle_template_types_impl<'c, 's>(
     let mut types = DemangledArgVec::new(config, None);
 
     for _ in 0..count.get() {
-        let r = if let Some(r) = remaining.strip_prefix('Z') {
-            let old_args = r;
-            let (r, arg) = demangle_argument(config, old_args, &types, template_args)?;
-
-            types.push(arg, old_args, r, true)?;
-            r
+        let (r, arg, allow_data_after_ellipsis) = if let Some(r) = remaining.strip_prefix('Z') {
+            // typename / class
+            let (r, arg) = demangle_argument(config, r, &types, template_args)?;
+            (r, arg, true)
         } else {
-            let mut r = remaining;
-            let mut is_pointer = false;
-            let mut is_reference = false;
-
-            // Skip over any known qualifier
-            while !r.is_empty() {
-                let c = r.chars().next().ok_or(DemangleError::RanOutOfArguments)?;
-
-                match c {
-                    // '*'
-                    'P' => is_pointer = true,
-                    // '&'
-                    'R' => is_reference = true,
-                    // "const"
-                    'C' => {}
-                    // "signed" | "unsigned"
-                    'S' | 'U' => {}
-                    _ => break,
-                }
-
-                r = &r[1..];
-            }
-
-            if is_pointer || is_reference {
-                let (aux, DemangledArg::Plain(_arg)) = demangle_argument(
-                    config,
-                    r,
-                    &DemangledArgVec::new(config, None),
-                    &DemangledArgVec::new(config, None),
-                )?
-                else {
-                    return Err(DemangleError::InvalidTemplatedPointerReferenceValue(r));
-                };
-                let Remaining { r: aux, d: symbol } =
-                    demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
-                let t = format!("{}{}", if is_pointer { "&" } else { "" }, symbol);
-                types.push(DemangledArg::Plain(t), r, aux, false)?;
-                aux
-            } else {
-                let Remaining { r, d: c } = r.p_first().ok_or(DemangleError::RanOutOfArguments)?;
-
-                match c {
-                    // "char" | "wchar_t"
-                    'c' | 'w' => {
-                        let Remaining { r, d: number } = r
-                            .p_number()
-                            .ok_or(DemangleError::InvalidTemplatedNumberForCharacterValue(r))?;
-                        let demangled_char = char::from_u32(number.try_into().map_err(|_| {
-                            DemangleError::InvalidTemplatedCharacterValue(r, number)
-                        })?)
-                        .ok_or(DemangleError::InvalidTemplatedCharacterValue(r, number))?;
-                        let t = format!("'{demangled_char}'");
-                        types.push(DemangledArg::Plain(t), r, r, false)?;
-                        r
-                    }
-                    // "short" | "int" | "long" | "long long"
-                    's' | 'i' | 'l' | 'x' => {
-                        let (r, negative) = if let Some(r) = r.strip_prefix('m') {
-                            (r, true)
-                        } else {
-                            (r, false)
-                        };
-                        let Remaining { r, d: number } = r
-                            .p_number()
-                            .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
-                        let t = format!("{}{}", if negative { "-" } else { "" }, number);
-                        types.push(DemangledArg::Plain(t), r, r, false)?;
-                        r
-                    }
-                    // 'f' => {}, // "float"
-                    // 'd' => {}, // "double"
-                    // 'r' => {}, // "long double"
-                    // "bool"
-                    'b' => match r.chars().next() {
-                        Some('1') => {
-                            types.push(DemangledArg::Plain("true".to_string()), r, r, false)?;
-                            &r[1..]
-                        }
-                        Some('0') => {
-                            types.push(DemangledArg::Plain("false".to_string()), r, r, false)?;
-                            &r[1..]
-                        }
-                        _ => return Err(DemangleError::InvalidTemplatedBoolean(r)),
-                    },
-                    _ => return Err(DemangleError::InvalidTypeValueForTemplated(c, r)),
-                }
-            }
+            // value
+            let Remaining { r, d: arg } = demangle_templated_value(config, remaining)?;
+            (r, arg, false)
         };
-
+        types.push(arg, remaining, r, allow_data_after_ellipsis)?;
         remaining = r;
     }
 
     Ok((remaining, types))
+}
+
+fn demangle_templated_value<'s>(
+    config: &DemangleConfig,
+    s: &'s str,
+) -> Result<Remaining<'s, DemangledArg>, DemangleError<'s>> {
+    let mut r = s;
+    let mut is_pointer = false;
+    let mut is_reference = false;
+
+    // Skip over any known qualifier
+    while !r.is_empty() {
+        let c = r.chars().next().ok_or(DemangleError::RanOutOfArguments)?;
+
+        match c {
+            // '*'
+            'P' => is_pointer = true,
+            // '&'
+            'R' => is_reference = true,
+            // "const"
+            'C' => {}
+            // "signed" | "unsigned"
+            'S' | 'U' => {}
+            _ => break,
+        }
+
+        r = &r[1..];
+    }
+
+    let (remaining, arg) = if is_pointer || is_reference {
+        let (aux, DemangledArg::Plain(_arg)) = demangle_argument(
+            config,
+            r,
+            &DemangledArgVec::new(config, None),
+            &DemangledArgVec::new(config, None),
+        )?
+        else {
+            return Err(DemangleError::InvalidTemplatedPointerReferenceValue(r));
+        };
+        let Remaining { r: aux, d: symbol } =
+            demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
+        let t = format!("{}{}", if is_pointer { "&" } else { "" }, symbol);
+        (aux, DemangledArg::Plain(t))
+    } else {
+        let Remaining { r, d: c } = r.p_first().ok_or(DemangleError::RanOutOfArguments)?;
+
+        match c {
+            // "char" | "wchar_t"
+            'c' | 'w' => {
+                let Remaining { r, d: number } = r
+                    .p_number()
+                    .ok_or(DemangleError::InvalidTemplatedNumberForCharacterValue(r))?;
+                let demangled_char = char::from_u32(
+                    number
+                        .try_into()
+                        .map_err(|_| DemangleError::InvalidTemplatedCharacterValue(r, number))?,
+                )
+                .ok_or(DemangleError::InvalidTemplatedCharacterValue(r, number))?;
+                let t = format!("'{demangled_char}'");
+                (r, DemangledArg::Plain(t))
+            }
+            // "short" | "int" | "long" | "long long"
+            's' | 'i' | 'l' | 'x' => {
+                let (r, negative) = if let Some(r) = r.strip_prefix('m') {
+                    (r, true)
+                } else {
+                    (r, false)
+                };
+                let Remaining { r, d: number } = r
+                    .p_number()
+                    .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
+                let t = format!("{}{}", if negative { "-" } else { "" }, number);
+                (r, DemangledArg::Plain(t))
+            }
+            // 'f' => {}, // "float"
+            // 'd' => {}, // "double"
+            // 'r' => {}, // "long double"
+            // "bool"
+            'b' => match r.chars().next() {
+                Some('1') => (&r[1..], DemangledArg::Plain("true".to_string())),
+                Some('0') => (&r[1..], DemangledArg::Plain("false".to_string())),
+                _ => return Err(DemangleError::InvalidTemplatedBoolean(r)),
+            },
+            _ => return Err(DemangleError::InvalidTypeValueForTemplated(c, r)),
+        }
+    };
+
+    Ok(Remaining::new(remaining, arg))
 }
