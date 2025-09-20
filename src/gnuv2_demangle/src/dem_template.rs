@@ -3,7 +3,10 @@
 
 use core::num::NonZeroUsize;
 
-use alloc::{borrow::Cow, string::{String, ToString}};
+use alloc::{
+    borrow::Cow,
+    string::{String, ToString},
+};
 
 use crate::{DemangleConfig, DemangleError};
 
