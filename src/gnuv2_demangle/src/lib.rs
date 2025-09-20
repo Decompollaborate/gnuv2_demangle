@@ -18,6 +18,7 @@ pub use demangler::demangle;
 // internal utilities
 pub(crate) mod dem;
 pub(crate) mod dem_arg;
+pub(crate) mod dem_arg_list;
 pub(crate) mod dem_namespace;
 pub(crate) mod dem_template;
 pub(crate) mod remainer;

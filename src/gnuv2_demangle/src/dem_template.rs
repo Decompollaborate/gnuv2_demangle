@@ -12,7 +12,8 @@ use crate::{DemangleConfig, DemangleError};
 
 use crate::{
     dem::demangle_custom_name,
-    dem_arg::{demangle_argument, DemangledArg, DemangledArgVec},
+    dem_arg::{demangle_argument, DemangledArg},
+    dem_arg_list::ArgVec,
     dem_namespace::demangle_namespaces,
     remainer::{Remaining, StrParsing},
 };
@@ -20,7 +21,7 @@ use crate::{
 pub(crate) fn demangle_template<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    template_args: &DemangledArgVec,
+    template_args: &ArgVec,
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let Remaining { r, d: class_name } =
         demangle_custom_name(s, DemangleError::InvalidCustomNameOnTemplate)?;
@@ -47,21 +48,20 @@ pub(crate) fn demangle_template<'s>(
 pub(crate) fn demangle_template_with_return_type<'c, 's>(
     config: &'c DemangleConfig,
     s: &'s str,
-) -> Result<(&'s str, DemangledArgVec<'c, 's>, Option<Cow<'s, str>>), DemangleError<'s>> {
+) -> Result<(&'s str, ArgVec<'c, 's>, Option<Cow<'s, str>>), DemangleError<'s>> {
     let Some(Remaining { r, d: digit }) = s.p_digit() else {
         return Err(DemangleError::InvalidTemplateReturnCount(s));
     };
     let digit = NonZeroUsize::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(s))?;
 
-    let (r, types) =
-        demangle_template_types_impl(config, r, digit, &DemangledArgVec::new(config, None))?;
+    let (r, types) = demangle_template_types_impl(config, r, digit, &ArgVec::new(config, None))?;
 
     let Some(r) = r.strip_prefix('_') else {
         return Err(DemangleError::MalformedTemplateWithReturnType(r));
     };
     let (r, namespaces) = if let Some(q_less) = r.strip_prefix('Q') {
         let (r, namespaces, _trailing_namespace) =
-            demangle_namespaces(config, q_less, &DemangledArgVec::new(config, None))?;
+            demangle_namespaces(config, q_less, &ArgVec::new(config, None))?;
 
         (r, Some(Cow::from(namespaces)))
     } else if r.starts_with(|c| matches!(c, '1'..='9')) {
@@ -79,11 +79,11 @@ fn demangle_template_types_impl<'c, 's>(
     config: &'c DemangleConfig,
     s: &'s str,
     count: NonZeroUsize,
-    template_args: &DemangledArgVec,
-) -> Result<(&'s str, DemangledArgVec<'c, 's>), DemangleError<'s>> {
+    template_args: &ArgVec,
+) -> Result<(&'s str, ArgVec<'c, 's>), DemangleError<'s>> {
     let mut remaining = s;
 
-    let mut types = DemangledArgVec::new(config, None);
+    let mut types = ArgVec::new(config, None);
 
     for _ in 0..count.get() {
         let (r, arg, allow_data_after_ellipsis) = if let Some(r) = remaining.strip_prefix('Z') {
@@ -133,8 +133,8 @@ fn demangle_templated_value<'s>(
         let (aux, DemangledArg::Plain(_arg)) = demangle_argument(
             config,
             r,
-            &DemangledArgVec::new(config, None),
-            &DemangledArgVec::new(config, None),
+            &ArgVec::new(config, None),
+            &ArgVec::new(config, None),
         )?
         else {
             return Err(DemangleError::InvalidTemplatedPointerReferenceValue(r));

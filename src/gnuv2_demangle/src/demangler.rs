@@ -7,10 +7,8 @@ use crate::{DemangleConfig, DemangleError};
 
 use crate::{
     dem::{demangle_custom_name, demangle_method_qualifier},
-    dem_arg::{
-        demangle_argument, demangle_argument_list, demangle_argument_list_impl, DemangledArg,
-        DemangledArgVec,
-    },
+    dem_arg::{demangle_argument, DemangledArg},
+    dem_arg_list::{demangle_argument_list, demangle_argument_list_impl, ArgVec},
     dem_namespace::demangle_namespaces,
     dem_template::{demangle_template, demangle_template_with_return_type},
     remainer::Remaining,
@@ -58,11 +56,11 @@ fn demangle_destructor<'s>(
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
     let (r, namespace, typ) = if let Some(s) = s.strip_prefix('t') {
-        let (r, template, typ) = demangle_template(config, s, &DemangledArgVec::new(config, None))?;
+        let (r, template, typ) = demangle_template(config, s, &ArgVec::new(config, None))?;
         (r, Cow::from(template), Cow::from(typ))
     } else if let Some(s) = s.strip_prefix('Q') {
         let (r, namespaces, trailing_namespace) =
-            demangle_namespaces(config, s, &DemangledArgVec::new(config, None))?;
+            demangle_namespaces(config, s, &ArgVec::new(config, None))?;
         (r, Cow::from(namespaces), Cow::from(trailing_namespace))
     } else {
         let Remaining { r, d: class_name } =
@@ -99,12 +97,12 @@ fn demangle_special<'s>(
         return demangle_type_info_node(config, remaining);
     } else if let Some(remaining) = s.strip_prefix('t') {
         let (remaining, template, typ) =
-            demangle_template(config, remaining, &DemangledArgVec::new(config, None))?;
+            demangle_template(config, remaining, &ArgVec::new(config, None))?;
 
         (remaining, Some(Cow::from(template)), Cow::from(typ), "")
     } else if let Some(q_less) = s.strip_prefix('Q') {
         let (remaining, namespaces, trailing_namespace) =
-            demangle_namespaces(config, q_less, &DemangledArgVec::new(config, None))?;
+            demangle_namespaces(config, q_less, &ArgVec::new(config, None))?;
 
         (
             remaining,
@@ -139,8 +137,8 @@ fn demangle_special<'s>(
                     let (remaining, DemangledArg::Plain(typ)) = demangle_argument(
                         config,
                         cast,
-                        &DemangledArgVec::new(config, None),
-                        &DemangledArgVec::new(config, None),
+                        &ArgVec::new(config, None),
+                        &ArgVec::new(config, None),
                     )?
                     else {
                         return Err(DemangleError::UnrecognizedSpecialMethod(op));
@@ -188,12 +186,12 @@ fn demangle_special<'s>(
 
             let (remaining, namespaces) = if let Some(q_less) = remaining.strip_prefix('Q') {
                 let (remaining, namespaces, _trailing_namespace) =
-                    demangle_namespaces(config, q_less, &DemangledArgVec::new(config, None))?;
+                    demangle_namespaces(config, q_less, &ArgVec::new(config, None))?;
 
                 (remaining, Cow::from(namespaces))
             } else if let Some(r) = remaining.strip_prefix('t') {
                 let (remaining, template, _typ) =
-                    demangle_template(config, r, &DemangledArgVec::new(config, None))?;
+                    demangle_template(config, r, &ArgVec::new(config, None))?;
 
                 (remaining, Cow::from(template))
             } else {
@@ -215,7 +213,7 @@ fn demangle_special<'s>(
             config,
             remaining,
             class_name.as_deref(),
-            &DemangledArgVec::new(config, None),
+            &ArgVec::new(config, None),
         )?
     };
 
@@ -232,8 +230,7 @@ fn demangle_free_function<'s>(
     func_name: &'s str,
     args: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    let argument_list =
-        demangle_argument_list(config, args, None, &DemangledArgVec::new(config, None))?;
+    let argument_list = demangle_argument_list(config, args, None, &ArgVec::new(config, None))?;
 
     Ok(format!("{func_name}({argument_list})"))
 }
@@ -250,12 +247,12 @@ fn demangle_method<'s>(
 
     let (remaining, namespace) = if let Some(templated) = remaining.strip_prefix('t') {
         let (remaining, template, _typ) =
-            demangle_template(config, templated, &DemangledArgVec::new(config, None))?;
+            demangle_template(config, templated, &ArgVec::new(config, None))?;
 
         (remaining, Cow::from(template))
     } else if let Some(q_less) = remaining.strip_prefix('Q') {
         let (remaining, namespaces, _trailing_namespace) =
-            demangle_namespaces(config, q_less, &DemangledArgVec::new(config, None))?;
+            demangle_namespaces(config, q_less, &ArgVec::new(config, None))?;
 
         (remaining, Cow::from(namespaces))
     } else if let Some(with_return_type) = remaining.strip_prefix('H') {
@@ -265,8 +262,7 @@ fn demangle_method<'s>(
         let (remaining, typ) = if let Some(typ) = typ {
             (remaining, Some(typ))
         } else if let Some(r) = remaining.strip_prefix('t') {
-            let (r, template, _typ) =
-                demangle_template(config, r, &DemangledArgVec::new(config, None))?;
+            let (r, template, _typ) = demangle_template(config, r, &ArgVec::new(config, None))?;
 
             (r, Some(Cow::from(template)))
         } else {
@@ -279,7 +275,7 @@ fn demangle_method<'s>(
             let (r, DemangledArg::Plain(mut ret_type)) = demangle_argument(
                 config,
                 r,
-                &DemangledArgVec::new(config, typ.as_deref()),
+                &ArgVec::new(config, typ.as_deref()),
                 &template_args,
             )?
             else {
@@ -322,7 +318,7 @@ fn demangle_method<'s>(
             config,
             remaining,
             Some(&namespace),
-            &DemangledArgVec::new(config, None),
+            &ArgVec::new(config, None),
         )?
     };
 
@@ -337,7 +333,7 @@ fn demangle_namespaced_function<'s>(
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
     let (remaining, namespaces, _trailing_namespace) =
-        demangle_namespaces(config, s, &DemangledArgVec::new(config, None))?;
+        demangle_namespaces(config, s, &ArgVec::new(config, None))?;
 
     let argument_list = if remaining.is_empty() {
         "void"
@@ -346,7 +342,7 @@ fn demangle_namespaced_function<'s>(
             config,
             remaining,
             Some(&namespaces),
-            &DemangledArgVec::new(config, None),
+            &ArgVec::new(config, None),
         )?
     };
 
@@ -361,8 +357,8 @@ fn demangle_type_info_function<'s>(
     if let (remaining, DemangledArg::Plain(demangled_type)) = demangle_argument(
         config,
         s,
-        &DemangledArgVec::new(config, None),
-        &DemangledArgVec::new(config, None),
+        &ArgVec::new(config, None),
+        &ArgVec::new(config, None),
     )? {
         if remaining.is_empty() {
             Ok(format!("{demangled_type} type_info function"))
@@ -381,8 +377,8 @@ fn demangle_type_info_node<'s>(
     if let (remaining, DemangledArg::Plain(demangled_type)) = demangle_argument(
         config,
         s,
-        &DemangledArgVec::new(config, None),
-        &DemangledArgVec::new(config, None),
+        &ArgVec::new(config, None),
+        &ArgVec::new(config, None),
     )? {
         if remaining.is_empty() {
             Ok(format!("{demangled_type} type_info node"))
@@ -407,14 +403,13 @@ fn demangle_virtual_table<'s>(
             .ok_or(DemangleError::VTableMissingDollarSeparator(remaining))?;
 
         remaining = if let Some(r) = remaining.strip_prefix('t') {
-            let (r, template, _typ) =
-                demangle_template(config, r, &DemangledArgVec::new(config, None))?;
+            let (r, template, _typ) = demangle_template(config, r, &ArgVec::new(config, None))?;
 
             stuff.push(Cow::from(template));
             r
         } else if let Some(r) = remaining.strip_prefix('Q') {
             let (r, namespaces, _trailing_namespace) =
-                demangle_namespaces(config, r, &DemangledArgVec::new(config, None))?;
+                demangle_namespaces(config, r, &ArgVec::new(config, None))?;
 
             stuff.push(Cow::from(namespaces));
             r
@@ -441,13 +436,12 @@ fn demangle_namespaced_global<'s>(
     };
 
     let (r, space) = if let Some(r) = remaining.strip_prefix('t') {
-        let (r, template, _typ) =
-            demangle_template(config, r, &DemangledArgVec::new(config, None))?;
+        let (r, template, _typ) = demangle_template(config, r, &ArgVec::new(config, None))?;
 
         (r, Cow::from(template))
     } else if let Some(r) = remaining.strip_prefix('Q') {
         let (r, namespaces, _trailing_namespace) =
-            demangle_namespaces(config, r, &DemangledArgVec::new(config, None))?;
+            demangle_namespaces(config, r, &ArgVec::new(config, None))?;
 
         (r, Cow::from(namespaces))
     } else {

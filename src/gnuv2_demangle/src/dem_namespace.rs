@@ -9,7 +9,7 @@ use crate::{DemangleConfig, DemangleError};
 
 use crate::{
     dem::demangle_custom_name,
-    dem_arg::DemangledArgVec,
+    dem_arg_list::ArgVec,
     dem_template::demangle_template,
     remainer::{Remaining, StrParsing},
 };
@@ -18,7 +18,7 @@ use crate::{
 pub(crate) fn demangle_namespaces<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    template_args: &DemangledArgVec,
+    template_args: &ArgVec,
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let Remaining {
         r,
@@ -43,7 +43,7 @@ fn demangle_namespaces_impl<'s>(
     config: &DemangleConfig,
     s: &'s str,
     namespace_count: NonZeroUsize,
-    template_args: &DemangledArgVec,
+    template_args: &ArgVec,
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let mut namespaces = String::new();
     let mut remaining = s;

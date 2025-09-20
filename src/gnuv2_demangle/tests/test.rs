@@ -556,15 +556,18 @@ fn test_demangle_namespaced_globals() {
 
 #[test]
 fn test_demangle_function_pointers() {
-    static CASES: [(&str, &str); 5] = [
+    static CASES: [(&str, &str); 7] = [
         ("set_terminate__FPFv_v", "set_terminate(void (*)(void))"),
-        (
-            "set_unexpected__FPFv_v",
-            "set_unexpected(void (*)(void))",
-        ),
+        ("set_unexpected__FPFv_v", "set_unexpected(void (*)(void))"),
         ("pointerness__FPFiGt9Something1x42_t9Something1x39iPFiRt9Something1x42_RCt9Something1x39", "pointerness(Something<39> (*)(int, Something<42>), int, Something<39> const &(*)(int, Something<42> &))"),
         ("pointerness__FPFiGt9Something1x42_t9Something1x39iPFiRt9Something1x42_RCt9Something1x39RFPCce_RQ55First6Second5Third6Fourth1A", "pointerness(Something<39> (*)(int, Something<42>), int, Something<39> const &(*)(int, Something<42> &), First::Second::Third::Fourth::A &(&)(char const *,...))"),
         ("InstallShader__14pddiBaseShaderPCcPFP17pddiRenderContextPCcPCc_P14pddiBaseShaderT1", "pddiBaseShader::InstallShader(char const *, pddiBaseShader *(*)(pddiRenderContext *, char const *, char const *), char const *)"),
+        ("set_unexpected__FPPPPFv_v", "set_unexpected(void (****)(void))"),
+        ("set_unexpected__FRPPPPPPPFv_v", "set_unexpected(void (*******&)(void))"),
+        /*
+        ("set_terminate__FPFPCc_PFbi_ii", "set_terminate(int (*(*)(char const *))(bool, int), int)"),
+        ("set_terminate__FPFv_PFv_viT0PFv_PFPFv_PFv_v_v", "set_terminate(void (*(*)(void))(void), int, void (*(*)(void))(void), void (*(*)(void))(void (*(*)(void))(void)))"),
+        */
     ];
     let config = DemangleConfig::new();
 
