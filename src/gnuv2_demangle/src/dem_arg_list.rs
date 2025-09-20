@@ -1,18 +1,24 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use core::num::NonZeroUsize;
-
 use alloc::{string::String, vec::Vec};
 
 use crate::{DemangleConfig, DemangleError};
 
 use crate::dem_arg::{demangle_argument, DemangledArg};
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+enum ProcessedArg {
+    Plain(String),
+    Lookback { index: usize },
+    Ellipsis,
+}
+
+#[derive(Debug)]
 pub(crate) struct ArgVec<'c, 'ns> {
     config: &'c DemangleConfig,
     namespace: Option<&'ns str>,
-    args: Vec<DemangledArg>,
+    args: Vec<ProcessedArg>,
 
     /// !HACK(c++filt): Allows to avoid emitting an space between a comma and
     /// the ellipsis.
@@ -44,14 +50,14 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
         loop {
             let arg = self.args.get(index)?;
             match arg {
-                DemangledArg::Plain(p) => break Some(p),
-                DemangledArg::Repeat { count: _, index: i } => {
+                ProcessedArg::Plain(p) => break Some(p),
+                ProcessedArg::Lookback { index: i } => {
                     if *i >= index {
                         break None;
                     }
                     index = *i;
                 }
-                DemangledArg::Ellipsis => break Some("..."),
+                ProcessedArg::Ellipsis => break Some("..."),
             }
         }
     }
@@ -65,8 +71,10 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
     ) -> Result<bool, DemangleError<'s>> {
         let mut found_end = false;
 
+        // Map the external `DemangledArg` representation to our `ProcessedArg`
+        // internal one.
         let arg = match arg {
-            a @ DemangledArg::Plain(_) => a,
+            DemangledArg::Plain(plain) => ProcessedArg::Plain(plain),
             DemangledArg::Repeat { count, index } => {
                 // Check the index is in-bounds
                 if self.namespace.is_some() {
@@ -82,11 +90,10 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
                     return Err(DemangleError::InvalidRepeatingArgument(s));
                 }
 
-                let one = NonZeroUsize::new(1).expect("One will never be zero. Crazy, right?");
                 for _ in 0..count.get() - 1 {
-                    self.args.push(DemangledArg::Repeat { count: one, index });
+                    self.args.push(ProcessedArg::Lookback { index });
                 }
-                DemangledArg::Repeat { count: one, index }
+                ProcessedArg::Lookback { index }
             }
             DemangledArg::Ellipsis => {
                 if !allow_data_after_ellipsis && !remaining.is_empty() {
@@ -97,7 +104,7 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
                     self.trailing_ellipsis = true;
                     return Ok(found_end);
                 }
-                DemangledArg::Ellipsis
+                ProcessedArg::Ellipsis
             }
         };
         self.args.push(arg);
@@ -109,8 +116,8 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
 
         for arg in &self.args {
             match arg {
-                DemangledArg::Plain(plain) => args.push(plain.as_str()),
-                DemangledArg::Repeat { count, index } => {
+                ProcessedArg::Plain(plain) => args.push(plain.as_str()),
+                ProcessedArg::Lookback { index } => {
                     let arg = if let Some(namespace) = self.namespace {
                         if *index == 0 {
                             namespace
@@ -122,12 +129,9 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
                         args.get(*index)
                             .expect("Indices were verified when pushing the arguments")
                     };
-
-                    for _ in 0..count.get() {
-                        args.push(arg);
-                    }
+                    args.push(arg);
                 }
-                DemangledArg::Ellipsis => args.push("..."),
+                ProcessedArg::Ellipsis => args.push("..."),
             }
         }
 
