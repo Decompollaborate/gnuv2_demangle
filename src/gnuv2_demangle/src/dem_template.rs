@@ -129,8 +129,7 @@ fn demangle_template_types_impl<'c, 's>(
                 types.push(DemangledArg::Plain(t), r, aux, false)?;
                 aux
             } else {
-                let c = r.chars().next().ok_or(DemangleError::RanOutOfArguments)?;
-                r = &r[1..];
+                let Remaining { r, d: c } = r.p_first().ok_or(DemangleError::RanOutOfArguments)?;
 
                 match c {
                     // "char" | "wchar_t"

@@ -8,6 +8,8 @@ pub(crate) trait StrCutter<'s> {
         F: Fn(char) -> bool;
 
     fn c_cond_and_strip_prefix(&'s self, cond: bool, prefix: &str) -> Option<&'s str>;
+
+    fn c_maybe_strip_prefix(&'s self, c: char) -> (&'s str, bool);
 }
 
 impl<'s> StrCutter<'s> for str {
@@ -49,6 +51,14 @@ impl<'s> StrCutter<'s> for str {
             self.strip_prefix(prefix)
         } else {
             None
+        }
+    }
+
+    fn c_maybe_strip_prefix(&'s self, c: char) -> (&'s str, bool) {
+        if let Some(a) = self.strip_prefix(c) {
+            (a, true)
+        } else {
+            (self, false)
         }
     }
 }
