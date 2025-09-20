@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - General code cleanups.
 
+### Fixed
+
+- Fix emitting a comma when the only argument in a function is an ellipsis.
+
 ## [0.1.0] - 2025-09-18
 
 - Initial release.

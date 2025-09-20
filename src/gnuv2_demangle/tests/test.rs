@@ -404,13 +404,14 @@ fn test_demangle_type_info_node() {
 
 #[test]
 fn test_demangle_ellipsis() {
-    static CASES: [(&str, &str); 3] = [
+    static CASES: [(&str, &str); 4] = [
         ("Printf__7ConsolePce", "Console::Printf(char *,...)"),
         (
             "StrPrintf__6choreoPciPCce",
             "choreo::StrPrintf(char *, int, char const *,...)",
         ),
         ("printf__3p3dPCce", "p3d::printf(char const *,...)"),
+        ("asdfasdfasdfasdf__Fe", "asdfasdfasdfasdf(...)"),
     ];
     let config = DemangleConfig::new();
 

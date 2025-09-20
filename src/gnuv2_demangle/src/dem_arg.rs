@@ -136,7 +136,10 @@ impl<'c, 'ns> DemangledArgVec<'c, 'ns> {
         if self.trailing_ellipsis {
             // !HACK(c++filt):  Special case to mimic c++filt, since it doesn't
             // !use an space between the comma and the ellipsis.
-            out.push_str(",...");
+            if !out.is_empty() {
+                out.push(',');
+            }
+            out.push_str("...");
         }
         out
     }
@@ -349,7 +352,7 @@ fn demangle_qualifierless_arg<'s>(
     Ok(maybe_demangled)
 }
 
-// Function pointer/reference
+/// Function pointer/reference
 fn demangle_function_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
