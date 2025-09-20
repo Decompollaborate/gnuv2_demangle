@@ -413,7 +413,27 @@ fn test_demangle_ellipsis() {
         ("printf__3p3dPCce", "p3d::printf(char const *,...)"),
         ("asdfasdfasdfasdf__Fe", "asdfasdfasdfasdf(...)"),
     ];
-    let config = DemangleConfig::new();
+    let mut config = DemangleConfig::new();
+    config.ellipsis_emit_space_after_comma = false;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_ellipsis_space() {
+    static CASES: [(&str, &str); 4] = [
+        ("Printf__7ConsolePce", "Console::Printf(char *, ...)"),
+        (
+            "StrPrintf__6choreoPciPCce",
+            "choreo::StrPrintf(char *, int, char const *, ...)",
+        ),
+        ("printf__3p3dPCce", "p3d::printf(char const *, ...)"),
+        ("asdfasdfasdfasdf__Fe", "asdfasdfasdfasdf(...)"),
+    ];
+    let mut config = DemangleConfig::new();
+    config.ellipsis_emit_space_after_comma = true;
 
     for (mangled, demangled) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));

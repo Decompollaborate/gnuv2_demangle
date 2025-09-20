@@ -4951,7 +4951,7 @@ expression: "demangle_lines(contents, &config)"
         "Console::~Console(void)",
     ),
     Ok(
-        "Console::Printf(char *,...)",
+        "Console::Printf(char *, ...)",
     ),
     Ok(
         "Console::FlushLogFile(void)",
@@ -27417,13 +27417,13 @@ expression: "demangle_lines(contents, &config)"
         "choreo::ScriptReader::SetErrorString(char const *)",
     ),
     Ok(
-        "choreo::ScriptReader::SetErrorFormat(char const *,...)",
+        "choreo::ScriptReader::SetErrorFormat(char const *, ...)",
     ),
     Ok(
         "choreo::ScriptReader::SetErrorString(int, char const *)",
     ),
     Ok(
-        "choreo::ScriptReader::SetErrorFormat(int, char const *,...)",
+        "choreo::ScriptReader::SetErrorFormat(int, char const *, ...)",
     ),
     Ok(
         "choreo::ScriptReader::GetErrorMessage(char *, int)",
@@ -27624,7 +27624,7 @@ expression: "demangle_lines(contents, &config)"
         "choreo::VStrPrintf(char *, int, char const *, char *)",
     ),
     Ok(
-        "choreo::StrPrintf(char *, int, char const *,...)",
+        "choreo::StrPrintf(char *, int, char const *, ...)",
     ),
     Ok(
         "choreo::StrSet(char *, int, char const *)",
@@ -34320,7 +34320,7 @@ expression: "demangle_lines(contents, &config)"
         "p3d::openFile(char const *, bool)",
     ),
     Ok(
-        "p3d::printf(char const *,...)",
+        "p3d::printf(char const *, ...)",
     ),
     Ok(
         "tVectorCamera::tVectorCamera(void)",
@@ -40860,7 +40860,7 @@ expression: "demangle_lines(contents, &config)"
         "ods::VsnPrintf(char *, unsigned int, char const *, char *)",
     ),
     Ok(
-        "ods::stream_printf(ods::stream_info *, char const *,...)",
+        "ods::stream_printf(ods::stream_info *, char const *, ...)",
     ),
     Ok(
         "Parser::IsLetter(char)",
@@ -43584,7 +43584,7 @@ expression: "demangle_lines(contents, &config)"
         "rDebugVsnPrintf(char *, unsigned int, char const *, char *)",
     ),
     Ok(
-        "rDebugSnPrintf(char *, unsigned int, char const *,...)",
+        "rDebugSnPrintf(char *, unsigned int, char const *, ...)",
     ),
     Ok(
         "rDebugAssertFail_Implementation(char const *, char const *, unsigned int)",
@@ -43599,7 +43599,7 @@ expression: "demangle_lines(contents, &config)"
         "rDebuggerString_Implementation(char const *)",
     ),
     Ok(
-        "rReleasePrintf(char const *,...)",
+        "rReleasePrintf(char const *, ...)",
     ),
     Ok(
         "global constructors keyed to rDebugVsnPrintf(char *, unsigned int, char const *, char *)",
@@ -48507,7 +48507,7 @@ expression: "demangle_lines(contents, &config)"
         "istream::gets(char **, char)",
     ),
     Ok(
-        "istream::scan(char const *,...)",
+        "istream::scan(char const *, ...)",
     ),
     Ok(
         "istream::vscan(char const *, char *)",
@@ -48516,7 +48516,7 @@ expression: "demangle_lines(contents, &config)"
         "streambuf::vscan(char const *, char *, ios *)",
     ),
     Ok(
-        "streambuf::scan(char const *,...)",
+        "streambuf::scan(char const *, ...)",
     ),
     Ok(
         "ios::sync_with_stdio(int)",
@@ -53024,7 +53024,7 @@ expression: "demangle_lines(contents, &config)"
         "global frames keyed to istream::getline(char *, int, char)",
     ),
     Ok(
-        "global frames keyed to istream::scan(char const *,...)",
+        "global frames keyed to istream::scan(char const *, ...)",
     ),
     Ok(
         "global frames keyed to streambuf::vscan(char const *, char *, ios *)",

@@ -23,16 +23,22 @@ pub(crate) enum DemangledArg {
 }
 
 pub(crate) struct DemangledArgVec<'c, 'ns> {
-    _config: &'c DemangleConfig,
+    config: &'c DemangleConfig,
     namespace: Option<&'ns str>,
     args: Vec<DemangledArg>,
+
+    /// !HACK(c++filt): Allows to avoid emitting an space between a comma and
+    /// the ellipsis.
+    /// This is will always be `false` if `DemangleConfig::ellipsis_emit_space_after_comma`
+    /// is set to `true`. Ellipsis will be handled as yet another element
+    /// inside the `args` vector.
     trailing_ellipsis: bool,
 }
 
 impl<'c, 'ns> DemangledArgVec<'c, 'ns> {
     pub(crate) fn new(config: &'c DemangleConfig, namespace: Option<&'ns str>) -> Self {
         Self {
-            _config: config,
+            config,
             namespace,
             args: Vec::new(),
             trailing_ellipsis: false,
@@ -70,6 +76,8 @@ impl<'c, 'ns> DemangledArgVec<'c, 'ns> {
         remaining: &'s str,
         allow_data_after_ellipsis: bool,
     ) -> Result<bool, DemangleError<'s>> {
+        let mut found_end = false;
+
         let arg = match arg {
             a @ DemangledArg::Plain(_) => a,
             DemangledArg::Repeat { count, index } => {
@@ -97,12 +105,16 @@ impl<'c, 'ns> DemangledArgVec<'c, 'ns> {
                 if !allow_data_after_ellipsis && !remaining.is_empty() {
                     return Err(DemangleError::TrailingDataAfterEllipsis(remaining));
                 }
-                self.trailing_ellipsis = true;
-                return Ok(true);
+                found_end = true;
+                if !self.config.ellipsis_emit_space_after_comma {
+                    self.trailing_ellipsis = true;
+                    return Ok(found_end);
+                }
+                DemangledArg::Ellipsis
             }
         };
         self.args.push(arg);
-        Ok(false)
+        Ok(found_end)
     }
 
     pub(crate) fn join(self) -> String {
@@ -134,7 +146,7 @@ impl<'c, 'ns> DemangledArgVec<'c, 'ns> {
 
         let mut out = args.join(", ");
         if self.trailing_ellipsis {
-            // !HACK(c++filt):  Special case to mimic c++filt, since it doesn't
+            // !HACK(c++filt): Special case to mimic c++filt, since it doesn't
             // !use an space between the comma and the ellipsis.
             if !out.is_empty() {
                 out.push(',');

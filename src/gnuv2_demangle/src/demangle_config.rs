@@ -68,6 +68,44 @@ pub struct DemangleConfig {
     /// );
     /// ```
     pub demangle_global_keyed_frames: bool,
+
+    /// Emit an space between a comma and an ellipsis (`...`) in the argument
+    /// list.
+    ///
+    /// This is just another c++filt compatibility setting.
+    ///
+    /// # Examples
+    ///
+    /// Turning off this setting (mimicking c++filt behavior):
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.ellipsis_emit_space_after_comma = false;
+    ///
+    /// let demangled = demangle("Printf__7ConsolePce", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("Console::Printf(char *,...)")
+    /// );
+    /// ```
+    ///
+    /// The setting turned on:
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.ellipsis_emit_space_after_comma = true;
+    ///
+    /// let demangled = demangle("Printf__7ConsolePce", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("Console::Printf(char *, ...)")
+    /// );
+    /// ```
+    pub ellipsis_emit_space_after_comma: bool,
 }
 
 impl DemangleConfig {
@@ -78,6 +116,7 @@ impl DemangleConfig {
             preserve_namespaced_global_constructor_bug: true,
             fix_array_length_arg: false,
             demangle_global_keyed_frames: false,
+            ellipsis_emit_space_after_comma: false,
         }
     }
 
@@ -87,6 +126,7 @@ impl DemangleConfig {
             preserve_namespaced_global_constructor_bug: false,
             fix_array_length_arg: true,
             demangle_global_keyed_frames: true,
+            ellipsis_emit_space_after_comma: true,
         }
     }
 }
