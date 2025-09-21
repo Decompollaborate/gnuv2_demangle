@@ -20,6 +20,7 @@ pub enum DemangleError<'s> {
     InvalidCustomNameOnTemplate(&'s str),
     InvalidNamespaceOnTemplatedFunction(&'s str),
     InvalidSymbolNameOnTemplateType(&'s str),
+    InvalidClassNameOnMethodArgument(&'s str),
     UnknownType(char, &'s str),
     InvalidRepeatingArgument(&'s str),
     RanOutWhileDemanglingSpecial,
@@ -65,6 +66,9 @@ pub enum DemangleError<'s> {
     MalformedTemplateWithReturnTypeMissingReturnType(&'s str),
     MalformedTemplateWithReturnTypeMissingMalformedReturnType(&'s str),
     TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(&'s str),
+    InvalidQualifierForMethodMemberArg(&'s str),
+    MissingFirstClassArgumentForMethodMemberArg(&'s str),
+    UnkonwnMethodMemberArgKind(&'s str),
 }
 
 impl fmt::Display for DemangleError<'_> {

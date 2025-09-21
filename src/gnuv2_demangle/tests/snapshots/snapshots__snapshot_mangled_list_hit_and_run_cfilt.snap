@@ -26085,27 +26085,24 @@ expression: "demangle_lines(contents, &config)"
         "choreo::FootBlender::Update(poser::Pose *)",
     ),
     Err(
-        UnknownType(
-            'M',
-            "MX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+        InvalidClassNameOnMethodArgument(
+            "X11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
         ),
     ),
     Ok(
         "bool choreo::BlendPriorities<RadicalMathLibrary::Vector>(choreo::BlendPriority<RadicalMathLibrary::Vector> const *, int, RadicalMathLibrary::Vector &)",
     ),
     Err(
-        UnknownType(
-            'M',
-            "MX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+        InvalidClassNameOnMethodArgument(
+            "X11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
         ),
     ),
     Ok(
         "bool choreo::BlendPriorities<RadicalMathLibrary::Quaternion>(choreo::BlendPriority<RadicalMathLibrary::Quaternion> const *, int, RadicalMathLibrary::Quaternion &)",
     ),
     Err(
-        UnknownType(
-            'M',
-            "MX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
+        InvalidClassNameOnMethodArgument(
+            "X11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
         ),
     ),
     Ok(
@@ -26211,15 +26208,13 @@ expression: "demangle_lines(contents, &config)"
         "choreo::JointBlender::Update(poser::Pose *)",
     ),
     Err(
-        UnknownType(
-            'M',
-            "MX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+        InvalidClassNameOnMethodArgument(
+            "X21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
         ),
     ),
     Err(
-        UnknownType(
-            'M',
-            "MX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+        InvalidClassNameOnMethodArgument(
+            "X21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
         ),
     ),
     Ok(
@@ -27309,21 +27304,18 @@ expression: "demangle_lines(contents, &config)"
         "choreo::RootFixupDriver::Update(poser::Pose *)",
     ),
     Err(
-        UnknownType(
-            'M',
-            "MX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+        InvalidClassNameOnMethodArgument(
+            "X21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
         ),
     ),
     Err(
-        UnknownType(
-            'M',
-            "MX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+        InvalidClassNameOnMethodArgument(
+            "X21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
         ),
     ),
     Err(
-        UnknownType(
-            'M',
-            "MX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
+        InvalidClassNameOnMethodArgument(
+            "X11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
         ),
     ),
     Ok(

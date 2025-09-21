@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DemangleConfig::ellipsis_emit_space_after_comma`: If set then emit an space
   between the ellipsis and the last comma in the argument list.
   - Defaults to `false` to mimic c++filt behavior.
+- Partial support for method pointers.
 
 ### Changed
 

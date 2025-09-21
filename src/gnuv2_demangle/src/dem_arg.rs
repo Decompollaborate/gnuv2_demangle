@@ -4,7 +4,10 @@
 use core::fmt;
 use core::num::NonZeroUsize;
 
-use alloc::{borrow::Cow, string::String};
+use alloc::{
+    borrow::Cow,
+    string::{String, ToString},
+};
 
 use crate::str_cutter::StrCutter;
 use crate::{DemangleConfig, DemangleError};
@@ -21,6 +24,7 @@ use crate::{
 pub(crate) enum DemangledArg {
     Plain(String),
     FunctionPointer(FunctionPointer),
+    MethodPointer(MethodPointer),
     Repeat { count: NonZeroUsize, index: usize },
     Ellipsis,
 }
@@ -30,6 +34,15 @@ pub(crate) struct FunctionPointer {
     return_type: String,
     post_qualifiers: String,
     args: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct MethodPointer {
+    return_type: String,
+    class: String, // TODO: `&'s str` instead? should be easy, i think...
+    post_qualifiers: String,
+    args: String,
+    is_const_method: bool,
 }
 
 impl fmt::Display for FunctionPointer {
@@ -48,6 +61,29 @@ impl fmt::Display for FunctionPointer {
         let post_qualifiers = post_qualifiers.trim_matches(' ');
 
         write!(f, "{return_type}{space}({post_qualifiers})({args})")
+    }
+}
+
+impl fmt::Display for MethodPointer {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let MethodPointer {
+            return_type,
+            class,
+            post_qualifiers,
+            args,
+            is_const_method,
+        } = self;
+
+        write!(f, "{return_type}")?;
+        if !return_type.ends_with(['*', '&']) {
+            write!(f, " ")?;
+        }
+        write!(f, "({}::{})", class, post_qualifiers.trim_matches(' '))?;
+        write!(f, "({args})")?;
+        if *is_const_method {
+            write!(f, " const")?;
+        }
+        Ok(())
     }
 }
 
@@ -71,7 +107,12 @@ pub(crate) fn demangle_argument<'s>(
     } = demangle_array_pseudo_qualifier(config, args, pre_qualifier, post_qualifiers)?;
 
     if let Some(s) = args.strip_prefix('F') {
-        return demangle_function_pointer_arg(config, s, pre_qualifier, post_qualifiers);
+        let (r, fp) = demangle_function_pointer_arg(config, s, pre_qualifier, post_qualifiers)?;
+        return Ok((r, DemangledArg::FunctionPointer(fp)));
+    } else if let Some(r) = args.strip_prefix('M') {
+        let (r, mp) =
+            demangle_method_pointer_arg(config, r, full_args, pre_qualifier, post_qualifiers)?;
+        return Ok((r, DemangledArg::MethodPointer(mp)));
     }
 
     // 'G' is used for classes, structs and unions, so we must make sure we
@@ -191,7 +232,7 @@ fn demangle_qualifierless_arg<'s>(
     _config: &DemangleConfig,
     full_args: &'s str,
 ) -> Result<Option<(&'s str, DemangledArg)>, DemangleError<'s>> {
-    #[allow(clippy::manual_map)]
+    #[expect(clippy::manual_map)]
     let maybe_demangled = if let Some(repeater) = full_args.strip_prefix('N') {
         let remaining = repeater;
         let Remaining {
@@ -226,20 +267,20 @@ fn demangle_function_pointer_arg<'s>(
     s: &'s str,
     pre_qualifier: &str,
     post_qualifiers: String,
-) -> Result<(&'s str, DemangledArg), DemangleError<'s>> {
-    let (r, subargs) =
+) -> Result<(&'s str, FunctionPointer), DemangleError<'s>> {
+    let (r, func_args) =
         demangle_argument_list_impl(config, s, None, &ArgVec::new(config, None), true)?;
     let Some(r) = r.strip_prefix('_') else {
         return Err(DemangleError::MissingReturnTypeForFunctionPointer(r));
     };
 
-    let (r, return_type) = demangle_argument(config, r, &subargs, &ArgVec::new(config, None))?;
+    let (r, return_type) = demangle_argument(config, r, &func_args, &ArgVec::new(config, None))?;
 
     let fp = match return_type {
         DemangledArg::Plain(plain) => FunctionPointer {
             return_type: format!("{pre_qualifier}{plain}"),
             post_qualifiers,
-            args: subargs.join(),
+            args: func_args.join(),
         },
         DemangledArg::FunctionPointer(function_pointer) => {
             let FunctionPointer {
@@ -247,12 +288,31 @@ fn demangle_function_pointer_arg<'s>(
                 post_qualifiers: sub_post_qualifiers,
                 args: sub_args,
             } = function_pointer;
+            let func_args = func_args.join();
             FunctionPointer {
                 return_type: sub_return_type,
                 // This is kinda hacky, but it seems to work...
                 post_qualifiers: format!(
-                    "{pre_qualifier}{post_qualifiers}({sub_post_qualifiers})({})",
-                    subargs.join()
+                    "{pre_qualifier}{post_qualifiers}({sub_post_qualifiers})({func_args})",
+                ),
+                args: sub_args,
+            }
+        }
+        DemangledArg::MethodPointer(method_pointer) => {
+            // Copied from the FunctionPointer block
+            let MethodPointer {
+                return_type: sub_return_type,
+                class,
+                post_qualifiers: sub_post_qualifiers,
+                args: sub_args,
+                is_const_method,
+            } = method_pointer;
+            let func_args = func_args.join();
+            let const_qualifier = if is_const_method { " const" } else { "" };
+            FunctionPointer {
+                return_type: sub_return_type,
+                post_qualifiers: format!(
+                    "{pre_qualifier}{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}",
                 ),
                 args: sub_args,
             }
@@ -262,7 +322,70 @@ fn demangle_function_pointer_arg<'s>(
         }
     };
 
-    Ok((r, DemangledArg::FunctionPointer(fp)))
+    Ok((r, fp))
+}
+
+/// Method pointer
+fn demangle_method_pointer_arg<'s>(
+    config: &DemangleConfig,
+    s: &'s str,
+    full_args: &'s str,
+    pre_qualifier: &str,
+    post_qualifiers: String,
+) -> Result<(&'s str, MethodPointer), DemangleError<'s>> {
+    if !pre_qualifier.is_empty() || !post_qualifiers.chars().all(|c| c == '*') {
+        // The only qualifer valid for this seems to be pointer (`*`), not
+        // even references (`&`) seem to be valid C++
+        return Err(DemangleError::InvalidQualifierForMethodMemberArg(full_args));
+    }
+
+    let Remaining { r, d: class_name } =
+        demangle_custom_name(s, DemangleError::InvalidClassNameOnMethodArgument)?;
+    let (r, is_const_method) = r.c_maybe_strip_prefix('C');
+    if let Some(func_pointer) = r.strip_prefix('F') {
+        // First argument should be a pointer to the class name.
+        // We can't do much about it, besides use it check the mangled name is valid.
+        let (r, class_name_again) = demangle_argument(
+            config,
+            func_pointer,
+            &ArgVec::new(config, None),
+            &ArgVec::new(config, None),
+        )?;
+        if let DemangledArg::Plain(_class_name_as_arg) = class_name_again {
+            /*
+            println!("{class_name_as_arg}");
+            let Some((arg_class_name, "*")) = class_name_as_arg.c_split2(" ") else {
+                return Err(DemangleError::MissingFirstClassArgumentForMethodMemberArg(func_pointer));
+            };
+            if class_name != arg_class_name {
+                return Err(DemangleError::MissingFirstClassArgumentForMethodMemberArg(func_pointer));
+            }
+            */
+        } else {
+            return Err(DemangleError::MissingFirstClassArgumentForMethodMemberArg(
+                func_pointer,
+            ));
+        }
+
+        let (r, fp) = demangle_function_pointer_arg(config, r, pre_qualifier, post_qualifiers)?;
+        let FunctionPointer {
+            return_type,
+            post_qualifiers,
+            args,
+        } = fp;
+
+        let arg = MethodPointer {
+            return_type,
+            class: class_name.to_string(),
+            post_qualifiers,
+            args,
+            is_const_method,
+        };
+        Ok((r, arg))
+    } else {
+        // What else could this be?
+        Err(DemangleError::UnkonwnMethodMemberArgKind(r))
+    }
 }
 
 fn demangle_arg_qualifiers<'s>(

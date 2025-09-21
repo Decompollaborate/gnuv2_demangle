@@ -81,6 +81,9 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
             DemangledArg::FunctionPointer(function_pointer) => {
                 ProcessedArg::Plain(function_pointer.to_string())
             }
+            DemangledArg::MethodPointer(method_pointer) => {
+                ProcessedArg::Plain(method_pointer.to_string())
+            }
             DemangledArg::Repeat { count, index } => {
                 // Check the index is in-bounds
                 if self.namespace.is_some() {

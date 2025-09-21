@@ -850,6 +850,105 @@ fn test_demangle_operator_on_templated() {
     }
 }
 
+#[test]
+fn test_demangle_method_as_argument_() {
+    // Code to generate first entry:
+    // EE GCC 2.95.3 (SN BUILD v1.14)
+    /*
+    class SomeClass {
+    public:
+        void AClassMethod(void) {}
+    };
+    void class_method_args(void (SomeClass::*)(void)) {}
+    */
+    static CASES: [(&str, &str); 2] = [
+        (
+            "class_method_args__FPM9SomeClassFP9SomeClass_v",
+            "class_method_args(void (SomeClass::*)())",
+        ),
+        (
+            "class_method_args__FPM9SomeClassCFPC9SomeClass_v",
+            "class_method_args(void (SomeClass::*)() const)",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+/*
+#[test]
+fn test_demangle_method_as_argument_in_templated_single() {
+    // EE GCC 2.95.3 (SN BUILD v1.14)
+    /*
+    namespace RadicalMathLibrary {
+        class Vector {};
+    }
+
+    namespace choreo {
+        class FootBlendDriver {
+        public:
+            void blendWithFoot(RadicalMathLibrary::Vector& vector) const {}
+        };
+
+        template <typename T>
+        class BlendPriority {};
+
+        template <typename T, typename U>
+        void BlendDriverNoContext(
+            U*,
+            void (U::*)(T&) const,
+            float,
+            int,
+            BlendPriority<T>*,
+            int,
+            int&
+        ) {}
+    }
+
+    void triggerer(
+        choreo::FootBlendDriver * a,
+        float c,
+        int d,
+        choreo::BlendPriority<RadicalMathLibrary::Vector> * e,
+        int f,
+        int & g
+    ) {
+        choreo::BlendDriverNoContext(a, &choreo::FootBlendDriver::blendWithFoot, c, d, e, f, g);
+    }
+    */
+    static CASES: [(&str, &str); 1] = [
+        ("BlendDriverNoContext__H2ZQ218RadicalMathLibrary6VectorZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_method_as_argument_in_templated_many() {
+    static CASES: [(&str, &str); 8] = [
+        ("BlendDriverNoContext__H2ZQ218RadicalMathLibrary6VectorZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+        ("BlendDriverNoContext__H2ZQ218RadicalMathLibrary10QuaternionZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+        ("BlendDriverNoContext__H2ZfZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+        ("BlendDriverWithContext__H3ZQ218RadicalMathLibrary6VectorZiZQ26choreo16JointBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+        ("BlendDriverWithContext__H3ZQ218RadicalMathLibrary10QuaternionZiZQ26choreo16JointBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+        ("BlendDriverWithContext__H3ZQ218RadicalMathLibrary6VectorZRCQ25poser9TransformZQ26choreo15RootBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+        ("BlendDriverWithContext__H3ZQ218RadicalMathLibrary10QuaternionZRCQ25poser9TransformZQ26choreo15RootBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+        ("BlendDriverNoContext__H2ZfZQ26choreo15RootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+*/
+
 /*
 #[test]
 fn test_demangle_single() {
