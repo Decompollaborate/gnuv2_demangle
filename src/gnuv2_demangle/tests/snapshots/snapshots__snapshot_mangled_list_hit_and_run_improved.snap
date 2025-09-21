@@ -26096,11 +26096,8 @@ expression: "demangle_lines(contents, &config)"
     Ok(
         "bool choreo::BlendPriorities<RadicalMathLibrary::Quaternion>(choreo::BlendPriority<RadicalMathLibrary::Quaternion> const *, int, RadicalMathLibrary::Quaternion &)",
     ),
-    Err(
-        IndexTooBigForXArgument(
-            "fiPQ26choreot13BlendPriority1ZX01iRi_v",
-            0,
-        ),
+    Ok(
+        "void choreo::BlendDriverNoContext<float, choreo::FootBlendDriver>(choreo::FootBlendDriver *, float (choreo::FootBlendDriver::*)() const, float, int, choreo::BlendPriority<float> *, int, int &)",
     ),
     Ok(
         "bool choreo::BlendPriorities<float>(choreo::BlendPriority<float> const *, int, float &)",
@@ -27302,11 +27299,8 @@ expression: "demangle_lines(contents, &config)"
     Ok(
         "void choreo::BlendDriverWithContext<RadicalMathLibrary::Quaternion, poser::Transform const &, choreo::RootBlendDriver>(poser::Transform const &, choreo::RootBlendDriver *, void (choreo::RootBlendDriver::*)(poser::Transform const &, RadicalMathLibrary::Quaternion &) const, float, int, choreo::BlendPriority<RadicalMathLibrary::Quaternion> *, int, int &)",
     ),
-    Err(
-        IndexTooBigForXArgument(
-            "fiPQ26choreot13BlendPriority1ZX01iRi_v",
-            0,
-        ),
+    Ok(
+        "void choreo::BlendDriverNoContext<float, choreo::RootBlendDriver>(choreo::RootBlendDriver *, float (choreo::RootBlendDriver::*)() const, float, int, choreo::BlendPriority<float> *, int, int &)",
     ),
     Ok(
         "choreo::RootBlender type_info function",

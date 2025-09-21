@@ -286,7 +286,7 @@ fn demangle_function_pointer_arg<'s>(
         return Err(DemangleError::MissingReturnTypeForFunctionPointer(r));
     };
 
-    let (r, return_type) = demangle_argument(config, r, &func_args, &ArgVec::new(config, None))?;
+    let (r, return_type) = demangle_argument(config, r, &func_args, template_args)?;
 
     let fp = match return_type {
         DemangledArg::Plain(plain) => FunctionPointer {
