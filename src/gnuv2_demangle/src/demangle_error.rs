@@ -68,6 +68,9 @@ pub enum DemangleError<'s> {
     TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(&'s str),
     InvalidQualifierForMethodMemberArg(&'s str),
     MissingFirstClassArgumentForMethodMemberArg(&'s str),
+    MethodPointerNotHavingAPointerFirst(&'s str),
+    MethodPointerMissingConstness(&'s str),
+    MethodPointerWrongClassName(&'s str),
     UnkonwnMethodMemberArgKind(&'s str),
 }
 

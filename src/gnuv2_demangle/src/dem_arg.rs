@@ -107,11 +107,23 @@ pub(crate) fn demangle_argument<'s>(
     } = demangle_array_pseudo_qualifier(config, args, pre_qualifier, post_qualifiers)?;
 
     if let Some(s) = args.strip_prefix('F') {
-        let (r, fp) = demangle_function_pointer_arg(config, s, pre_qualifier, post_qualifiers)?;
+        let (r, fp) = demangle_function_pointer_arg(
+            config,
+            s,
+            template_args,
+            pre_qualifier,
+            post_qualifiers,
+        )?;
         return Ok((r, DemangledArg::FunctionPointer(fp)));
     } else if let Some(r) = args.strip_prefix('M') {
-        let (r, mp) =
-            demangle_method_pointer_arg(config, r, full_args, pre_qualifier, post_qualifiers)?;
+        let (r, mp) = demangle_method_pointer_arg(
+            config,
+            r,
+            full_args,
+            template_args,
+            pre_qualifier,
+            post_qualifiers,
+        )?;
         return Ok((r, DemangledArg::MethodPointer(mp)));
     }
 
@@ -265,11 +277,11 @@ fn demangle_qualifierless_arg<'s>(
 fn demangle_function_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
+    template_args: &ArgVec,
     pre_qualifier: &str,
     post_qualifiers: String,
 ) -> Result<(&'s str, FunctionPointer), DemangleError<'s>> {
-    let (r, func_args) =
-        demangle_argument_list_impl(config, s, None, &ArgVec::new(config, None), true)?;
+    let (r, func_args) = demangle_argument_list_impl(config, s, None, template_args, true)?;
     let Some(r) = r.strip_prefix('_') else {
         return Err(DemangleError::MissingReturnTypeForFunctionPointer(r));
     };
@@ -299,7 +311,7 @@ fn demangle_function_pointer_arg<'s>(
             }
         }
         DemangledArg::MethodPointer(method_pointer) => {
-            // Copied from the FunctionPointer block
+            // Copied from the FunctionPointer block. Untested
             let MethodPointer {
                 return_type: sub_return_type,
                 class,
@@ -330,6 +342,7 @@ fn demangle_method_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
     full_args: &'s str,
+    template_args: &ArgVec,
     pre_qualifier: &str,
     post_qualifiers: String,
 ) -> Result<(&'s str, MethodPointer), DemangleError<'s>> {
@@ -339,35 +352,62 @@ fn demangle_method_pointer_arg<'s>(
         return Err(DemangleError::InvalidQualifierForMethodMemberArg(full_args));
     }
 
-    let Remaining { r, d: class_name } =
-        demangle_custom_name(s, DemangleError::InvalidClassNameOnMethodArgument)?;
+    let (r, class_name) = if s.starts_with(|c| matches!(c, '1'..='9')) {
+        let Remaining { r, d: class_name } =
+            demangle_custom_name(s, DemangleError::InvalidClassNameOnMethodArgument)?;
+        (r, Cow::from(class_name))
+    } else {
+        let (r, DemangledArg::Plain(class_name)) =
+            demangle_argument(config, s, &ArgVec::new(config, None), template_args)?
+        else {
+            return Err(DemangleError::InvalidClassNameOnMethodArgument(s));
+        };
+
+        (r, Cow::from(class_name))
+    };
+
     let (r, is_const_method) = r.c_maybe_strip_prefix('C');
     if let Some(func_pointer) = r.strip_prefix('F') {
-        // First argument should be a pointer to the class name.
-        // We can't do much about it, besides use it check the mangled name is valid.
-        let (r, class_name_again) = demangle_argument(
-            config,
-            func_pointer,
-            &ArgVec::new(config, None),
-            &ArgVec::new(config, None),
-        )?;
-        if let DemangledArg::Plain(_class_name_as_arg) = class_name_again {
-            /*
-            println!("{class_name_as_arg}");
-            let Some((arg_class_name, "*")) = class_name_as_arg.c_split2(" ") else {
-                return Err(DemangleError::MissingFirstClassArgumentForMethodMemberArg(func_pointer));
-            };
-            if class_name != arg_class_name {
-                return Err(DemangleError::MissingFirstClassArgumentForMethodMemberArg(func_pointer));
-            }
-            */
-        } else {
-            return Err(DemangleError::MissingFirstClassArgumentForMethodMemberArg(
-                func_pointer,
-            ));
-        }
+        let r = {
+            // First argument should be a pointer to the class name.
+            // We can't do much about it, besides use it check the mangled name
+            // is valid.
 
-        let (r, fp) = demangle_function_pointer_arg(config, r, pre_qualifier, post_qualifiers)?;
+            // It has to be a pointer
+            let Some(r) = func_pointer.strip_prefix('P') else {
+                return Err(DemangleError::MethodPointerNotHavingAPointerFirst(
+                    func_pointer,
+                ));
+            };
+
+            // Possibly `const`, but only if the class is const.
+            let r = if is_const_method {
+                r.strip_prefix('C')
+                    .ok_or(DemangleError::MethodPointerMissingConstness(func_pointer))?
+            } else {
+                r
+            };
+
+            let (r, DemangledArg::Plain(class_name_again)) =
+                demangle_argument(config, r, &ArgVec::new(config, None), template_args)?
+            else {
+                return Err(DemangleError::MissingFirstClassArgumentForMethodMemberArg(
+                    func_pointer,
+                ));
+            };
+            if class_name != class_name_again {
+                return Err(DemangleError::MethodPointerWrongClassName(func_pointer));
+            }
+            r
+        };
+
+        let (r, fp) = demangle_function_pointer_arg(
+            config,
+            r,
+            template_args,
+            pre_qualifier,
+            post_qualifiers,
+        )?;
         let FunctionPointer {
             return_type,
             post_qualifiers,

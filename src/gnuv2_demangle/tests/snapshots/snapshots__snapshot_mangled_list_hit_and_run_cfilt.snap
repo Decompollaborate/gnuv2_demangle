@@ -26084,25 +26084,22 @@ expression: "demangle_lines(contents, &config)"
     Ok(
         "choreo::FootBlender::Update(poser::Pose *)",
     ),
-    Err(
-        InvalidClassNameOnMethodArgument(
-            "X11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
-        ),
+    Ok(
+        "void choreo::BlendDriverNoContext<RadicalMathLibrary::Vector, choreo::FootBlendDriver>(choreo::FootBlendDriver *, void (choreo::FootBlendDriver::*)(RadicalMathLibrary::Vector &) const, float, int, choreo::BlendPriority<RadicalMathLibrary::Vector> *, int, int &)",
     ),
     Ok(
         "bool choreo::BlendPriorities<RadicalMathLibrary::Vector>(choreo::BlendPriority<RadicalMathLibrary::Vector> const *, int, RadicalMathLibrary::Vector &)",
     ),
-    Err(
-        InvalidClassNameOnMethodArgument(
-            "X11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
-        ),
+    Ok(
+        "void choreo::BlendDriverNoContext<RadicalMathLibrary::Quaternion, choreo::FootBlendDriver>(choreo::FootBlendDriver *, void (choreo::FootBlendDriver::*)(RadicalMathLibrary::Quaternion &) const, float, int, choreo::BlendPriority<RadicalMathLibrary::Quaternion> *, int, int &)",
     ),
     Ok(
         "bool choreo::BlendPriorities<RadicalMathLibrary::Quaternion>(choreo::BlendPriority<RadicalMathLibrary::Quaternion> const *, int, RadicalMathLibrary::Quaternion &)",
     ),
     Err(
-        InvalidClassNameOnMethodArgument(
-            "X11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
+        IndexTooBigForXArgument(
+            "fiPQ26choreot13BlendPriority1ZX01iRi_v",
+            0,
         ),
     ),
     Ok(
@@ -26207,15 +26204,11 @@ expression: "demangle_lines(contents, &config)"
     Ok(
         "choreo::JointBlender::Update(poser::Pose *)",
     ),
-    Err(
-        InvalidClassNameOnMethodArgument(
-            "X21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
-        ),
+    Ok(
+        "void choreo::BlendDriverWithContext<RadicalMathLibrary::Vector, int, choreo::JointBlendDriver>(int, choreo::JointBlendDriver *, void (choreo::JointBlendDriver::*)(int, RadicalMathLibrary::Vector &) const, float, int, choreo::BlendPriority<RadicalMathLibrary::Vector> *, int, int &)",
     ),
-    Err(
-        InvalidClassNameOnMethodArgument(
-            "X21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
-        ),
+    Ok(
+        "void choreo::BlendDriverWithContext<RadicalMathLibrary::Quaternion, int, choreo::JointBlendDriver>(int, choreo::JointBlendDriver *, void (choreo::JointBlendDriver::*)(int, RadicalMathLibrary::Quaternion &) const, float, int, choreo::BlendPriority<RadicalMathLibrary::Quaternion> *, int, int &)",
     ),
     Ok(
         "choreo::JointBlender type_info function",
@@ -27303,19 +27296,16 @@ expression: "demangle_lines(contents, &config)"
     Ok(
         "choreo::RootFixupDriver::Update(poser::Pose *)",
     ),
-    Err(
-        InvalidClassNameOnMethodArgument(
-            "X21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
-        ),
+    Ok(
+        "void choreo::BlendDriverWithContext<RadicalMathLibrary::Vector, poser::Transform const &, choreo::RootBlendDriver>(poser::Transform const &, choreo::RootBlendDriver *, void (choreo::RootBlendDriver::*)(poser::Transform const &, RadicalMathLibrary::Vector &) const, float, int, choreo::BlendPriority<RadicalMathLibrary::Vector> *, int, int &)",
+    ),
+    Ok(
+        "void choreo::BlendDriverWithContext<RadicalMathLibrary::Quaternion, poser::Transform const &, choreo::RootBlendDriver>(poser::Transform const &, choreo::RootBlendDriver *, void (choreo::RootBlendDriver::*)(poser::Transform const &, RadicalMathLibrary::Quaternion &) const, float, int, choreo::BlendPriority<RadicalMathLibrary::Quaternion> *, int, int &)",
     ),
     Err(
-        InvalidClassNameOnMethodArgument(
-            "X21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
-        ),
-    ),
-    Err(
-        InvalidClassNameOnMethodArgument(
-            "X11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
+        IndexTooBigForXArgument(
+            "fiPQ26choreot13BlendPriority1ZX01iRi_v",
+            0,
         ),
     ),
     Ok(

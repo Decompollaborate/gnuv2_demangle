@@ -878,7 +878,6 @@ fn test_demangle_method_as_argument_() {
     }
 }
 
-/*
 #[test]
 fn test_demangle_method_as_argument_in_templated_single() {
     // EE GCC 2.95.3 (SN BUILD v1.14)
@@ -919,8 +918,16 @@ fn test_demangle_method_as_argument_in_templated_single() {
         choreo::BlendDriverNoContext(a, &choreo::FootBlendDriver::blendWithFoot, c, d, e, f, g);
     }
     */
-    static CASES: [(&str, &str); 1] = [
-        ("BlendDriverNoContext__H2ZQ218RadicalMathLibrary6VectorZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+    static CASES: [(&str, &str); 2] = [
+        (
+            "BlendDriverNoContext__H2ZQ218RadicalMathLibrary6VectorZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverNoContext<RadicalMathLibrary::Vector, choreo::FootBlendDriver>(choreo::FootBlendDriver *, void (choreo::FootBlendDriver::*)(RadicalMathLibrary::Vector &) const, float, int, choreo::BlendPriority<RadicalMathLibrary::Vector> *, int, int &)",
+        ),
+        (
+            // Non const method variant.
+            "BlendDriverNoContext__H2ZQ218RadicalMathLibrary6VectorZQ26choreo15FootBlendDriver_6choreoPX11PMX11FPX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverNoContext<RadicalMathLibrary::Vector, choreo::FootBlendDriver>(choreo::FootBlendDriver *, void (choreo::FootBlendDriver::*)(RadicalMathLibrary::Vector &), float, int, choreo::BlendPriority<RadicalMathLibrary::Vector> *, int, int &)",
+        ),
     ];
     let config = DemangleConfig::new();
 
@@ -929,17 +936,42 @@ fn test_demangle_method_as_argument_in_templated_single() {
     }
 }
 
+/*
 #[test]
 fn test_demangle_method_as_argument_in_templated_many() {
     static CASES: [(&str, &str); 8] = [
-        ("BlendDriverNoContext__H2ZQ218RadicalMathLibrary6VectorZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
-        ("BlendDriverNoContext__H2ZQ218RadicalMathLibrary10QuaternionZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
-        ("BlendDriverNoContext__H2ZfZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
-        ("BlendDriverWithContext__H3ZQ218RadicalMathLibrary6VectorZiZQ26choreo16JointBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
-        ("BlendDriverWithContext__H3ZQ218RadicalMathLibrary10QuaternionZiZQ26choreo16JointBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
-        ("BlendDriverWithContext__H3ZQ218RadicalMathLibrary6VectorZRCQ25poser9TransformZQ26choreo15RootBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
-        ("BlendDriverWithContext__H3ZQ218RadicalMathLibrary10QuaternionZRCQ25poser9TransformZQ26choreo15RootBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
-        ("BlendDriverNoContext__H2ZfZQ26choreo15RootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v", ""),
+        (
+            "BlendDriverNoContext__H2ZQ218RadicalMathLibrary6VectorZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverNoContext<RadicalMathLibrary::Vector, choreo::FootBlendDriver>(choreo::FootBlendDriver *, void (choreo::FootBlendDriver::*)(RadicalMathLibrary::Vector &) const, float, int, choreo::BlendPriority<RadicalMathLibrary::Vector> *, int, int &)",
+        ),
+        (
+            "BlendDriverNoContext__H2ZQ218RadicalMathLibrary10QuaternionZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverNoContext<RadicalMathLibrary::Quaternion, choreo::FootBlendDriver>(choreo::FootBlendDriver *, void (choreo::FootBlendDriver::*)(choreo::FootBlendDriver *, RadicalMathLibrary::Quaternion &), float, int, choreo::BlendPriority<RadicalMathLibrary::Quaternion> *, int, int &)",
+        ),
+        (
+            "BlendDriverNoContext__H2ZfZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverNoContext<float, choreo::FootBlendDriver>(choreo::FootBlendDriver *, float (choreo::FootBlendDriver::*)(choreo::FootBlendDriver *), float, int, choreo::BlendPriority<float> *, int, int &)",
+        ),
+        (
+            "BlendDriverWithContext__H3ZQ218RadicalMathLibrary6VectorZiZQ26choreo16JointBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverWithContext<RadicalMathLibrary::Vector, int, choreo::JointBlendDriver>(int, choreo::JointBlendDriver *, void (choreo::JointBlendDriver::*)(choreo::JointBlendDriver *, int, RadicalMathLibrary::Vector &), float, int, choreo::BlendPriority<RadicalMathLibrary::Vector> *, int, int &)",
+        ),
+        (
+            "BlendDriverWithContext__H3ZQ218RadicalMathLibrary10QuaternionZiZQ26choreo16JointBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverWithContext<RadicalMathLibrary::Quaternion, int, choreo::JointBlendDriver>(int, choreo::JointBlendDriver *, void (choreo::JointBlendDriver::*)(choreo::JointBlendDriver *, int, RadicalMathLibrary::Quaternion &), float, int, choreo::BlendPriority<RadicalMathLibrary::Quaternion> *, int, int &)",
+        ),
+        (
+            "BlendDriverWithContext__H3ZQ218RadicalMathLibrary6VectorZRCQ25poser9TransformZQ26choreo15RootBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverWithContext<RadicalMathLibrary::Vector, poser::Transform &, choreo::RootBlendDriver>(poser::Transform &, choreo::RootBlendDriver *, void (choreo::RootBlendDriver::*)(choreo::RootBlendDriver *, poser::Transform &, RadicalMathLibrary::Vector &), float, int, choreo::BlendPriority<RadicalMathLibrary::Vector> *, int, int &)",
+        ),
+        (
+            "BlendDriverWithContext__H3ZQ218RadicalMathLibrary10QuaternionZRCQ25poser9TransformZQ26choreo15RootBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverWithContext<RadicalMathLibrary::Quaternion, poser::Transform &, choreo::RootBlendDriver>(poser::Transform &, choreo::RootBlendDriver *, void (choreo::RootBlendDriver::*)(choreo::RootBlendDriver *, poser::Transform &, RadicalMathLibrary::Quaternion &), float, int, choreo::BlendPriority<RadicalMathLibrary::Quaternion> *, int, int &)",
+        ),
+        (
+            "BlendDriverNoContext__H2ZfZQ26choreo15RootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
+            "void choreo::BlendDriverNoContext<float, choreo::RootBlendDriver>(choreo::RootBlendDriver *, float (choreo::RootBlendDriver::*)(choreo::RootBlendDriver *), float, int, choreo::BlendPriority<float> *, int, int &)",
+        ),
     ];
     let config = DemangleConfig::new();
 
