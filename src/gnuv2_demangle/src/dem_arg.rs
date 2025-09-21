@@ -1,6 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+use core::fmt;
 use core::num::NonZeroUsize;
 
 use alloc::{borrow::Cow, string::String};
@@ -19,8 +20,35 @@ use crate::{
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum DemangledArg {
     Plain(String),
+    FunctionPointer(FunctionPointer),
     Repeat { count: NonZeroUsize, index: usize },
     Ellipsis,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct FunctionPointer {
+    return_type: String,
+    post_qualifiers: String,
+    args: String,
+}
+
+impl fmt::Display for FunctionPointer {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let FunctionPointer {
+            return_type,
+            post_qualifiers,
+            args,
+        } = self;
+
+        let space = if return_type.ends_with(['*', '&']) {
+            ""
+        } else {
+            " "
+        };
+        let post_qualifiers = post_qualifiers.trim_matches(' ');
+
+        write!(f, "{return_type}{space}({post_qualifiers})({args})")
+    }
 }
 
 pub(crate) fn demangle_argument<'s>(
@@ -43,7 +71,7 @@ pub(crate) fn demangle_argument<'s>(
     } = demangle_array_pseudo_qualifier(config, args, pre_qualifier, post_qualifiers)?;
 
     if let Some(s) = args.strip_prefix('F') {
-        return demangle_function_pointer_arg(config, s, pre_qualifier, &post_qualifiers);
+        return demangle_function_pointer_arg(config, s, pre_qualifier, post_qualifiers);
     }
 
     // 'G' is used for classes, structs and unions, so we must make sure we
@@ -197,7 +225,7 @@ fn demangle_function_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
     pre_qualifier: &str,
-    post_qualifiers: &str,
+    post_qualifiers: String,
 ) -> Result<(&'s str, DemangledArg), DemangleError<'s>> {
     let (r, subargs) =
         demangle_argument_list_impl(config, s, None, &ArgVec::new(config, None), true)?;
@@ -205,26 +233,41 @@ fn demangle_function_pointer_arg<'s>(
         return Err(DemangleError::MissingReturnTypeForFunctionPointer(r));
     };
 
-    let (r, DemangledArg::Plain(ret)) =
-        demangle_argument(config, r, &subargs, &ArgVec::new(config, None))?
-    else {
-        return Err(DemangleError::InvalidReturnTypeForFunctionPointer(r));
+    let (r, return_type) = demangle_argument(config, r, &subargs, &ArgVec::new(config, None))?;
+
+    let fp = match return_type {
+        DemangledArg::Plain(plain) => FunctionPointer {
+            return_type: format!("{pre_qualifier}{plain}"),
+            post_qualifiers,
+            args: subargs.join(),
+        },
+        DemangledArg::FunctionPointer(function_pointer) => {
+            let FunctionPointer {
+                return_type: sub_return_type,
+                post_qualifiers: sub_post_qualifiers,
+                args: sub_args,
+            } = function_pointer;
+            FunctionPointer {
+                return_type: sub_return_type,
+                // This is kinda hacky, but it seems to work...
+                post_qualifiers: format!(
+                    "{pre_qualifier}{post_qualifiers}({sub_post_qualifiers})({})",
+                    subargs.join()
+                ),
+                args: sub_args,
+            }
+        }
+        DemangledArg::Repeat { .. } | DemangledArg::Ellipsis => {
+            return Err(DemangleError::InvalidReturnTypeForFunctionPointer(r))
+        }
     };
 
-    let out = format!(
-        "{}{}{}({})({})",
-        pre_qualifier,
-        ret,
-        if ret.ends_with(['*', '&']) { "" } else { " " },
-        post_qualifiers.trim_matches(' '),
-        subargs.join()
-    );
-    Ok((r, DemangledArg::Plain(out)))
+    Ok((r, DemangledArg::FunctionPointer(fp)))
 }
 
 fn demangle_arg_qualifiers<'s>(
     s: &'s str,
-) -> Result<Remaining<'s, (&'s str, String)>, DemangleError<'s>> {
+) -> Result<Remaining<'s, (&'static str, String)>, DemangleError<'s>> {
     let mut remaining = s;
     let mut pre_qualifier = "";
     let mut post_qualifiers = String::new();
@@ -264,9 +307,9 @@ fn demangle_arg_qualifiers<'s>(
 fn demangle_array_pseudo_qualifier<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    mut pre_qualifier: &'s str,
+    mut pre_qualifier: &'static str,
     mut post_qualifiers: String,
-) -> Result<Remaining<'s, (&'s str, String)>, DemangleError<'s>> {
+) -> Result<Remaining<'s, (&'static str, String)>, DemangleError<'s>> {
     let r = if s.starts_with('A') {
         if !pre_qualifier.is_empty() {
             // Avoid stuff like "signed signed"

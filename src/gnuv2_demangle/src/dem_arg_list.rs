@@ -1,7 +1,10 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{string::String, vec::Vec};
+use alloc::{
+    string::{String, ToString},
+    vec::Vec,
+};
 
 use crate::{DemangleConfig, DemangleError};
 
@@ -75,6 +78,9 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
         // internal one.
         let arg = match arg {
             DemangledArg::Plain(plain) => ProcessedArg::Plain(plain),
+            DemangledArg::FunctionPointer(function_pointer) => {
+                ProcessedArg::Plain(function_pointer.to_string())
+            }
             DemangledArg::Repeat { count, index } => {
                 // Check the index is in-bounds
                 if self.namespace.is_some() {

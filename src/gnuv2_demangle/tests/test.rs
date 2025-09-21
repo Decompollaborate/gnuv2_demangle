@@ -564,10 +564,23 @@ fn test_demangle_function_pointers() {
         ("InstallShader__14pddiBaseShaderPCcPFP17pddiRenderContextPCcPCc_P14pddiBaseShaderT1", "pddiBaseShader::InstallShader(char const *, pddiBaseShader *(*)(pddiRenderContext *, char const *, char const *), char const *)"),
         ("set_unexpected__FPPPPFv_v", "set_unexpected(void (****)(void))"),
         ("set_unexpected__FRPPPPPPPFv_v", "set_unexpected(void (*******&)(void))"),
-        /*
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_function_pointers_within_function_pointers() {
+    static CASES: [(&str, &str); 3] = [
         ("set_terminate__FPFPCc_PFbi_ii", "set_terminate(int (*(*)(char const *))(bool, int), int)"),
         ("set_terminate__FPFv_PFv_viT0PFv_PFPFv_PFv_v_v", "set_terminate(void (*(*)(void))(void), int, void (*(*)(void))(void), void (*(*)(void))(void (*(*)(void))(void)))"),
-        */
+        (
+            "i_hope_nobody_actually_writes_something_like_this__FPFPPFGQ213radPs2CdDrive14DirectoryEntryiPCQ213radPs2CdDrive14DirectoryEntry_Q213radPs2CdDrive14DirectoryEntryPFGQ213radPs2CdDrive14DirectoryEntryiPCQ213radPs2CdDrive14DirectoryEntry_Q213radPs2CdDrive14DirectoryEntryGQ213radPs2CdDrive14DirectoryEntry_PFGQ213radPs2CdDrive14DirectoryEntryiPCQ213radPs2CdDrive14DirectoryEntry_Q213radPs2CdDrive14DirectoryEntryPPFGQ213radPs2CdDrive14DirectoryEntryiPCQ213radPs2CdDrive14DirectoryEntry_Q213radPs2CdDrive14DirectoryEntryT0",
+            "i_hope_nobody_actually_writes_something_like_this(radPs2CdDrive::DirectoryEntry (*(*)(radPs2CdDrive::DirectoryEntry (**)(radPs2CdDrive::DirectoryEntry, int, radPs2CdDrive::DirectoryEntry const *), radPs2CdDrive::DirectoryEntry (*)(radPs2CdDrive::DirectoryEntry, int, radPs2CdDrive::DirectoryEntry const *), radPs2CdDrive::DirectoryEntry))(radPs2CdDrive::DirectoryEntry, int, radPs2CdDrive::DirectoryEntry const *), radPs2CdDrive::DirectoryEntry (**)(radPs2CdDrive::DirectoryEntry, int, radPs2CdDrive::DirectoryEntry const *), radPs2CdDrive::DirectoryEntry (*(*)(radPs2CdDrive::DirectoryEntry (**)(radPs2CdDrive::DirectoryEntry, int, radPs2CdDrive::DirectoryEntry const *), radPs2CdDrive::DirectoryEntry (*)(radPs2CdDrive::DirectoryEntry, int, radPs2CdDrive::DirectoryEntry const *), radPs2CdDrive::DirectoryEntry))(radPs2CdDrive::DirectoryEntry, int, radPs2CdDrive::DirectoryEntry const *))",
+        ),
     ];
     let config = DemangleConfig::new();
 

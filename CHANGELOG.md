@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix emitting a comma when the only argument in a function is an ellipsis.
+- Fix function pointers inside function pointers, I think.
 
 ## [0.1.0] - 2025-09-18
 
