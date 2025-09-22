@@ -1,12 +1,45 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+/// Tweak how a symbol should be disassembled.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
 pub struct DemangleConfig {
     /// Recreate a c++filt bug where it won't emit the
     /// "global constructors keyed to " prefix for a namespaced function.
+    ///
+    /// # Examples
+    ///
+    /// Turning on this setting (mimicking c++filt behavior):
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.preserve_namespaced_global_constructor_bug = true;
+    ///
+    /// let demangled = demangle("_GLOBAL_$I$__Q210Scenegraph10Scenegraph", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("Scenegraph::Scenegraph::Scenegraph(void)")
+    /// );
+    /// ```
+    ///
+    /// The setting turned off:
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.preserve_namespaced_global_constructor_bug = false;
+    ///
+    /// let demangled = demangle("_GLOBAL_$I$__Q210Scenegraph10Scenegraph", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("global constructors keyed to Scenegraph::Scenegraph::Scenegraph(void)")
+    /// );
     pub preserve_namespaced_global_constructor_bug: bool,
+
     /// By default g++ subtracts 1 from the length of array arguments, thus
     /// producing a confusing mangled name.
     ///
@@ -15,6 +48,38 @@ pub struct DemangleConfig {
     ///
     /// This setting adds 1 to the length, making the demangled symbol match
     /// more accurately the real symbol.
+    ///
+    /// # Examples
+    ///
+    /// Turning off this setting (mimicking c++filt behavior):
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.fix_array_length_arg = false;
+    ///
+    /// let demangled = demangle("simpler_array__FPA41_A24_Ci", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("simpler_array(int const (*)[41][24])")
+    /// );
+    /// ```
+    ///
+    /// The setting turned on:
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.fix_array_length_arg = true;
+    ///
+    /// let demangled = demangle("simpler_array__FPA41_A24_Ci", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("simpler_array(int const (*)[42][25])")
+    /// );
+    /// ```
     pub fix_array_length_arg: bool,
 
     /// Recognize and demangle symbols prefixed by `_GLOBAL_$F$`.
@@ -111,7 +176,15 @@ pub struct DemangleConfig {
 impl DemangleConfig {
     /// The default config mimics the default (rather questionable) c++filt's
     /// behavior, including what may be considered c++filt bugs.
-    pub fn new() -> Self {
+    ///
+    /// Note this default may change in a future version.
+    pub const fn new() -> Self {
+        Self::new_mimic_cfilt()
+    }
+
+    /// The default config mimics the default (rather questionable) c++filt's
+    /// behavior, including what may be considered c++filt bugs.
+    pub const fn new_mimic_cfilt() -> Self {
         Self {
             preserve_namespaced_global_constructor_bug: true,
             fix_array_length_arg: false,
@@ -121,7 +194,7 @@ impl DemangleConfig {
     }
 
     /// Avoid using any option that mimics c++filt faults.
-    pub fn new_no_cfilt_mimics() -> Self {
+    pub const fn new_no_cfilt_mimics() -> Self {
         Self {
             preserve_namespaced_global_constructor_bug: false,
             fix_array_length_arg: true,

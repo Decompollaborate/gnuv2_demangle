@@ -771,7 +771,27 @@ fn test_demangle_argument_array() {
         ("an_arg_of_an_array_of_arrays_of_arrays__FPA41_A24_A38_A38_A38_A38_A38_A38_A38_A419_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A6_A0_i", "an_arg_of_an_array_of_arrays_of_arrays(int (*)[41][24][38][38][38][38][38][38][38][419][38][38][38][38][38][38][38][38][38][38][6][0])"),
         ("an_arg_of_an_array_of_arrays_of_arrays__FPA41_A24_A38_A38_A38_A38_A38_A38_A38_A419_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A6_A0_ifPA13_b", "an_arg_of_an_array_of_arrays_of_arrays(int (*)[41][24][38][38][38][38][38][38][38][419][38][38][38][38][38][38][38][38][38][38][6][0], float, bool (*)[13])"),
     ];
-    let config = DemangleConfig::new();
+    let mut config = DemangleConfig::new();
+    config.fix_array_length_arg = false;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_argument_array_fixed() {
+    static CASES: [(&str, &str); 7] = [
+        ("SetShadowAdjustments__15GeometryVehiclePA1_f", "GeometryVehicle::SetShadowAdjustments(float (*)[2])"),
+        ("SetShadowAdjustments__7VehiclePA1_f", "Vehicle::SetShadowAdjustments(float (*)[2])"),
+        ("simpler_array__FPA41_A24_Ci", "simpler_array(int const (*)[42][25])"),
+        ("simpler_array__FPA41_A24_CUi", "simpler_array(unsigned int const (*)[42][25])"),
+        ("an_arg_of_an_array_of_arrays_of_arrays__FPA38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_i", "an_arg_of_an_array_of_arrays_of_arrays(int (*)[39][39][39][39][39][39][39][39][39][39][39][39][39][39][39][39][39][39][39][39][39][39])"),
+        ("an_arg_of_an_array_of_arrays_of_arrays__FPA41_A24_A38_A38_A38_A38_A38_A38_A38_A419_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A6_A0_i", "an_arg_of_an_array_of_arrays_of_arrays(int (*)[42][25][39][39][39][39][39][39][39][420][39][39][39][39][39][39][39][39][39][39][7][1])"),
+        ("an_arg_of_an_array_of_arrays_of_arrays__FPA41_A24_A38_A38_A38_A38_A38_A38_A38_A419_A38_A38_A38_A38_A38_A38_A38_A38_A38_A38_A6_A0_ifPA13_b", "an_arg_of_an_array_of_arrays_of_arrays(int (*)[42][25][39][39][39][39][39][39][39][420][39][39][39][39][39][39][39][39][39][39][7][1], float, bool (*)[14])"),
+    ];
+    let mut config = DemangleConfig::new();
+    config.fix_array_length_arg = true;
 
     for (mangled, demangled) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
@@ -970,6 +990,29 @@ fn test_demangle_method_as_argument_in_templated_many() {
         (
             "BlendDriverNoContext__H2ZfZQ26choreo15RootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
             "void choreo::BlendDriverNoContext<float, choreo::RootBlendDriver>(choreo::RootBlendDriver *, float (choreo::RootBlendDriver::*)() const, float, int, choreo::BlendPriority<float> *, int, int &)",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_same_sym_but_different_mangling() {
+    // Different g++ versions may mangle the symbol differently, but following
+    // the same "mangling ABI", meaning they are "equivalent".
+    static CASES: [(&str, &str); 2] = [
+        // EE GCC 2.9 build 990721
+        (
+            "Debug_Assert__FPcT0T0i",
+            "Debug_Assert(char *, char *, char *, int)",
+        ),
+        // EE GCC 2.96 build 001003-1
+        (
+            "Debug_Assert__FPcN20i",
+            "Debug_Assert(char *, char *, char *, int)",
         ),
     ];
     let config = DemangleConfig::new();

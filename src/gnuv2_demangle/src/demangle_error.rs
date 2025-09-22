@@ -3,6 +3,7 @@
 
 use core::{error, fmt};
 
+/// Information about demangling failure.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
 pub enum DemangleError<'s> {

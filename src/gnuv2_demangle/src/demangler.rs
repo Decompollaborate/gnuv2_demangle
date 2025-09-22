@@ -15,6 +15,29 @@ use crate::{
     str_cutter::StrCutter,
 };
 
+/// Demangle a symbol.
+///
+/// See [`DemangleConfig`] for tweaking the demangled output.
+///
+/// # Examples
+///
+/// ```
+/// use gnuv2_demangle::{demangle, DemangleConfig};
+///
+/// let config = DemangleConfig::new();
+///
+/// let demangled = demangle("_$_5tName", &config);
+/// assert_eq!(
+///     demangled.as_deref(),
+///     Ok("tName::~tName(void)")
+/// );
+///
+/// let demangled = demangle("a_function__Q35silly8my_thing17another_namespacefffi", &config);
+/// assert_eq!(
+///     demangled.as_deref(),
+///     Ok("silly::my_thing::another_namespace::a_function(float, float, float, int)")
+/// );
+/// ```
 pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, DemangleError<'s>> {
     if !sym.is_ascii() {
         Err(DemangleError::NonAscii)
