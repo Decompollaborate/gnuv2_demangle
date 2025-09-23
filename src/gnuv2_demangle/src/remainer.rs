@@ -103,16 +103,13 @@ impl<'s> StrParsing<'s> for str {
             if index == 0 {
                 None
             } else if self[index..].starts_with('_') {
-                // Number can be followed by an underscore only if it is a
-                // multidigit value
-                if index > 1 {
-                    Some(Remaining::new(
-                        &self[index + 1..],
-                        self[..index].parse().ok()?,
-                    ))
-                } else {
-                    None
-                }
+                // Skip the leading underscore only if this is not a single
+                // digit value
+                let new_start = if index > 1 { index + 1 } else { index };
+                Some(Remaining::new(
+                    &self[new_start..],
+                    self[..index].parse().ok()?,
+                ))
             } else {
                 // Only consume a single digit
                 Some(Remaining::new(&self[1..], self[..1].parse().ok()?))
@@ -156,6 +153,9 @@ mod tests {
             "32".p_number_maybe_multi_digit(),
             Some(Remaining::new("2", 3)),
         );
-        assert_eq!("1_junk".p_number_maybe_multi_digit(), None,);
+        assert_eq!(
+            "1_junk".p_number_maybe_multi_digit(),
+            Some(Remaining::new("_junk", 1)),
+        );
     }
 }

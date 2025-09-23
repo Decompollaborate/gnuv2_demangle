@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   between the ellipsis and the last comma in the argument list.
   - Defaults to `false` to mimic c++filt behavior.
 - Support for method pointers as arguments.
+- Support for 128bits integers.
+- Operator `delete []`.
+- Support `enum`s as templated values.
 
 ### Changed
 
@@ -22,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix emitting a comma when the only argument in a function is an ellipsis.
 - Fix function pointers inside function pointers, I think.
+- Fix sometimes being unable to demangle templated functions.
 
 ## [0.1.0] - 2025-09-18
 

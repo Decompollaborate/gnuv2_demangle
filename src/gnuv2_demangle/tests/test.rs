@@ -807,9 +807,10 @@ fn test_demangle_argument_array_fixed() {
     }
 }
 
+// TODO: rename "template_with_return_type" to "templated_function" or smth
 #[test]
 fn test_demangle_template_with_return_type() {
-    static CASES: [(&str, &str); 14] = [
+    static CASES: [(&str, &str); 17] = [
         ("SetState__H1ZQ211CharacterAi4Loco_11CharacterAiPQ211CharacterAi12StateManager_v", "void CharacterAi::SetState<CharacterAi::Loco>(CharacterAi::StateManager *)"),
         ("SetState__H1ZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiPQ35Other11CharacterAi12StateManager_v", "void Other::CharacterAi::SetState<Other::CharacterAi::Loco>(Other::CharacterAi::StateManager *)"),
         ("radBinarySearch__H1ZQ213radPs2CdDrive14DirectoryEntry_RCX01PCX01iPUi_b", "bool radBinarySearch<radPs2CdDrive::DirectoryEntry>(radPs2CdDrive::DirectoryEntry const &, radPs2CdDrive::DirectoryEntry const *, int, unsigned int *)"),
@@ -828,6 +829,10 @@ fn test_demangle_template_with_return_type() {
         ("_M_range_insert__H1ZPC5tName_GQ223some_allocation_libraryt6vector2Z5tNameZt7s2alloc1Z5tNameP5tNameX01X01G20forward_iterator_tag_X01", "tName const * _M_range_insert<tName const *>(some_allocation_library::vector<tName, s2alloc<tName> >, tName *, tName const *, tName const *, forward_iterator_tag)"),
         // c++filt fails to demangle this symbol
         // ("SetState__H11ZQ35Other11CharacterAi4LocoZQ35Other11CharacterAi12StateManagerZiZiZiZiZiZiZiZQ213radPs2CdDrive14DirectoryEntryZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiRX11X01X21X31X41X51X61X71X81X91X_10_1_v", ),
+
+        ("indexof__H1Zf_PCX01T0_i", "int indexof<float>(float const *, float const *)"),
+        ("indexof__H1Z11SGDMATERIAL_PCX01T0_i", "int indexof<SGDMATERIAL>(SGDMATERIAL const *, SGDMATERIAL const *)"),
+        ("indexof__H1Z13SGDCOORDINATE_PCX01T0_i", "int indexof<SGDCOORDINATE>(SGDCOORDINATE const *, SGDCOORDINATE const *)"),
     ];
     let config = DemangleConfig::new();
 
@@ -1114,7 +1119,7 @@ fn test_demangle_template_with_enum_value() {
 /*
 #[test]
 fn test_demangle_misc_ff2() {
-    static CASES: [(&str, &str); 14] = [
+    static CASES: [(&str, &str); 11] = [
         /*
         template <typename T, unsigned int N>
         class fixed_array {};
@@ -1149,12 +1154,7 @@ fn test_demangle_misc_ff2() {
         ("_fixed_array_verifyrange__H1ZA3_A3_f_UiUi_PX01", "float [3][3] * _fixed_array_verifyrange<float [3][3]>(unsigned int, unsigned int)"),
         ("_fixed_array_verifyrange__H1ZA3_f_UiUi_PX01", "float [3] * _fixed_array_verifyrange<float [3]>(unsigned int, unsigned int)"),
 
-        ("indexof__H1Zf_PCX01T0_i", "int indexof<float>(float const *, float const *)"),
-        ("indexof__H1Z11SGDMATERIAL_PCX01T0_i", "int indexof<SGDMATERIAL>(SGDMATERIAL const *, SGDMATERIAL const *)"),
-        ("indexof__H1Z13SGDCOORDINATE_PCX01T0_i", "int indexof<SGDCOORDINATE>(SGDCOORDINATE const *, SGDCOORDINATE const *)"),
-
         ("InitDrawEnv__FPFv_PA3_iT0PFPA3_i_vT2", "InitDrawEnv(int (*(*)(void))[3], int (*(*)(void))[3], void (*)(int (*)[3]), void (*)(int (*)[3]))"),
-
     ];
     let config = DemangleConfig::new();
 

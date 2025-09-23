@@ -37186,10 +37186,8 @@ expression: "demangle_lines(contents, &config)"
     Err(
         NotMangled,
     ),
-    Err(
-        InvalidLookbackCount(
-            "T0_i",
-        ),
+    Ok(
+        "int indexof<float>(float const *, float const *)",
     ),
     Ok(
         "CCenterCircle::SetEneCatchFlg(int)",
@@ -47342,10 +47340,8 @@ expression: "demangle_lines(contents, &config)"
     Err(
         NotMangled,
     ),
-    Err(
-        InvalidLookbackCount(
-            "T0_i",
-        ),
+    Ok(
+        "int indexof<SGDMATERIAL>(SGDMATERIAL const *, SGDMATERIAL const *)",
     ),
     Err(
         NotMangled,
@@ -59217,10 +59213,8 @@ expression: "demangle_lines(contents, &config)"
     Err(
         NotMangled,
     ),
-    Err(
-        InvalidLookbackCount(
-            "T0_i",
-        ),
+    Ok(
+        "int indexof<SGDCOORDINATE>(SGDCOORDINATE const *, SGDCOORDINATE const *)",
     ),
     Ok(
         "GetSisAreaNo(void)",
