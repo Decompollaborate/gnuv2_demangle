@@ -178,6 +178,55 @@ pub struct DemangleConfig {
     /// ```
     pub ellipsis_emit_space_after_comma: bool,
 
+    /// If enabled, emit `__int128_t` and `__uint128_t` types instead of
+    /// `int128_t` and `unsigned int128_t`.
+    ///
+    /// The former is valid syntax in g++ for this GNU integer extension type,
+    /// while the latter is the syntax used by c++filt, but not accepted by g++.
+    ///
+    /// This is just another c++filt compatibility setting.
+    ///
+    /// # Examples
+    ///
+    /// Turning off this setting (mimicking c++filt behavior):
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.fix_extension_int = false;
+    ///
+    /// let demangled = demangle("testing_func__FRCI80", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("testing_func(int128_t const &)")
+    /// );
+    /// let demangled = demangle("testing_func__FRCUI80", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("testing_func(unsigned int128_t const &)")
+    /// );
+    /// ```
+    ///
+    /// The setting turned on:
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.fix_extension_int = true;
+    ///
+    /// let demangled = demangle("testing_func__FRCI80", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("testing_func(__int128_t const &)")
+    /// );
+    /// let demangled = demangle("testing_func__FRCUI80", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("testing_func(__uint128_t const &)")
+    /// );
+    /// ```
     pub fix_extension_int: bool,
 }
 

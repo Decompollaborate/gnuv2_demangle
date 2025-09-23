@@ -44,3 +44,35 @@ fn snapshot_mangled_list_parappa2_improved() {
 
     insta::assert_debug_snapshot!(demangle_lines(contents, &config));
 }
+
+#[test]
+fn snapshot_mangled_list_ty_july_first_cfilt() {
+    let contents = include_str!("mangled_lists/ty_july_first.txt");
+    let config = DemangleConfig::new_mimic_cfilt();
+
+    insta::assert_debug_snapshot!(demangle_lines(contents, &config));
+}
+
+#[test]
+fn snapshot_mangled_list_ty_july_first_improved() {
+    let contents = include_str!("mangled_lists/ty_july_first.txt");
+    let config = DemangleConfig::new_no_cfilt_mimics();
+
+    insta::assert_debug_snapshot!(demangle_lines(contents, &config));
+}
+
+#[test]
+fn snapshot_mangled_list_ff2_cfilt() {
+    let contents = include_str!("mangled_lists/ff2.txt");
+    let config = DemangleConfig::new_mimic_cfilt();
+
+    insta::assert_debug_snapshot!(demangle_lines(contents, &config));
+}
+
+#[test]
+fn snapshot_mangled_list_ff2_improved() {
+    let contents = include_str!("mangled_lists/ff2.txt");
+    let config = DemangleConfig::new_no_cfilt_mimics();
+
+    insta::assert_debug_snapshot!(demangle_lines(contents, &config));
+}
