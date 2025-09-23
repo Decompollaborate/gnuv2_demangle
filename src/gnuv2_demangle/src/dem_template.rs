@@ -144,7 +144,10 @@ fn demangle_templated_value<'s>(
         let t = format!("{}{}", if is_pointer { "&" } else { "" }, symbol);
         (aux, DemangledArg::Plain(t))
     } else {
-        let Remaining { r, d: c } = r.p_first().ok_or(DemangleError::RanOutOfArguments)?;
+        let remaining = r;
+        let Remaining { r, d: c } = remaining
+            .p_first()
+            .ok_or(DemangleError::RanOutOfArguments)?;
 
         // Add a way to make clear which type is being used.
         match c {
@@ -184,6 +187,28 @@ fn demangle_templated_value<'s>(
                 Some('0') => (&r[1..], DemangledArg::Plain("false".to_string())),
                 _ => return Err(DemangleError::InvalidTemplatedBoolean(r)),
             },
+            '1'..='9' => {
+                // enum
+                //panic!("{r}");
+                let Remaining { r, d: _enum_name } = demangle_custom_name(
+                    remaining,
+                    DemangleError::InvalidEnumNameForTemplatedValue,
+                )?;
+
+                // TODO: <(SomeEnum)0> is valid c++, try to use it somehow.
+
+                //panic!("{r} {_enum_name}");
+                let (r, negative) = if let Some(r) = r.strip_prefix('m') {
+                    (r, true)
+                } else {
+                    (r, false)
+                };
+                let Remaining { r, d: number } = r
+                    .p_number()
+                    .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
+                let t = format!("{}{}", if negative { "-" } else { "" }, number);
+                (r, DemangledArg::Plain(t))
+            }
             _ => return Err(DemangleError::InvalidTypeValueForTemplated(c, r)),
         }
     };

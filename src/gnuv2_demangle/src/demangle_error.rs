@@ -75,6 +75,7 @@ pub enum DemangleError<'s> {
     UnkonwnMethodMemberArgKind(&'s str),
     MissingBitwidthForExtensionInteger(&'s str),
     InvalidBitwidthForExtensionInteger(&'s str, usize),
+    InvalidEnumNameForTemplatedValue(&'s str),
 }
 
 impl fmt::Display for DemangleError<'_> {

@@ -468,7 +468,7 @@ fn test_demangle_templated_classes() {
 
 #[test]
 fn test_demangle_templated_classes_with_numbers() {
-    static CASES: [(&str, &str); 10] = [
+    static CASES: [(&str, &str); 11] = [
         (
             "template_with_number__FRt9Something1x39",
             "template_with_number(Something<39> &)",
@@ -509,6 +509,11 @@ fn test_demangle_templated_classes_with_numbers() {
             "get__Ct10SomeVector2Z4NodeR13TestAllocator17AllocatorInstanceUi",
             "SomeVector<Node, AllocatorInstance>::get(unsigned int) const",
         ),
+        (
+            "get__Ct3Vec2ZiP9Allocator15GlobalAllocatorUi",
+            "Vec<int, &GlobalAllocator>::get(unsigned int) const",
+        ),
+        // TODO
         // ("wrapper__H1Z4Node_Rt10SomeVector2ZX01R13TestAllocator17AllocatorInstanceX01_RCX01", "Node const & wrapper<Node>(SomeVector<Node, AllocatorInstance> &, Node)"),
     ];
     let config = DemangleConfig::new();
@@ -1060,10 +1065,56 @@ fn test_demangle_128bits_integers_fix() {
     }
 }
 
+#[test]
+fn test_demangle_template_with_enum_value() {
+    // First entry can be generated with
+    /*
+    enum G3DTRANSFORMSTATETYPE {
+        Number0
+    };
+    template <G3DTRANSFORMSTATETYPE N>
+    class CAutoTransform {
+    public:
+        void Pop() {}
+    };
+    void test(CAutoTransform<Number0> & a) {
+        a.Pop();
+    }
+    */
+    static CASES: [(&str, &str); 5] = [
+        (
+            "Pop__t14CAutoTransform121G3DTRANSFORMSTATETYPE0",
+            "CAutoTransform<0>::Pop(void)",
+        ),
+        (
+            "__tft14CAutoTransform121G3DTRANSFORMSTATETYPE0",
+            "CAutoTransform<0> type_info function",
+        ),
+        (
+            "__tit14CAutoTransform121G3DTRANSFORMSTATETYPE0",
+            "CAutoTransform<0> type_info node",
+        ),
+        (
+            "_$_t14CAutoTransform121G3DTRANSFORMSTATETYPE0",
+            "CAutoTransform<0>::~CAutoTransform(void)",
+        ),
+        (
+            "_vt$t14CAutoTransform121G3DTRANSFORMSTATETYPE0",
+            "CAutoTransform<0> virtual table",
+        ),
+    ];
+    let mut config = DemangleConfig::new();
+    config.fix_extension_int = true;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_misc_ff2() {
-    static CASES: [(&str, &str); 19] = [
+    static CASES: [(&str, &str); 14] = [
         /*
         template <typename T, unsigned int N>
         class fixed_array {};
@@ -1101,12 +1152,6 @@ fn test_demangle_misc_ff2() {
         ("indexof__H1Zf_PCX01T0_i", "int indexof<float>(float const *, float const *)"),
         ("indexof__H1Z11SGDMATERIAL_PCX01T0_i", "int indexof<SGDMATERIAL>(SGDMATERIAL const *, SGDMATERIAL const *)"),
         ("indexof__H1Z13SGDCOORDINATE_PCX01T0_i", "int indexof<SGDCOORDINATE>(SGDCOORDINATE const *, SGDCOORDINATE const *)"),
-
-        ("Pop__t14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0>::Pop(void)"),
-        ("__tft14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0> type_info function"),
-        ("__tit14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0> type_info node"),
-        ("_$_t14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0>::~CAutoTransform(void)"),
-        ("_vt$t14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0> virtual table"),
 
         ("InitDrawEnv__FPFv_PA3_iT0PFPA3_i_vT2", "InitDrawEnv(int (*(*)(void))[3], int (*(*)(void))[3], void (*)(int (*)[3]), void (*)(int (*)[3]))"),
 

@@ -37620,11 +37620,8 @@ expression: "demangle_lines(contents, &config)"
     Ok(
         "MissionDrawTime(int, int, int, int, int, unsigned char)",
     ),
-    Err(
-        InvalidTypeValueForTemplated(
-            '2',
-            "1G3DTRANSFORMSTATETYPE0",
-        ),
+    Ok(
+        "CAutoTransform<0>::Pop(void)",
     ),
     Ok(
         "SetSprFile(unsigned int)",
@@ -38593,11 +38590,8 @@ expression: "demangle_lines(contents, &config)"
     Err(
         NotMangled,
     ),
-    Err(
-        InvalidTypeValueForTemplated(
-            '2',
-            "1G3DTRANSFORMSTATETYPE0",
-        ),
+    Ok(
+        "CAutoTransform<0> type_info function",
     ),
     Ok(
         "CulcEP(float *, float *)",
@@ -40531,11 +40525,8 @@ expression: "demangle_lines(contents, &config)"
     Err(
         NotMangled,
     ),
-    Err(
-        InvalidTypeValueForTemplated(
-            '2',
-            "1G3DTRANSFORMSTATETYPE0",
-        ),
+    Ok(
+        "CAutoTransform<0> type_info node",
     ),
     Ok(
         "SetString(float, float, char const *, ...)",
@@ -58743,11 +58734,8 @@ expression: "demangle_lines(contents, &config)"
     Err(
         NotMangled,
     ),
-    Err(
-        InvalidTypeValueForTemplated(
-            '2',
-            "1G3DTRANSFORMSTATETYPE0",
-        ),
+    Ok(
+        "CAutoTransform<0>::~CAutoTransform(void)",
     ),
     Ok(
         "EffectSndPlay(int, int, int, int, float (*)[4])",
@@ -59593,11 +59581,8 @@ expression: "demangle_lines(contents, &config)"
     Err(
         NotMangled,
     ),
-    Err(
-        InvalidTypeValueForTemplated(
-            '2',
-            "1G3DTRANSFORMSTATETYPE0",
-        ),
+    Ok(
+        "CAutoTransform<0> virtual table",
     ),
     Ok(
         "EJobB19(ENEALG_WRK *)",
