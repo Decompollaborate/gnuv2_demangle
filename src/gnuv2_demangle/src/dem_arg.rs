@@ -87,6 +87,23 @@ impl fmt::Display for MethodPointer {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+enum Signedness {
+    No,
+    Signed,
+    Unsigned,
+}
+
+impl fmt::Display for Signedness {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::No => Ok(()),
+            Self::Signed => write!(f, "signed "),
+            Self::Unsigned => write!(f, "unsigned "),
+        }
+    }
+}
+
 pub(crate) fn demangle_argument<'s>(
     config: &DemangleConfig,
     full_args: &'s str,
@@ -99,57 +116,52 @@ pub(crate) fn demangle_argument<'s>(
 
     let Remaining {
         r: args,
-        d: (pre_qualifier, post_qualifiers),
+        d: (sign, post_qualifiers),
     } = demangle_arg_qualifiers(full_args)?;
     let Remaining {
         r: args,
-        d: (pre_qualifier, post_qualifiers),
-    } = demangle_array_pseudo_qualifier(config, args, pre_qualifier, post_qualifiers)?;
+        d: (sign, post_qualifiers),
+    } = demangle_array_pseudo_qualifier(config, args, sign, post_qualifiers)?;
 
     if let Some(s) = args.strip_prefix('F') {
-        let (r, fp) = demangle_function_pointer_arg(
-            config,
-            s,
-            template_args,
-            pre_qualifier,
-            post_qualifiers,
-        )?;
-        return Ok((r, DemangledArg::FunctionPointer(fp)));
+        let (r, fp) =
+            demangle_function_pointer_arg(config, s, template_args, sign, post_qualifiers)?;
+        Ok((r, DemangledArg::FunctionPointer(fp)))
     } else if let Some(r) = args.strip_prefix('M') {
         let (r, mp) = demangle_method_pointer_arg(
             config,
             r,
             full_args,
             template_args,
-            pre_qualifier,
+            sign,
             post_qualifiers,
         )?;
-        return Ok((r, DemangledArg::MethodPointer(mp)));
+        Ok((r, DemangledArg::MethodPointer(mp)))
+    } else {
+        // 'G' is used for classes, structs and unions, so we must make sure we
+        // don't parse a primitive type next, otherwise this is not properly
+        // mangled.
+        let (args, must_be_class_like) = args.c_maybe_strip_prefix('G');
+
+        let Remaining {
+            r,
+            d: (is_class_like, typ),
+        } = demangle_arg_type(config, args, parsed_arguments, template_args)?;
+
+        if must_be_class_like && !is_class_like {
+            return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
+        }
+
+        let out = format!(
+            "{}{}{}{}",
+            sign,
+            typ,
+            if !post_qualifiers.is_empty() { " " } else { "" },
+            post_qualifiers.trim_matches(' ')
+        );
+
+        Ok((r, DemangledArg::Plain(out)))
     }
-
-    // 'G' is used for classes, structs and unions, so we must make sure we
-    // don't parse a primitive type next, otherwise this is not properly
-    // mangled.
-    let (args, must_be_class_like) = args.c_maybe_strip_prefix('G');
-
-    let Remaining {
-        r,
-        d: (is_class_like, typ),
-    } = demangle_arg_type(config, args, parsed_arguments, template_args)?;
-
-    if must_be_class_like && !is_class_like {
-        return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
-    }
-
-    let out = format!(
-        "{}{}{}{}",
-        pre_qualifier,
-        typ,
-        if !post_qualifiers.is_empty() { " " } else { "" },
-        post_qualifiers.trim_matches(' ')
-    );
-
-    Ok((r, DemangledArg::Plain(out)))
 }
 
 fn demangle_arg_type<'s, 'pa, 't, 'out>(
@@ -278,7 +290,7 @@ fn demangle_function_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
     template_args: &ArgVec,
-    pre_qualifier: &str,
+    sign: Signedness,
     post_qualifiers: String,
 ) -> Result<(&'s str, FunctionPointer), DemangleError<'s>> {
     let (r, func_args) = demangle_argument_list_impl(config, s, None, template_args, true)?;
@@ -290,7 +302,7 @@ fn demangle_function_pointer_arg<'s>(
 
     let fp = match return_type {
         DemangledArg::Plain(plain) => FunctionPointer {
-            return_type: format!("{pre_qualifier}{plain}"),
+            return_type: format!("{sign}{plain}"),
             post_qualifiers,
             args: func_args.join(),
         },
@@ -305,7 +317,7 @@ fn demangle_function_pointer_arg<'s>(
                 return_type: sub_return_type,
                 // This is kinda hacky, but it seems to work...
                 post_qualifiers: format!(
-                    "{pre_qualifier}{post_qualifiers}({sub_post_qualifiers})({func_args})",
+                    "{sign}{post_qualifiers}({sub_post_qualifiers})({func_args})",
                 ),
                 args: sub_args,
             }
@@ -324,7 +336,7 @@ fn demangle_function_pointer_arg<'s>(
             FunctionPointer {
                 return_type: sub_return_type,
                 post_qualifiers: format!(
-                    "{pre_qualifier}{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}",
+                    "{sign}{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}",
                 ),
                 args: sub_args,
             }
@@ -343,10 +355,10 @@ fn demangle_method_pointer_arg<'s>(
     s: &'s str,
     full_args: &'s str,
     template_args: &ArgVec,
-    pre_qualifier: &str,
+    sign: Signedness,
     post_qualifiers: String,
 ) -> Result<(&'s str, MethodPointer), DemangleError<'s>> {
-    if !pre_qualifier.is_empty() || !post_qualifiers.chars().all(|c| c == '*') {
+    if sign != Signedness::No || !post_qualifiers.chars().all(|c| c == '*') {
         // The only qualifer valid for this seems to be pointer (`*`), not
         // even references (`&`) seem to be valid C++
         return Err(DemangleError::InvalidQualifierForMethodMemberArg(full_args));
@@ -401,13 +413,8 @@ fn demangle_method_pointer_arg<'s>(
             r
         };
 
-        let (r, fp) = demangle_function_pointer_arg(
-            config,
-            r,
-            template_args,
-            pre_qualifier,
-            post_qualifiers,
-        )?;
+        let (r, fp) =
+            demangle_function_pointer_arg(config, r, template_args, sign, post_qualifiers)?;
         let FunctionPointer {
             return_type,
             post_qualifiers,
@@ -430,9 +437,8 @@ fn demangle_method_pointer_arg<'s>(
 
 fn demangle_arg_qualifiers<'s>(
     s: &'s str,
-) -> Result<Remaining<'s, (&'static str, String)>, DemangleError<'s>> {
+) -> Result<Remaining<'s, (Signedness, String)>, DemangleError<'s>> {
     let mut remaining = s;
-    let mut pre_qualifier = "";
     let mut post_qualifiers = String::new();
 
     while !remaining.is_empty() {
@@ -444,37 +450,34 @@ fn demangle_arg_qualifiers<'s>(
             'P' => post_qualifiers.insert(0, '*'),
             'R' => post_qualifiers.insert(0, '&'),
             'C' => post_qualifiers.insert_str(0, "const "),
-            'S' => {
-                if pre_qualifier.is_empty() {
-                    pre_qualifier = "signed "
-                } else {
-                    return Err(DemangleError::FoundDuplicatedPrevQualifierOnArgument(s, c));
-                }
-            }
-            'U' => {
-                if pre_qualifier.is_empty() {
-                    pre_qualifier = "unsigned "
-                } else {
-                    return Err(DemangleError::FoundDuplicatedPrevQualifierOnArgument(s, c));
-                }
-            }
             _ => break,
         }
 
         remaining = r;
     }
 
-    Ok(Remaining::new(remaining, (pre_qualifier, post_qualifiers)))
+    // There can be at most one signedness qualifier as far as I know
+    let (remaining, sign) = if let Some(Remaining { r, d: c }) = remaining.p_first() {
+        match c {
+            'S' => (r, Signedness::Signed),
+            'U' => (r, Signedness::Unsigned),
+            _ => (remaining, Signedness::No),
+        }
+    } else {
+        (remaining, Signedness::No)
+    };
+
+    Ok(Remaining::new(remaining, (sign, post_qualifiers)))
 }
 
 fn demangle_array_pseudo_qualifier<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    mut pre_qualifier: &'static str,
+    mut sign: Signedness,
     mut post_qualifiers: String,
-) -> Result<Remaining<'s, (&'static str, String)>, DemangleError<'s>> {
+) -> Result<Remaining<'s, (Signedness, String)>, DemangleError<'s>> {
     let r = if s.starts_with('A') {
-        if !pre_qualifier.is_empty() {
+        if sign != Signedness::No {
             // Avoid stuff like "signed signed"
             return Err(DemangleError::PrevQualifiersInInvalidPostioniAtArrayArgument(s));
         }
@@ -504,13 +507,16 @@ fn demangle_array_pseudo_qualifier<'s>(
             args = remaining;
         }
 
-        let Remaining { r, d: (pre, post) } = demangle_arg_qualifiers(args)?;
-        pre_qualifier = pre;
+        let Remaining {
+            r,
+            d: (sign_other, post),
+        } = demangle_arg_qualifiers(args)?;
+        sign = sign_other;
         post_qualifiers = post + &post_qualifiers;
         r
     } else {
         s
     };
 
-    Ok(Remaining::new(r, (pre_qualifier, post_qualifiers)))
+    Ok(Remaining::new(r, (sign, post_qualifiers)))
 }
