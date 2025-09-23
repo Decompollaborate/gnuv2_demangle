@@ -43,12 +43,18 @@ impl<'s> Remaining<'s, &'s str> {
 }
 
 pub(crate) trait StrParsing<'s> {
+    #[must_use]
     fn p_number(&'s self) -> Option<Remaining<'s, usize>>;
+    #[must_use]
+    fn p_hex_number(&'s self) -> Option<Remaining<'s, usize>>;
+    #[must_use]
     fn p_digit(&'s self) -> Option<Remaining<'s, usize>>;
     /// Parse either a single digit followed by nondigits or a multidigit followed
     /// by an underscore.
+    #[must_use]
     fn p_number_maybe_multi_digit(&'s self) -> Option<Remaining<'s, usize>>;
 
+    #[must_use]
     fn p_first(&'s self) -> Option<Remaining<'s, char>>;
 }
 
@@ -58,6 +64,19 @@ impl<'s> StrParsing<'s> for str {
             (&self[index..], self[..index].parse().ok()?)
         } else {
             ("", self.parse().ok()?)
+        };
+
+        Some(Remaining::new(remaining, data))
+    }
+
+    fn p_hex_number(&'s self) -> Option<Remaining<'s, usize>> {
+        let (remaining, data) = if let Some(index) = self.find(|c: char| !c.is_ascii_hexdigit()) {
+            (
+                &self[index..],
+                usize::from_str_radix(&self[..index], 16).ok()?,
+            )
+        } else {
+            ("", usize::from_str_radix(self, 16).ok()?)
         };
 
         Some(Remaining::new(remaining, data))

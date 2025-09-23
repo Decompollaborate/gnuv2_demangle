@@ -5718,11 +5718,8 @@ expression: "demangle_lines(contents, &config)"
     Err(
         NotMangled,
     ),
-    Err(
-        UnknownType(
-            'I',
-            "I80",
-        ),
+    Ok(
+        "Tim2LoadTexture(int, unsigned int, int, int, int, unsigned int128_t *)",
     ),
     Err(
         NotMangled,

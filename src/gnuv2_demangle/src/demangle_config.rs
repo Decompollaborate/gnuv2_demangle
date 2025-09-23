@@ -8,6 +8,8 @@ pub struct DemangleConfig {
     /// Recreate a c++filt bug where it won't emit the
     /// "global constructors keyed to " prefix for a namespaced function.
     ///
+    /// This is just another c++filt compatibility setting.
+    ///
     /// # Examples
     ///
     /// Turning on this setting (mimicking c++filt behavior):
@@ -48,6 +50,8 @@ pub struct DemangleConfig {
     ///
     /// This setting adds 1 to the length, making the demangled symbol match
     /// more accurately the real symbol.
+    ///
+    /// This is just another c++filt compatibility setting.
     ///
     /// # Examples
     ///
@@ -91,6 +95,8 @@ pub struct DemangleConfig {
     /// and `_GLOBAL_$D$` are demangled, but the word "frames" is used instead
     /// of "constructors" or "destructors". This name is made-up based on some
     /// usages from projects that have this symbol present.
+    ///
+    /// This is just another c++filt compatibility setting.
     ///
     /// # Examples
     ///
@@ -171,6 +177,8 @@ pub struct DemangleConfig {
     /// );
     /// ```
     pub ellipsis_emit_space_after_comma: bool,
+
+    pub fix_extension_int: bool,
 }
 
 impl DemangleConfig {
@@ -190,6 +198,7 @@ impl DemangleConfig {
             fix_array_length_arg: false,
             demangle_global_keyed_frames: false,
             ellipsis_emit_space_after_comma: false,
+            fix_extension_int: false,
         }
     }
 
@@ -200,6 +209,7 @@ impl DemangleConfig {
             fix_array_length_arg: true,
             demangle_global_keyed_frames: true,
             ellipsis_emit_space_after_comma: true,
+            fix_extension_int: true,
         }
     }
 }

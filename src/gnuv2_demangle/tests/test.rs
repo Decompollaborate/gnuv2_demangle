@@ -1022,7 +1022,6 @@ fn test_demangle_same_sym_but_different_mangling() {
     }
 }
 
-/*
 #[test]
 fn test_demangle_128bits_integers_cfilt() {
     static CASES: [(&str, &str); 2] = [
@@ -1030,12 +1029,10 @@ fn test_demangle_128bits_integers_cfilt() {
             "Tim2LoadTexture__FiUiiiiPUI80",
             "Tim2LoadTexture(int, unsigned int, int, int, int, unsigned int128_t *)",
         ),
-        (
-            "signed_128__FRCI80",
-            "signed_128(int128_t const &)",
-        ),
+        ("signed_128__FRCI80", "signed_128(int128_t const &)"),
     ];
-    let config = DemangleConfig::new();
+    let mut config = DemangleConfig::new();
+    config.fix_extension_int = false;
 
     for (mangled, demangled) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
@@ -1049,18 +1046,15 @@ fn test_demangle_128bits_integers_fix() {
             "Tim2LoadTexture__FiUiiiiPUI80",
             "Tim2LoadTexture(int, unsigned int, int, int, int, __uint128_t *)",
         ),
-        (
-            "signed_128__FRCI80",
-            "signed_128(__int128_t const &)",
-        ),
+        ("signed_128__FRCI80", "signed_128(__int128_t const &)"),
     ];
-    let config = DemangleConfig::new();
+    let mut config = DemangleConfig::new();
+    config.fix_extension_int = true;
 
     for (mangled, demangled) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
-*/
 
 /*
 #[test]

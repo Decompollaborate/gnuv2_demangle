@@ -145,8 +145,8 @@ pub(crate) fn demangle_argument<'s>(
 
         let Remaining {
             r,
-            d: (is_class_like, typ),
-        } = demangle_arg_type(config, args, parsed_arguments, template_args)?;
+            d: (is_class_like, typ, sign),
+        } = demangle_arg_type(config, args, sign, parsed_arguments, template_args)?;
 
         if must_be_class_like && !is_class_like {
             return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
@@ -167,9 +167,10 @@ pub(crate) fn demangle_argument<'s>(
 fn demangle_arg_type<'s, 'pa, 't, 'out>(
     config: &DemangleConfig,
     args: &'s str,
+    mut sign: Signedness,
     parsed_arguments: &'pa ArgVec,
     template_args: &'t ArgVec,
-) -> Result<Remaining<'s, (bool, Cow<'out, str>)>, DemangleError<'s>>
+) -> Result<Remaining<'s, (bool, Cow<'out, str>, Signedness)>, DemangleError<'s>>
 where
     's: 'out,
     'pa: 'out,
@@ -192,6 +193,38 @@ where
         'b' => (&args[1..], false, Cow::from("bool")),
         'w' => (&args[1..], false, Cow::from("wchar_t")),
         'v' => (&args[1..], false, Cow::from("void")),
+        'I' => {
+            let Remaining { r, d: bitwidth } = args[1..].p_hex_number().ok_or(
+                DemangleError::MissingBitwidthForExtensionInteger(&args[1..]),
+            )?;
+            let typ = match bitwidth {
+                128 => {
+                    // g++ does not like the `int128_t` type, but it recognizes
+                    // `__int128_t` and `__uint128_t` just fine, so we emit
+                    // instead.
+                    // Also `unsigned __int128_t` doesn't make sense. Some g++
+                    // versions kinda recognizes it, but it mangles the symbol
+                    // as `unsigned int`, so it seems more like a bug than an
+                    // actual feature.
+                    if config.fix_extension_int {
+                        if sign == Signedness::Unsigned {
+                            sign = Signedness::No;
+                            "__uint128_t"
+                        } else {
+                            "__int128_t"
+                        }
+                    } else {
+                        "int128_t"
+                    }
+                }
+                _ => {
+                    return Err(DemangleError::InvalidBitwidthForExtensionInteger(
+                        args, bitwidth,
+                    ));
+                }
+            };
+            (r, false, Cow::from(typ))
+        }
         '1'..='9' => {
             let Remaining { r, d: class_name } =
                 demangle_custom_name(args, DemangleError::InvalidCustomNameOnArgument)?;
@@ -248,7 +281,7 @@ where
         }
     };
 
-    Ok(Remaining::new(args, (is_class_like, typ)))
+    Ok(Remaining::new(args, (is_class_like, typ, sign)))
 }
 
 /// Handles any arg that can't be qualified

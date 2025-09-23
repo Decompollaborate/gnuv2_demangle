@@ -73,6 +73,8 @@ pub enum DemangleError<'s> {
     MethodPointerMissingConstness(&'s str),
     MethodPointerWrongClassName(&'s str),
     UnkonwnMethodMemberArgKind(&'s str),
+    MissingBitwidthForExtensionInteger(&'s str),
+    InvalidBitwidthForExtensionInteger(&'s str, usize),
 }
 
 impl fmt::Display for DemangleError<'_> {

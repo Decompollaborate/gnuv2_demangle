@@ -2,13 +2,17 @@
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
 pub(crate) trait StrCutter<'s> {
+    #[must_use]
     fn c_split2(&'s self, pat: &str) -> Option<(&'s str, &'s str)>;
+    #[must_use]
     fn c_split2_r_starts_with<F>(&'s self, pat: &str, r_cond: F) -> Option<(&'s str, &'s str)>
     where
         F: Fn(char) -> bool;
 
+    #[must_use]
     fn c_cond_and_strip_prefix(&'s self, cond: bool, prefix: &str) -> Option<&'s str>;
 
+    #[must_use]
     fn c_maybe_strip_prefix(&'s self, c: char) -> (&'s str, bool);
 }
 
