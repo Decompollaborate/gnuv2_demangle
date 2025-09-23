@@ -146,6 +146,7 @@ fn demangle_templated_value<'s>(
     } else {
         let Remaining { r, d: c } = r.p_first().ok_or(DemangleError::RanOutOfArguments)?;
 
+        // Add a way to make clear which type is being used.
         match c {
             // "char" | "wchar_t"
             'c' | 'w' => {

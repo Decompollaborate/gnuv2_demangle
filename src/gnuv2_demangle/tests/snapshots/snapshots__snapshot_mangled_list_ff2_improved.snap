@@ -57469,7 +57469,7 @@ expression: "demangle_lines(contents, &config)"
         NotMangled,
     ),
     Ok(
-        "CEditRoot::__vd(void *, unsigned int)",
+        "CEditRoot::operator delete [](void *, unsigned int)",
     ),
     Err(
         NotMangled,

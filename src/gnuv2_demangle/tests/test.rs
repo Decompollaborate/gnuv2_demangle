@@ -105,7 +105,7 @@ fn test_demangle_methods() {
 
 #[test]
 fn test_demangle_operators() {
-    static CASES: [(&str, &str); 17] = [
+    static CASES: [(&str, &str); 18] = [
         (
             "__eq__C5tNameRC5tName",
             "tName::operator==(tName const &) const",
@@ -162,6 +162,10 @@ fn test_demangle_operators() {
             "PascalCString::operator char *(void)",
         ),
         ("__opPv__C3ios", "ios::operator void *(void) const"),
+        (
+            "__vd__9CEditRootPvUi",
+            "CEditRoot::operator delete [](void *, unsigned int)",
+        ),
     ];
     let config = DemangleConfig::new();
 
@@ -1055,6 +1059,65 @@ fn test_demangle_128bits_integers_fix() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+/*
+#[test]
+fn test_demangle_misc_ff2() {
+    static CASES: [(&str, &str); 19] = [
+        /*
+        template <typename T, unsigned int N>
+        class fixed_array {};
+
+        class _LIGHTCOMPAREDATA {};
+
+        template <  int N>
+        void _SortLightCompareData(fixed_array<_LIGHTCOMPAREDATA, N> &, float, int) {}
+
+        void test(fixed_array<_LIGHTCOMPAREDATA, 4> & a , float b, int c) {
+            _SortLightCompareData<4>(a, b, c);
+        }
+        */
+        ("_SortLightCompareData__H1i4_Rt11fixed_array2Z17_LIGHTCOMPAREDATAUiY01fi_v", "void _SortLightCompareData<4>(fixed_array<_LIGHTCOMPAREDATA, 4> &, float, int)"),
+
+        // why on earth is this valid syntax?
+        /*
+        template <typename T>
+        T * _fixed_array_verifyrange(unsigned int, unsigned int) {}
+
+        int (*test2(unsigned int a, unsigned int b))[4] {
+            return _fixed_array_verifyrange<int [4]>(a, b);
+        }
+        */
+        ("_fixed_array_verifyrange__H1ZA3_i_UiUi_PX01", "int [3] * _fixed_array_verifyrange<int [3]>(unsigned int, unsigned int)"),
+        ("__tiA3_i", "int [3] type_info node"),
+        ("__tiA3_f", "float [3] type_info node"),
+        ("__tiA3_A3_f", "float [3][3] type_info node"),
+        ("__tfA3_f", "float [3] type_info function"),
+        ("__tfA3_A3_f", "float [3][3] type_info function"),
+        ("__tfA3_i", "int [3] type_info function"),
+        ("_fixed_array_verifyrange__H1ZA3_A3_f_UiUi_PX01", "float [3][3] * _fixed_array_verifyrange<float [3][3]>(unsigned int, unsigned int)"),
+        ("_fixed_array_verifyrange__H1ZA3_f_UiUi_PX01", "float [3] * _fixed_array_verifyrange<float [3]>(unsigned int, unsigned int)"),
+
+        ("indexof__H1Zf_PCX01T0_i", "int indexof<float>(float const *, float const *)"),
+        ("indexof__H1Z11SGDMATERIAL_PCX01T0_i", "int indexof<SGDMATERIAL>(SGDMATERIAL const *, SGDMATERIAL const *)"),
+        ("indexof__H1Z13SGDCOORDINATE_PCX01T0_i", "int indexof<SGDCOORDINATE>(SGDCOORDINATE const *, SGDCOORDINATE const *)"),
+
+        ("Pop__t14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0>::Pop(void)"),
+        ("__tft14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0> type_info function"),
+        ("__tit14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0> type_info node"),
+        ("_$_t14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0>::~CAutoTransform(void)"),
+        ("_vt$t14CAutoTransform121G3DTRANSFORMSTATETYPE0", "CAutoTransform<0> virtual table"),
+
+        ("InitDrawEnv__FPFv_PA3_iT0PFPA3_i_vT2", "InitDrawEnv(int (*(*)(void))[3], int (*(*)(void))[3], void (*)(int (*)[3]), void (*)(int (*)[3]))"),
+
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+*/
 
 /*
 #[test]

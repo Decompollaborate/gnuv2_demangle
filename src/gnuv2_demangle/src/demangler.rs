@@ -137,12 +137,14 @@ fn demangle_special<'s>(
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
         let op = &s[..end_index];
 
+        // Skip the underscore
         let remaining = &s[end_index + 2..];
 
         let method_name = match op {
             "nw" => Cow::from("operator new"),
             "dl" => Cow::from("operator delete"),
             "vn" => Cow::from("operator new []"),
+            "vd" => Cow::from("operator delete []"),
             "eq" => Cow::from("operator=="),
             "ne" => Cow::from("operator!="),
             "as" => Cow::from("operator="),
