@@ -16,7 +16,7 @@ fn demangle_lines<'s>(
 #[test]
 fn snapshot_mangled_list_hit_and_run_cfilt() {
     let contents = include_str!("mangled_lists/hit_and_run.txt");
-    let config = DemangleConfig::new();
+    let config = DemangleConfig::new_mimic_cfilt();
 
     insta::assert_debug_snapshot!(demangle_lines(contents, &config));
 }
@@ -24,6 +24,22 @@ fn snapshot_mangled_list_hit_and_run_cfilt() {
 #[test]
 fn snapshot_mangled_list_hit_and_run_improved() {
     let contents = include_str!("mangled_lists/hit_and_run.txt");
+    let config = DemangleConfig::new_no_cfilt_mimics();
+
+    insta::assert_debug_snapshot!(demangle_lines(contents, &config));
+}
+
+#[test]
+fn snapshot_mangled_list_parappa2_cfilt() {
+    let contents = include_str!("mangled_lists/parappa2.txt");
+    let config = DemangleConfig::new_mimic_cfilt();
+
+    insta::assert_debug_snapshot!(demangle_lines(contents, &config));
+}
+
+#[test]
+fn snapshot_mangled_list_parappa2_improved() {
+    let contents = include_str!("mangled_lists/parappa2.txt");
     let config = DemangleConfig::new_no_cfilt_mimics();
 
     insta::assert_debug_snapshot!(demangle_lines(contents, &config));

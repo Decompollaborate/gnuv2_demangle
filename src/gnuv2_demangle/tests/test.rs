@@ -1024,6 +1024,38 @@ fn test_demangle_same_sym_but_different_mangling() {
 
 /*
 #[test]
+fn test_demangle_128bits_integers_cfilt() {
+    static CASES: [(&str, &str); 1] = [
+        (
+            "Tim2LoadTexture__FiUiiiiPUI80",
+            "Tim2LoadTexture(int, unsigned int, int, int, int, unsigned int128_t *)",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_128bits_integers_fix() {
+    static CASES: [(&str, &str); 1] = [
+        (
+            "Tim2LoadTexture__FiUiiiiPUI80",
+            "Tim2LoadTexture(int, unsigned int, int, int, int, __uint128_t *)",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+*/
+
+/*
+#[test]
 fn test_demangle_single() {
     static CASES: [(&str, &str); 1] = [
         ("actual_function__FRt10SomeVector2Z4NodeR13TestAllocator17AllocatorInstanceG4Node", "actual_function(SomeVector<Node, AllocatorInstance> &, Node)"),
