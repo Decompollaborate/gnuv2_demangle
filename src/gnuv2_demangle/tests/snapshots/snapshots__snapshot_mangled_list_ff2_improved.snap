@@ -66737,10 +66737,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t12CWrkVariable3Zci0i_60_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_60_",
-            ),
+        Ok(
+            "CWrkVariable<char, 0, 60>::Work(void)",
         ),
     ),
     (
@@ -68231,10 +68229,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_fixed_array_verifyrange__H1Zt11fixed_array2Z10C_ACS_CTRLUi_15__UiUi_PX01",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_15__UiUi_PX01",
-            ),
+        Ok(
+            "fixed_array<C_ACS_CTRL, 15> * _fixed_array_verifyrange<fixed_array<C_ACS_CTRL, 15> >(unsigned int, unsigned int)",
         ),
     ),
     (
@@ -68389,10 +68385,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tit11fixed_array2Z6SPRINGUi_20_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_",
-            ),
+        Ok(
+            "fixed_array<SPRING, 20> type_info node",
         ),
     ),
     (
@@ -69469,10 +69463,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t20CBlinkSwitchVariable5Zci_90_i_116_i_13_i_90_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_90_i_116_i_13_i_90_",
-            ),
+        Ok(
+            "CBlinkSwitchVariable<char, 90, 116, 13, 90>::Work(void)",
         ),
     ),
     (
@@ -72129,10 +72121,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t14CBlinkVariable3Zci0i_100_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_100_",
-            ),
+        Ok(
+            "CBlinkVariable<char, 0, 100>::Work(void)",
         ),
     ),
     (
@@ -72929,10 +72919,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tft11fixed_array2Z10C_PARTICLEUi_20_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_",
-            ),
+        Ok(
+            "fixed_array<C_PARTICLE, 20> type_info function",
         ),
     ),
     (
@@ -75387,10 +75375,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tft16fixed_array_base3Z6SPRINGUi_20_ZA19_6SPRING",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_ZA19_6SPRING",
-            ),
+        Ok(
+            "fixed_array_base<SPRING, 20, SPRING [20]> type_info function",
         ),
     ),
     (
@@ -79333,10 +79319,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tft16fixed_array_base3Z10C_ACS_CTRLUi_15_ZA14_10C_ACS_CTRL",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_15_ZA14_10C_ACS_CTRL",
-            ),
+        Ok(
+            "fixed_array_base<C_ACS_CTRL, 15, C_ACS_CTRL [15]> type_info function",
         ),
     ),
     (
@@ -79489,10 +79473,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tft11fixed_array2Z6SPRINGUi_20_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_",
-            ),
+        Ok(
+            "fixed_array<SPRING, 20> type_info function",
         ),
     ),
     (
@@ -79667,10 +79649,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tft11fixed_array2Z10C_ACS_CTRLUi_15_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_15_",
-            ),
+        Ok(
+            "fixed_array<C_ACS_CTRL, 15> type_info function",
         ),
     ),
     (
@@ -80775,10 +80755,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t20CBlinkSwitchVariable5Zci_75_i_112_i_17_i_75_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_75_i_112_i_17_i_75_",
-            ),
+        Ok(
+            "CBlinkSwitchVariable<char, 75, 112, 17, 75>::Work(void)",
         ),
     ),
     (
@@ -82253,10 +82231,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t12CWrkVariable3Zsi0i_76_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_76_",
-            ),
+        Ok(
+            "CWrkVariable<short, 0, 76>::Work(void)",
         ),
     ),
     (
@@ -82605,10 +82581,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Blink__t14CBlinkVariable3Zci0i_100_c",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_100_c",
-            ),
+        Ok(
+            "CBlinkVariable<char, 0, 100>::Blink(char)",
         ),
     ),
     (
@@ -83081,10 +83055,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t20CBlinkSwitchVariable5ZUci0i_60_i_20_i0",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_60_i_20_i0",
-            ),
+        Ok(
+            "CBlinkSwitchVariable<unsigned char, 0, 60, 20, 0>::Work(void)",
         ),
     ),
     (
@@ -84549,10 +84521,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t12CWrkVariable3Zsi_20_i_128_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_i_128_",
-            ),
+        Ok(
+            "CWrkVariable<short, 20, 128>::Work(void)",
         ),
     ),
     (
@@ -85059,10 +85029,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t12CWrkVariable3Zsi0i_128_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_128_",
-            ),
+        Ok(
+            "CWrkVariable<short, 0, 128>::Work(void)",
         ),
     ),
     (
@@ -87571,10 +87539,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t20CBlinkSwitchVariable5ZUci_50_i_100_i1i0",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_50_i_100_i1i0",
-            ),
+        Ok(
+            "CBlinkSwitchVariable<unsigned char, 50, 100, 1, 0>::Work(void)",
         ),
     ),
     (
@@ -90313,10 +90279,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t12CWrkVariable3Zci0i_64_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_64_",
-            ),
+        Ok(
+            "CWrkVariable<char, 0, 64>::Work(void)",
         ),
     ),
     (
@@ -91333,10 +91297,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t14CBlinkVariable3Zci0i_127_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_127_",
-            ),
+        Ok(
+            "CBlinkVariable<char, 0, 127>::Work(void)",
         ),
     ),
     (
@@ -92963,10 +92925,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_fixed_array_verifyrange__H1Zt11fixed_array2Z10C_PARTICLEUi_20__UiUi_PX01",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20__UiUi_PX01",
-            ),
+        Ok(
+            "fixed_array<C_PARTICLE, 20> * _fixed_array_verifyrange<fixed_array<C_PARTICLE, 20> >(unsigned int, unsigned int)",
         ),
     ),
     (
@@ -95137,10 +95097,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t20CBlinkSwitchVariable5Zci_90_i_118_i6i_90_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_90_i_118_i6i_90_",
-            ),
+        Ok(
+            "CBlinkSwitchVariable<char, 90, 118, 6, 90>::Work(void)",
         ),
     ),
     (
@@ -97453,10 +97411,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tit16fixed_array_base3Z6SPRINGUi_20_ZA19_6SPRING",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_ZA19_6SPRING",
-            ),
+        Ok(
+            "fixed_array_base<SPRING, 20, SPRING [20]> type_info node",
         ),
     ),
     (
@@ -98593,10 +98549,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t12CWrkVariable3Zci0i_127_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_127_",
-            ),
+        Ok(
+            "CWrkVariable<char, 0, 127>::Work(void)",
         ),
     ),
     (
@@ -100421,10 +100375,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t14CBlinkVariable3Zci_50_i_127_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_50_i_127_",
-            ),
+        Ok(
+            "CBlinkVariable<char, 50, 127>::Work(void)",
         ),
     ),
     (
@@ -100839,10 +100791,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t20CBlinkSwitchVariable5Zsi0i_128_i1i0",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_128_i1i0",
-            ),
+        Ok(
+            "CBlinkSwitchVariable<short, 0, 128, 1, 0>::Work(void)",
         ),
     ),
     (
@@ -101239,10 +101189,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tit11fixed_array2Z10C_PARTICLEUi_20_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_",
-            ),
+        Ok(
+            "fixed_array<C_PARTICLE, 20> type_info node",
         ),
     ),
     (
@@ -104351,10 +104299,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tft16fixed_array_base3Z10C_PARTICLEUi_20_ZA19_10C_PARTICLE",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_ZA19_10C_PARTICLE",
-            ),
+        Ok(
+            "fixed_array_base<C_PARTICLE, 20, C_PARTICLE [20]> type_info function",
         ),
     ),
     (
@@ -104619,10 +104565,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t20CBlinkSwitchVariable5Zsi_20_i_60_i_15_i0",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_i_60_i_15_i0",
-            ),
+        Ok(
+            "CBlinkSwitchVariable<short, 20, 60, 15, 0>::Work(void)",
         ),
     ),
     (
@@ -104909,10 +104853,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t12CWrkVariable3Zci0i_100_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_100_",
-            ),
+        Ok(
+            "CWrkVariable<char, 0, 100>::Work(void)",
         ),
     ),
     (
@@ -106557,10 +106499,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tit11fixed_array2Z10C_ACS_CTRLUi_15_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_15_",
-            ),
+        Ok(
+            "fixed_array<C_ACS_CTRL, 15> type_info node",
         ),
     ),
     (
@@ -107233,10 +107173,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t12CWrkVariable3Zsi0i_127_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_127_",
-            ),
+        Ok(
+            "CWrkVariable<short, 0, 127>::Work(void)",
         ),
     ),
     (
@@ -107265,10 +107203,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "LoopWork__t12CWrkVariable3Zci0i_100_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_100_",
-            ),
+        Ok(
+            "CWrkVariable<char, 0, 100>::LoopWork(void)",
         ),
     ),
     (
@@ -108421,18 +108357,14 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t20CBlinkSwitchVariable5Zci_70_i_90_i_15_i_40_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_70_i_90_i_15_i_40_",
-            ),
+        Ok(
+            "CBlinkSwitchVariable<char, 70, 90, 15, 40>::Work(void)",
         ),
     ),
     (
         "Work__t12CWrkVariable3Zii0i_128_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_128_",
-            ),
+        Ok(
+            "CWrkVariable<int, 0, 128>::Work(void)",
         ),
     ),
     (
@@ -108707,10 +108639,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tit16fixed_array_base3Z10C_PARTICLEUi_20_ZA19_10C_PARTICLE",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20_ZA19_10C_PARTICLE",
-            ),
+        Ok(
+            "fixed_array_base<C_PARTICLE, 20, C_PARTICLE [20]> type_info node",
         ),
     ),
     (
@@ -109301,10 +109231,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Blink__t14CBlinkVariable3Zci0i_127_c",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_127_c",
-            ),
+        Ok(
+            "CBlinkVariable<char, 0, 127>::Blink(char)",
         ),
     ),
     (
@@ -109543,10 +109471,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Blink__t14CBlinkVariable3Zci_50_i_127_c",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_50_i_127_c",
-            ),
+        Ok(
+            "CBlinkVariable<char, 50, 127>::Blink(char)",
         ),
     ),
     (
@@ -110181,10 +110107,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "__tit16fixed_array_base3Z10C_ACS_CTRLUi_15_ZA14_10C_ACS_CTRL",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_15_ZA14_10C_ACS_CTRL",
-            ),
+        Ok(
+            "fixed_array_base<C_ACS_CTRL, 15, C_ACS_CTRL [15]> type_info node",
         ),
     ),
     (
@@ -111779,10 +111703,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "Work__t20CBlinkSwitchVariable5Zci_90_i_112_i_11_i_90_",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_90_i_112_i_11_i_90_",
-            ),
+        Ok(
+            "CBlinkSwitchVariable<char, 90, 112, 11, 90>::Work(void)",
         ),
     ),
     (
@@ -112087,10 +112009,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_fixed_array_verifyrange__H1Zt11fixed_array2Z6SPRINGUi_20__UiUi_PX01",
-        Err(
-            InvalidValueForIntegralTemplated(
-                "_20__UiUi_PX01",
-            ),
+        Ok(
+            "fixed_array<SPRING, 20> * _fixed_array_verifyrange<fixed_array<SPRING, 20> >(unsigned int, unsigned int)",
         ),
     ),
     (

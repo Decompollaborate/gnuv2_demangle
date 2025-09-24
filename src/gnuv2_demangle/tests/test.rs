@@ -1273,6 +1273,20 @@ fn test_demangle_function_pointer_returning_pointer_to_array_fixed() {
     }
 }
 
+#[test]
+fn test_demangle_templated_big_num() {
+    static CASES: [(&str, &str); 2] = [
+        ("Work__t12CWrkVariable3Zci0i_60_", "CWrkVariable<char, 0, 60>::Work(void)"),
+        ("__tft16fixed_array_base3Z6SPRINGUi_20_ZA19_6SPRING", "fixed_array_base<SPRING, 20, SPRING [20]> type_info function"),
+    ];
+    let mut config = DemangleConfig::new();
+    config.fix_array_length_arg = true;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 class SomethingSilly {
 public:

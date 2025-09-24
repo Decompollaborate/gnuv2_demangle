@@ -197,9 +197,15 @@ fn demangle_templated_value<'s>(
                     )
                 } else {
                     let (r, negative) = r.c_maybe_strip_prefix('m');
-                    let Remaining { r, d: number } = r
+                    let Remaining { r, d: number } = if let Some(r) = r.strip_prefix('_') {
+r
+                        .p_number_maybe_multi_digit()
+                        .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?
+                    } else {
+r
                         .p_number()
-                        .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
+                        .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?
+                    };
                     let t = format!("{}{}", if negative { "-" } else { "" }, number);
                     (r, DemangledArg::Plain(t, None.into()))
                 }
