@@ -8,7 +8,7 @@ use alloc::{
     string::{String, ToString},
 };
 
-use crate::{DemangleConfig, DemangleError};
+use crate::{str_cutter::StrCutter, DemangleConfig, DemangleError};
 
 use crate::{
     dem::demangle_custom_name,
@@ -92,7 +92,8 @@ fn demangle_template_types_impl<'c, 's>(
             (r, arg, true)
         } else {
             // value
-            let Remaining { r, d: arg } = demangle_templated_value(config, remaining)?;
+            let Remaining { r, d: arg } =
+                demangle_templated_value(config, remaining, template_args)?;
             (r, arg, false)
         };
         types.push(arg, remaining, r, allow_data_after_ellipsis)?;
@@ -105,6 +106,7 @@ fn demangle_template_types_impl<'c, 's>(
 fn demangle_templated_value<'s>(
     config: &DemangleConfig,
     s: &'s str,
+    template_args: &ArgVec,
 ) -> Result<Remaining<'s, DemangledArg>, DemangleError<'s>> {
     let mut r = s;
     let mut is_pointer = false;
@@ -167,16 +169,37 @@ fn demangle_templated_value<'s>(
             }
             // "short" | "int" | "long" | "long long"
             's' | 'i' | 'l' | 'x' => {
-                let (r, negative) = if let Some(r) = r.strip_prefix('m') {
-                    (r, true)
+                if let Some(r) = r.strip_prefix('Y') {
+                    // Y01 -> Use value at index 0 from the template list. No
+                    // idea about the second digit
+
+                    // TODO: what happens if the index is larger than 9?
+                    let Some(Remaining { r, d: index }) = r.p_digit() else {
+                        return Err(DemangleError::MissingLookbackIndexForTemplatedValue(s));
+                    };
+                    let Some(Remaining { r, d: digit1 }) = r.p_digit() else {
+                        return Err(DemangleError::MissingLookbackSecondDigitForTemplatedValue(
+                            s,
+                        ));
+                    };
+                    if digit1 != 1 {
+                        return Err(DemangleError::InvalidLookbackSecondDigitForTemplatedValue(
+                            s, digit1,
+                        ));
+                    }
+
+                    let Some(templated_value) = template_args.get(index) else {
+                        return Err(DemangleError::IndexTooBigForYArgument(s, index));
+                    };
+                    (r, DemangledArg::Plain(templated_value.to_string()))
                 } else {
-                    (r, false)
-                };
-                let Remaining { r, d: number } = r
-                    .p_number()
-                    .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
-                let t = format!("{}{}", if negative { "-" } else { "" }, number);
-                (r, DemangledArg::Plain(t))
+                    let (r, negative) = r.c_maybe_strip_prefix('m');
+                    let Remaining { r, d: number } = r
+                        .p_number()
+                        .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
+                    let t = format!("{}{}", if negative { "-" } else { "" }, number);
+                    (r, DemangledArg::Plain(t))
+                }
             }
             // 'f' => {}, // "float"
             // 'd' => {}, // "double"
@@ -189,7 +212,6 @@ fn demangle_templated_value<'s>(
             },
             '1'..='9' => {
                 // enum
-                //panic!("{r}");
                 let Remaining { r, d: _enum_name } = demangle_custom_name(
                     remaining,
                     DemangleError::InvalidEnumNameForTemplatedValue,
@@ -197,12 +219,7 @@ fn demangle_templated_value<'s>(
 
                 // TODO: <(SomeEnum)0> is valid c++, try to use it somehow.
 
-                //panic!("{r} {_enum_name}");
-                let (r, negative) = if let Some(r) = r.strip_prefix('m') {
-                    (r, true)
-                } else {
-                    (r, false)
-                };
+                let (r, negative) = r.c_maybe_strip_prefix('m');
                 let Remaining { r, d: number } = r
                     .p_number()
                     .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;

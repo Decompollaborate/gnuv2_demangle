@@ -1116,10 +1116,9 @@ fn test_demangle_template_with_enum_value() {
     }
 }
 
-/*
 #[test]
-fn test_demangle_misc_ff2() {
-    static CASES: [(&str, &str); 11] = [
+fn test_demangle_templated_function_with_value_reuse() {
+    static CASES: [(&str, &str); 2] = [
         /*
         template <typename T, unsigned int N>
         class fixed_array {};
@@ -1133,8 +1132,26 @@ fn test_demangle_misc_ff2() {
             _SortLightCompareData<4>(a, b, c);
         }
         */
-        ("_SortLightCompareData__H1i4_Rt11fixed_array2Z17_LIGHTCOMPAREDATAUiY01fi_v", "void _SortLightCompareData<4>(fixed_array<_LIGHTCOMPAREDATA, 4> &, float, int)"),
+        (
+            "_SortLightCompareData__H1i4_Rt11fixed_array2Z17_LIGHTCOMPAREDATAUiY01fi_v",
+            "void _SortLightCompareData<4>(fixed_array<_LIGHTCOMPAREDATA, 4> &, float, int)",
+        ),
+        (
+            "_SortLightCompareData__H1im4_Rt11fixed_array2Z17_LIGHTCOMPAREDATAiY01fi_v",
+            "void _SortLightCompareData<-4>(fixed_array<_LIGHTCOMPAREDATA, -4> &, float, int)",
+        ),
+    ];
+    let config = DemangleConfig::new();
 
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+/*
+#[test]
+fn test_demangle_misc_ff2() {
+    static CASES: [(&str, &str); 10] = [
         // why on earth is this valid syntax?
         /*
         template <typename T>

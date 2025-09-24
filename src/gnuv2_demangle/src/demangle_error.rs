@@ -76,6 +76,10 @@ pub enum DemangleError<'s> {
     MissingBitwidthForExtensionInteger(&'s str),
     InvalidBitwidthForExtensionInteger(&'s str, usize),
     InvalidEnumNameForTemplatedValue(&'s str),
+    MissingLookbackIndexForTemplatedValue(&'s str),
+    MissingLookbackSecondDigitForTemplatedValue(&'s str),
+    InvalidLookbackSecondDigitForTemplatedValue(&'s str, usize),
+    IndexTooBigForYArgument(&'s str, usize),
 }
 
 impl fmt::Display for DemangleError<'_> {

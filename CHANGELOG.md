@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for 128bits integers.
 - Operator `delete []`.
 - Support `enum`s as templated values.
+- Support for reuse of templated values (`Y`).
 
 ### Changed
 

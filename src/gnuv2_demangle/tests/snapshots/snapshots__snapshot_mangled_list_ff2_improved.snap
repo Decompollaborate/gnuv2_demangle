@@ -15868,10 +15868,8 @@ expression: "demangle_lines(contents, &config)"
     Err(
         NotMangled,
     ),
-    Err(
-        InvalidValueForIntegralTemplated(
-            "Y01fi_v",
-        ),
+    Ok(
+        "void _SortLightCompareData<4>(fixed_array<_LIGHTCOMPAREDATA, 4> &, float, int)",
     ),
     Err(
         UnrecognizedSpecialMethod(
