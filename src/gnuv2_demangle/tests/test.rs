@@ -1235,6 +1235,14 @@ fn test_demangle_array_without_pointer_fixed() {
 #[test]
 fn test_demangle_misc_ff2() {
     static CASES: [(&str, &str); 1] = [
+        // This can be also written like this.
+        // Hopefully this is more simple to understand to the reader.
+        /*
+        typedef int  (*Arr)[4];
+        typedef Arr (* First)(void);
+        typedef void (* Second)(Arr);
+        void InitDrawEnv(First, First, Second, Second) {}
+        */
         ("InitDrawEnv__FPFv_PA3_iT0PFPA3_i_vT2", "InitDrawEnv(int (*(*)(void))[3], int (*(*)(void))[3], void (*)(int (*)[3]), void (*)(int (*)[3]))"),
     ];
     let config = DemangleConfig::new();
@@ -1243,6 +1251,20 @@ fn test_demangle_misc_ff2() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+*/
+
+/*
+class SomethingSilly {
+public:
+    template <typename T>
+    int (*an_array(T a) const) [3] {}
+};
+*/
+/*
+(
+    "an_array__H1Zi_C14SomethingSillyX01_PA3_i",
+    "int (*)[3] SomethingSilly::an_array<int>(int) const",
+),
 */
 
 /*

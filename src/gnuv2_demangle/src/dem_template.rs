@@ -132,7 +132,7 @@ fn demangle_templated_value<'s>(
     }
 
     let (remaining, arg) = if is_pointer || is_reference {
-        let (aux, DemangledArg::Plain(_arg)) = demangle_argument(
+        let (aux, DemangledArg::Plain(_arg, _array_qualifiers)) = demangle_argument(
             config,
             r,
             &ArgVec::new(config, None),
@@ -144,7 +144,7 @@ fn demangle_templated_value<'s>(
         let Remaining { r: aux, d: symbol } =
             demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
         let t = format!("{}{}", if is_pointer { "&" } else { "" }, symbol);
-        (aux, DemangledArg::Plain(t))
+        (aux, DemangledArg::Plain(t, None.into()))
     } else {
         let remaining = r;
         let Remaining { r, d: c } = remaining
@@ -165,7 +165,7 @@ fn demangle_templated_value<'s>(
                 )
                 .ok_or(DemangleError::InvalidTemplatedCharacterValue(r, number))?;
                 let t = format!("'{demangled_char}'");
-                (r, DemangledArg::Plain(t))
+                (r, DemangledArg::Plain(t, None.into()))
             }
             // "short" | "int" | "long" | "long long"
             's' | 'i' | 'l' | 'x' => {
@@ -191,14 +191,17 @@ fn demangle_templated_value<'s>(
                     let Some(templated_value) = template_args.get(index) else {
                         return Err(DemangleError::IndexTooBigForYArgument(s, index));
                     };
-                    (r, DemangledArg::Plain(templated_value.to_string()))
+                    (
+                        r,
+                        DemangledArg::Plain(templated_value.to_string(), None.into()),
+                    )
                 } else {
                     let (r, negative) = r.c_maybe_strip_prefix('m');
                     let Remaining { r, d: number } = r
                         .p_number()
                         .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
                     let t = format!("{}{}", if negative { "-" } else { "" }, number);
-                    (r, DemangledArg::Plain(t))
+                    (r, DemangledArg::Plain(t, None.into()))
                 }
             }
             // 'f' => {}, // "float"
@@ -206,8 +209,14 @@ fn demangle_templated_value<'s>(
             // 'r' => {}, // "long double"
             // "bool"
             'b' => match r.chars().next() {
-                Some('1') => (&r[1..], DemangledArg::Plain("true".to_string())),
-                Some('0') => (&r[1..], DemangledArg::Plain("false".to_string())),
+                Some('1') => (
+                    &r[1..],
+                    DemangledArg::Plain("true".to_string(), None.into()),
+                ),
+                Some('0') => (
+                    &r[1..],
+                    DemangledArg::Plain("false".to_string(), None.into()),
+                ),
                 _ => return Err(DemangleError::InvalidTemplatedBoolean(r)),
             },
             '1'..='9' => {
@@ -224,7 +233,7 @@ fn demangle_templated_value<'s>(
                     .p_number()
                     .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
                 let t = format!("{}{}", if negative { "-" } else { "" }, number);
-                (r, DemangledArg::Plain(t))
+                (r, DemangledArg::Plain(t, None.into()))
             }
             _ => return Err(DemangleError::InvalidTypeValueForTemplated(c, r)),
         }

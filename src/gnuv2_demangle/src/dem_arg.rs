@@ -9,7 +9,7 @@ use alloc::{
     string::{String, ToString},
 };
 
-use crate::str_cutter::StrCutter;
+use crate::{option_display::OptionDisplay, str_cutter::StrCutter};
 use crate::{DemangleConfig, DemangleError};
 
 use crate::{
@@ -22,7 +22,7 @@ use crate::{
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum DemangledArg {
-    Plain(String),
+    Plain(String, OptionDisplay<ArrayQualifiers>),
     FunctionPointer(FunctionPointer),
     MethodPointer(MethodPointer),
     Repeat { count: NonZeroUsize, index: usize },
@@ -34,6 +34,7 @@ pub(crate) struct FunctionPointer {
     return_type: String,
     post_qualifiers: String,
     args: String,
+    array_qualifiers: OptionDisplay<ArrayQualifiers>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -43,6 +44,7 @@ pub(crate) struct MethodPointer {
     post_qualifiers: String,
     args: String,
     is_const_method: bool,
+    array_qualifiers: OptionDisplay<ArrayQualifiers>,
 }
 
 impl fmt::Display for FunctionPointer {
@@ -51,16 +53,17 @@ impl fmt::Display for FunctionPointer {
             return_type,
             post_qualifiers,
             args,
+            array_qualifiers,
         } = self;
 
-        let space = if return_type.ends_with(['*', '&']) {
-            ""
-        } else {
-            " "
-        };
-        let post_qualifiers = post_qualifiers.trim_matches(' ');
-
-        write!(f, "{return_type}{space}({post_qualifiers})({args})")
+        write!(f, "{return_type}")?;
+        write!(f, "{array_qualifiers}")?;
+        if !return_type.ends_with(['*', '&']) {
+            write!(f, " ")?;
+        }
+        write!(f, "({})", post_qualifiers.trim_matches(' '))?;
+        write!(f, "({args})")?;
+        Ok(())
     }
 }
 
@@ -72,9 +75,11 @@ impl fmt::Display for MethodPointer {
             post_qualifiers,
             args,
             is_const_method,
+            array_qualifiers,
         } = self;
 
         write!(f, "{return_type}")?;
+        write!(f, "{array_qualifiers}")?;
         if !return_type.ends_with(['*', '&']) {
             write!(f, " ")?;
         }
@@ -104,6 +109,29 @@ impl fmt::Display for Signedness {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct ArrayQualifiers {
+    inner_post_qualifiers: String,
+    // TODO: would be better to store this as a vector instead of an array?
+    arrays: String,
+}
+
+impl fmt::Display for ArrayQualifiers {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, " ")?;
+
+        if !self.inner_post_qualifiers.is_empty() {
+            // Only add parenthesis if there are post_qualifiers, like a
+            // pointer.
+            // Arrays without being decaying to pointers can happen in, for
+            // example, templated functions.
+            write!(f, "({})", self.inner_post_qualifiers)?;
+        }
+
+        write!(f, "{}", self.arrays)
+    }
+}
+
 pub(crate) fn demangle_argument<'s>(
     config: &DemangleConfig,
     full_args: &'s str,
@@ -120,12 +148,18 @@ pub(crate) fn demangle_argument<'s>(
     } = demangle_arg_qualifiers(full_args)?;
     let Remaining {
         r: args,
-        d: (sign, post_qualifiers),
+        d: (sign, post_qualifiers, array_qualifiers),
     } = demangle_array_pseudo_qualifier(config, args, sign, post_qualifiers)?;
 
     if let Some(s) = args.strip_prefix('F') {
-        let (r, fp) =
-            demangle_function_pointer_arg(config, s, template_args, sign, post_qualifiers)?;
+        let (r, fp) = demangle_function_pointer_arg(
+            config,
+            s,
+            template_args,
+            sign,
+            post_qualifiers,
+            array_qualifiers,
+        )?;
         Ok((r, DemangledArg::FunctionPointer(fp)))
     } else if let Some(r) = args.strip_prefix('M') {
         let (r, mp) = demangle_method_pointer_arg(
@@ -135,6 +169,7 @@ pub(crate) fn demangle_argument<'s>(
             template_args,
             sign,
             post_qualifiers,
+            array_qualifiers,
         )?;
         Ok((r, DemangledArg::MethodPointer(mp)))
     } else {
@@ -160,7 +195,7 @@ pub(crate) fn demangle_argument<'s>(
             post_qualifiers.trim_matches(' ')
         );
 
-        Ok((r, DemangledArg::Plain(out)))
+        Ok((r, DemangledArg::Plain(out, array_qualifiers)))
     }
 }
 
@@ -325,6 +360,7 @@ fn demangle_function_pointer_arg<'s>(
     template_args: &ArgVec,
     sign: Signedness,
     post_qualifiers: String,
+    array_qualifiers: OptionDisplay<ArrayQualifiers>,
 ) -> Result<(&'s str, FunctionPointer), DemangleError<'s>> {
     let (r, func_args) = demangle_argument_list_impl(config, s, None, template_args, true)?;
     let Some(r) = r.strip_prefix('_') else {
@@ -333,26 +369,30 @@ fn demangle_function_pointer_arg<'s>(
 
     let (r, return_type) = demangle_argument(config, r, &func_args, template_args)?;
 
+    // println!("{return_type:?}");
     let fp = match return_type {
-        DemangledArg::Plain(plain) => FunctionPointer {
+        DemangledArg::Plain(plain, array_qualifiers) => FunctionPointer {
             return_type: format!("{sign}{plain}"),
             post_qualifiers,
             args: func_args.join(),
+            array_qualifiers,
         },
         DemangledArg::FunctionPointer(function_pointer) => {
             let FunctionPointer {
                 return_type: sub_return_type,
                 post_qualifiers: sub_post_qualifiers,
                 args: sub_args,
+                array_qualifiers: sub_array_qualifiers,
             } = function_pointer;
             let func_args = func_args.join();
             FunctionPointer {
                 return_type: sub_return_type,
                 // This is kinda hacky, but it seems to work...
                 post_qualifiers: format!(
-                    "{sign}{post_qualifiers}({sub_post_qualifiers})({func_args})",
+                    "{sign}{post_qualifiers}({sub_post_qualifiers})({func_args}){array_qualifiers}",
                 ),
                 args: sub_args,
+                array_qualifiers: sub_array_qualifiers,
             }
         }
         DemangledArg::MethodPointer(method_pointer) => {
@@ -363,15 +403,17 @@ fn demangle_function_pointer_arg<'s>(
                 post_qualifiers: sub_post_qualifiers,
                 args: sub_args,
                 is_const_method,
+                array_qualifiers: sub_array_qualifiers,
             } = method_pointer;
             let func_args = func_args.join();
             let const_qualifier = if is_const_method { " const" } else { "" };
             FunctionPointer {
                 return_type: sub_return_type,
                 post_qualifiers: format!(
-                    "{sign}{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}",
+                    "{sign}{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}{array_qualifiers}",
                 ),
                 args: sub_args,
+                array_qualifiers: sub_array_qualifiers,
             }
         }
         DemangledArg::Repeat { .. } | DemangledArg::Ellipsis => {
@@ -390,6 +432,7 @@ fn demangle_method_pointer_arg<'s>(
     template_args: &ArgVec,
     sign: Signedness,
     post_qualifiers: String,
+    array_qualifiers: OptionDisplay<ArrayQualifiers>,
 ) -> Result<(&'s str, MethodPointer), DemangleError<'s>> {
     if sign != Signedness::No || !post_qualifiers.chars().all(|c| c == '*') {
         // The only qualifer valid for this seems to be pointer (`*`), not
@@ -402,11 +445,14 @@ fn demangle_method_pointer_arg<'s>(
             demangle_custom_name(s, DemangleError::InvalidClassNameOnMethodArgument)?;
         (r, Cow::from(class_name))
     } else {
-        let (r, DemangledArg::Plain(class_name)) =
+        let (r, DemangledArg::Plain(class_name, array_qualifiers)) =
             demangle_argument(config, s, &ArgVec::new(config, None), template_args)?
         else {
             return Err(DemangleError::InvalidClassNameOnMethodArgument(s));
         };
+        if array_qualifiers.is_some() {
+            return Err(DemangleError::InvalidClassNameOnMethodArgument(s));
+        }
 
         (r, Cow::from(class_name))
     };
@@ -433,7 +479,7 @@ fn demangle_method_pointer_arg<'s>(
                 r
             };
 
-            let (r, DemangledArg::Plain(class_name_again)) =
+            let (r, DemangledArg::Plain(class_name_again, array_qualifiers)) =
                 demangle_argument(config, r, &ArgVec::new(config, None), template_args)?
             else {
                 return Err(DemangleError::MissingFirstClassArgumentForMethodMemberArg(
@@ -443,15 +489,25 @@ fn demangle_method_pointer_arg<'s>(
             if class_name != class_name_again {
                 return Err(DemangleError::MethodPointerWrongClassName(func_pointer));
             }
+            if array_qualifiers.is_some() {
+                return Err(DemangleError::MethodPointerClassNameAsArray(func_pointer));
+            }
             r
         };
 
-        let (r, fp) =
-            demangle_function_pointer_arg(config, r, template_args, sign, post_qualifiers)?;
+        let (r, fp) = demangle_function_pointer_arg(
+            config,
+            r,
+            template_args,
+            sign,
+            post_qualifiers,
+            array_qualifiers,
+        )?;
         let FunctionPointer {
             return_type,
             post_qualifiers,
             args,
+            array_qualifiers,
         } = fp;
 
         let arg = MethodPointer {
@@ -460,6 +516,7 @@ fn demangle_method_pointer_arg<'s>(
             post_qualifiers,
             args,
             is_const_method,
+            array_qualifiers,
         };
         Ok((r, arg))
     } else {
@@ -508,54 +565,57 @@ fn demangle_array_pseudo_qualifier<'s>(
     s: &'s str,
     mut sign: Signedness,
     mut post_qualifiers: String,
-) -> Result<Remaining<'s, (Signedness, String)>, DemangleError<'s>> {
-    let r = if s.starts_with('A') {
-        if sign != Signedness::No {
-            // Avoid stuff like "signed signed"
-            return Err(DemangleError::PrevQualifiersInInvalidPostioniAtArrayArgument(s));
-        }
-        if !post_qualifiers.is_empty() {
-            // Only add parenthesis if there are post_qualifiers, like a
-            // pointer.
-            // Arrays without being decaying to pointers can happen in, for
-            // example, templated functions.
-            post_qualifiers.insert(0, '(');
-            post_qualifiers.push(')');
-        }
+) -> Result<Remaining<'s, (Signedness, String, OptionDisplay<ArrayQualifiers>)>, DemangleError<'s>>
+{
+    if !s.starts_with('A') {
+        return Ok(Remaining::new(s, (sign, post_qualifiers, None.into())));
+    }
 
-        let mut args = s;
-        while let Some(remaining) = args.strip_prefix('A') {
-            let Some(Remaining {
-                r: remaining,
-                d: array_length,
-            }) = remaining.p_number()
-            else {
-                return Err(DemangleError::InvalidArraySize(remaining));
-            };
-            let Some(remaining) = remaining.strip_prefix('_') else {
-                return Err(DemangleError::MalformedArrayArgumment(remaining));
-            };
-
-            let array_length = if config.fix_array_length_arg {
-                array_length + 1
-            } else {
-                array_length
-            };
-
-            post_qualifiers.push_str(&format!("[{array_length}]"));
-            args = remaining;
-        }
-
-        let Remaining {
-            r,
-            d: (sign_other, post),
-        } = demangle_arg_qualifiers(args)?;
-        sign = sign_other;
-        post_qualifiers = post + &post_qualifiers;
-        r
-    } else {
-        s
+    let mut array_qualifiers = ArrayQualifiers {
+        inner_post_qualifiers: String::new(),
+        arrays: String::new(),
     };
 
-    Ok(Remaining::new(r, (sign, post_qualifiers)))
+    if sign != Signedness::No {
+        // Avoid stuff like "signed signed"
+        return Err(DemangleError::PrevQualifiersInInvalidPostioniAtArrayArgument(s));
+    }
+    array_qualifiers.inner_post_qualifiers = post_qualifiers;
+
+    let mut args = s;
+    while let Some(remaining) = args.strip_prefix('A') {
+        let Some(Remaining {
+            r: remaining,
+            d: array_length,
+        }) = remaining.p_number()
+        else {
+            return Err(DemangleError::InvalidArraySize(remaining));
+        };
+        let Some(remaining) = remaining.strip_prefix('_') else {
+            return Err(DemangleError::MalformedArrayArgumment(remaining));
+        };
+
+        let array_length = if config.fix_array_length_arg {
+            array_length + 1
+        } else {
+            array_length
+        };
+
+        array_qualifiers
+            .arrays
+            .push_str(&format!("[{array_length}]"));
+        args = remaining;
+    }
+
+    let Remaining {
+        r,
+        d: (sign_other, post),
+    } = demangle_arg_qualifiers(args)?;
+    sign = sign_other;
+    post_qualifiers = post;
+
+    Ok(Remaining::new(
+        r,
+        (sign, post_qualifiers, Some(array_qualifiers).into()),
+    ))
 }

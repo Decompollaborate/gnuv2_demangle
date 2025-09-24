@@ -72,6 +72,7 @@ pub enum DemangleError<'s> {
     MethodPointerNotHavingAPointerFirst(&'s str),
     MethodPointerMissingConstness(&'s str),
     MethodPointerWrongClassName(&'s str),
+    MethodPointerClassNameAsArray(&'s str),
     UnkonwnMethodMemberArgKind(&'s str),
     MissingBitwidthForExtensionInteger(&'s str),
     InvalidBitwidthForExtensionInteger(&'s str, usize),

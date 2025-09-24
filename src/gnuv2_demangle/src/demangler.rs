@@ -159,12 +159,13 @@ fn demangle_special<'s>(
             "apl" => Cow::from("operator+="),
             _ => {
                 if let Some(cast) = op.strip_prefix("op") {
-                    let (remaining, DemangledArg::Plain(typ)) = demangle_argument(
-                        config,
-                        cast,
-                        &ArgVec::new(config, None),
-                        &ArgVec::new(config, None),
-                    )?
+                    let (remaining, DemangledArg::Plain(typ, array_qualifiers)) =
+                        demangle_argument(
+                            config,
+                            cast,
+                            &ArgVec::new(config, None),
+                            &ArgVec::new(config, None),
+                        )?
                     else {
                         return Err(DemangleError::UnrecognizedSpecialMethod(op));
                     };
@@ -172,7 +173,7 @@ fn demangle_special<'s>(
                         return Err(DemangleError::MalformedCastOperatorOverload(remaining));
                     }
 
-                    Cow::from(format!("operator {typ}"))
+                    Cow::from(format!("operator {typ}{array_qualifiers}"))
                 } else {
                     return {
                         // This may be a plain function that got confused with a
@@ -281,6 +282,8 @@ fn demangle_method<'s>(
 
         (remaining, Cow::from(namespaces))
     } else if let Some(with_return_type) = remaining.strip_prefix('H') {
+        // Templated function.
+
         let (remaining, template_args, typ) =
             demangle_template_with_return_type(config, with_return_type)?;
 
@@ -296,8 +299,8 @@ fn demangle_method<'s>(
 
         let (remaining, argument_list) =
             demangle_argument_list_impl(config, remaining, typ.as_deref(), &template_args, false)?;
-        let prefix = if let Some(r) = remaining.strip_prefix('_') {
-            let (r, DemangledArg::Plain(mut ret_type)) = demangle_argument(
+        let (prefix, array_qualifiers) = if let Some(r) = remaining.strip_prefix('_') {
+            let (r, DemangledArg::Plain(mut ret_type, array_qualifiers)) = demangle_argument(
                 config,
                 r,
                 &ArgVec::new(config, typ.as_deref()),
@@ -312,7 +315,7 @@ fn demangle_method<'s>(
                 );
             }
             ret_type.push(' ');
-            ret_type
+            (ret_type, array_qualifiers)
         } else {
             return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(remaining));
         };
@@ -325,9 +328,9 @@ fn demangle_method<'s>(
         };
         let argument_list = argument_list.join();
         return Ok(if let Some(typ) = typ {
-            format!("{prefix}{typ}::{method_name}{formated_template_args}({argument_list}){suffix}")
+            format!("{prefix}{array_qualifiers}{typ}::{method_name}{formated_template_args}({argument_list}){suffix}")
         } else {
-            format!("{prefix}{method_name}{formated_template_args}({argument_list}){suffix}")
+            format!("{prefix}{array_qualifiers}{method_name}{formated_template_args}({argument_list}){suffix}")
         });
     } else {
         let Remaining { r, d: class_name } =
@@ -379,14 +382,16 @@ fn demangle_type_info_function<'s>(
     config: &DemangleConfig,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    if let (remaining, DemangledArg::Plain(demangled_type)) = demangle_argument(
+    if let (remaining, DemangledArg::Plain(demangled_type, array_qualifiers)) = demangle_argument(
         config,
         s,
         &ArgVec::new(config, None),
         &ArgVec::new(config, None),
     )? {
         if remaining.is_empty() {
-            Ok(format!("{demangled_type} type_info function"))
+            Ok(format!(
+                "{demangled_type}{array_qualifiers} type_info function"
+            ))
         } else {
             Err(DemangleError::TrailingDataOnTypeInfoFunction(remaining))
         }
@@ -399,14 +404,14 @@ fn demangle_type_info_node<'s>(
     config: &DemangleConfig,
     s: &'s str,
 ) -> Result<String, DemangleError<'s>> {
-    if let (remaining, DemangledArg::Plain(demangled_type)) = demangle_argument(
+    if let (remaining, DemangledArg::Plain(demangled_type, array_qualifiers)) = demangle_argument(
         config,
         s,
         &ArgVec::new(config, None),
         &ArgVec::new(config, None),
     )? {
         if remaining.is_empty() {
-            Ok(format!("{demangled_type} type_info node"))
+            Ok(format!("{demangled_type}{array_qualifiers} type_info node"))
         } else {
             Err(DemangleError::TrailingDataOnTypeInfoNode(remaining))
         }

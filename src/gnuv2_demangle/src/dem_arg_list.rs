@@ -77,7 +77,9 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
         // Map the external `DemangledArg` representation to our `ProcessedArg`
         // internal one.
         let arg = match arg {
-            DemangledArg::Plain(plain) => ProcessedArg::Plain(plain),
+            DemangledArg::Plain(plain, array_qualifiers) => {
+                ProcessedArg::Plain(format!("{plain}{array_qualifiers}"))
+            }
             DemangledArg::FunctionPointer(function_pointer) => {
                 ProcessedArg::Plain(function_pointer.to_string())
             }
