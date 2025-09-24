@@ -36655,7 +36655,7 @@ expression: "demangle_lines(contents, &config)"
         "GetPzlTexDataAddr(void)",
     ),
     Ok(
-        "int ()[4] * _fixed_array_verifyrange<int ()[4]>(unsigned int, unsigned int)",
+        "int [4] * _fixed_array_verifyrange<int [4]>(unsigned int, unsigned int)",
     ),
     Ok(
         "EventCameraGetOneData(VCI_CAMERA_POINT *, unsigned int const *, int)",
@@ -37334,7 +37334,7 @@ expression: "demangle_lines(contents, &config)"
         "SetSave_ListCompDispFlg(MC_SAVE_DATA *)",
     ),
     Ok(
-        "int ()[4] type_info node",
+        "int [4] type_info node",
     ),
     Ok(
         "DOOR_CTRL type_info node",
@@ -38399,7 +38399,7 @@ expression: "demangle_lines(contents, &config)"
         "EventCameraSetTargetOffset(float *)",
     ),
     Ok(
-        "float ()[4] type_info node",
+        "float [4] type_info node",
     ),
     Err(
         NotMangled,
@@ -41347,7 +41347,7 @@ expression: "demangle_lines(contents, &config)"
         "BoundingBoxCalcP(SGDPROCUNITHEADER *)",
     ),
     Ok(
-        "float ()[4][4] type_info node",
+        "float [4][4] type_info node",
     ),
     Ok(
         "vector<basic_string<char, string_char_traits<char>, ctl::custom_allocator<char> >, ctl::custom_allocator<basic_string<char, string_char_traits<char>, ctl::custom_allocator<char> > > >::_M_insert_aux(basic_string<char, string_char_traits<char>, ctl::custom_allocator<char> > *, basic_string<char, string_char_traits<char>, ctl::custom_allocator<char> > const &)",
@@ -41708,7 +41708,7 @@ expression: "demangle_lines(contents, &config)"
         "SingleLinkListRemoveBegin(SINGLE_LINK_LIST *)",
     ),
     Ok(
-        "float ()[4] type_info function",
+        "float [4] type_info function",
     ),
     Ok(
         "EffWrkStopFlgSet(int)",
@@ -46493,7 +46493,7 @@ expression: "demangle_lines(contents, &config)"
         "EffectSndStopDeleteKey(unsigned int, int)",
     ),
     Ok(
-        "float ()[4][4] type_info function",
+        "float [4][4] type_info function",
     ),
     Err(
         NotMangled,
@@ -49336,7 +49336,7 @@ expression: "demangle_lines(contents, &config)"
         NotMangled,
     ),
     Ok(
-        "int ()[4] type_info function",
+        "int [4] type_info function",
     ),
     Ok(
         "dmaVif1CheckDMA(void)",
@@ -50392,7 +50392,7 @@ expression: "demangle_lines(contents, &config)"
         NotMangled,
     ),
     Ok(
-        "float ()[4][4] * _fixed_array_verifyrange<float ()[4][4]>(unsigned int, unsigned int)",
+        "float [4][4] * _fixed_array_verifyrange<float [4][4]>(unsigned int, unsigned int)",
     ),
     Ok(
         "MapLightSelectEnable(GRA3DLIGHTDATA *, float *)",
@@ -55543,7 +55543,7 @@ expression: "demangle_lines(contents, &config)"
         NotMangled,
     ),
     Ok(
-        "float ()[4] * _fixed_array_verifyrange<float ()[4]>(unsigned int, unsigned int)",
+        "float [4] * _fixed_array_verifyrange<float [4]>(unsigned int, unsigned int)",
     ),
     Ok(
         "gra3dSetFogColor(int, int, int)",

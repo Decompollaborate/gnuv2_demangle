@@ -514,8 +514,14 @@ fn demangle_array_pseudo_qualifier<'s>(
             // Avoid stuff like "signed signed"
             return Err(DemangleError::PrevQualifiersInInvalidPostioniAtArrayArgument(s));
         }
-        post_qualifiers.insert(0, '(');
-        post_qualifiers.push(')');
+        if !post_qualifiers.is_empty() {
+            // Only add parenthesis if there are post_qualifiers, like a
+            // pointer.
+            // Arrays without being decaying to pointers can happen in, for
+            // example, templated functions.
+            post_qualifiers.insert(0, '(');
+            post_qualifiers.push(')');
+        }
 
         let mut args = s;
         while let Some(remaining) = args.strip_prefix('A') {

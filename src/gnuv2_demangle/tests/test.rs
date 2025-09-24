@@ -1148,10 +1148,12 @@ fn test_demangle_templated_function_with_value_reuse() {
     }
 }
 
-/*
 #[test]
-fn test_demangle_misc_ff2() {
-    static CASES: [(&str, &str); 10] = [
+fn test_demangle_array_without_pointer_cfilt() {
+    static CASES: [(&str, &str); 9] = [
+        // TODO: add a flag to allow emitting the cursed valid syntax instead
+        // of the invalid one.
+        // TODO: figure out how to get g++ to emit type_info stuff for plain arrays.
         // why on earth is this valid syntax?
         /*
         template <typename T>
@@ -1161,16 +1163,78 @@ fn test_demangle_misc_ff2() {
             return _fixed_array_verifyrange<int [4]>(a, b);
         }
         */
-        ("_fixed_array_verifyrange__H1ZA3_i_UiUi_PX01", "int [3] * _fixed_array_verifyrange<int [3]>(unsigned int, unsigned int)"),
+        (
+            "_fixed_array_verifyrange__H1ZA3_i_UiUi_PX01",
+            "int [3] * _fixed_array_verifyrange<int [3]>(unsigned int, unsigned int)",
+        ),
         ("__tiA3_i", "int [3] type_info node"),
         ("__tiA3_f", "float [3] type_info node"),
         ("__tiA3_A3_f", "float [3][3] type_info node"),
         ("__tfA3_f", "float [3] type_info function"),
         ("__tfA3_A3_f", "float [3][3] type_info function"),
         ("__tfA3_i", "int [3] type_info function"),
-        ("_fixed_array_verifyrange__H1ZA3_A3_f_UiUi_PX01", "float [3][3] * _fixed_array_verifyrange<float [3][3]>(unsigned int, unsigned int)"),
-        ("_fixed_array_verifyrange__H1ZA3_f_UiUi_PX01", "float [3] * _fixed_array_verifyrange<float [3]>(unsigned int, unsigned int)"),
+        (
+            "_fixed_array_verifyrange__H1ZA3_A3_f_UiUi_PX01",
+            "float [3][3] * _fixed_array_verifyrange<float [3][3]>(unsigned int, unsigned int)",
+        ),
+        (
+            "_fixed_array_verifyrange__H1ZA3_f_UiUi_PX01",
+            "float [3] * _fixed_array_verifyrange<float [3]>(unsigned int, unsigned int)",
+        ),
+    ];
+    let mut config = DemangleConfig::new();
+    config.fix_array_length_arg = false;
 
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_array_without_pointer_fixed() {
+    static CASES: [(&str, &str); 9] = [
+        // TODO: add a flag to allow emitting the cursed valid syntax instead
+        // of the invalid one.
+        // why on earth is this valid syntax?
+        /*
+        template <typename T>
+        T * _fixed_array_verifyrange(unsigned int, unsigned int) {}
+
+        int (*test2(unsigned int a, unsigned int b))[4] {
+            return _fixed_array_verifyrange<int [4]>(a, b);
+        }
+        */
+        (
+            "_fixed_array_verifyrange__H1ZA3_i_UiUi_PX01",
+            "int [4] * _fixed_array_verifyrange<int [4]>(unsigned int, unsigned int)",
+        ),
+        ("__tiA3_i", "int [4] type_info node"),
+        ("__tiA3_f", "float [4] type_info node"),
+        ("__tiA3_A3_f", "float [4][4] type_info node"),
+        ("__tfA3_f", "float [4] type_info function"),
+        ("__tfA3_A3_f", "float [4][4] type_info function"),
+        ("__tfA3_i", "int [4] type_info function"),
+        (
+            "_fixed_array_verifyrange__H1ZA3_A3_f_UiUi_PX01",
+            "float [4][4] * _fixed_array_verifyrange<float [4][4]>(unsigned int, unsigned int)",
+        ),
+        (
+            "_fixed_array_verifyrange__H1ZA3_f_UiUi_PX01",
+            "float [4] * _fixed_array_verifyrange<float [4]>(unsigned int, unsigned int)",
+        ),
+    ];
+    let mut config = DemangleConfig::new();
+    config.fix_array_length_arg = true;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+/*
+#[test]
+fn test_demangle_misc_ff2() {
+    static CASES: [(&str, &str); 1] = [
         ("InitDrawEnv__FPFv_PA3_iT0PFPA3_i_vT2", "InitDrawEnv(int (*(*)(void))[3], int (*(*)(void))[3], void (*)(int (*)[3]), void (*)(int (*)[3]))"),
     ];
     let config = DemangleConfig::new();
