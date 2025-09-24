@@ -32,37 +32,58 @@ pub(crate) enum DemangledArg {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct FunctionPointer {
     return_type: String,
+    array_qualifiers: OptionDisplay<ArrayQualifiers>,
     post_qualifiers: String,
     args: String,
-    array_qualifiers: OptionDisplay<ArrayQualifiers>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct MethodPointer {
     return_type: String,
+    array_qualifiers: OptionDisplay<ArrayQualifiers>,
     class: String, // TODO: `&'s str` instead? should be easy, i think...
     post_qualifiers: String,
     args: String,
     is_const_method: bool,
-    array_qualifiers: OptionDisplay<ArrayQualifiers>,
 }
 
 impl fmt::Display for FunctionPointer {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let FunctionPointer {
             return_type,
+            array_qualifiers,
             post_qualifiers,
             args,
-            array_qualifiers,
         } = self;
 
+        let array_qualifiers = array_qualifiers.as_option();
+        let mut wrote_space = false;
+
         write!(f, "{return_type}")?;
-        write!(f, "{array_qualifiers}")?;
-        if !return_type.ends_with(['*', '&']) {
+        if let Some(arr) = array_qualifiers {
+            // A return type being a pointer to array has a terrible syntax,
+            // which we need to break up.
+            // Instead of writing `int (*)[3] (*)(void)` (function pointer
+            // returning a pointer to array), we have to instead write
+            // `int (*(*)(void))[3]`.
+
+            write!(f, " ")?;
+            wrote_space = true;
+            if !arr.inner_post_qualifiers.is_empty() {
+                write!(f, "({}", arr.inner_post_qualifiers)?;
+            }
+        }
+        if !return_type.ends_with(['*', '&']) && !wrote_space {
             write!(f, " ")?;
         }
         write!(f, "({})", post_qualifiers.trim_matches(' '))?;
         write!(f, "({args})")?;
+        if let Some(arr) = array_qualifiers {
+            if !arr.inner_post_qualifiers.is_empty() {
+                write!(f, ")")?;
+            }
+            write!(f, "{}", arr.arrays)?;
+        }
         Ok(())
     }
 }
@@ -71,22 +92,43 @@ impl fmt::Display for MethodPointer {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let MethodPointer {
             return_type,
+            array_qualifiers,
             class,
             post_qualifiers,
             args,
             is_const_method,
-            array_qualifiers,
         } = self;
 
+        let array_qualifiers = array_qualifiers.as_option();
+        let mut wrote_space = false;
+
         write!(f, "{return_type}")?;
-        write!(f, "{array_qualifiers}")?;
-        if !return_type.ends_with(['*', '&']) {
+        if let Some(arr) = array_qualifiers {
+            // A return type being a pointer to array has a terrible syntax,
+            // which we need to break up.
+            // Instead of writing `int (*)[3] (*)(void)` (function pointer
+            // returning a pointer to array), we have to instead write
+            // `int (*(*)(void))[3]`.
+
+            write!(f, " ")?;
+            wrote_space = true;
+            if !arr.inner_post_qualifiers.is_empty() {
+                write!(f, "({}", arr.inner_post_qualifiers)?;
+            }
+        }
+        if !return_type.ends_with(['*', '&']) && !wrote_space {
             write!(f, " ")?;
         }
         write!(f, "({}::{})", class, post_qualifiers.trim_matches(' '))?;
         write!(f, "({args})")?;
         if *is_const_method {
             write!(f, " const")?;
+        }
+        if let Some(arr) = array_qualifiers {
+            if !arr.inner_post_qualifiers.is_empty() {
+                write!(f, ")")?;
+            }
+            write!(f, "{}", arr.arrays)?;
         }
         Ok(())
     }
@@ -373,47 +415,47 @@ fn demangle_function_pointer_arg<'s>(
     let fp = match return_type {
         DemangledArg::Plain(plain, array_qualifiers) => FunctionPointer {
             return_type: format!("{sign}{plain}"),
+            array_qualifiers,
             post_qualifiers,
             args: func_args.join(),
-            array_qualifiers,
         },
         DemangledArg::FunctionPointer(function_pointer) => {
             let FunctionPointer {
                 return_type: sub_return_type,
+                array_qualifiers: sub_array_qualifiers,
                 post_qualifiers: sub_post_qualifiers,
                 args: sub_args,
-                array_qualifiers: sub_array_qualifiers,
             } = function_pointer;
             let func_args = func_args.join();
             FunctionPointer {
                 return_type: sub_return_type,
+                array_qualifiers: sub_array_qualifiers,
                 // This is kinda hacky, but it seems to work...
                 post_qualifiers: format!(
                     "{sign}{post_qualifiers}({sub_post_qualifiers})({func_args}){array_qualifiers}",
                 ),
                 args: sub_args,
-                array_qualifiers: sub_array_qualifiers,
             }
         }
         DemangledArg::MethodPointer(method_pointer) => {
             // Copied from the FunctionPointer block. Untested
             let MethodPointer {
                 return_type: sub_return_type,
+                array_qualifiers: sub_array_qualifiers,
                 class,
                 post_qualifiers: sub_post_qualifiers,
                 args: sub_args,
                 is_const_method,
-                array_qualifiers: sub_array_qualifiers,
             } = method_pointer;
             let func_args = func_args.join();
             let const_qualifier = if is_const_method { " const" } else { "" };
             FunctionPointer {
                 return_type: sub_return_type,
+                array_qualifiers: sub_array_qualifiers,
                 post_qualifiers: format!(
                     "{sign}{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}{array_qualifiers}",
                 ),
                 args: sub_args,
-                array_qualifiers: sub_array_qualifiers,
             }
         }
         DemangledArg::Repeat { .. } | DemangledArg::Ellipsis => {
@@ -505,18 +547,18 @@ fn demangle_method_pointer_arg<'s>(
         )?;
         let FunctionPointer {
             return_type,
+            array_qualifiers,
             post_qualifiers,
             args,
-            array_qualifiers,
         } = fp;
 
         let arg = MethodPointer {
             return_type,
+            array_qualifiers,
             class: class_name.to_string(),
             post_qualifiers,
             args,
             is_const_method,
-            array_qualifiers,
         };
         Ok((r, arg))
     } else {

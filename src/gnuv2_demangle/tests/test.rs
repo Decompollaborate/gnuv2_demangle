@@ -1231,9 +1231,8 @@ fn test_demangle_array_without_pointer_fixed() {
     }
 }
 
-/*
 #[test]
-fn test_demangle_misc_ff2() {
+fn test_demangle_function_pointer_returning_pointer_to_array_cfilt() {
     static CASES: [(&str, &str); 1] = [
         // This can be also written like this.
         // Hopefully this is more simple to understand to the reader.
@@ -1245,13 +1244,34 @@ fn test_demangle_misc_ff2() {
         */
         ("InitDrawEnv__FPFv_PA3_iT0PFPA3_i_vT2", "InitDrawEnv(int (*(*)(void))[3], int (*(*)(void))[3], void (*)(int (*)[3]), void (*)(int (*)[3]))"),
     ];
-    let config = DemangleConfig::new();
+    let mut config = DemangleConfig::new();
+    config.fix_array_length_arg = false;
 
     for (mangled, demangled) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
-*/
+
+#[test]
+fn test_demangle_function_pointer_returning_pointer_to_array_fixed() {
+    static CASES: [(&str, &str); 1] = [
+        // This can be also written like this.
+        // Hopefully this is more simple to understand to the reader.
+        /*
+        typedef int  (*Arr)[4];
+        typedef Arr (* First)(void);
+        typedef void (* Second)(Arr);
+        void InitDrawEnv(First, First, Second, Second) {}
+        */
+        ("InitDrawEnv__FPFv_PA3_iT0PFPA3_i_vT2", "InitDrawEnv(int (*(*)(void))[4], int (*(*)(void))[4], void (*)(int (*)[4]), void (*)(int (*)[4]))"),
+    ];
+    let mut config = DemangleConfig::new();
+    config.fix_array_length_arg = true;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
 
 /*
 class SomethingSilly {

@@ -11,6 +11,12 @@ use core::{fmt, ops};
 #[repr(transparent)]
 pub(crate) struct OptionDisplay<T>(Option<T>);
 
+impl<T> OptionDisplay<T> {
+    pub(crate) fn as_option(&self) -> &Option<T> {
+        &self.0
+    }
+}
+
 impl<T> ops::Deref for OptionDisplay<T> {
     type Target = Option<T>;
 

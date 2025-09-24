@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix function pointers inside function pointers, I think.
 - Fix sometimes being unable to demangle templated functions.
 - Fix emitting empty parenthesis on non-pointer arrays types.
+- Fix incorrect syntax used for arrays as return types in function pointers.
 
 ## [0.1.0] - 2025-09-18
 

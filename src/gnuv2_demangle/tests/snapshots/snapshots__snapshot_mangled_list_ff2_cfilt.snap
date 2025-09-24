@@ -48603,7 +48603,7 @@ expression: "demangle_lines(contents, &config)"
         "FodGetCamData(FOD_CAMERA_DATA *, FOD_CAM_FRAME *, float *)",
     ),
     Ok(
-        "InitDrawEnv(int (*)[3] (*)(void), int (*)[3] (*)(void), void (*)(int (*)[3]), void (*)(int (*)[3]))",
+        "InitDrawEnv(int (*(*)(void))[3], int (*(*)(void))[3], void (*)(int (*)[3]), void (*)(int (*)[3]))",
     ),
     Ok(
         "_SetPREVIOUSTRI2PRIM(SGDPROCUNITHEADER *)",
