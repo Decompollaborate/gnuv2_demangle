@@ -14,7 +14,7 @@ body:
       description: |
         The symbol that is not being demangled properly.
         Ideally this is a minimal way to reproduce the issue.
-      placeholder: "`test__Fv`"
+      placeholder: "test__Fv"
     validations:
       required: true
   - type: input
@@ -24,7 +24,7 @@ body:
       description: |
         What you expected the demangled symbol to be.
         This shall be the output of `c++filt`.
-      placeholder: "`test(void)`"
+      placeholder: "test(void)"
     validations:
       required: true
   - type: textarea
@@ -44,7 +44,7 @@ body:
   - type: input
     id: demangler-version
     attributes:
-      label: "Optional: Demangler version"
+      label: "Optional: `gnuv2_demangle` version"
       description: |
         What version are you running?
         If you don't know you can leave this blank.

@@ -1,12 +1,12 @@
 name: Demangling improvement suggestion
 description: Suggest a _better_ way to demangle certain symbols.
-title: "[Bug]: "
+title: "[Improvement]: "
 labels: ["demangle improvement suggestion"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for helping to improve gnuv2_demangle!
+        Thank you for helping to improve `gnuv2_demangle`!
         Please keep in mind that any suggestion for demangling must be valid C++ syntax.
   - type: input
     id: mangled-sym
@@ -16,7 +16,7 @@ body:
         An example mangled symbol.
         It must represent the kind of symbols you want to improve.
         Hopefully it is a minimal representaion.
-      placeholder: "`test__Fv`"
+      placeholder: "test__Fv"
     validations:
       required: true
   - type: input
@@ -25,14 +25,14 @@ body:
       label: How it is being demangled currently.
       description: |
         How this library currently is demangling this symbol.
-      placeholder: "`test(void)`"
+      placeholder: "test(void)"
     validations:
       required: true
   - type: input
     id: improved-demangled-sym
     attributes:
       label: How this symbol should be demangled instead.
-      placeholder: "`test()`"
+      placeholder: "test()"
     validations:
       required: true
   - type: textarea
