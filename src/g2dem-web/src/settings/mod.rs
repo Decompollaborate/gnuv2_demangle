@@ -8,8 +8,10 @@ use yew::events::Event;
 use yew::html::Scope;
 use yew::{html, Component, Html, TargetCast};
 
+mod demangling_style;
 mod theme;
 
+pub use demangling_style::DemanglingStyle;
 pub use theme::Theme;
 
 pub trait Storagable

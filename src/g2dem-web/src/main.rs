@@ -22,6 +22,7 @@ pub mod built_info {
 pub enum Msg {
     InputData(String),
     ChangeTheme(Theme),
+    ChangeDemanglingStyle(DemanglingStyle),
 }
 
 pub struct App {
@@ -48,6 +49,9 @@ impl Component for App {
             }
             Msg::ChangeTheme(theme) => {
                 self.state.theme = theme;
+            }
+            Msg::ChangeDemanglingStyle(demangling_style) => {
+                self.state.demangling_style = demangling_style;
             }
         }
 
@@ -107,6 +111,10 @@ impl App {
             <section class="editor">
               { self.view_input(ctx.link()) }
               { self.view_output_box() }
+            </section>
+
+            <section class="config">
+              { self.view_config(ctx.link()) }
             </section>
           </main>
         }
@@ -171,7 +179,10 @@ impl App {
 
     fn demangle_input(&self) -> Vec<Html> {
         let mut result = Vec::new();
-        let config = DemangleConfig::new_no_cfilt_mimics();
+        let config = match self.state.demangling_style {
+            DemanglingStyle::G2dem => DemangleConfig::new_no_cfilt_mimics(),
+            DemanglingStyle::Cfilt => DemangleConfig::new_mimic_cfilt(),
+        };
 
         for sym in self.user_input.lines() {
             let row = match demangle(sym.trim(), &config) {
@@ -190,6 +201,25 @@ impl App {
         }
 
         result
+    }
+
+    fn view_config(&self, link: &Scope<Self>) -> Html {
+        let label_position = LabelPosition::Upper;
+
+        let dropdown_demangling_style = self.state.demangling_style.gen_dropdown(
+            link,
+            label_position,
+            Msg::ChangeDemanglingStyle,
+        );
+
+        html! {
+          <>
+            <h3> { "⚙️ Configuration" } </h3>
+            <div class="settings">
+              { dropdown_demangling_style }
+            </div>
+          </>
+        }
     }
 }
 

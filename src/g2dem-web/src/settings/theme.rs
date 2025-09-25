@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::settings::{DropdownEnum, Storagable};
 
-const KEY: &str = "decompollaborate.disasmdis-web.state.theme";
+const KEY: &str = "decompollaborate.g2dem-web.state.theme";
 
 #[derive(
     Debug, Copy, Clone, Hash, PartialEq, Eq, PartialOrd, Ord, Default, Serialize, Deserialize,
