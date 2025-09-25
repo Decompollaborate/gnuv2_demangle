@@ -108,8 +108,8 @@ jobs:
       - name: Run tests
         run: cargo test -p gnuv2_demangle
 
-  msrv:
-    name: Check MSRV is correct
+  msrv_gnuv2_demangle:
+    name: Check MSRV (gnuv2_demangle)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout reposistory
@@ -119,10 +119,10 @@ jobs:
         uses: taiki-e/install-action@cargo-hack
 
       - name: Run MSRV checker
-        run: cargo hack check --rust-version --workspace --all-targets --ignore-private
+        run: cargo hack check --rust-version --workspace --all-targets --ignore-private --package gnuv2_demangle
 
-  msrv_all_features:
-    name: Check MSRV is correct for all features
+  msrv_gnuv2_demangle_all_features:
+    name: Check MSRV all features (gnuv2_demangle)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout reposistory
@@ -132,7 +132,33 @@ jobs:
         uses: taiki-e/install-action@cargo-hack
 
       - name: Run MSRV checker
-        run: cargo hack check --rust-version --workspace --all-targets --ignore-private --all-features
+        run: cargo hack check --rust-version --workspace --all-targets --ignore-private --package gnuv2_demangle --all-features
+
+  msrv_g2dem:
+    name: Check MSRV (g2dem)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout reposistory
+        uses: actions/checkout@main
+
+      - name: Setup MSRV checker
+        uses: taiki-e/install-action@cargo-hack
+
+      - name: Run MSRV checker
+        run: cargo hack check --rust-version --workspace --all-targets --ignore-private --package g2dem
+
+  msrv_g2dem_all_features:
+    name: Check MSRV all features (g2dem)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout reposistory
+        uses: actions/checkout@main
+
+      - name: Setup MSRV checker
+        uses: taiki-e/install-action@cargo-hack
+
+      - name: Run MSRV checker
+        run: cargo hack check --rust-version --workspace --all-targets --ignore-private --package g2dem --all-features
 
   semver_check_no_features:
     name: Check semver - no default features
@@ -185,8 +211,10 @@ jobs:
       - check_clippy_g2dem
       - check_doc
       - run_tests
-      - msrv
-      - msrv_all_features
+      - msrv_gnuv2_demangle
+      - msrv_gnuv2_demangle_all_features
+      - msrv_g2dem
+      - msrv_g2dem_all_features
       - semver_check_no_features
       - semver_check_deafult_features
       - semver_check_all_features
@@ -223,8 +251,10 @@ jobs:
       - check_clippy_g2dem
       - check_doc
       - run_tests
-      - msrv
-      - msrv_all_features
+      - msrv_gnuv2_demangle
+      - msrv_gnuv2_demangle_all_features
+      - msrv_g2dem
+      - msrv_g2dem_all_features
       - semver_check_no_features
       - semver_check_deafult_features
       - semver_check_all_features
