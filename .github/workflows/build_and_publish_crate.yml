@@ -20,6 +20,9 @@ jobs:
       - name: Setup Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Setup rustfmt
+        run: rustup component add rustfmt
+
       - name: Check format
         run: cargo fmt --check
 
