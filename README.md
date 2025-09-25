@@ -37,6 +37,9 @@ This repository is the home of two Rust crates:
   V2 C++ mangled symbols.
 - [`g2dem`](src/g2dem/): A `c++filt` clone that uses `gnuv2_demangle` to
   demangle symbols.
+- [`g2dem-web`](src/g2dem-web/): A static website for demanlging GNU V2 C++
+  mangled symbols completely in your browser. It gets compiled to WASM, so no
+  webserver is needed. Check out [its README](src/g2dem-web/README.md).
 
 Please refer to their respective READMEs for more information about each one.
 

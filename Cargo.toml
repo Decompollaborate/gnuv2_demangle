@@ -1,12 +1,17 @@
 # SPDX-FileCopyrightText: © 2025 Decompollaborate
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: MIT OR Apache-2.0
 
 [workspace]
 members = [
     "src/gnuv2_demangle",
     "src/g2dem",
+    "src/g2dem-web",
 ]
 resolver = "2"
+default-members = [
+    "src/gnuv2_demangle",
+    "src/g2dem",
+]
 
 [workspace.package]
 version = "0.2.0-beta.0"
