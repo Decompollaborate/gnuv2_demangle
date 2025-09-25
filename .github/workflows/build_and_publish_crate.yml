@@ -328,10 +328,10 @@ jobs:
         with:
           targets: ${{ matrix.builder.target }}
 
-      - name: Build cli
+      - name: Build ${{ matrix.binaries.package }}
         run: |
           cargo build --release --locked --package ${{ matrix.binaries.package }} --target ${{ matrix.builder.target }}
-          cargo run -- --version
+          cargo run --release -- --version
 
       - name: Move files for packaging
         run: |
