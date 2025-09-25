@@ -1,0 +1,78 @@
+name: Demangling issue
+description: Fail to properly demangle a symbol, either partially or totally.
+title: "[Bug]: "
+labels: ["demangle issue"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for filling a demangling issue report!
+  - type: input
+    id: mangled-sym
+    attributes:
+      label: The mangled symbol.
+      description: |
+        The symbol that is not being demangled properly.
+        Ideally this is a minimal way to reproduce the issue.
+      placeholder: "`test__Fv`"
+    validations:
+      required: true
+  - type: input
+    id: demangled-sym
+    attributes:
+      label: The expected demangled symbol.
+      description: |
+        What you expected the demangled symbol to be.
+        This shall be the output of `c++filt`.
+      placeholder: "`test(void)`"
+    validations:
+      required: true
+  - type: textarea
+    id: reproducer
+    attributes:
+      label: "Optional: C++ reproducer"
+      description: |
+        Please provide a minimal C++ reproducer code that can generate the mangled symbol in question if you have any.
+        This is not required but greatly appreaciated.
+      placeholder: |
+        ```c++
+        void test(void) {
+        }
+        ```
+    validations:
+      required: false
+  - type: input
+    id: demangler-version
+    attributes:
+      label: "Optional: Demangler version"
+      description: |
+        What version are you running?
+        If you don't know you can leave this blank.
+    validations:
+      required: false
+  - type: textarea
+    id: usage-info
+    attributes:
+      label: "Optional: How were you using this?"
+      description: Were you using this crate as a lib directly? Or using it throught `g2dem`, `objdiff`, decomp.me, etc?
+      placeholder: Via `objdiff` v3.3.0
+    validations:
+      required: false
+  - type: textarea
+    id: more-mangled-symbols
+    attributes:
+      label: "Do you have more examples of this issue?"
+      description: |
+        If you have more examples of mangled issues that present this same problem, please post them here.
+        You must provide their c++filt-demangled counterparts too.
+    validations:
+      required: false
+  - type: textarea
+    id: user-comments
+    attributes:
+      label: "Extra comments?"
+      description: Here you can mention any other additional comments or info you may want to say.
+      placeholder: |
+        There's no problem leaving this empty.
+    validations:
+      required: false

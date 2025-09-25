@@ -1,0 +1,79 @@
+name: Demangling improvement suggestion
+description: Suggest a _better_ way to demangle certain symbols.
+title: "[Bug]: "
+labels: ["demangle improvement suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping to improve gnuv2_demangle!
+        Please keep in mind that any suggestion for demangling must be valid C++ syntax.
+  - type: input
+    id: mangled-sym
+    attributes:
+      label: The mangled symbol.
+      description: |
+        An example mangled symbol.
+        It must represent the kind of symbols you want to improve.
+        Hopefully it is a minimal representaion.
+      placeholder: "`test__Fv`"
+    validations:
+      required: true
+  - type: input
+    id: current-demangled-sym
+    attributes:
+      label: How it is being demangled currently.
+      description: |
+        How this library currently is demangling this symbol.
+      placeholder: "`test(void)`"
+    validations:
+      required: true
+  - type: input
+    id: improved-demangled-sym
+    attributes:
+      label: How this symbol should be demangled instead.
+      placeholder: "`test()`"
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Explain why you think this is better than what we currently have.
+      description: |
+        Explain your reasoning as of why this is better.
+      placeholder: |
+        Because `void` is ugly 😠
+    validations:
+      required: true
+  - type: textarea
+    id: reproducer
+    attributes:
+      label: "Optional: C++ reproducer"
+      description: |
+        Please provide a minimal C++ reproducer code that can generate the mangled symbol in question if you have any.
+        This is not required but greatly appreaciated.
+      placeholder: |
+        ```c++
+        void test(void) {
+        }
+        ```
+    validations:
+      required: false
+  - type: textarea
+    id: more-mangled-symbols
+    attributes:
+      label: "Do you have more examples of this kind of mangled symbol?"
+      description: |
+        If you have more examples of mangled issues that would be affected by this change, please post them here.
+        You must provide their "improved" demangled counterparts too.
+    validations:
+      required: false
+  - type: textarea
+    id: user-comments
+    attributes:
+      label: "Extra comments?"
+      description: Here you can mention any other additional comments or info you may want to say.
+      placeholder: |
+        There's no problem leaving this empty.
+    validations:
+      required: false
