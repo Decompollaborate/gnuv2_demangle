@@ -19,6 +19,7 @@ keywords = [
 categories = [
     "command-line-utilities",
 ]
+build = "build.rs"
 
 # Use https://github.com/foresterre/cargo-msrv to check the MSRV
 # ```
@@ -35,6 +36,9 @@ path = "src/bin.rs"
 default = []
 
 [dependencies]
-gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.2.0", features = ["std"]}
+gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.2.0-beta.0", features = ["std"]}
 
 argp = "0.4.0"
+
+[build-dependencies]
+built = { version = "0.8", features = ["git2", "chrono"] }

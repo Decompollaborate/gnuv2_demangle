@@ -299,7 +299,9 @@ jobs:
           targets: ${{ matrix.builder.target }}
 
       - name: Build cli
-        run: cargo build --release --package ${{ matrix.binaries.package }} --target ${{ matrix.builder.target }}
+        run: |
+          cargo build --release --package ${{ matrix.binaries.package }} --target ${{ matrix.builder.target }}
+          cargo run -- --version
 
       - name: Move files for packaging
         run: |

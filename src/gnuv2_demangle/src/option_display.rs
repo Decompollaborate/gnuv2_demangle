@@ -7,7 +7,7 @@ use core::{fmt, ops};
 ///
 /// The `Display` implemenation invokes the `Display` implemenation from `T` if
 /// the variant is `Some`, and does nothing at all if the variant is `None`.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
 #[repr(transparent)]
 pub(crate) struct OptionDisplay<T>(Option<T>);
 
