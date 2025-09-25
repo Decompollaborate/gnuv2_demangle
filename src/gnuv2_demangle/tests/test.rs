@@ -468,7 +468,7 @@ fn test_demangle_templated_classes() {
 
 #[test]
 fn test_demangle_templated_classes_with_numbers() {
-    static CASES: [(&str, &str); 11] = [
+    static CASES: [(&str, &str); 12] = [
         (
             "template_with_number__FRt9Something1x39",
             "template_with_number(Something<39> &)",
@@ -513,8 +513,10 @@ fn test_demangle_templated_classes_with_numbers() {
             "get__Ct3Vec2ZiP9Allocator15GlobalAllocatorUi",
             "Vec<int, &GlobalAllocator>::get(unsigned int) const",
         ),
-        // TODO
-        // ("wrapper__H1Z4Node_Rt10SomeVector2ZX01R13TestAllocator17AllocatorInstanceX01_RCX01", "Node const & wrapper<Node>(SomeVector<Node, AllocatorInstance> &, Node)"),
+        (
+            "wrapper__H1Z4Node_Rt10SomeVector2ZX01R13TestAllocator17AllocatorInstanceX01_RCX01",
+            "Node const & wrapper<Node>(SomeVector<Node, AllocatorInstance> &, Node)",
+        ),
     ];
     let config = DemangleConfig::new();
 
@@ -1258,9 +1260,9 @@ fn test_demangle_function_pointer_returning_pointer_to_array_fixed() {
         // This can be also written like this.
         // Hopefully this is more simple to understand to the reader.
         /*
-        typedef int  (*Arr)[4];
-        typedef Arr (* First)(void);
-        typedef void (* Second)(Arr);
+        typedef int (*Arr)[4];
+        typedef Arr (*First)(void);
+        typedef void (*Second)(Arr);
         void InitDrawEnv(First, First, Second, Second) {}
         */
         ("InitDrawEnv__FPFv_PA3_iT0PFPA3_i_vT2", "InitDrawEnv(int (*(*)(void))[4], int (*(*)(void))[4], void (*)(int (*)[4]), void (*)(int (*)[4]))"),
@@ -1276,8 +1278,14 @@ fn test_demangle_function_pointer_returning_pointer_to_array_fixed() {
 #[test]
 fn test_demangle_templated_big_num() {
     static CASES: [(&str, &str); 2] = [
-        ("Work__t12CWrkVariable3Zci0i_60_", "CWrkVariable<char, 0, 60>::Work(void)"),
-        ("__tft16fixed_array_base3Z6SPRINGUi_20_ZA19_6SPRING", "fixed_array_base<SPRING, 20, SPRING [20]> type_info function"),
+        (
+            "Work__t12CWrkVariable3Zci0i_60_",
+            "CWrkVariable<char, 0, 60>::Work(void)",
+        ),
+        (
+            "__tft16fixed_array_base3Z6SPRINGUi_20_ZA19_6SPRING",
+            "fixed_array_base<SPRING, 20, SPRING [20]> type_info function",
+        ),
     ];
     let mut config = DemangleConfig::new();
     config.fix_array_length_arg = true;
@@ -1287,19 +1295,211 @@ fn test_demangle_templated_big_num() {
     }
 }
 
-/*
-class SomethingSilly {
-public:
-    template <typename T>
-    int (*an_array(T a) const) [3] {}
-};
-*/
-/*
-(
-    "an_array__H1Zi_C14SomethingSillyX01_PA3_i",
-    "int (*)[3] SomethingSilly::an_array<int>(int) const",
-),
-*/
+#[test]
+fn test_demangle_templated_function_returning_array_cfilt() {
+    static CASES: [(&str, &str); 7] = [
+        /*
+        class SomethingSilly {
+        public:
+            template <typename T>
+            int (*an_array(T a) const) [3] {}
+        };
+        */
+        (
+            "an_array__H1Zi_C14SomethingSillyX01_PA3_i",
+            "int (*)[3] SomethingSilly::an_array<int>(int) const",
+        ),
+        /*
+        class SomethingSilly {
+        public:
+            template <typename T>
+            int (*an_array(T a) ) [3] {}
+        };
+        void trigger( SomethingSilly &thingy) {
+            thingy.an_array(0);
+        }
+        */
+        (
+            "an_array__H1Zi_14SomethingSillyX01_PA3_i",
+            "int (*)[3] SomethingSilly::an_array<int>(int)",
+        ),
+        /*
+        namespace SomethingSilly {
+            template <typename T>
+            int (*an_array(T a)) [3] {}
+        }
+        void trigger() {
+            SomethingSilly::an_array(0);
+        }
+        */
+        (
+            "an_array__H1Zi_14SomethingSillyX01_PA3_i",
+            "int (*)[3] SomethingSilly::an_array<int>(int)",
+        ),
+        /*
+        class SomethingSilly {};
+        template <typename T>
+        int (*an_array(SomethingSilly *, T a) ) [3] {}
+        void trigger( SomethingSilly &thingy) {
+            an_array(&thingy, 0);
+        }
+        */
+        (
+            "an_array__H1Zi_P14SomethingSillyX01_PA3_i",
+            "int (*)[3] an_array<int>(SomethingSilly *, int)",
+        ),
+        /*
+        namespace Ethan {
+            class SomethingSilly {
+            public:
+                template <typename T>
+                int (*an_array(T a) const ) [3] {}
+            };
+        }
+        void trigger(const Ethan::SomethingSilly &thingy) {
+            thingy.an_array(0);
+        }
+        */
+        (
+            "an_array__H1Zi_CQ25Ethan14SomethingSillyX01_PA3_i",
+            "int (*)[3] Ethan::SomethingSilly::an_array<int>(int) const",
+        ),
+        /*
+        class SomethingSilly {};
+        template <typename T>
+        int (*an_array(SomethingSilly , T a) ) [3] {}
+        void trigger( SomethingSilly &thingy) {
+            an_array(thingy, 0);
+        }
+        */
+        (
+            "an_array__H1Zi_G14SomethingSillyX01_PA3_i",
+            "int (*)[3] an_array<int>(SomethingSilly, int)",
+        ),
+        /*
+        class SomethingSilly {};
+        template <typename T>
+        int (*an_array(SomethingSilly , T a, int b[1][3], void (*c)(int [1][3], int) )) [3] {}
+        void trigger( SomethingSilly &thingy, int b[1][3], void (*c)(int [1][3], int ) ) {
+            an_array(thingy, 0, b, c);
+        }
+        */
+        (
+            "an_array__H1Zi_G14SomethingSillyX01PA3_iPFPA3_ii_v_PA3_i",
+            "int (*)[3] an_array<int>(SomethingSilly, int, int (*)[3], void (*)(int (*)[3], int))",
+        ),
+    ];
+    let mut config = DemangleConfig::new();
+    config.fix_array_length_arg = false;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_templated_function_returning_array_fixed() {
+    static CASES: [(&str, &str); 7] = [
+        /*
+        class SomethingSilly {
+        public:
+            template <typename T>
+            int (*an_array(T a) const) [3] {}
+        };
+        */
+        (
+            "an_array__H1Zi_C14SomethingSillyX01_PA3_i",
+            "int (*)[3] SomethingSilly::an_array<int>(int) const",
+        ),
+        /*
+        class SomethingSilly {
+        public:
+            template <typename T>
+            int (*an_array(T a) ) [3] {}
+        };
+        void trigger( SomethingSilly &thingy) {
+            thingy.an_array(0);
+        }
+        */
+        (
+            "an_array__H1Zi_14SomethingSillyX01_PA3_i",
+            "int (*)[3] SomethingSilly::an_array<int>(int)",
+        ),
+        /*
+        namespace SomethingSilly {
+            template <typename T>
+            int (*an_array(T a)) [3] {}
+        }
+        void trigger() {
+            SomethingSilly::an_array(0);
+        }
+        */
+        (
+            "an_array__H1Zi_14SomethingSillyX01_PA3_i",
+            "int (*)[3] SomethingSilly::an_array<int>(int)",
+        ),
+        /*
+        class SomethingSilly {};
+        template <typename T>
+        int (*an_array(SomethingSilly *, T a) ) [3] {}
+        void trigger( SomethingSilly &thingy) {
+            an_array(&thingy, 0);
+        }
+        */
+        (
+            "an_array__H1Zi_P14SomethingSillyX01_PA3_i",
+            "int (*)[3] an_array<int>(SomethingSilly *, int)",
+        ),
+        /*
+        namespace Ethan {
+            class SomethingSilly {
+            public:
+                template <typename T>
+                int (*an_array(T a) const ) [3] {}
+            };
+        }
+        void trigger(const Ethan::SomethingSilly &thingy) {
+            thingy.an_array(0);
+        }
+        */
+        (
+            "an_array__H1Zi_CQ25Ethan14SomethingSillyX01_PA3_i",
+            "int (*)[3] Ethan::SomethingSilly::an_array<int>(int) const",
+        ),
+        /*
+        class SomethingSilly {};
+        template <typename T>
+        int (*an_array(SomethingSilly , T a) ) [3] {}
+        void trigger( SomethingSilly &thingy) {
+            an_array(thingy, 0);
+        }
+        */
+        (
+            "an_array__H1Zi_G14SomethingSillyX01_PA3_i",
+            "int (*)[3] an_array<int>(SomethingSilly, int)",
+        ),
+        /*
+        class SomethingSilly {};
+        template <typename T>
+        int (*an_array(SomethingSilly , T a, int b[1][3], void (*c)(int [1][3], int) )) [3] {}
+        void trigger( SomethingSilly &thingy, int b[1][3], void (*c)(int [1][3], int ) ) {
+            an_array(thingy, 0, b, c);
+        }
+        */
+        (
+            "an_array__H1Zi_G14SomethingSillyX01PA3_iPFPA3_ii_v_PA3_i",
+            "int (*)[3] an_array<int>(SomethingSilly, int, int (*)[3], void (*)(int (*)[3], int))",
+        ),
+    ];
+    let mut config = DemangleConfig::new();
+    // For some reason g++ doesn't mess up the array size in templated functions,
+    // so we need to make sure to not wrongly fix it up.
+    config.fix_array_length_arg = true;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
 
 /*
 #[test]

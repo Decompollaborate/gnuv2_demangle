@@ -19,6 +19,7 @@ pub(crate) fn demangle_namespaces<'s>(
     config: &DemangleConfig,
     s: &'s str,
     template_args: &ArgVec,
+    allow_array_fixup: bool,
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let Remaining {
         r,
@@ -36,7 +37,7 @@ pub(crate) fn demangle_namespaces<'s>(
     let namespace_count =
         NonZeroUsize::new(namespace_count).ok_or(DemangleError::InvalidNamespaceCount(s))?;
 
-    demangle_namespaces_impl(config, r, namespace_count, template_args)
+    demangle_namespaces_impl(config, r, namespace_count, template_args, allow_array_fixup)
 }
 
 fn demangle_namespaces_impl<'s>(
@@ -44,6 +45,7 @@ fn demangle_namespaces_impl<'s>(
     s: &'s str,
     namespace_count: NonZeroUsize,
     template_args: &ArgVec,
+    allow_array_fixup: bool,
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let mut namespaces = String::new();
     let mut remaining = s;
@@ -55,7 +57,8 @@ fn demangle_namespaces_impl<'s>(
         }
 
         let (r, n) = if let Some(temp) = remaining.strip_prefix('t') {
-            let (r, template, typ) = demangle_template(config, temp, template_args)?;
+            let (r, template, typ) =
+                demangle_template(config, temp, template_args, allow_array_fixup)?;
             trailing_type = typ;
             (r, Cow::from(template))
         } else {

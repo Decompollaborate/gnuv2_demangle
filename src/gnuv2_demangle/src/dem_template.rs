@@ -22,6 +22,7 @@ pub(crate) fn demangle_template<'s>(
     config: &DemangleConfig,
     s: &'s str,
     template_args: &ArgVec,
+    allow_array_fixup: bool,
 ) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
     let Remaining { r, d: class_name } =
         demangle_custom_name(s, DemangleError::InvalidCustomNameOnTemplate)?;
@@ -34,7 +35,8 @@ pub(crate) fn demangle_template<'s>(
     };
     let digit = NonZeroUsize::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(r))?;
 
-    let (remaining, types) = demangle_template_types_impl(config, remaining, digit, template_args)?;
+    let (remaining, types) =
+        demangle_template_types_impl(config, remaining, digit, template_args, allow_array_fixup)?;
 
     let templated = types.join();
     let template = if templated.ends_with('>') {
@@ -48,20 +50,31 @@ pub(crate) fn demangle_template<'s>(
 pub(crate) fn demangle_template_with_return_type<'c, 's>(
     config: &'c DemangleConfig,
     s: &'s str,
+    allow_array_fixup: bool,
 ) -> Result<(&'s str, ArgVec<'c, 's>, Option<Cow<'s, str>>), DemangleError<'s>> {
     let Some(Remaining { r, d: digit }) = s.p_digit() else {
         return Err(DemangleError::InvalidTemplateReturnCount(s));
     };
     let digit = NonZeroUsize::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(s))?;
 
-    let (r, types) = demangle_template_types_impl(config, r, digit, &ArgVec::new(config, None))?;
+    let (r, types) = demangle_template_types_impl(
+        config,
+        r,
+        digit,
+        &ArgVec::new(config, None),
+        allow_array_fixup,
+    )?;
 
     let Some(r) = r.strip_prefix('_') else {
         return Err(DemangleError::MalformedTemplateWithReturnType(r));
     };
     let (r, namespaces) = if let Some(q_less) = r.strip_prefix('Q') {
-        let (r, namespaces, _trailing_namespace) =
-            demangle_namespaces(config, q_less, &ArgVec::new(config, None))?;
+        let (r, namespaces, _trailing_namespace) = demangle_namespaces(
+            config,
+            q_less,
+            &ArgVec::new(config, None),
+            allow_array_fixup,
+        )?;
 
         (r, Some(Cow::from(namespaces)))
     } else if r.starts_with(|c| matches!(c, '1'..='9')) {
@@ -80,20 +93,20 @@ fn demangle_template_types_impl<'c, 's>(
     s: &'s str,
     count: NonZeroUsize,
     template_args: &ArgVec,
+    allow_array_fixup: bool,
 ) -> Result<(&'s str, ArgVec<'c, 's>), DemangleError<'s>> {
     let mut remaining = s;
-
     let mut types = ArgVec::new(config, None);
 
     for _ in 0..count.get() {
         let (r, arg, allow_data_after_ellipsis) = if let Some(r) = remaining.strip_prefix('Z') {
             // typename / class
-            let (r, arg) = demangle_argument(config, r, &types, template_args)?;
+            let (r, arg) = demangle_argument(config, r, &types, template_args, allow_array_fixup)?;
             (r, arg, true)
         } else {
             // value
             let Remaining { r, d: arg } =
-                demangle_templated_value(config, remaining, template_args)?;
+                demangle_templated_value(config, remaining, template_args, allow_array_fixup)?;
             (r, arg, false)
         };
         types.push(arg, remaining, r, allow_data_after_ellipsis)?;
@@ -107,6 +120,7 @@ fn demangle_templated_value<'s>(
     config: &DemangleConfig,
     s: &'s str,
     template_args: &ArgVec,
+    allow_array_fixup: bool,
 ) -> Result<Remaining<'s, DemangledArg>, DemangleError<'s>> {
     let mut r = s;
     let mut is_pointer = false;
@@ -137,6 +151,7 @@ fn demangle_templated_value<'s>(
             r,
             &ArgVec::new(config, None),
             &ArgVec::new(config, None),
+            allow_array_fixup,
         )?
         else {
             return Err(DemangleError::InvalidTemplatedPointerReferenceValue(r));
@@ -198,13 +213,11 @@ fn demangle_templated_value<'s>(
                 } else {
                     let (r, negative) = r.c_maybe_strip_prefix('m');
                     let Remaining { r, d: number } = if let Some(r) = r.strip_prefix('_') {
-r
-                        .p_number_maybe_multi_digit()
-                        .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?
+                        r.p_number_maybe_multi_digit()
+                            .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?
                     } else {
-r
-                        .p_number()
-                        .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?
+                        r.p_number()
+                            .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?
                     };
                     let t = format!("{}{}", if negative { "-" } else { "" }, number);
                     (r, DemangledArg::Plain(t, None.into()))

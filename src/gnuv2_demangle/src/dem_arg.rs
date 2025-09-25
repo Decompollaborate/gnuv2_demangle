@@ -179,6 +179,7 @@ pub(crate) fn demangle_argument<'s>(
     full_args: &'s str,
     parsed_arguments: &ArgVec,
     template_args: &ArgVec,
+    allow_array_fixup: bool,
 ) -> Result<(&'s str, DemangledArg), DemangleError<'s>> {
     if let Some(demangled) = demangle_qualifierless_arg(config, full_args)? {
         return Ok(demangled);
@@ -191,7 +192,7 @@ pub(crate) fn demangle_argument<'s>(
     let Remaining {
         r: args,
         d: (sign, post_qualifiers, array_qualifiers),
-    } = demangle_array_pseudo_qualifier(config, args, sign, post_qualifiers)?;
+    } = demangle_array_pseudo_qualifier(config, args, sign, post_qualifiers, allow_array_fixup)?;
 
     if let Some(s) = args.strip_prefix('F') {
         let (r, fp) = demangle_function_pointer_arg(
@@ -201,6 +202,7 @@ pub(crate) fn demangle_argument<'s>(
             sign,
             post_qualifiers,
             array_qualifiers,
+            allow_array_fixup,
         )?;
         Ok((r, DemangledArg::FunctionPointer(fp)))
     } else if let Some(r) = args.strip_prefix('M') {
@@ -212,6 +214,7 @@ pub(crate) fn demangle_argument<'s>(
             sign,
             post_qualifiers,
             array_qualifiers,
+            allow_array_fixup,
         )?;
         Ok((r, DemangledArg::MethodPointer(mp)))
     } else {
@@ -223,7 +226,14 @@ pub(crate) fn demangle_argument<'s>(
         let Remaining {
             r,
             d: (is_class_like, typ, sign),
-        } = demangle_arg_type(config, args, sign, parsed_arguments, template_args)?;
+        } = demangle_arg_type(
+            config,
+            args,
+            sign,
+            parsed_arguments,
+            template_args,
+            allow_array_fixup,
+        )?;
 
         if must_be_class_like && !is_class_like {
             return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
@@ -247,6 +257,7 @@ fn demangle_arg_type<'s, 'pa, 't, 'out>(
     mut sign: Signedness,
     parsed_arguments: &'pa ArgVec,
     template_args: &'t ArgVec,
+    allow_array_fixup: bool,
 ) -> Result<Remaining<'s, (bool, Cow<'out, str>, Signedness)>, DemangleError<'s>>
 where
     's: 'out,
@@ -309,7 +320,7 @@ where
         }
         'Q' => {
             let (remaining, namespaces, _trailing_namespace) =
-                demangle_namespaces(config, &args[1..], template_args)?;
+                demangle_namespaces(config, &args[1..], template_args, allow_array_fixup)?;
             (remaining, true, Cow::from(namespaces))
         }
         'T' => {
@@ -326,7 +337,8 @@ where
         }
         't' => {
             // templates
-            let (remaining, template, _typ) = demangle_template(config, &args[1..], template_args)?;
+            let (remaining, template, _typ) =
+                demangle_template(config, &args[1..], template_args, allow_array_fixup)?;
             (remaining, true, Cow::from(template))
         }
         'X' => {
@@ -403,13 +415,16 @@ fn demangle_function_pointer_arg<'s>(
     sign: Signedness,
     post_qualifiers: String,
     array_qualifiers: OptionDisplay<ArrayQualifiers>,
+    allow_array_fixup: bool,
 ) -> Result<(&'s str, FunctionPointer), DemangleError<'s>> {
-    let (r, func_args) = demangle_argument_list_impl(config, s, None, template_args, true)?;
+    let (r, func_args) =
+        demangle_argument_list_impl(config, s, None, template_args, true, allow_array_fixup)?;
     let Some(r) = r.strip_prefix('_') else {
         return Err(DemangleError::MissingReturnTypeForFunctionPointer(r));
     };
 
-    let (r, return_type) = demangle_argument(config, r, &func_args, template_args)?;
+    let (r, return_type) =
+        demangle_argument(config, r, &func_args, template_args, allow_array_fixup)?;
 
     // println!("{return_type:?}");
     let fp = match return_type {
@@ -467,6 +482,8 @@ fn demangle_function_pointer_arg<'s>(
 }
 
 /// Method pointer
+// TODO: fix too_many_arguments
+#[expect(clippy::too_many_arguments)]
 fn demangle_method_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
@@ -475,6 +492,7 @@ fn demangle_method_pointer_arg<'s>(
     sign: Signedness,
     post_qualifiers: String,
     array_qualifiers: OptionDisplay<ArrayQualifiers>,
+    allow_array_fixup: bool,
 ) -> Result<(&'s str, MethodPointer), DemangleError<'s>> {
     if sign != Signedness::No || !post_qualifiers.chars().all(|c| c == '*') {
         // The only qualifer valid for this seems to be pointer (`*`), not
@@ -487,8 +505,13 @@ fn demangle_method_pointer_arg<'s>(
             demangle_custom_name(s, DemangleError::InvalidClassNameOnMethodArgument)?;
         (r, Cow::from(class_name))
     } else {
-        let (r, DemangledArg::Plain(class_name, array_qualifiers)) =
-            demangle_argument(config, s, &ArgVec::new(config, None), template_args)?
+        let (r, DemangledArg::Plain(class_name, array_qualifiers)) = demangle_argument(
+            config,
+            s,
+            &ArgVec::new(config, None),
+            template_args,
+            allow_array_fixup,
+        )?
         else {
             return Err(DemangleError::InvalidClassNameOnMethodArgument(s));
         };
@@ -521,8 +544,13 @@ fn demangle_method_pointer_arg<'s>(
                 r
             };
 
-            let (r, DemangledArg::Plain(class_name_again, array_qualifiers)) =
-                demangle_argument(config, r, &ArgVec::new(config, None), template_args)?
+            let (r, DemangledArg::Plain(class_name_again, array_qualifiers)) = demangle_argument(
+                config,
+                r,
+                &ArgVec::new(config, None),
+                template_args,
+                allow_array_fixup,
+            )?
             else {
                 return Err(DemangleError::MissingFirstClassArgumentForMethodMemberArg(
                     func_pointer,
@@ -544,6 +572,7 @@ fn demangle_method_pointer_arg<'s>(
             sign,
             post_qualifiers,
             array_qualifiers,
+            allow_array_fixup,
         )?;
         let FunctionPointer {
             return_type,
@@ -602,11 +631,14 @@ fn demangle_arg_qualifiers<'s>(
     Ok(Remaining::new(remaining, (sign, post_qualifiers)))
 }
 
+// `allow_array_fixup` exists because array sizes are not always messed up.
+// As far as I know, array sizes are correct only on templated functions.
 fn demangle_array_pseudo_qualifier<'s>(
     config: &DemangleConfig,
     s: &'s str,
     mut sign: Signedness,
     mut post_qualifiers: String,
+    allow_array_fixup: bool,
 ) -> Result<Remaining<'s, (Signedness, String, OptionDisplay<ArrayQualifiers>)>, DemangleError<'s>>
 {
     if !s.starts_with('A') {
@@ -637,7 +669,7 @@ fn demangle_array_pseudo_qualifier<'s>(
             return Err(DemangleError::MalformedArrayArgumment(remaining));
         };
 
-        let array_length = if config.fix_array_length_arg {
+        let array_length = if config.fix_array_length_arg && allow_array_fixup {
             array_length + 1
         } else {
             array_length

@@ -164,9 +164,16 @@ pub(crate) fn demangle_argument_list<'s>(
     args: &'s str,
     namespace: Option<&str>,
     template_args: &ArgVec,
+    allow_array_fixup: bool,
 ) -> Result<String, DemangleError<'s>> {
-    let (remaining, argument_list) =
-        demangle_argument_list_impl(config, args, namespace, template_args, false)?;
+    let (remaining, argument_list) = demangle_argument_list_impl(
+        config,
+        args,
+        namespace,
+        template_args,
+        false,
+        allow_array_fixup,
+    )?;
 
     if !remaining.is_empty() {
         return Err(DemangleError::TrailingDataAfterArgumentList(remaining));
@@ -181,12 +188,19 @@ pub(crate) fn demangle_argument_list_impl<'c, 's, 'ns>(
     namespace: Option<&'ns str>,
     template_args: &ArgVec,
     allow_data_after_ellipsis: bool,
+    allow_array_fixup: bool,
 ) -> Result<(&'s str, ArgVec<'c, 'ns>), DemangleError<'s>> {
     let mut arguments = ArgVec::new(config, namespace);
 
     while !args.is_empty() && !args.starts_with('_') {
         let old_args = args;
-        let (remaining, b) = demangle_argument(config, old_args, &arguments, template_args)?;
+        let (remaining, b) = demangle_argument(
+            config,
+            old_args,
+            &arguments,
+            template_args,
+            allow_array_fixup,
+        )?;
 
         args = remaining;
         if arguments.push(b, old_args, remaining, allow_data_after_ellipsis)? {

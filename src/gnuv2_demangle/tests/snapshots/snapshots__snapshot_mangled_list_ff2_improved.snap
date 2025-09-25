@@ -28296,7 +28296,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_SelectLightByType__H1i4_12G3DLIGHTTYPEPA3_Cf_v",
         Ok(
-            "void G3DLIGHTTYPE::_SelectLightByType<4>(float const (*)[4])",
+            "void G3DLIGHTTYPE::_SelectLightByType<4>(float const (*)[3])",
         ),
     ),
     (
@@ -28522,7 +28522,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_CalcValidLightIndexByType__H1i4_Pi12G3DLIGHTTYPEPA3_Cf_v",
         Ok(
-            "void _CalcValidLightIndexByType<4>(int *, G3DLIGHTTYPE, float const (*)[4])",
+            "void _CalcValidLightIndexByType<4>(int *, G3DLIGHTTYPE, float const (*)[3])",
         ),
     ),
     (
