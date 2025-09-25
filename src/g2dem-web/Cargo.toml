@@ -24,15 +24,15 @@ name = "g2dem-web"
 path = "src/main.rs"
 
 [dependencies]
-gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.2.0-beta.0", features = ["std"]}
+gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.2.0-beta.0", features = ["std"] }
 
 # gloo = { version = "0.11" }
 # log = { version = "0.4" }
 # serde = { version = "1", features = ["derive"] }
 # wasm-bindgen = { version = "0.2" }
-# wasm-logger = { version = "0.2" }
+wasm-logger = { version = "0.2" }
 # web-sys = { version = "0.3", features = ["InputEvent", "HtmlSelectElement"] }
-# yew = { version = "0.21.0", features = ["csr"] }
+yew = { version = "0.21.0", features = ["csr"] }
 
 [build-dependencies]
 built = { version = "0.8", features = ["git2"] }
