@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: © 2025 Decompollaborate
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+[package]
+name = "g2dem-web"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "GNU v2 g++ demangler, running completely in your web browser"
+readme = "README.md"
+build = "build.rs"
+
+# Use https://github.com/foresterre/cargo-msrv to check the MSRV
+# ```
+# cargo install cargo-msrv --locked --force
+# cargo msrv find -- cargo check -p g2dem-web
+# ```
+rust-version = "1.81"
+
+[[bin]]
+name = "g2dem-web"
+path = "src/main.rs"
+
+[dependencies]
+gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.2.0-beta.0", features = ["std"] }
+
+gloo = { version = "0.11" }
+log = { version = "0.4" }
+serde = { version = "1", features = ["derive"] }
+wasm-bindgen = { version = "0.2" }
+js-sys = "0.3"
+wasm-logger = { version = "0.2" }
+web-sys = { version = "0.3", features = ["InputEvent", "HtmlSelectElement"] }
+yew = { version = "0.21.0", features = ["csr"] }
+rand = "0.9.2"
+getrandom = { version = "0.3", features = ["wasm_js"] }
+
+[build-dependencies]
+built = { version = "0.8", features = ["git2"] }

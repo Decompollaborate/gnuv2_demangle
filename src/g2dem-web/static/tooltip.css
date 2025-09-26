@@ -1,0 +1,50 @@
+/* SPDX-FileCopyrightText: © 2025 Decompollaborate */
+/* SPDX-License-Identifier: MIT OR Apache-2.0 */
+
+/* Hovering tooltip */
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  /* Positioning */
+  position: absolute;
+  bottom: 125%; /* Position above the element */
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* Animation */
+  opacity: 0;
+  transition: opacity 0.3s;
+
+  width: 10rem;
+  background-color: var(--tooltip-bg-color);
+  color: var(--tooltip-color);
+  text-align: center;
+  padding: 0.5rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
+/* The bottom arrow */
+.tooltip .tooltiptext::after {
+  /* Positioning */
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  content: "";
+
+  border-width: 0.5rem;
+  border-style: solid;
+  border-color: var(--tooltip-bg-color) transparent transparent transparent;
+}
+
+/* Show the tooltip on hover */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
