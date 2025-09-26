@@ -1,0 +1,80 @@
+/* SPDX-FileCopyrightText: © 2025 Decompollaborate */
+/* SPDX-License-Identifier: MIT OR Apache-2.0 */
+
+.theme-light {
+  --bg-color: #eeeeee;
+  --panel-color: #f7f7f7;
+  --accent-color: #0077cc;
+  --text-color: #111;
+  --border-color: #ccc;
+  --code-panel-color: #e3e3e2;
+  --link-color: #1E90AF;
+  --link-color-hover: #1E90FF;
+  --tooltip-bg-color: #333333;
+  --tooltip-color: #FFFFFF;
+}
+
+.theme-dark {
+  --bg-color: #121212;
+  --panel-color: #1e1e1e;
+  --accent-color: #ff6ec7;
+  --text-color: #eee;
+  --border-color: #444;
+  --code-panel-color: #0a0a09;
+  --link-color: #1E90AF;
+  --link-color-hover: #1E90FF;
+  --tooltip-bg-color: #333333;
+  --tooltip-color: #FFFFFF;
+}
+
+.theme-solarized-light {
+  --bg-color: #fdf6e3;
+  --panel-color: #eee8d5;
+  --accent-color: #268bd2;
+  --text-color: #657b83;
+  --border-color: #ccc;
+  --code-panel-color: #dad4c0;
+  --link-color: #1E90AF;
+  --link-color-hover: #1E90FF;
+  --tooltip-bg-color: #333333;
+  --tooltip-color: #FFFFFF;
+}
+
+.theme-solarized-dark {
+  --bg-color: #002b36;
+  --panel-color: #073642;
+  --accent-color: #b58900;
+  --text-color: #839496;
+  --border-color: #586e75;
+  --code-panel-color: #00222d;
+  --link-color: #4088C8;
+  --link-color-hover: #4098FF;
+  --tooltip-bg-color: #333333;
+  --tooltip-color: #FFFFFF;
+}
+
+.theme-dracula {
+  --bg-color: #282a36;
+  --panel-color: #44475a;
+  --accent-color: #bd93f9;
+  --text-color: #f8f8f2;
+  --border-color: #6272a4;
+  --code-panel-color: #303345;
+  --link-color: #1E90AF;
+  --link-color-hover: #1E90FF;
+  --tooltip-bg-color: #333333;
+  --tooltip-color: #FFFFFF;
+}
+
+.theme-pastel-midnight {
+  --bg-color: #1e1e2f;
+  --panel-color: #2e2e40;
+  --accent-color: #ffb3c6;
+  --text-color: #f0eaff;
+  --border-color: #44445a;
+  --code-panel-color: #1a1a2b;
+  --link-color: #3068A0;
+  --link-color-hover: #2E68DF;
+  --tooltip-bg-color: #333333;
+  --tooltip-color: #FFFFFF;
+}

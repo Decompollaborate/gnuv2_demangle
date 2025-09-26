@@ -1,0 +1,38 @@
+<!-- SPDX-FileCopyrightText: © 2025 Decompollaborate -->
+<!-- SPDX-License-Identifier: MIT OR Apache-2.0 -->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>🧩 g2dem-web</title>
+
+    <link rel="stylesheet" href="/gnuv2_demangle/styles-e353ae1abac8e539.css" integrity="sha384-6E4pSRVBO8Pl6CuOTjxA0VQwRVfnfMIDgmzIkcSph+Bbwt/jn68794/1rEfe3lmQ"/>
+    <link rel="stylesheet" href="/gnuv2_demangle/themes-f9a7815fe85ca4a.css" integrity="sha384-a8AHI2PskhlZNAa4RSdGTHwnBcdyKjkb2ykJBlYslngl6pank/luoa7EaqU8xwBH"/>
+    <link rel="stylesheet" href="/gnuv2_demangle/tooltip-76677c4205d52f58.css" integrity="sha384-V/RJ8O/fizFtxeFqJTLrJouR6MNchVWNOaJJLpmSiVPgtUD8+fZog7HDs0pcZysP"/>
+    
+<script type="module">
+import init, * as bindings from '/gnuv2_demangle/g2dem-web-41df7cfb6900d285.js';
+const wasm = await init({ module_or_path: '/gnuv2_demangle/g2dem-web-41df7cfb6900d285_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+
+    <!--
+    To test other themes:
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+    -->
+    <link rel="stylesheet" href="/gnuv2_demangle/unikitty-dark.min-62537a20cd5507aa.css" integrity="sha384-0WtfTQQc9D/zbHSj/o4BHlAzhjFeBb7ghZr8merJgHu1X/aTDIaS250XaIdMrpas"/>
+    <script src="/gnuv2_demangle/highlight.min-a6e8a90b92d31b17.js" integrity="sha384-RH2xi4eIQ/gjtbs9fUXM68sLSi99C7ZWBRX1vDrVv6GQXRibxXLbwO2NGZB74MbU"></script>
+    <script src="/gnuv2_demangle/cpp.min-86bf88b51ae456a8.js" integrity="sha384-B711MHXDqRvH/pKkxJk84RyRt9g0qyAJFsu2XukZKoCdnEiBmA6Aq9fO23ZCS7qk"></script>
+  <link rel="modulepreload" href="/gnuv2_demangle/g2dem-web-41df7cfb6900d285.js" crossorigin="anonymous" integrity="sha384-MFpTfHVy+3USj+mr+lLJnOsPMSEfwpHx3bGVkQyNi5tulg24wA0U25v1RQ7qiX8l"><link rel="preload" href="/gnuv2_demangle/g2dem-web-41df7cfb6900d285_bg.wasm" crossorigin="anonymous" integrity="sha384-Fu9MKoR7KCXyQaZAp5dej1MoNNA1CetzxiP10f3S1wUcJ8x5MeOS2ZVgwZsMWXQ1" as="fetch" type="application/wasm"></head>
+
+  <body>
+  </body>
+</html>
