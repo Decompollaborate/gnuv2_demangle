@@ -104,11 +104,13 @@ jobs:
       - name: Build g2dem-web with cargo
         run: |
           unset CARGO_HOME
+          set RUSTFLAGS='--cfg getrandom_backend="wasm_js"'
           cargo build --release --locked --target=wasm32-unknown-unknown -p g2dem-web
 
       - name: Build g2dem-web
         run: |
           unset CARGO_HOME
+          set RUSTFLAGS='--cfg getrandom_backend="wasm_js"'
           cd src/g2dem-web && trunk build --release --locked --public-url /${{ github.event.repository.name }} && cd ../..
 
       - name: Deployment
