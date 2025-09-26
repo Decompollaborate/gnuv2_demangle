@@ -74,14 +74,6 @@ impl Component for App {
 
         let root_class = format!("{} view-root", self.state.theme.id());
 
-        /*
-        use_effect(move || {
-            // asm syntax highlight.
-            // TODO: breaks the site due to lack of auto update
-            // highlightAll();
-        });
-        */
-
         html! {
           <div class={root_class}>
             { header }
@@ -106,6 +98,10 @@ impl App {
           <header>
             <h1> { "🧩 g2dem-web" } <h6> { built_info::PKG_VERSION } </h6> </h1>
 
+            <div class="tool-desc">
+              <p>{ "Demangle GNU V2 C++ symbols online" }</p>
+            </div>
+
             <div class="theme-selector">
               { dropdown_theme_selector }
             </div>
@@ -118,6 +114,9 @@ impl App {
           <main>
             <section class="editor">
               { self.view_input(ctx.link()) }
+            </section>
+
+            <section class="editor">
               { self.view_output_box() }
             </section>
 
@@ -159,7 +158,7 @@ impl App {
             <h2 for="bytes-input"> { "Input" } </h2>
             <textarea
               id="bytes-input"
-              rows="8"
+              rows="4"
               cols="80"
               {placeholder}
               {oninput}
