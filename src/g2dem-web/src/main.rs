@@ -1,6 +1,8 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+use js_sys::{Object, Reflect};
+use wasm_bindgen::prelude::*;
 use web_sys::HtmlInputElement;
 use yew::events::InputEvent;
 use yew::html::Scope;
@@ -17,6 +19,12 @@ use crate::settings::*;
 pub mod built_info {
     // The file has been placed there by the build script.
     include!(concat!(env!("OUT_DIR"), "/built.rs"));
+}
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = hljs, js_name = highlight)]
+    fn hljs_highlight(code: &str, options: &JsValue) -> JsValue;
 }
 
 pub enum Msg {
@@ -186,11 +194,15 @@ impl App {
 
         for sym in self.user_input.lines() {
             let row = match demangle(sym.trim(), &config) {
-                Ok(demangled) => html! {
-                  <tr>
-                    <td class="cod"> { demangled } </td>
-                  </tr>
-                },
+                Ok(demangled) => {
+                    let highlighted = highlight_cpp_cod(&demangled).unwrap_or(demangled);
+                    let highlighted_html = Html::from_html_unchecked(highlighted.into());
+                    html! {
+                      <tr>
+                        <td class="cod"> { highlighted_html } </td>
+                      </tr>
+                    }
+                }
                 Err(_) => html! {
                   <tr>
                     <td class="cod"> { sym } </td>
@@ -221,6 +233,31 @@ impl App {
           </>
         }
     }
+}
+
+fn highlight_cpp_cod(cod: &str) -> Option<String> {
+    let opts = Object::new();
+    // Should be equivalent to
+    // `{ language: 'cpp' }`
+    // https://highlightjs.org/#usage
+    if Reflect::set(
+        &opts,
+        &JsValue::from_str("language"),
+        &JsValue::from_str("cpp"),
+    )
+    .is_err()
+    {
+        return Some(cod.to_string());
+    }
+
+    let highlighted = hljs_highlight(cod, &opts.into());
+    Reflect::get(&highlighted, &JsValue::from_str("value"))
+        .ok()
+        .and_then(|x| x.as_string())
+        .map(|x| {
+            // Hacky way to workaround the fact that this cod was not using "monospace" as the font family
+            x.replace(" class=\"hljs-", " class=\"cod hljs-")
+        })
 }
 
 fn main() {
