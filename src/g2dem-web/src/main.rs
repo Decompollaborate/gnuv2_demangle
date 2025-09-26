@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
 use js_sys::{Object, Reflect};
+use rand::seq::IndexedRandom;
 use wasm_bindgen::prelude::*;
 use web_sys::HtmlInputElement;
 use yew::events::InputEvent;
@@ -38,14 +39,43 @@ pub struct App {
     state: PersistentState,
 }
 
+// Feel free to add more examples.
+static EXAMPLES: [&str; 15] = [
+    "test__Fv",
+    "whatever_default__Fcsilx",
+    "whatever_const_pointer__FPCcPCsPCiPClPCx",
+    "silly_function__FPCPCPCPCPCc",
+    "__vc__C11FancyVectorUi",
+    "a_function__Q35silly8my_thing17another_namespacefffi",
+    "repeating__FPCcN24_0",
+    "__tf11FancyVector",
+    "Printf__7ConsolePCce",
+    "actual_function__FRt10SomeVector2Z4NodeR13TestAllocator17AllocatorInstanceG4Node",
+    "_GLOBAL_$I$_11FancyVector$spInstance",
+    "simpler_array__FPA41_A24_Ci",
+    "class_method_args__FPM9SomeClassCFPC9SomeClass_v",
+    "unsigned_128__FPCUI80",
+    "an_array__H1Zi_C14SomethingSillyX01_PA3_i",
+];
+
 impl Component for App {
     type Message = Msg;
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
+        // Choose 3 examples each time.
+        let example =
+            EXAMPLES
+                .choose_multiple(&mut rand::rng(), 3)
+                .fold(String::new(), |mut x, y| {
+                    if !x.is_empty() {
+                        x.push('\n');
+                    }
+                    x + y
+                });
+
         Self {
-            // TODO: have a list of mangled names and choose one randomly each time
-            user_input: "test__Fv".to_string(),
+            user_input: example,
             state: PersistentState::new(),
         }
     }
@@ -166,7 +196,7 @@ impl App {
             <h2 for="bytes-input"> { "Input" } </h2>
             <textarea
               id="bytes-input"
-              rows="4"
+              rows="8"
               cols="80"
               {placeholder}
               {oninput}
@@ -184,7 +214,7 @@ impl App {
           <div class="output-box">
             <h2> { label } </h2>
             <div class="scrollable-container">
-              <pre><code /*class="language-mipsasm"*/>
+              <pre><code>
                 <table> { result } </table>
               </code></pre>
             </div>
