@@ -93,7 +93,8 @@ jobs:
 
       - name: debug
         run: |
-          # cargo --version
+          ls /home/runner/.cargo
+          unset CARGO_HOME
           echo "$CARGO_HOME"
           # cargo --list --verbose
           echo "$PWD"
