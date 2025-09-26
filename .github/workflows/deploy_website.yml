@@ -94,8 +94,9 @@ jobs:
       - name: debug
         run: |
           # cargo --version
-          echo $CARGO_HOME
+          echo "$CARGO_HOME"
           # cargo --list --verbose
+          echo "$PWD"
 
 
       # TODO: just testing, please remember to remove this step
