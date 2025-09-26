@@ -91,6 +91,11 @@ jobs:
         with:
           version: 'latest'
 
+      # TODO: just testing, please remember to remove this step
+      - name: Build g2dem-web with cargo
+        run: |
+          cargo build --release --locked --target=wasm32-unknown-unknown -p g2dem-web
+
       - name: Build g2dem-web
         run: |
           cd src/g2dem-web && trunk build --release --locked --public-url /${{ github.event.repository.name }} && cd ../..
