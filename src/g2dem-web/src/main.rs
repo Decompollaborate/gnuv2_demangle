@@ -129,14 +129,22 @@ impl App {
 
     fn view_footer(&self, _ctx: &Context<Self>) -> Html {
         let git_info = if let Some(info) = built_info::GIT_COMMIT_HASH_SHORT {
-            format!("Git hash: {info}")
+            let url = format!("{}/commit/{}", built_info::PKG_REPOSITORY, info);
+            html! {
+              <>
+                { "Git hash: " } <a target="_blank" href={ url }>{ info }</a>
+              </>
+            }
         } else {
-            String::new()
+            html! {
+              <>
+              </>
+            }
         };
 
         html! {
           <footer>
-            <p> { "© 2025 Decompollaborate" } </p>
+            <p> { "© 2025 " } <a target="_blank" href={ "https://github.com/Decompollaborate/" }>{ "Decompollaborate" }</a> </p>
             <p> { "Powered by " } <a target="_blank" href={ built_info::PKG_REPOSITORY }>{ "gnuv2_demangle" }</a> </p>
             <p> { git_info } </p>
           </footer>

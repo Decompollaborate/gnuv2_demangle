@@ -8,6 +8,8 @@
   --text-color: #111;
   --border-color: #ccc;
   --code-panel-color: #e3e3e2;
+  --link-color: #1E90AF;
+  --link-color-hover: #1E90FF;
 }
 
 .theme-dark {
@@ -17,6 +19,8 @@
   --text-color: #eee;
   --border-color: #444;
   --code-panel-color: #0a0a09;
+  --link-color: #1E90AF;
+  --link-color-hover: #1E90FF;
 }
 
 .theme-solarized-light {
@@ -26,6 +30,8 @@
   --text-color: #657b83;
   --border-color: #ccc;
   --code-panel-color: #dad4c0;
+  --link-color: #1E90AF;
+  --link-color-hover: #1E90FF;
 }
 
 .theme-solarized-dark {
@@ -35,6 +41,8 @@
   --text-color: #839496;
   --border-color: #586e75;
   --code-panel-color: #00222d;
+  --link-color: #4088C8;
+  --link-color-hover: #4098FF;
 }
 
 .theme-dracula {
@@ -44,6 +52,8 @@
   --text-color: #f8f8f2;
   --border-color: #6272a4;
   --code-panel-color: #303345;
+  --link-color: #1E90AF;
+  --link-color-hover: #1E90FF;
 }
 
 .theme-pastel-midnight {
@@ -53,4 +63,6 @@
   --text-color: #f0eaff;
   --border-color: #44445a;
   --code-panel-color: #1a1a2b;
+  --link-color: #3068A0;
+  --link-color-hover: #2E68DF;
 }

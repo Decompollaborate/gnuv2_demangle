@@ -214,3 +214,10 @@ footer p {
 .scrollable-container {
   overflow-y: auto;
 }
+
+a {
+  color: var(--link-color);
+}
+a:hover {
+  color: var(--link-color-hover);
+}
