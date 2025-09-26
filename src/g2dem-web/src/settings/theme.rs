@@ -71,6 +71,10 @@ impl DropdownEnum for Theme {
     fn dropdown_id() -> &'static str {
         "theme"
     }
+
+    fn tooltip_text() -> Option<&'static str> {
+        None
+    }
 }
 
 static ARR: [Theme; 6] = [

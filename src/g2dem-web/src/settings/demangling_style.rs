@@ -55,6 +55,10 @@ impl DropdownEnum for DemanglingStyle {
     fn dropdown_id() -> &'static str {
         "demangling_style"
     }
+
+    fn tooltip_text() -> Option<&'static str> {
+        Some("g2dem provides an slightly improved experience over the c++filt style, while the latter tries to mimic the original c++filt behavior.")
+    }
 }
 
 static ARR: [DemanglingStyle; 2] = [DemanglingStyle::G2dem, DemanglingStyle::Cfilt];

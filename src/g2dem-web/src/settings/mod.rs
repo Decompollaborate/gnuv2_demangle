@@ -50,6 +50,7 @@ where
     fn array() -> &'static [Self];
     fn label_text() -> &'static str;
     fn dropdown_id() -> &'static str;
+    fn tooltip_text() -> Option<&'static str>;
 
     fn gen_dropdown<F, M, S>(
         &self,
@@ -67,6 +68,20 @@ where
             let select: HtmlSelectElement = e.target_unchecked_into();
             Some(msgfier(Self::from_id(&select.value())))
         });
+
+        // Wrap the label if there's tooltip text available.
+        let label_text = if let Some(tooltip_text) = Self::tooltip_text() {
+            html! {
+              <span class="tooltip">
+                { label_text }
+                <span class="tooltiptext">{ tooltip_text }</span>
+              </span>
+            }
+        } else {
+            html! {
+              <> {label_text} </>
+            }
+        };
 
         let elements: Vec<Html> = Self::array()
             .iter()
