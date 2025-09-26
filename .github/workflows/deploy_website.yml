@@ -72,11 +72,11 @@ jobs:
   deploy_g2dem_web:
     name: Deploy g2dem-web to Github Pages
     runs-on: ubuntu-latest
-    # needs:
-    #   - check_fmt
-    #   - check_clippy
-    #   - run_tests
-    #   - msrv
+    needs:
+      - check_fmt
+      - check_clippy
+      - run_tests
+      - msrv
     steps:
       - name: Checkout reposistory
         uses: actions/checkout@main
@@ -91,25 +91,11 @@ jobs:
         with:
           version: 'latest'
 
-      - name: debug
-        run: |
-          tree /home/runner/.cargo
-          unset CARGO_HOME
-          echo "$CARGO_HOME"
-          # cargo --list --verbose
-          echo "$PWD"
-
-
-      # TODO: just testing, please remember to remove this step
-      - name: Build g2dem-web with cargo
-        run: |
-          unset CARGO_HOME
-          RUSTFLAGS='--cfg getrandom_backend="wasm_js"' cargo build --release --locked --target=wasm32-unknown-unknown -p g2dem-web
-
       - name: Build g2dem-web
         run: |
-          unset CARGO_HOME
-          set RUSTFLAGS='--cfg getrandom_backend="wasm_js"'
+          # We have to explicitly set RUSTFLAGS here because, for some reason,
+          # cargo refuses to honor the `.cargo/config.toml` file.
+          # I got tired of trying to get a better fix working.
           cd src/g2dem-web && RUSTFLAGS='--cfg getrandom_backend="wasm_js"' trunk build --release --locked --public-url /${{ github.event.repository.name }} && cd ../..
 
       - name: Deployment
