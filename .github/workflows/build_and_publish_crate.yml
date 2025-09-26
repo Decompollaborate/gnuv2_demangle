@@ -227,7 +227,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build Rust package
-        run: cargo build --locked --release --workspace
+        run: cargo build --locked --release --package gnuv2_demangle
 
       - name: Publish gnuv2_demangle dry run
         if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/')
