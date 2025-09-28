@@ -1,7 +1,11 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, string::String, vec::Vec};
+use alloc::{
+    borrow::Cow,
+    string::{String, ToString},
+    vec::Vec,
+};
 
 use crate::{DemangleConfig, DemangleError};
 
@@ -423,11 +427,36 @@ fn demangle_templated_function<'s>(
         format!("<{}>", template_args)
     };
     let argument_list = argument_list.join();
-    let out = if let Some(typ) = typ {
-        format!("{return_type}{array_qualifiers} {typ}::{func_name}{formated_template_args}({argument_list}){suffix}")
+
+    let mut out = return_type;
+    if let Some(array_qualifiers) = array_qualifiers.as_option() {
+        if config.fix_array_in_return_position {
+            out.push_str(" (");
+            out.push_str(&array_qualifiers.inner_post_qualifiers);
+        } else {
+            out.push_str(&array_qualifiers.to_string());
+            out.push(' ');
+        }
     } else {
-        format!("{return_type}{array_qualifiers} {func_name}{formated_template_args}({argument_list}){suffix}")
-    };
+        out.push(' ');
+    }
+    if let Some(typ) = typ {
+        out.push_str(&typ);
+        out.push_str("::");
+    }
+    out.push_str(func_name);
+    out.push_str(&formated_template_args);
+    out.push('(');
+    out.push_str(&argument_list);
+    out.push(')');
+    out.push_str(suffix);
+    if let Some(array_qualifiers) = array_qualifiers.as_option() {
+        if config.fix_array_in_return_position {
+            out.push(')');
+            out.push_str(&array_qualifiers.arrays);
+        }
+    }
+
     Ok(out)
 }
 

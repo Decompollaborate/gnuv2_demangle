@@ -228,6 +228,45 @@ pub struct DemangleConfig {
     /// );
     /// ```
     pub fix_extension_int: bool,
+
+    /// If enabled, emit proper syntax for arrays as return types in templated
+    /// functions.
+    ///
+    /// Disabling this option make it mimic the c++filt behavior for arrays in
+    /// return position, which is not valid C++ but is simpler to read.
+    ///
+    /// # Examples
+    ///
+    /// Turning off this setting (mimicking c++filt behavior):
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.fix_array_in_return_position = false;
+    ///
+    /// let demangled = demangle("an_array__H1Zi_X01_PA3_f", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("float (*)[3] an_array<int>(int)")
+    /// );
+    /// ```
+    ///
+    /// The setting turned on:
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.fix_array_in_return_position = true;
+    ///
+    /// let demangled = demangle("an_array__H1Zi_X01_PA3_f", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("float (*an_array<int>(int))[3]")
+    /// );
+    /// ```
+    pub fix_array_in_return_position: bool,
 }
 
 impl DemangleConfig {
@@ -248,6 +287,7 @@ impl DemangleConfig {
             demangle_global_keyed_frames: false,
             ellipsis_emit_space_after_comma: false,
             fix_extension_int: false,
+            fix_array_in_return_position: false,
         }
     }
 
@@ -259,6 +299,7 @@ impl DemangleConfig {
             demangle_global_keyed_frames: true,
             ellipsis_emit_space_after_comma: true,
             fix_extension_int: true,
+            fix_array_in_return_position: true,
         }
     }
 }

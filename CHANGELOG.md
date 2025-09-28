@@ -9,14 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- First public version of `g2dem-web`.
+  - Visit it at <https://decompollaborate.github.io/gnuv2_demangle/>
 - `DemangleConfig::ellipsis_emit_space_after_comma`: If set then emit an space
   between the ellipsis and the last comma in the argument list.
-  - Defaults to `false` to mimic c++filt behavior.
 - Support for method pointers as arguments.
 - Support for 128bits integers.
 - Operator `delete []`.
 - Support `enum`s as templated values.
 - Support for reuse of templated values (`Y`).
+- `DemangleConfig::fix_array_in_return_position`: Emit proper syntax for
+  templated functions returning pointers to arrays.
 
 ### Changed
 

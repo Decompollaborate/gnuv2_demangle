@@ -1391,6 +1391,7 @@ fn test_demangle_templated_function_returning_array_cfilt() {
     ];
     let mut config = DemangleConfig::new();
     config.fix_array_length_arg = false;
+    config.fix_array_in_return_position = false;
 
     for (mangled, demangled) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
@@ -1409,7 +1410,7 @@ fn test_demangle_templated_function_returning_array_fixed() {
         */
         (
             "an_array__H1Zi_C14SomethingSillyX01_PA3_i",
-            "int (*)[3] SomethingSilly::an_array<int>(int) const",
+            "int (*SomethingSilly::an_array<int>(int) const)[3]",
         ),
         /*
         class SomethingSilly {
@@ -1423,7 +1424,7 @@ fn test_demangle_templated_function_returning_array_fixed() {
         */
         (
             "an_array__H1Zi_14SomethingSillyX01_PA3_i",
-            "int (*)[3] SomethingSilly::an_array<int>(int)",
+            "int (*SomethingSilly::an_array<int>(int))[3]",
         ),
         /*
         namespace SomethingSilly {
@@ -1436,7 +1437,7 @@ fn test_demangle_templated_function_returning_array_fixed() {
         */
         (
             "an_array__H1Zi_14SomethingSillyX01_PA3_i",
-            "int (*)[3] SomethingSilly::an_array<int>(int)",
+            "int (*SomethingSilly::an_array<int>(int))[3]",
         ),
         /*
         class SomethingSilly {};
@@ -1448,7 +1449,7 @@ fn test_demangle_templated_function_returning_array_fixed() {
         */
         (
             "an_array__H1Zi_P14SomethingSillyX01_PA3_i",
-            "int (*)[3] an_array<int>(SomethingSilly *, int)",
+            "int (*an_array<int>(SomethingSilly *, int))[3]",
         ),
         /*
         namespace Ethan {
@@ -1464,7 +1465,7 @@ fn test_demangle_templated_function_returning_array_fixed() {
         */
         (
             "an_array__H1Zi_CQ25Ethan14SomethingSillyX01_PA3_i",
-            "int (*)[3] Ethan::SomethingSilly::an_array<int>(int) const",
+            "int (*Ethan::SomethingSilly::an_array<int>(int) const)[3]",
         ),
         /*
         class SomethingSilly {};
@@ -1476,7 +1477,7 @@ fn test_demangle_templated_function_returning_array_fixed() {
         */
         (
             "an_array__H1Zi_G14SomethingSillyX01_PA3_i",
-            "int (*)[3] an_array<int>(SomethingSilly, int)",
+            "int (*an_array<int>(SomethingSilly, int))[3]",
         ),
         /*
         class SomethingSilly {};
@@ -1488,13 +1489,14 @@ fn test_demangle_templated_function_returning_array_fixed() {
         */
         (
             "an_array__H1Zi_G14SomethingSillyX01PA3_iPFPA3_ii_v_PA3_i",
-            "int (*)[3] an_array<int>(SomethingSilly, int, int (*)[3], void (*)(int (*)[3], int))",
+            "int (*an_array<int>(SomethingSilly, int, int (*)[3], void (*)(int (*)[3], int)))[3]",
         ),
     ];
     let mut config = DemangleConfig::new();
     // For some reason g++ doesn't mess up the array size in templated functions,
     // so we need to make sure to not wrongly fix it up.
     config.fix_array_length_arg = true;
+    config.fix_array_in_return_position = true;
 
     for (mangled, demangled) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));

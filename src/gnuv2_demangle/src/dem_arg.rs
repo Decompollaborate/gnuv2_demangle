@@ -153,9 +153,9 @@ impl fmt::Display for Signedness {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct ArrayQualifiers {
-    inner_post_qualifiers: String,
+    pub(crate) inner_post_qualifiers: String,
     // TODO: would be better to store this as a vector instead of an array?
-    arrays: String,
+    pub(crate) arrays: String,
 }
 
 impl fmt::Display for ArrayQualifiers {
