@@ -633,12 +633,12 @@ fn test_demangle_global_sym_keyed_weird_cases() {
     ];
     let mut config = DemangleConfig::new();
 
-    config.preserve_namespaced_global_constructor_bug = true;
+    config.fix_namespaced_global_constructor_bug = false;
     for (mangled, demangled, _) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 
-    config.preserve_namespaced_global_constructor_bug = false;
+    config.fix_namespaced_global_constructor_bug = true;
     for (mangled, _, demangled) in CASES {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }

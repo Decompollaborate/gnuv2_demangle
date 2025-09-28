@@ -225,8 +225,8 @@ impl App {
     fn demangle_input(&self) -> Vec<Html> {
         let mut result = Vec::new();
         let config = match self.state.demangling_style {
-            DemanglingStyle::G2dem => DemangleConfig::new_no_cfilt_mimics(),
-            DemanglingStyle::Cfilt => DemangleConfig::new_mimic_cfilt(),
+            DemanglingStyle::G2dem => DemangleConfig::new_g2dem(),
+            DemanglingStyle::Cfilt => DemangleConfig::new_cfilt(),
         };
 
         for sym in self.user_input.lines() {

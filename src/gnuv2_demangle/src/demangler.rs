@@ -630,7 +630,7 @@ fn demangle_global_sym_keyed<'s>(
     };
 
     let demangled_sym = demangle_impl(remaining, config, false);
-    if config.preserve_namespaced_global_constructor_bug
+    if !config.fix_namespaced_global_constructor_bug
         && is_constructor
         && remaining.starts_with("__Q")
     {

@@ -24,6 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - General code cleanups.
+- Renames:
+  - `DemangleConfig::new_mimic_cfilt` -> `DemangleConfig::new_cfilt`.
+  - `DemangleConfig::new_no_cfilt_mimics` -> `DemangleConfig::new_g2dem`.
+- Change `DemangleConfig::preserve_namespaced_global_constructor_bug` to
+  `DemangleConfig::fix_namespaced_global_constructor_bug`.
+  - This means the opposite to what it previously meant, so it can be
+    consistent with the other options.
 
 ### Fixed
 

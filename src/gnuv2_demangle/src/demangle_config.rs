@@ -12,13 +12,13 @@ pub struct DemangleConfig {
     ///
     /// # Examples
     ///
-    /// Turning on this setting (mimicking c++filt behavior):
+    /// Turning off this setting (mimicking c++filt behavior):
     ///
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
     /// let mut config = DemangleConfig::new();
-    /// config.preserve_namespaced_global_constructor_bug = true;
+    /// config.fix_namespaced_global_constructor_bug = false;
     ///
     /// let demangled = demangle("_GLOBAL_$I$__Q210Scenegraph10Scenegraph", &config);
     /// assert_eq!(
@@ -27,20 +27,20 @@ pub struct DemangleConfig {
     /// );
     /// ```
     ///
-    /// The setting turned off:
+    /// The setting turned on:
     ///
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
     /// let mut config = DemangleConfig::new();
-    /// config.preserve_namespaced_global_constructor_bug = false;
+    /// config.fix_namespaced_global_constructor_bug = true;
     ///
     /// let demangled = demangle("_GLOBAL_$I$__Q210Scenegraph10Scenegraph", &config);
     /// assert_eq!(
     ///     demangled.as_deref(),
     ///     Ok("global constructors keyed to Scenegraph::Scenegraph::Scenegraph(void)")
     /// );
-    pub preserve_namespaced_global_constructor_bug: bool,
+    pub fix_namespaced_global_constructor_bug: bool,
 
     /// By default g++ subtracts 1 from the length of array arguments, thus
     /// producing a confusing mangled name.
@@ -275,31 +275,33 @@ impl DemangleConfig {
     ///
     /// Note this default may change in a future version.
     pub const fn new() -> Self {
-        Self::new_mimic_cfilt()
+        Self::new_cfilt()
     }
 
-    /// The default config mimics the default (rather questionable) c++filt's
-    /// behavior, including what may be considered c++filt bugs.
-    pub const fn new_mimic_cfilt() -> Self {
+    /// Use improved output and valid C++ syntax whenever possible.
+    pub const fn new_g2dem() -> Self {
         Self {
-            preserve_namespaced_global_constructor_bug: true,
-            fix_array_length_arg: false,
-            demangle_global_keyed_frames: false,
-            ellipsis_emit_space_after_comma: false,
-            fix_extension_int: false,
-            fix_array_in_return_position: false,
-        }
-    }
-
-    /// Avoid using any option that mimics c++filt faults.
-    pub const fn new_no_cfilt_mimics() -> Self {
-        Self {
-            preserve_namespaced_global_constructor_bug: false,
+            fix_namespaced_global_constructor_bug: true,
             fix_array_length_arg: true,
             demangle_global_keyed_frames: true,
             ellipsis_emit_space_after_comma: true,
             fix_extension_int: true,
             fix_array_in_return_position: true,
+        }
+    }
+
+    /// Mimics the (rather questionable) c++filt's behavior, including what may
+    /// be considered c++filt bugs.
+    ///
+    /// Useful for validating demangling against c++filt.
+    pub const fn new_cfilt() -> Self {
+        Self {
+            fix_namespaced_global_constructor_bug: false,
+            fix_array_length_arg: false,
+            demangle_global_keyed_frames: false,
+            ellipsis_emit_space_after_comma: false,
+            fix_extension_int: false,
+            fix_array_in_return_position: false,
         }
     }
 }
