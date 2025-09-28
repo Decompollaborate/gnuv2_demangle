@@ -571,7 +571,7 @@ fn test_demangle_function_pointers() {
         ("set_terminate__FPFv_v", "set_terminate(void (*)(void))"),
         ("set_unexpected__FPFv_v", "set_unexpected(void (*)(void))"),
         ("pointerness__FPFiGt9Something1x42_t9Something1x39iPFiRt9Something1x42_RCt9Something1x39", "pointerness(Something<39> (*)(int, Something<42>), int, Something<39> const &(*)(int, Something<42> &))"),
-        ("pointerness__FPFiGt9Something1x42_t9Something1x39iPFiRt9Something1x42_RCt9Something1x39RFPCce_RQ55First6Second5Third6Fourth1A", "pointerness(Something<39> (*)(int, Something<42>), int, Something<39> const &(*)(int, Something<42> &), First::Second::Third::Fourth::A &(&)(char const *,...))"),
+        ("pointerness__FPFiGt9Something1x42_t9Something1x39iPFiRt9Something1x42_RCt9Something1x39RFPCce_RQ55First6Second5Third6Fourth1A", "pointerness(Something<39> (*)(int, Something<42>), int, Something<39> const &(*)(int, Something<42> &), First::Second::Third::Fourth::A &(&)(char const *, ...))"),
         ("InstallShader__14pddiBaseShaderPCcPFP17pddiRenderContextPCcPCc_P14pddiBaseShaderT1", "pddiBaseShader::InstallShader(char const *, pddiBaseShader *(*)(pddiRenderContext *, char const *, char const *), char const *)"),
         ("set_unexpected__FPPPPFv_v", "set_unexpected(void (****)(void))"),
         ("set_unexpected__FRPPPPPPPFv_v", "set_unexpected(void (*******&)(void))"),
@@ -701,7 +701,7 @@ fn test_demangle_global_sym_keyed_frame_cfilt() {
             Ok("type_info::_GLOBAL_$F$before(type_info const &) const"),
         ),
     ];
-    let mut config = DemangleConfig::new();
+    let mut config = DemangleConfig::new_cfilt();
     config.demangle_global_keyed_frames = false;
 
     for (mangled, demangled) in CASES {
@@ -722,7 +722,7 @@ fn test_demangle_global_sym_keyed_frame_nocfilt() {
         ),
         (
             "_GLOBAL_$F$scan__7istreamPCce",
-            "global frames keyed to istream::scan(char const *,...)",
+            "global frames keyed to istream::scan(char const *, ...)",
         ),
         (
             "_GLOBAL_$F$vscan__9streambufPCcPcP3ios",
@@ -763,7 +763,7 @@ fn test_demangle_global_sym_keyed_frame_nocfilt() {
             "global frames keyed to type_info::before(type_info const &) const",
         ),
     ];
-    let mut config = DemangleConfig::new();
+    let mut config = DemangleConfig::new_g2dem();
     config.demangle_global_keyed_frames = true;
 
     for (mangled, demangled) in CASES {
