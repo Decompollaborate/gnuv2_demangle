@@ -159,22 +159,66 @@ fn demangle_special<'s>(
         let remaining = &s[end_index + 2..];
 
         let method_name = match op {
+            // Memory
             "nw" => Cow::from("operator new"),
             "dl" => Cow::from("operator delete"),
             "vn" => Cow::from("operator new []"),
             "vd" => Cow::from("operator delete []"),
+
+            // Comparison
             "eq" => Cow::from("operator=="),
             "ne" => Cow::from("operator!="),
+            "lt" => Cow::from("operator<"),
+            "gt" => Cow::from("operator>"),
+            "le" => Cow::from("operator<="),
+            "ge" => Cow::from("operator>="),
+
+            // Assignment
             "as" => Cow::from("operator="),
-            "vc" => Cow::from("operator[]"),
+            "apl" => Cow::from("operator+="),
+            "ami" => Cow::from("operator-="),
+            "aml" => Cow::from("operator*="),
+            "adv" => Cow::from("operator/="),
+            "amd" => Cow::from("operator%="),
+            "aer" => Cow::from("operator^="),
+            "aad" => Cow::from("operator&="),
+            "aor" => Cow::from("operator|="),
+            "als" => Cow::from("operator<<="),
+            "ars" => Cow::from("operator>>="),
+
+            // Bitwise
+            "er" => Cow::from("operator^"),
             "ad" => Cow::from("operator&"),
-            "nt" => Cow::from("operator!"),
+            "or" => Cow::from("operator|"),
             "ls" => Cow::from("operator<<"),
             "rs" => Cow::from("operator>>"),
-            "er" => Cow::from("operator^"),
-            "lt" => Cow::from("operator<"),
-            "aml" => Cow::from("operator*="),
-            "apl" => Cow::from("operator+="),
+            "co" => Cow::from("operator~"),
+
+            // Increment/Decrement
+            "pp" => Cow::from("operator++"),
+            "mm" => Cow::from("operator--"),
+
+            // Logical
+            "aa" => Cow::from("operator&&"),
+            "oo" => Cow::from("operator||"),
+            "nt" => Cow::from("operator!"),
+
+            // Member access
+            "vc" => Cow::from("operator[]"),
+            "rf" => Cow::from("operator->"),
+            "rm" => Cow::from("operator->*"),
+
+            // Arithmetic
+            "pl" => Cow::from("operator+"),
+            "mi" => Cow::from("operator-"),
+            "ml" => Cow::from("operator*"),
+            "dv" => Cow::from("operator/"),
+            "md" => Cow::from("operator%"),
+
+            // Other
+            "cl" => Cow::from("operator()"),
+            "cm" => Cow::from("operator, "),
+
             _ => {
                 if let Some(cast) = op.strip_prefix("op") {
                     let (remaining, DemangledArg::Plain(typ, array_qualifiers)) =
@@ -414,7 +458,6 @@ fn demangle_templated_function<'s>(
                 DemangleError::TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(r),
             );
         }
-        // ret_type.push(' ');
         (ret_type, array_qualifiers)
     } else {
         return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(remaining));

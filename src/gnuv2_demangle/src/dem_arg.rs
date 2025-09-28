@@ -217,6 +217,18 @@ pub(crate) fn demangle_argument<'s>(
             allow_array_fixup,
         )?;
         Ok((r, DemangledArg::MethodPointer(mp)))
+    } else if let Some(r) = args.strip_prefix('O') {
+        let (r, mp) = demangle_object_pointer_arg(
+            config,
+            r,
+            full_args,
+            template_args,
+            sign,
+            post_qualifiers,
+            array_qualifiers,
+            allow_array_fixup,
+        )?;
+        Ok((r, DemangledArg::Plain(mp, None.into())))
     } else {
         // 'G' is used for classes, structs and unions, so we must make sure we
         // don't parse a primitive type next, otherwise this is not properly
@@ -426,7 +438,6 @@ fn demangle_function_pointer_arg<'s>(
     let (r, return_type) =
         demangle_argument(config, r, &func_args, template_args, allow_array_fixup)?;
 
-    // println!("{return_type:?}");
     let fp = match return_type {
         DemangledArg::Plain(plain, array_qualifiers) => FunctionPointer {
             return_type: format!("{sign}{plain}"),
@@ -592,8 +603,87 @@ fn demangle_method_pointer_arg<'s>(
         Ok((r, arg))
     } else {
         // What else could this be?
-        Err(DemangleError::UnkonwnMethodMemberArgKind(r))
+        Err(DemangleError::UnknownMethodMemberArgKind(r))
     }
+}
+
+/// Object pointer
+// TODO: fix too_many_arguments
+#[expect(clippy::too_many_arguments)]
+fn demangle_object_pointer_arg<'s>(
+    config: &DemangleConfig,
+    s: &'s str,
+    full_args: &'s str,
+    template_args: &ArgVec,
+    sign: Signedness,
+    post_qualifiers: String,
+    array_qualifiers: OptionDisplay<ArrayQualifiers>,
+    allow_array_fixup: bool,
+) -> Result<(&'s str, String), DemangleError<'s>> {
+    if sign != Signedness::No
+        || !post_qualifiers.chars().all(|c| c == '*')
+        || array_qualifiers.is_some()
+    {
+        // The only qualifer valid for this seems to be pointer (`*`), not
+        // even references (`&`) seem to be valid C++
+        return Err(DemangleError::InvalidQualifierForObjectMemberArg(full_args));
+    }
+
+    let (r, class_name) = if s.starts_with(|c| matches!(c, '1'..='9')) {
+        let Remaining { r, d: class_name } =
+            demangle_custom_name(s, DemangleError::InvalidClassNameOnObjectMemberArgument)?;
+        (r, Cow::from(class_name))
+    } else {
+        let (r, DemangledArg::Plain(class_name, array_qualifiers)) = demangle_argument(
+            config,
+            s,
+            &ArgVec::new(config, None),
+            template_args,
+            allow_array_fixup,
+        )?
+        else {
+            return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
+        };
+        if array_qualifiers.is_some() {
+            return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
+        }
+
+        (r, Cow::from(class_name))
+    };
+
+    let Some(r) = r.strip_prefix('_') else {
+        return Err(DemangleError::MissingTypeForObjectMemberPointer(r));
+    };
+
+    let (r, DemangledArg::Plain(member_type, arr)) = demangle_argument(
+        config,
+        r,
+        &ArgVec::new(config, None),
+        template_args,
+        allow_array_fixup,
+    )?
+    else {
+        return Err(DemangleError::InvalidTypeForObjectMemberPointer(full_args));
+    };
+
+    // Arrays makes everything harder.
+    let mut arg = member_type;
+    arg.push(' ');
+    if let Some(arr) = arr.as_option() {
+        if !arr.inner_post_qualifiers.is_empty() {
+            arg.push('(');
+            arg.push_str(&arr.inner_post_qualifiers);
+        }
+    }
+    arg += &format!("({class_name}::{post_qualifiers})");
+    if let Some(arr) = arr.as_option() {
+        if !arr.inner_post_qualifiers.is_empty() {
+            arg.push(')');
+        }
+        arg.push_str(&arr.arrays);
+    }
+
+    Ok((r, arg))
 }
 
 fn demangle_arg_qualifiers<'s>(

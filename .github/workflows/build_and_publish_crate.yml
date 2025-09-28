@@ -331,7 +331,6 @@ jobs:
       - name: Build ${{ matrix.binaries.package }}
         run: |
           cargo build --release --locked --package ${{ matrix.binaries.package }} --target ${{ matrix.builder.target }}
-          cargo run --release -- --version
 
       - name: Move files for packaging
         run: |

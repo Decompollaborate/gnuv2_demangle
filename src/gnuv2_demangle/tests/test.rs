@@ -457,7 +457,6 @@ fn test_demangle_templated_classes() {
         ("__t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::ContiguousBinNode(void)"),
         ("GetSubTreeSize__t17ContiguousBinNode1Z11SpatialNode", "ContiguousBinNode<SpatialNode>::GetSubTreeSize(void)"),
         ("other_function__FPQ215other_namespacet11PlainVector1ZQ215other_namespacet11PlainVector1ZQ215other_namespacet11PlainVector1Zi", "other_function(other_namespace::PlainVector<other_namespace::PlainVector<other_namespace::PlainVector<int> > > *)"),
-        // ("a_function__Q25silly9SomeClassRCQ224namespace_for_the_vectort7rVector13ZiZcZbZwZrZsZQ213more_stacking11APlainClassZQ213more_stacking11APlainClassZQ213more_stacking11APlainClassZPvZPiZPCcZRCc", "silly::SomeClass::a_function(const namespace_for_the_vector::rVector<int, char, bool, wchar_t, long double, short, more_stacking::APlainClass, more_stacking::APlainClass, more_stacking::APlainClass, void*, int*, const char *, const char &> &)"),
     ];
     let config = DemangleConfig::new();
 
@@ -829,8 +828,6 @@ fn test_demangle_template_with_return_type() {
         ("_M_range_insert__H1ZPC5tName_GQ223some_allocation_libraryt6vector2Z5tNameZt7s2alloc1Z5tNameP5tNameX01X01G20forward_iterator_tag_v", "void _M_range_insert<tName const *>(some_allocation_library::vector<tName, s2alloc<tName> >, tName *, tName const *, tName const *, forward_iterator_tag)"),
         ("_M_range_insert__H1ZPC5tName_Q223some_allocation_libraryt6vector2Z5tNameZt7s2alloc1Z5tNameP5tNameX00X00G20forward_iterator_tag_v", "void some_allocation_library::vector<tName, s2alloc<tName> >::_M_range_insert<tName const *>(tName *, tName const *, tName const *, forward_iterator_tag)"),
         ("_M_range_insert__H1ZPC5tName_GQ223some_allocation_libraryt6vector2Z5tNameZt7s2alloc1Z5tNameP5tNameX01X01G20forward_iterator_tag_X01", "tName const * _M_range_insert<tName const *>(some_allocation_library::vector<tName, s2alloc<tName> >, tName *, tName const *, tName const *, forward_iterator_tag)"),
-        // c++filt fails to demangle this symbol
-        // ("SetState__H11ZQ35Other11CharacterAi4LocoZQ35Other11CharacterAi12StateManagerZiZiZiZiZiZiZiZQ213radPs2CdDrive14DirectoryEntryZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiRX11X01X21X31X41X51X61X71X81X91X_10_1_v", ),
 
         ("indexof__H1Zf_PCX01T0_i", "int indexof<float>(float const *, float const *)"),
         ("indexof__H1Z11SGDMATERIAL_PCX01T0_i", "int indexof<SGDMATERIAL>(SGDMATERIAL const *, SGDMATERIAL const *)"),
@@ -1502,6 +1499,248 @@ fn test_demangle_templated_function_returning_array_fixed() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+
+#[test]
+fn test_demangle_all_operators() {
+    /*
+    typedef unsigned int size_t;
+
+    class X {
+    public:
+        // Unary
+        X operator+() const { return X(); }
+        X operator-() const { return X(); }
+        X operator*() const { return X(); }
+        X operator&() const { return X(); }
+        bool operator!() const { return false; }
+        X& operator++() { return *this; }          // prefix
+        X operator++(int) { return X(); }          // postfix
+        X& operator--() { return *this; }
+        X operator--(int) { return X(); }
+        X operator~() const { return X(); }
+
+        // Binary arithmetic
+        X operator+(const X&) const { return X(); }
+        X operator-(const X&) const { return X(); }
+        X operator*(const X&) const { return X(); }
+        X operator/(const X&) const { return X(); }
+        X operator%(const X&) const { return X(); }
+
+        // Bitwise
+        X operator^(const X&) const { return X(); }
+        X operator&(const X&) const { return X(); }
+        X operator|(const X&) const { return X(); }
+        X operator<<(int) const { return X(); }
+        X operator>>(int) const { return X(); }
+
+        // Compound assignment
+        X& operator+=(const X&) { return *this; }
+        X& operator-=(const X&) { return *this; }
+        X& operator*=(const X&) { return *this; }
+        X& operator/=(const X&) { return *this; }
+        X& operator%=(const X&) { return *this; }
+        X& operator^=(const X&) { return *this; }
+        X& operator&=(const X&) { return *this; }
+        X& operator|=(const X&) { return *this; }
+        X& operator<<=(int) { return *this; }
+        X& operator>>=(int) { return *this; }
+
+        // Comparison
+        bool operator==(const X&) const { return false; }
+        bool operator!=(const X&) const { return false; }
+        bool operator<(const X&)  const { return false; }
+        bool operator>(const X&)  const { return false; }
+        bool operator<=(const X&) const { return false; }
+        bool operator>=(const X&) const { return false; }
+
+        // Logical
+        bool operator&&(const X&) const { return false; }
+        bool operator||(const X&) const { return false; }
+
+        // Memory (global versions required too)
+        void* operator new(size_t) { return 0; }
+        void  operator delete(void*) {}
+        void* operator new[](size_t) { return 0; }
+        void  operator delete[](void*) {}
+
+        // Function call / subscript / member
+        X operator()(int) { return X(); }
+        int operator[](int) const { return 0; }
+        X* operator->() { return this; }
+        X& operator*() { return *this; } // already above but valid
+        // operator->* needs a member-pointer type
+        int X::* mp;
+        int operator->*(int X::*) { return 0; }
+
+        X& operator=(const X&) { return *this; }
+    };
+
+    X operator,(const X&, const X&) { return X(); }
+
+    void use_all_operators(void) {
+        X a,b,c;
+        int i = 0;
+        int X::* _mp = 0;
+
+        a = b;
+
+        // Unary
+        +a; -a; *a; &a; !a; ~a;
+        ++a; a++; --a; a--;
+
+        // Binary arithmetic
+        a + b; a - b; a * b; a / b; a % b;
+
+        // Bitwise
+        a ^ b; a & b; a | b; a << 1; a >> 1;
+
+        // Compound assignment
+        a += b; a -= b; a *= b; a /= b; a %= b;
+        a ^= b; a &= b; a |= b; a <<= 1; a >>= 1;
+
+        // Comparison
+        a == b; a != b; a < b; a > b; a <= b; a >= b;
+
+        // Logical
+        a && b; a || b;
+
+        // Function call / subscript / member
+        a(i);
+        a[i];
+        a->*_mp;    // pointer-to-member
+        a->mp;     // through operator->
+
+        // Comma
+        (a, b);
+
+        // Memory (placement new/delete)
+        X* p = new X;
+        delete p;
+        X* pa = new X[2];
+        delete [] pa;
+    }
+    */
+    static CASES: [(&str, &str); 52] = [
+        ("__cm__FRC1XT0", "operator, (X const &, X const &)"),
+        ("__pl__C1X", "X::operator+(void) const"),
+        ("__mi__C1X", "X::operator-(void) const"),
+        ("__ad__C1X", "X::operator&(void) const"),
+        ("__nt__C1X", "X::operator!(void) const"),
+        ("__pp__1X", "X::operator++(void)"),
+        ("__pp__1Xi", "X::operator++(int)"),
+        ("__mm__1X", "X::operator--(void)"),
+        ("__mm__1Xi", "X::operator--(int)"),
+        ("__co__C1X", "X::operator~(void) const"),
+        ("__pl__C1XRC1X", "X::operator+(X const &) const"),
+        ("__mi__C1XRC1X", "X::operator-(X const &) const"),
+        ("__ml__C1XRC1X", "X::operator*(X const &) const"),
+        ("__dv__C1XRC1X", "X::operator/(X const &) const"),
+        ("__md__C1XRC1X", "X::operator%(X const &) const"),
+        ("__er__C1XRC1X", "X::operator^(X const &) const"),
+        ("__ad__C1XRC1X", "X::operator&(X const &) const"),
+        ("__or__C1XRC1X", "X::operator|(X const &) const"),
+        ("__ls__C1Xi", "X::operator<<(int) const"),
+        ("__rs__C1Xi", "X::operator>>(int) const"),
+        ("__apl__1XRC1X", "X::operator+=(X const &)"),
+        ("__ami__1XRC1X", "X::operator-=(X const &)"),
+        ("__aml__1XRC1X", "X::operator*=(X const &)"),
+        ("__adv__1XRC1X", "X::operator/=(X const &)"),
+        ("__amd__1XRC1X", "X::operator%=(X const &)"),
+        ("__aer__1XRC1X", "X::operator^=(X const &)"),
+        ("__aad__1XRC1X", "X::operator&=(X const &)"),
+        ("__aor__1XRC1X", "X::operator|=(X const &)"),
+        ("__als__1Xi", "X::operator<<=(int)"),
+        ("__ars__1Xi", "X::operator>>=(int)"),
+        ("__eq__C1XRC1X", "X::operator==(X const &) const"),
+        ("__ne__C1XRC1X", "X::operator!=(X const &) const"),
+        ("__lt__C1XRC1X", "X::operator<(X const &) const"),
+        ("__gt__C1XRC1X", "X::operator>(X const &) const"),
+        ("__le__C1XRC1X", "X::operator<=(X const &) const"),
+        ("__ge__C1XRC1X", "X::operator>=(X const &) const"),
+        ("__aa__C1XRC1X", "X::operator&&(X const &) const"),
+        ("__oo__C1XRC1X", "X::operator||(X const &) const"),
+        ("__nw__1XUi", "X::operator new(unsigned int)"),
+        ("__dl__1XPv", "X::operator delete(void *)"),
+        ("__vn__1XUi", "X::operator new [](unsigned int)"),
+        ("__vd__1XPv", "X::operator delete [](void *)"),
+        ("__cl__1Xi", "X::operator()(int)"),
+        ("__vc__C1Xi", "X::operator[](int) const"),
+        ("__rf__1X", "X::operator->(void)"),
+        ("__ml__1X", "X::operator*(void)"),
+        ("__as__1XRC1X", "X::operator=(X const &)"),
+        ("__rm__1XPO1X_i", "X::operator->*(int (X::*))"),
+        ("__rm__C1XPO1X_i", "X::operator->*(int (X::*)) const"),
+        /*
+        namespace Something {
+            class X {
+            public:
+                int operator->*(int X::*) const  { return 0; }
+            };
+        }
+
+        void trigger(void) {
+            Something::X a;
+            int Something::X::* _mp = 0;
+
+            a->*_mp;
+        }
+        */
+        // c++filt can't demangle this
+        (
+            "__rm__CQ29Something1XPOQ29Something1X_i",
+            "Something::X::operator->*(int (Something::X::*)) const",
+        ),
+        (
+            "__rm__CQ29Something1XPOQ29Something1X_A4_i",
+            "Something::X::operator->*(int (Something::X::*)[5]) const",
+        ),
+        (
+            "__rm__C1XPO1X_PA4_i",
+            "X::operator->*(int (*(X::*))[5]) const",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+/*
+#[test]
+fn test_demangle_templated_class_complex() {
+    static CASES: [(&str, &str); 1] = [
+        // c++filt can't demangle this symbol.
+        (
+            "a_function__Q25silly9SomeClassRCQ224namespace_for_the_vectort7rVector13ZiZcZbZwZrZsZQ213more_stacking11APlainClassZQ213more_stacking11APlainClassZQ213more_stacking11APlainClassZPvZPiZPCcZRCc",
+            "silly::SomeClass::a_function(const namespace_for_the_vector::rVector<int, char, bool, wchar_t, long double, short, more_stacking::APlainClass, more_stacking::APlainClass, more_stacking::APlainClass, void*, int*, const char *, const char &> &)"
+        ),
+    ];
+    let mut config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+*/
+
+/*
+#[test]
+fn test_demangle_templated_function_complex() {
+    // c++filt fails to demangle this symbol
+    static CASES: [(&str, &str); 1] = [
+        (
+            "SetState__H11ZQ35Other11CharacterAi4LocoZQ35Other11CharacterAi12StateManagerZiZiZiZiZiZiZiZQ213radPs2CdDrive14DirectoryEntryZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiRX11X01X21X31X41X51X61X71X81X91X_10_1_v",
+            "",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+*/
 
 /*
 #[test]

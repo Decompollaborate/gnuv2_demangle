@@ -73,7 +73,7 @@ pub enum DemangleError<'s> {
     MethodPointerMissingConstness(&'s str),
     MethodPointerWrongClassName(&'s str),
     MethodPointerClassNameAsArray(&'s str),
-    UnkonwnMethodMemberArgKind(&'s str),
+    UnknownMethodMemberArgKind(&'s str),
     MissingBitwidthForExtensionInteger(&'s str),
     InvalidBitwidthForExtensionInteger(&'s str, usize),
     InvalidEnumNameForTemplatedValue(&'s str),
@@ -81,6 +81,10 @@ pub enum DemangleError<'s> {
     MissingLookbackSecondDigitForTemplatedValue(&'s str),
     InvalidLookbackSecondDigitForTemplatedValue(&'s str, usize),
     IndexTooBigForYArgument(&'s str, usize),
+    InvalidQualifierForObjectMemberArg(&'s str),
+    InvalidClassNameOnObjectMemberArgument(&'s str),
+    MissingTypeForObjectMemberPointer(&'s str),
+    InvalidTypeForObjectMemberPointer(&'s str),
 }
 
 impl fmt::Display for DemangleError<'_> {
