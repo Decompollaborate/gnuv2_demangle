@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for reuse of templated values (`Y`).
 - `DemangleConfig::fix_array_in_return_position`: Emit proper syntax for
   templated functions returning pointers to arrays.
+- `g2dem`: `--mode`/`-m` flag: Select between `c++filt` and `g2dem` demangling
+  modes.
 
 ### Changed
 
@@ -31,6 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `DemangleConfig::fix_namespaced_global_constructor_bug`.
   - This means the opposite to what it previously meant, so it can be
     consistent with the other options.
+- `DemangleConfig::new` now uses `DemangleConfig::new_g2dem` instead of
+  `DemangleConfig::new_cfilt`.
 
 ### Fixed
 

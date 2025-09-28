@@ -2,6 +2,11 @@
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
 /// Tweak how a symbol should be disassembled.
+///
+/// The constructors provide sensible defaults, so there's usually no need to
+/// override each option.
+///
+/// Refer to each option to see what it does and examples.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
 pub struct DemangleConfig {
@@ -270,12 +275,9 @@ pub struct DemangleConfig {
 }
 
 impl DemangleConfig {
-    /// The default config mimics the default (rather questionable) c++filt's
-    /// behavior, including what may be considered c++filt bugs.
-    ///
-    /// Note this default may change in a future version.
+    /// The default configuration.
     pub const fn new() -> Self {
-        Self::new_cfilt()
+        Self::new_g2dem()
     }
 
     /// Use improved output and valid C++ syntax whenever possible.

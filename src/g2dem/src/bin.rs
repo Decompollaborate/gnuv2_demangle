@@ -5,7 +5,7 @@
 
 use std::io::{self, BufRead};
 
-use argp::FromArgs;
+use argp::{FromArgValue, FromArgs};
 use gnuv2_demangle::{demangle, DemangleConfig};
 
 pub mod built_info {
@@ -22,9 +22,33 @@ struct Args {
     #[argp(positional)]
     syms: Vec<String>,
 
+    /// Demangling flavor. Valid values: {"g2dem", "g", "cfilt", "c"}. Defaults to "g2dem".
+    #[argp(option, short = 'm', default = "Mode::default()")]
+    mode: Mode,
+
     /// Print current version information and exit.
     #[argp(switch, short = 'V')]
     version: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
+enum Mode {
+    #[default]
+    G2dem,
+    Cfilt,
+}
+
+impl FromArgValue for Mode {
+    fn from_arg_value(value: &std::ffi::OsStr) -> Result<Self, String> {
+        const ERROR: &str = "Valid options are: `g2dem`, `g`, `cfilt` and `c`";
+
+        let value = value.to_str().ok_or_else(|| ERROR.to_string())?;
+        match value {
+            "g2dem" | "g" => Ok(Self::G2dem),
+            "cfilt" | "c" => Ok(Self::Cfilt),
+            _ => Err(ERROR.to_string()),
+        }
+    }
 }
 
 fn show_version() {
@@ -76,7 +100,10 @@ fn main() {
         return;
     }
 
-    let config = DemangleConfig::new();
+    let config = match args.mode {
+        Mode::G2dem => DemangleConfig::new_g2dem(),
+        Mode::Cfilt => DemangleConfig::new_cfilt(),
+    };
 
     if args.syms.is_empty() {
         for line in io::stdin().lock().lines() {
