@@ -1743,8 +1743,14 @@ fn test_demangle_templated_function_complex() {
 */
 
 #[test]
-fn test_demangle_destructor_other() {
-    static CASES: [(&str, &str); 1] = [("_._9RigidBody", "RigidBody::~RigidBody(void)")];
+fn test_demangle_dot_special() {
+    static CASES: [(&str, &str); 2] = [
+        ("_._9RigidBody", "RigidBody::~RigidBody(void)"),
+        (
+            "_GLOBAL_.I.ePolySlotPool",
+            "global constructors keyed to ePolySlotPool",
+        ),
+    ];
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {

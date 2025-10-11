@@ -63,7 +63,10 @@ fn demangle_impl<'s>(
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s, sym)
     } else if let Some(s) = sym.c_cond_and_strip_prefix(allow_global_sym_keyed, "_GLOBAL_$") {
-        demangle_global_sym_keyed(config, s, sym)
+        demangle_global_sym_keyed(config, s, sym, '$')
+    } else if let Some(s) = sym.c_cond_and_strip_prefix(allow_global_sym_keyed, "_GLOBAL_.") {
+        // ProDG stuff
+        demangle_global_sym_keyed(config, s, sym, '.')
     } else if let Some((func_name, args)) = sym.c_split2("__F") {
         demangle_free_function(config, func_name, args)
     } else if let Some((method_name, class_and_args)) =
@@ -658,12 +661,13 @@ fn demangle_global_sym_keyed<'s>(
     config: &DemangleConfig,
     s: &'s str,
     full_sym: &'s str,
+    special_separator: char,
 ) -> Result<String, DemangleError<'s>> {
-    let (remaining, which, is_constructor) = if let Some(r) = s.strip_prefix("I$") {
+    let (remaining, which, is_constructor) = if let Some(r) = s.strip_prefix("I") {
         (r, "constructors", true)
-    } else if let Some(r) = s.strip_prefix("D$") {
+    } else if let Some(r) = s.strip_prefix("D") {
         (r, "destructors", false)
-    } else if let Some(r) = s.strip_prefix("F$") {
+    } else if let Some(r) = s.strip_prefix("F") {
         if config.demangle_global_keyed_frames {
             (r, "frames", false)
         } else {
@@ -672,6 +676,10 @@ fn demangle_global_sym_keyed<'s>(
             return demangle_impl(full_sym, config, false);
         }
     } else {
+        return Err(DemangleError::InvalidGlobalSymKeyed(s));
+    };
+
+    let Some(remaining) = remaining.strip_prefix(special_separator) else {
         return Err(DemangleError::InvalidGlobalSymKeyed(s));
     };
 
