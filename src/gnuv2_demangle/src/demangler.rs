@@ -57,6 +57,9 @@ fn demangle_impl<'s>(
 ) -> Result<String, DemangleError<'s>> {
     if let Some(s) = sym.strip_prefix("_$_") {
         demangle_destructor(config, s)
+    } else if let Some(s) = sym.strip_prefix("_._") {
+        // ProDG destructors
+        demangle_destructor(config, s)
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s, sym)
     } else if let Some(s) = sym.c_cond_and_strip_prefix(allow_global_sym_keyed, "_GLOBAL_$") {

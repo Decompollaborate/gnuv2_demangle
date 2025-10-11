@@ -1742,6 +1742,16 @@ fn test_demangle_templated_function_complex() {
 }
 */
 
+#[test]
+fn test_demangle_destructor_other() {
+    static CASES: [(&str, &str); 1] = [("_._9RigidBody", "RigidBody::~RigidBody(void)")];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {
