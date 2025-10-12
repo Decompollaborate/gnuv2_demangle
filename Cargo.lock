@@ -303,7 +303,7 @@ dependencies = [
 
 [[package]]
 name = "g2dem"
-version = "0.3.0-alpha.0"
+version = "0.3.0"
 dependencies = [
  "argp",
  "built",
@@ -312,7 +312,7 @@ dependencies = [
 
 [[package]]
 name = "g2dem-web"
-version = "0.3.0-alpha.0"
+version = "0.3.0"
 dependencies = [
  "built",
  "getrandom 0.3.3",
@@ -791,7 +791,7 @@ dependencies = [
 
 [[package]]
 name = "gnuv2_demangle"
-version = "0.3.0-alpha.0"
+version = "0.3.0"
 dependencies = [
  "insta",
  "pretty_assertions",

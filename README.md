@@ -15,6 +15,8 @@
 
 A GNU V2 C++ symbol demangler.
 
+Play with the live version at <https://decompollaborate.github.io/gnuv2_demangle>!
+
 ## Important note
 
 This crate demangles symbols for the outdated and no-longer-used V2 ABI

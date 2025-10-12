@@ -45,7 +45,7 @@ Add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-gnuv2_demangle = "0.2"
+gnuv2_demangle = "0.3"
 ```
 
 For a cli program, refer to [`g2dem`](https://github.com/Decompollaborate/gnuv2_demangle/tree/main/src/g2dem).
