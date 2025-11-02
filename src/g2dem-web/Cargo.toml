@@ -24,7 +24,7 @@ name = "g2dem-web"
 path = "src/main.rs"
 
 [dependencies]
-gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.3.0", features = ["std"] }
+gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.3.1-dev0", features = ["std"] }
 
 gloo = { version = "0.11" }
 log = { version = "0.4" }

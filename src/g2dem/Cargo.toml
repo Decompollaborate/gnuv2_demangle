@@ -36,7 +36,7 @@ path = "src/bin.rs"
 default = []
 
 [dependencies]
-gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.3.0", features = ["std"]}
+gnuv2_demangle = { path = "../gnuv2_demangle", version = "0.3.1-dev0", features = ["std"]}
 
 argp = "0.4.0"
 
