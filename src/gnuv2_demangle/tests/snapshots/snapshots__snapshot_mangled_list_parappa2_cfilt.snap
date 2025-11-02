@@ -1200,31 +1200,46 @@ expression: "demangle_lines(contents, &config)"
     (
         "tp.87",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tp",
+                "87",
+            ),
         ),
     ),
     (
         "tp.94",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tp",
+                "94",
+            ),
         ),
     ),
     (
         "tp.98",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tp",
+                "98",
+            ),
         ),
     ),
     (
         "tp.111",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tp",
+                "111",
+            ),
         ),
     ),
     (
         "tp.115",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tp",
+                "115",
+            ),
         ),
     ),
     (
@@ -10968,7 +10983,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "poolIndex.1140",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "poolIndex",
+                "1140",
+            ),
         ),
     ),
     (
@@ -11610,7 +11628,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "init_vif_regs.3",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "init_vif_regs",
+                "3",
+            ),
         ),
     ),
     (
@@ -12090,7 +12111,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "init_vif_regs.126",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "init_vif_regs",
+                "126",
+            ),
         ),
     ),
     (

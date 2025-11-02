@@ -170,7 +170,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -328,7 +331,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -402,7 +408,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -574,7 +583,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -782,7 +794,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -942,7 +957,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -1090,7 +1108,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -1344,7 +1365,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -1446,7 +1470,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "MapDoorSelList.1129",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "MapDoorSelList",
+                "1129",
+            ),
         ),
     ),
     (
@@ -1622,7 +1649,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -1786,7 +1816,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.807",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "807",
+            ),
         ),
     ),
     (
@@ -1902,7 +1935,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -2102,7 +2138,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -2422,7 +2461,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.807",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "807",
+            ),
         ),
     ),
     (
@@ -2556,7 +2598,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -2686,7 +2731,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "lwork.1093",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "lwork",
+                "1093",
+            ),
         ),
     ),
     (
@@ -2710,7 +2758,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "aWindPowerList.1164",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "aWindPowerList",
+                "1164",
+            ),
         ),
     ),
     (
@@ -2730,7 +2781,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -2900,13 +2954,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "anim_list.1147",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "anim_list",
+                "1147",
+            ),
         ),
     ),
     (
         "id_tes.1148",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "id_tes",
+                "1148",
+            ),
         ),
     ),
     (
@@ -3038,7 +3098,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -3104,7 +3167,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "ret.1090",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ret",
+                "1090",
+            ),
         ),
     ),
     (
@@ -3224,7 +3290,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -3372,7 +3441,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -3480,7 +3552,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "iout.1024",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iout",
+                "1024",
+            ),
         ),
     ),
     (
@@ -3498,7 +3573,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "tes.1037",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tes",
+                "1037",
+            ),
         ),
     ),
     (
@@ -3544,7 +3622,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -3864,7 +3945,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.807",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "807",
+            ),
         ),
     ),
     (
@@ -3926,7 +4010,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -4144,7 +4231,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -4208,7 +4298,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -4378,7 +4471,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -4416,7 +4512,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -4704,7 +4803,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -4742,7 +4844,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -4852,25 +4957,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "sel_scl_tbl.970",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sel_scl_tbl",
+                "970",
+            ),
         ),
     ),
     (
         "non_sel_scl_tbl.971",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "non_sel_scl_tbl",
+                "971",
+            ),
         ),
     ),
     (
         "in_alpha_tbl.972",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "in_alpha_tbl",
+                "972",
+            ),
         ),
     ),
     (
         "out_alpha_tbl.973",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "out_alpha_tbl",
+                "973",
+            ),
         ),
     ),
     (
@@ -4918,43 +5035,64 @@ expression: "demangle_lines(contents, &config)"
     (
         "thumbnail_base_x.1019",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "thumbnail_base_x",
+                "1019",
+            ),
         ),
     ),
     (
         "thumbnail_base_y.1020",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "thumbnail_base_y",
+                "1020",
+            ),
         ),
     ),
     (
         "thumbnail_base_x_tbl.1024",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "thumbnail_base_x_tbl",
+                "1024",
+            ),
         ),
     ),
     (
         "thumbnail_num_y_tbl.1025",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "thumbnail_num_y_tbl",
+                "1025",
+            ),
         ),
     ),
     (
         "album_x_tbl.1035",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_x_tbl",
+                "1035",
+            ),
         ),
     ),
     (
         "album_y_tbl.1036",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_y_tbl",
+                "1036",
+            ),
         ),
     ),
     (
         "album_disp_tbl.1037",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_disp_tbl",
+                "1037",
+            ),
         ),
     ),
     (
@@ -4968,79 +5106,118 @@ expression: "demangle_lines(contents, &config)"
     (
         "album_info_tex_tbl.1041",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_info_tex_tbl",
+                "1041",
+            ),
         ),
     ),
     (
         "album_info_name_tbl.1042",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_info_name_tbl",
+                "1042",
+            ),
         ),
     ),
     (
         "no_tex_tbl.1046",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "no_tex_tbl",
+                "1046",
+            ),
         ),
     ),
     (
         "num_tex_tbl.1050",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "num_tex_tbl",
+                "1050",
+            ),
         ),
     ),
     (
         "item_tex_tbl.1054",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "item_tex_tbl",
+                "1054",
+            ),
         ),
     ),
     (
         "album_frame_tbl.1064",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_frame_tbl",
+                "1064",
+            ),
         ),
     ),
     (
         "album_frame_tbl.1068",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_frame_tbl",
+                "1068",
+            ),
         ),
     ),
     (
         "conf_tex_tbl.1072",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "conf_tex_tbl",
+                "1072",
+            ),
         ),
     ),
     (
         "csr_x_tbl.1073",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "csr_x_tbl",
+                "1073",
+            ),
         ),
     ),
     (
         "flare_x_tbl.1074",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flare_x_tbl",
+                "1074",
+            ),
         ),
     ),
     (
         "menu_item_tbl.1078",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "menu_item_tbl",
+                "1078",
+            ),
         ),
     ),
     (
         "msg_id_tbl.1085",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "1085",
+            ),
         ),
     ),
     (
         "msg_y_tbl.1086",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_y_tbl",
+                "1086",
+            ),
         ),
     ),
     (
@@ -5060,7 +5237,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "album_tex_tbl.1096",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_tex_tbl",
+                "1096",
+            ),
         ),
     ),
     (
@@ -5074,7 +5254,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "album_tex_tbl.1100",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_tex_tbl",
+                "1100",
+            ),
         ),
     ),
     (
@@ -5088,7 +5271,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "album_tex_tbl.1104",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_tex_tbl",
+                "1104",
+            ),
         ),
     ),
     (
@@ -5102,19 +5288,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "album_msg_tbl.1108",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_msg_tbl",
+                "1108",
+            ),
         ),
     ),
     (
         "msg_y_tbl.1109",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_y_tbl",
+                "1109",
+            ),
         ),
     ),
     (
         "msg_id_tbl.1113",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "1113",
+            ),
         ),
     ),
     (
@@ -5128,7 +5323,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "album_tex_tbl.1117",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_tex_tbl",
+                "1117",
+            ),
         ),
     ),
     (
@@ -5142,7 +5340,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "album_tex_tbl.1121",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "album_tex_tbl",
+                "1121",
+            ),
         ),
     ),
     (
@@ -5156,7 +5357,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -5630,13 +5834,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "thumbnail_x_tbl.1099",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "thumbnail_x_tbl",
+                "1099",
+            ),
         ),
     ),
     (
         "thumbnail_y_tbl.1100",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "thumbnail_y_tbl",
+                "1100",
+            ),
         ),
     ),
     (
@@ -5662,7 +5872,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "menu_item_x.1113",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "menu_item_x",
+                "1113",
+            ),
         ),
     ),
     (
@@ -5680,7 +5893,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "sort_x_tbl.1126",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sort_x_tbl",
+                "1126",
+            ),
         ),
     ),
     (
@@ -5694,7 +5910,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -6090,7 +6309,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -6550,7 +6772,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -6728,7 +6953,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "num_tex_tbl.1009",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "num_tex_tbl",
+                "1009",
+            ),
         ),
     ),
     (
@@ -6794,7 +7022,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "frame_tex_tbl.1013",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "frame_tex_tbl",
+                "1013",
+            ),
         ),
     ),
     (
@@ -6808,7 +7039,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "type_tex_tbl.1020",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "type_tex_tbl",
+                "1020",
+            ),
         ),
     ),
     (
@@ -6822,7 +7056,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "type_tex_tbl.1024",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "type_tex_tbl",
+                "1024",
+            ),
         ),
     ),
     (
@@ -6840,25 +7077,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "protect_x_tbl.1034",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "protect_x_tbl",
+                "1034",
+            ),
         ),
     ),
     (
         "protect_y_tbl.1035",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "protect_y_tbl",
+                "1035",
+            ),
         ),
     ),
     (
         "protect_x_tbl.1039",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "protect_x_tbl",
+                "1039",
+            ),
         ),
     ),
     (
         "protect_y_tbl.1040",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "protect_y_tbl",
+                "1040",
+            ),
         ),
     ),
     (
@@ -6894,7 +7143,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -6932,7 +7184,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -7112,7 +7367,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -7250,7 +7508,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -7394,7 +7655,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -7512,7 +7776,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -7558,7 +7825,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -7676,7 +7946,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.616",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "616",
+            ),
         ),
     ),
     (
@@ -7874,7 +8147,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -8062,7 +8338,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -8346,7 +8625,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -8544,7 +8826,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -8656,7 +8941,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id_tbl.985",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "985",
+            ),
         ),
     ),
     (
@@ -8680,13 +8968,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_y_tbl.992",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_y_tbl",
+                "992",
+            ),
         ),
     ),
     (
         "msg_id_tbl.993",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "993",
+            ),
         ),
     ),
     (
@@ -8748,31 +9042,46 @@ expression: "demangle_lines(contents, &config)"
     (
         "out_header.21",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "out_header",
+                "21",
+            ),
         ),
     ),
     (
         "sheader.22",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sheader",
+                "22",
+            ),
         ),
     ),
     (
         "top.23",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "top",
+                "23",
+            ),
         ),
     ),
     (
         "bit_file.24",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "bit_file",
+                "24",
+            ),
         ),
     ),
     (
         "output.25",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "output",
+                "25",
+            ),
         ),
     ),
     (
@@ -8926,7 +9235,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -9038,7 +9350,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -9164,7 +9479,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -9280,19 +9598,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "env.1363",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "env",
+                "1363",
+            ),
         ),
     ),
     (
         "iNoVoiceCnt.1472",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iNoVoiceCnt",
+                "1472",
+            ),
         ),
     ),
     (
         "mFlgOpen.1473",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "mFlgOpen",
+                "1473",
+            ),
         ),
     ),
     (
@@ -9318,7 +9645,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -9482,7 +9812,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "s_dmaVif1.c",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "s_dmaVif1",
+                "c",
+            ),
         ),
     ),
     (
@@ -9612,7 +9945,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -10010,7 +10346,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -10424,7 +10763,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -10542,7 +10884,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -10614,25 +10959,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "BlurAlpha.991",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "BlurAlpha",
+                "991",
+            ),
         ),
     ),
     (
         "NegaAlpha2.992",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "NegaAlpha2",
+                "992",
+            ),
         ),
     ),
     (
         "BlurAlpha.996",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "BlurAlpha",
+                "996",
+            ),
         ),
     ),
     (
         "NegaAlpha2.997",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "NegaAlpha2",
+                "997",
+            ),
         ),
     ),
     (
@@ -10832,7 +11189,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "efzsort.1118",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "efzsort",
+                "1118",
+            ),
         ),
     ),
     (
@@ -10852,7 +11212,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "efzsort.1132",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "efzsort",
+                "1132",
+            ),
         ),
     ),
     (
@@ -10972,7 +11335,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -11200,7 +11566,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -11266,7 +11635,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "work.997",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "work",
+                "997",
+            ),
         ),
     ),
     (
@@ -11292,13 +11664,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "camdat.1007",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "camdat",
+                "1007",
+            ),
         ),
     ),
     (
         "rgb.1009",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rgb",
+                "1009",
+            ),
         ),
     ),
     (
@@ -11322,7 +11700,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "bpos1.1118",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "bpos1",
+                "1118",
+            ),
         ),
     ),
     (
@@ -11388,13 +11769,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "HitDamegeCol.1197",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "HitDamegeCol",
+                "1197",
+            ),
         ),
     ),
     (
         "EffectEndCol.1198",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "EffectEndCol",
+                "1198",
+            ),
         ),
     ),
     (
@@ -11758,7 +12145,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -11922,13 +12312,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "env.1030",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "env",
+                "1030",
+            ),
         ),
     ),
     (
         "DoorSealEnv.1031",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "DoorSealEnv",
+                "1031",
+            ),
         ),
     ),
     (
@@ -11978,25 +12374,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "r2.1068",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "r2",
+                "1068",
+            ),
         ),
     ),
     (
         "renz.1069",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "renz",
+                "1069",
+            ),
         ),
     ),
     (
         "passflg.1070",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "passflg",
+                "1070",
+            ),
         ),
     ),
     (
         "passcnt.1072",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "passcnt",
+                "1072",
+            ),
         ),
     ),
     (
@@ -12076,7 +12484,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "pefi_once.1133",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "pefi_once",
+                "1133",
+            ),
         ),
     ),
     (
@@ -12106,13 +12517,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "f1bk.1183",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "f1bk",
+                "1183",
+            ),
         ),
     ),
     (
         "gs_simage1.1184",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "gs_simage1",
+                "1184",
+            ),
         ),
     ),
     (
@@ -12208,7 +12625,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "SePosition.1260",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "SePosition",
+                "1260",
+            ),
         ),
     ),
     (
@@ -12308,7 +12728,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -12520,13 +12943,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "rate.994",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "994",
+            ),
         ),
     ),
     (
         "RandVal.1004",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "RandVal",
+                "1004",
+            ),
         ),
     ),
     (
@@ -12592,19 +13021,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "rnbk.1098",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rnbk",
+                "1098",
+            ),
         ),
     ),
     (
         "scw.1099",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "scw",
+                "1099",
+            ),
         ),
     ),
     (
         "sch.1100",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sch",
+                "1100",
+            ),
         ),
     ),
     (
@@ -12628,13 +13066,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "pcnt1.1134",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "pcnt1",
+                "1134",
+            ),
         ),
     ),
     (
         "pcnt2.1135",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "pcnt2",
+                "1135",
+            ),
         ),
     ),
     (
@@ -12742,13 +13186,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "DoorSealCameraPos.1388",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "DoorSealCameraPos",
+                "1388",
+            ),
         ),
     ),
     (
         "DoorSealCameraTgt.1389",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "DoorSealCameraTgt",
+                "1389",
+            ),
         ),
     ),
     (
@@ -12772,7 +13222,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "DrawEnv.1399",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "DrawEnv",
+                "1399",
+            ),
         ),
     ),
     (
@@ -12806,7 +13259,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -12942,7 +13398,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -13222,7 +13681,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -13298,7 +13760,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -13492,91 +13957,136 @@ expression: "demangle_lines(contents, &config)"
     (
         "r.1066",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "r",
+                "1066",
+            ),
         ),
     ),
     (
         "add.1067",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "add",
+                "1067",
+            ),
         ),
     ),
     (
         "swch.1068",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "swch",
+                "1068",
+            ),
         ),
     ),
     (
         "rrr.1072",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rrr",
+                "1072",
+            ),
         ),
     ),
     (
         "lll.1073",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "lll",
+                "1073",
+            ),
         ),
     ),
     (
         "mm1.1074",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "mm1",
+                "1074",
+            ),
         ),
     ),
     (
         "mm2.1075",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "mm2",
+                "1075",
+            ),
         ),
     ),
     (
         "sss.1076",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sss",
+                "1076",
+            ),
         ),
     ),
     (
         "ccc.1077",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ccc",
+                "1077",
+            ),
         ),
     ),
     (
         "r.1078",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "r",
+                "1078",
+            ),
         ),
     ),
     (
         "add.1079",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "add",
+                "1079",
+            ),
         ),
     ),
     (
         "swch.1080",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "swch",
+                "1080",
+            ),
         ),
     ),
     (
         "r.1084",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "r",
+                "1084",
+            ),
         ),
     ),
     (
         "add.1085",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "add",
+                "1085",
+            ),
         ),
     ),
     (
         "swch.1086",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "swch",
+                "1086",
+            ),
         ),
     ),
     (
@@ -13588,61 +14098,91 @@ expression: "demangle_lines(contents, &config)"
     (
         "r.1090",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "r",
+                "1090",
+            ),
         ),
     ),
     (
         "add.1091",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "add",
+                "1091",
+            ),
         ),
     ),
     (
         "r.1095",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "r",
+                "1095",
+            ),
         ),
     ),
     (
         "add.1096",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "add",
+                "1096",
+            ),
         ),
     ),
     (
         "r.1100",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "r",
+                "1100",
+            ),
         ),
     ),
     (
         "add.1101",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "add",
+                "1101",
+            ),
         ),
     ),
     (
         "cx.1129",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cx",
+                "1129",
+            ),
         ),
     ),
     (
         "cy.1130",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cy",
+                "1130",
+            ),
         ),
     ),
     (
         "cz.1131",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cz",
+                "1131",
+            ),
         ),
     ),
     (
         "alp.1132",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "alp",
+                "1132",
+            ),
         ),
     ),
     (
@@ -13654,43 +14194,64 @@ expression: "demangle_lines(contents, &config)"
     (
         "gs_limage1.1142",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "gs_limage1",
+                "1142",
+            ),
         ),
     ),
     (
         "gs_limage2.1143",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "gs_limage2",
+                "1143",
+            ),
         ),
     ),
     (
         "old_cam_i.1147",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "old_cam_i",
+                "1147",
+            ),
         ),
     ),
     (
         "cnf.1148",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnf",
+                "1148",
+            ),
         ),
     ),
     (
         "cx.1149",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cx",
+                "1149",
+            ),
         ),
     ),
     (
         "cy.1150",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cy",
+                "1150",
+            ),
         ),
     ),
     (
         "fl.1151",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "fl",
+                "1151",
+            ),
         ),
     ),
     (
@@ -13702,31 +14263,46 @@ expression: "demangle_lines(contents, &config)"
     (
         "old_cam_i.1161",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "old_cam_i",
+                "1161",
+            ),
         ),
     ),
     (
         "cnf.1162",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnf",
+                "1162",
+            ),
         ),
     ),
     (
         "cx.1163",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cx",
+                "1163",
+            ),
         ),
     ),
     (
         "cy.1164",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cy",
+                "1164",
+            ),
         ),
     ),
     (
         "fl.1165",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "fl",
+                "1165",
+            ),
         ),
     ),
     (
@@ -13778,7 +14354,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -13816,7 +14395,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "env.746",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "env",
+                "746",
+            ),
         ),
     ),
     (
@@ -13830,7 +14412,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -13964,37 +14549,55 @@ expression: "demangle_lines(contents, &config)"
     (
         "twoby.1000",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "twoby",
+                "1000",
+            ),
         ),
     ),
     (
         "gs_simage.1016",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "gs_simage",
+                "1016",
+            ),
         ),
     ),
     (
         "gs_simage1.1053",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "gs_simage1",
+                "1053",
+            ),
         ),
     ),
     (
         "gs_limage1.1057",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "gs_limage1",
+                "1057",
+            ),
         ),
     ),
     (
         "gs_simage1.1061",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "gs_simage1",
+                "1061",
+            ),
         ),
     ),
     (
         "gs_simage2.1062",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "gs_simage2",
+                "1062",
+            ),
         ),
     ),
     (
@@ -14208,7 +14811,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -14362,7 +14968,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -14480,7 +15089,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -14598,7 +15210,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -14764,7 +15379,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -15296,7 +15914,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "no.1492",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "no",
+                "1492",
+            ),
         ),
     ),
     (
@@ -15324,7 +15945,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -15440,61 +16064,91 @@ expression: "demangle_lines(contents, &config)"
     (
         "time.1057",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1057",
+            ),
         ),
     ),
     (
         "trot.1058",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "trot",
+                "1058",
+            ),
         ),
     ),
     (
         "time.1074",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1074",
+            ),
         ),
     ),
     (
         "max.1075",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "max",
+                "1075",
+            ),
         ),
     ),
     (
         "time.1079",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1079",
+            ),
         ),
     ),
     (
         "max.1080",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "max",
+                "1080",
+            ),
         ),
     ),
     (
         "time.1102",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1102",
+            ),
         ),
     ),
     (
         "max.1103",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "max",
+                "1103",
+            ),
         ),
     ),
     (
         "max.1107",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "max",
+                "1107",
+            ),
         ),
     ),
     (
         "loop.1108",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "loop",
+                "1108",
+            ),
         ),
     ),
     (
@@ -15508,109 +16162,163 @@ expression: "demangle_lines(contents, &config)"
     (
         "time.1139",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1139",
+            ),
         ),
     ),
     (
         "max.1140",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "max",
+                "1140",
+            ),
         ),
     ),
     (
         "max.1144",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "max",
+                "1144",
+            ),
         ),
     ),
     (
         "loop.1145",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "loop",
+                "1145",
+            ),
         ),
     ),
     (
         "time.1149",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1149",
+            ),
         ),
     ),
     (
         "max.1150",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "max",
+                "1150",
+            ),
         ),
     ),
     (
         "max.1154",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "max",
+                "1154",
+            ),
         ),
     ),
     (
         "loop.1155",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "loop",
+                "1155",
+            ),
         ),
     ),
     (
         "time.1171",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1171",
+            ),
         ),
     ),
     (
         "max.1172",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "max",
+                "1172",
+            ),
         ),
     ),
     (
         "time.1227",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1227",
+            ),
         ),
     ),
     (
         "time.1231",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1231",
+            ),
         ),
     ),
     (
         "cnt.1262",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnt",
+                "1262",
+            ),
         ),
     ),
     (
         "cnt.1266",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnt",
+                "1266",
+            ),
         ),
     ),
     (
         "turn.1279",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "turn",
+                "1279",
+            ),
         ),
     ),
     (
         "time.1280",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1280",
+            ),
         ),
     ),
     (
         "tr_rate_save.1290",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tr_rate_save",
+                "1290",
+            ),
         ),
     ),
     (
         "cnt.1294",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnt",
+                "1294",
+            ),
         ),
     ),
     (
@@ -15622,25 +16330,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "pos.1406",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "pos",
+                "1406",
+            ),
         ),
     ),
     (
         "fper.1458",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "fper",
+                "1458",
+            ),
         ),
     ),
     (
         "WaveSpeed.1486",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "WaveSpeed",
+                "1486",
+            ),
         ),
     ),
     (
         "WaveRate.1487",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "WaveRate",
+                "1487",
+            ),
         ),
     ),
     (
@@ -15654,7 +16374,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -15728,7 +16451,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -15934,7 +16660,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -15972,7 +16701,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -16250,7 +16982,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -16302,7 +17037,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -16440,7 +17178,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -16534,7 +17275,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -16652,7 +17396,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -16778,7 +17525,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.1047",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "1047",
+            ),
         ),
     ),
     (
@@ -18696,7 +19446,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -18916,7 +19669,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -19408,7 +20164,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -19560,7 +20319,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -19648,7 +20410,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -19854,7 +20619,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -19906,7 +20674,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -20074,7 +20845,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -20342,7 +21116,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -20514,7 +21291,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -20632,7 +21412,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -20772,7 +21555,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "file_id_max.689",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "file_id_max",
+                "689",
+            ),
         ),
     ),
     (
@@ -20814,7 +21600,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -20852,7 +21641,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -20982,7 +21774,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -21216,7 +22011,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -21270,13 +22068,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "time.1096",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "time",
+                "1096",
+            ),
         ),
     ),
     (
         "flag.1097",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flag",
+                "1097",
+            ),
         ),
     ),
     (
@@ -21290,7 +22094,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -21476,7 +22283,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -21646,19 +22456,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "ilight.1093",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ilight",
+                "1093",
+            ),
         ),
     ),
     (
         "slight.1095",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "slight",
+                "1095",
+            ),
         ),
     ),
     (
         "plight.1097",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "plight",
+                "1097",
+            ),
         ),
     ),
     (
@@ -21686,7 +22505,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -21842,7 +22664,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -21984,7 +22809,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -22046,7 +22874,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "perf_max.105",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "perf_max",
+                "105",
+            ),
         ),
     ),
     (
@@ -22140,7 +22971,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -22178,7 +23012,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "scpw.997",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "scpw",
+                "997",
+            ),
         ),
     ),
     (
@@ -22192,7 +23029,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -23524,7 +24364,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "s_pMPGOld.676",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "s_pMPGOld",
+                "676",
+            ),
         ),
     ),
     (
@@ -23536,7 +24379,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "s_qwVif1Code_ContinueVu1MicroSubroutine.683",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "s_qwVif1Code_ContinueVu1MicroSubroutine",
+                "683",
+            ),
         ),
     ),
     (
@@ -23702,7 +24548,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "init_mp3.586",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "init_mp3",
+                "586",
+            ),
         ),
     ),
     (
@@ -23812,7 +24661,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "bOnce.801",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "bOnce",
+                "801",
+            ),
         ),
     ),
     (
@@ -23922,7 +24774,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.825",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "825",
+            ),
         ),
     ),
     (
@@ -24352,7 +25207,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -24538,7 +25396,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -24698,7 +25559,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -25068,7 +25932,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "save_file_label.1066",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "save_file_label",
+                "1066",
+            ),
         ),
     ),
     (
@@ -25108,7 +25975,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "save_file_label.1125",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "save_file_label",
+                "1125",
+            ),
         ),
     ),
     (
@@ -25228,7 +26098,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -25388,7 +26261,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -25628,13 +26504,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "difficulty_tex_tbl.1129",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "difficulty_tex_tbl",
+                "1129",
+            ),
         ),
     ),
     (
         "rank_tex_tbl.1139",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rank_tex_tbl",
+                "1139",
+            ),
         ),
     ),
     (
@@ -25742,7 +26624,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -25802,7 +26687,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "fade_alpha_tbl.988",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "fade_alpha_tbl",
+                "988",
+            ),
         ),
     ),
     (
@@ -25816,7 +26704,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -26008,7 +26899,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -26364,7 +27258,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -26476,7 +27373,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id_tbl.985",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "985",
+            ),
         ),
     ),
     (
@@ -26500,7 +27400,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id_tbl.992",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "992",
+            ),
         ),
     ),
     (
@@ -26514,7 +27417,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -26724,7 +27630,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.906",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "906",
+            ),
         ),
     ),
     (
@@ -27204,7 +28113,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "s_aSRPair.1687",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "s_aSRPair",
+                "1687",
+            ),
         ),
     ),
     (
@@ -27216,7 +28128,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "s_aGRPair.1691",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "s_aGRPair",
+                "1691",
+            ),
         ),
     ),
     (
@@ -27228,7 +28143,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "lRet.1701",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "lRet",
+                "1701",
+            ),
         ),
     ),
     (
@@ -27270,19 +28188,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "obj.1819",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "obj",
+                "1819",
+            ),
         ),
     ),
     (
         "obj.1823",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "obj",
+                "1823",
+            ),
         ),
     ),
     (
         "obj.1827",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "obj",
+                "1827",
+            ),
         ),
     ),
     (
@@ -27316,7 +28243,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -27538,7 +28468,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.690",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "690",
+            ),
         ),
     ),
     (
@@ -27670,7 +28603,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -27818,7 +28754,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -28022,7 +28961,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -28174,13 +29116,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "old_tag_buf.928",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "old_tag_buf",
+                "928",
+            ),
         ),
     ),
     (
         "s_pMatOld.929",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "s_pMatOld",
+                "929",
+            ),
         ),
     ),
     (
@@ -28252,7 +29200,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "s_iWriteSize.969",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "s_iWriteSize",
+                "969",
+            ),
         ),
     ),
     (
@@ -28302,19 +29253,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "iCount_GRA3DDL.988",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iCount_GRA3DDL",
+                "988",
+            ),
         ),
     ),
     (
         "iCount_GRA3DPL.989",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iCount_GRA3DPL",
+                "989",
+            ),
         ),
     ),
     (
         "iCount_GRA3DSL.990",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iCount_GRA3DSL",
+                "990",
+            ),
         ),
     ),
     (
@@ -28628,7 +29588,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -28814,7 +29777,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.595",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "595",
+            ),
         ),
     ),
     (
@@ -28978,7 +29944,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "shadowtex.1015",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shadowtex",
+                "1015",
+            ),
         ),
     ),
     (
@@ -28990,13 +29959,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "clipmtx.1022",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "clipmtx",
+                "1022",
+            ),
         ),
     ),
     (
         "boundline.1023",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "boundline",
+                "1023",
+            ),
         ),
     ),
     (
@@ -29346,7 +30321,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.711",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "711",
+            ),
         ),
     ),
     (
@@ -29498,7 +30476,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.690",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "690",
+            ),
         ),
     ),
     (
@@ -29616,7 +30597,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -29688,7 +30672,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -30000,13 +30987,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "in_alpha_tbl.1024",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "in_alpha_tbl",
+                "1024",
+            ),
         ),
     ),
     (
         "out_alpha_tbl.1025",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "out_alpha_tbl",
+                "1025",
+            ),
         ),
     ),
     (
@@ -30042,13 +31035,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "flea_rgb_tbl.1047",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flea_rgb_tbl",
+                "1047",
+            ),
         ),
     ),
     (
         "scale_tbl.1051",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "scale_tbl",
+                "1051",
+            ),
         ),
     ),
     (
@@ -30066,19 +31065,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "flea_rgb_tbl.1055",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flea_rgb_tbl",
+                "1055",
+            ),
         ),
     ),
     (
         "scale_tbl.1059",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "scale_tbl",
+                "1059",
+            ),
         ),
     ),
     (
         "smoke_alpha_tbl.1066",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "smoke_alpha_tbl",
+                "1066",
+            ),
         ),
     ),
     (
@@ -30098,13 +31106,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "num_alpha_tbl.1082",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "num_alpha_tbl",
+                "1082",
+            ),
         ),
     ),
     (
         "num_alpha_tbl_pal.1083",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "num_alpha_tbl_pal",
+                "1083",
+            ),
         ),
     ),
     (
@@ -30116,7 +31130,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "hina_out_alpha.1090",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "hina_out_alpha",
+                "1090",
+            ),
         ),
     ),
     (
@@ -30134,7 +31151,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "scale_tbl.1109",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "scale_tbl",
+                "1109",
+            ),
         ),
     ),
     (
@@ -30162,7 +31182,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.697",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "697",
+            ),
         ),
     ),
     (
@@ -30286,7 +31309,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -30498,7 +31524,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.735",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "735",
+            ),
         ),
     ),
     (
@@ -30582,13 +31611,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "spd.1156",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "spd",
+                "1156",
+            ),
         ),
     ),
     (
         "rate.1157",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "1157",
+            ),
         ),
     ),
     (
@@ -30600,13 +31635,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "spd.1161",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "spd",
+                "1161",
+            ),
         ),
     ),
     (
         "rate.1162",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "1162",
+            ),
         ),
     ),
     (
@@ -30618,13 +31659,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "spd.1166",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "spd",
+                "1166",
+            ),
         ),
     ),
     (
         "rate.1167",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "1167",
+            ),
         ),
     ),
     (
@@ -30636,13 +31683,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "spd.1171",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "spd",
+                "1171",
+            ),
         ),
     ),
     (
         "rate.1172",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "1172",
+            ),
         ),
     ),
     (
@@ -30654,13 +31707,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "spd.1176",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "spd",
+                "1176",
+            ),
         ),
     ),
     (
         "rate.1177",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "1177",
+            ),
         ),
     ),
     (
@@ -30672,13 +31731,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "spd.1181",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "spd",
+                "1181",
+            ),
         ),
     ),
     (
         "rate.1182",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "1182",
+            ),
         ),
     ),
     (
@@ -30690,13 +31755,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "spd.1186",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "spd",
+                "1186",
+            ),
         ),
     ),
     (
         "rate.1187",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "1187",
+            ),
         ),
     ),
     (
@@ -30708,13 +31779,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "spd.1191",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "spd",
+                "1191",
+            ),
         ),
     ),
     (
         "rate.1192",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "1192",
+            ),
         ),
     ),
     (
@@ -30726,13 +31803,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "spd.1196",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "spd",
+                "1196",
+            ),
         ),
     ),
     (
         "rate.1197",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rate",
+                "1197",
+            ),
         ),
     ),
     (
@@ -30750,7 +31833,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "DrawEnv.1258",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "DrawEnv",
+                "1258",
+            ),
         ),
     ),
     (
@@ -30778,7 +31864,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -31020,7 +32109,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -31058,7 +32150,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -31096,7 +32191,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -31344,7 +32442,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "pos_x.1033",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "pos_x",
+                "1033",
+            ),
         ),
     ),
     (
@@ -31370,7 +32471,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -31582,7 +32686,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "panel_item_tbl.979",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "panel_item_tbl",
+                "979",
+            ),
         ),
     ),
     (
@@ -31680,7 +32787,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "kaza_out_alpha.1034",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "kaza_out_alpha",
+                "1034",
+            ),
         ),
     ),
     (
@@ -31760,13 +32870,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "in_alpha_tbl.1044",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "in_alpha_tbl",
+                "1044",
+            ),
         ),
     ),
     (
         "out_alpha_tbl.1045",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "out_alpha_tbl",
+                "1045",
+            ),
         ),
     ),
     (
@@ -31828,7 +32944,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "shadow_tex_tbl.1067",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shadow_tex_tbl",
+                "1067",
+            ),
         ),
     ),
     (
@@ -31840,7 +32959,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "rot_anim_tbl.1074",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rot_anim_tbl",
+                "1074",
+            ),
         ),
     ),
     (
@@ -31854,7 +32976,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "panel_tex_tbl.1078",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "panel_tex_tbl",
+                "1078",
+            ),
         ),
     ),
     (
@@ -31868,19 +32993,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "emboss_tbl.1085",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "emboss_tbl",
+                "1085",
+            ),
         ),
     ),
     (
         "emboss_tbl.1092",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "emboss_tbl",
+                "1092",
+            ),
         ),
     ),
     (
         "flare_tex_tbl.1096",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flare_tex_tbl",
+                "1096",
+            ),
         ),
     ),
     (
@@ -31892,7 +33026,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "flare_rgb_tbl.1100",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flare_rgb_tbl",
+                "1100",
+            ),
         ),
     ),
     (
@@ -31906,13 +33043,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "num_tex_tbl.1110",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "num_tex_tbl",
+                "1110",
+            ),
         ),
     ),
     (
         "num_tex_tbl_s.1111",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "num_tex_tbl_s",
+                "1111",
+            ),
         ),
     ),
     (
@@ -31946,7 +33089,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -32232,7 +33378,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "kaza_out_alpha.1027",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "kaza_out_alpha",
+                "1027",
+            ),
         ),
     ),
     (
@@ -32312,13 +33461,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "in_alpha_tbl.1037",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "in_alpha_tbl",
+                "1037",
+            ),
         ),
     ),
     (
         "out_alpha_tbl.1038",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "out_alpha_tbl",
+                "1038",
+            ),
         ),
     ),
     (
@@ -32356,7 +33511,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "shadow_tex_tbl.1057",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shadow_tex_tbl",
+                "1057",
+            ),
         ),
     ),
     (
@@ -32374,7 +33532,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "rot_anim_tbl.1064",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rot_anim_tbl",
+                "1064",
+            ),
         ),
     ),
     (
@@ -32388,7 +33549,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "panel_tex_tbl.1068",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "panel_tex_tbl",
+                "1068",
+            ),
         ),
     ),
     (
@@ -32408,7 +33572,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "emboss_tbl.1075",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "emboss_tbl",
+                "1075",
+            ),
         ),
     ),
     (
@@ -32420,13 +33587,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "emboss_tbl.1082",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "emboss_tbl",
+                "1082",
+            ),
         ),
     ),
     (
         "flare_tex_tbl.1086",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flare_tex_tbl",
+                "1086",
+            ),
         ),
     ),
     (
@@ -32438,7 +33611,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "flare_rgb_tbl.1090",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flare_rgb_tbl",
+                "1090",
+            ),
         ),
     ),
     (
@@ -32452,13 +33628,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "num_tex_tbl.1100",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "num_tex_tbl",
+                "1100",
+            ),
         ),
     ),
     (
         "num_tex_tbl_s.1101",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "num_tex_tbl_s",
+                "1101",
+            ),
         ),
     ),
     (
@@ -32572,7 +33754,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -32772,7 +33957,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -32888,19 +34076,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "tex_label_tbl.979",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tex_label_tbl",
+                "979",
+            ),
         ),
     ),
     (
         "flare_tex_tbl.983",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flare_tex_tbl",
+                "983",
+            ),
         ),
     ),
     (
         "tex_label_tbl.987",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tex_label_tbl",
+                "987",
+            ),
         ),
     ),
     (
@@ -32994,7 +34191,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -33126,7 +34326,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -33444,7 +34647,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -33524,7 +34730,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "alpha_tbl.985",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "alpha_tbl",
+                "985",
+            ),
         ),
     ),
     (
@@ -33538,7 +34747,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -33718,7 +34930,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.786",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "786",
+            ),
         ),
     ),
     (
@@ -33850,7 +35065,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -33934,7 +35152,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -34060,7 +35281,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -34246,7 +35470,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -34442,7 +35669,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "Offset.1090",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "Offset",
+                "1090",
+            ),
         ),
     ),
     (
@@ -34536,7 +35766,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.807",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "807",
+            ),
         ),
     ),
     (
@@ -34730,7 +35963,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -35198,7 +36434,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -35320,7 +36559,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -35480,7 +36722,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -35518,7 +36763,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -35628,7 +36876,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "cnt.967",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnt",
+                "967",
+            ),
         ),
     ),
     (
@@ -35670,7 +36921,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -35872,109 +37126,163 @@ expression: "demangle_lines(contents, &config)"
     (
         "shoji_tbl.132",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shoji_tbl",
+                "132",
+            ),
         ),
     ),
     (
         "shouji_x_tbl.133",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shouji_x_tbl",
+                "133",
+            ),
         ),
     ),
     (
         "shouji_alpha_tbl.134",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shouji_alpha_tbl",
+                "134",
+            ),
         ),
     ),
     (
         "shoji_tbl.138",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shoji_tbl",
+                "138",
+            ),
         ),
     ),
     (
         "shouji_x_tbl.139",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shouji_x_tbl",
+                "139",
+            ),
         ),
     ),
     (
         "shouji_alpha_tbl.140",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shouji_alpha_tbl",
+                "140",
+            ),
         ),
     ),
     (
         "moyou1_x_tbl.144",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou1_x_tbl",
+                "144",
+            ),
         ),
     ),
     (
         "moyou2_x_tbl.145",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou2_x_tbl",
+                "145",
+            ),
         ),
     ),
     (
         "moyou1_alpha_tbl.146",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou1_alpha_tbl",
+                "146",
+            ),
         ),
     ),
     (
         "moyou2_alpha_tbl.147",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou2_alpha_tbl",
+                "147",
+            ),
         ),
     ),
     (
         "shdw_alpha_tbl.148",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shdw_alpha_tbl",
+                "148",
+            ),
         ),
     ),
     (
         "flea_alpha_tbl.149",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flea_alpha_tbl",
+                "149",
+            ),
         ),
     ),
     (
         "bg_alpha_tbl.150",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "bg_alpha_tbl",
+                "150",
+            ),
         ),
     ),
     (
         "shadow_x_tbl.154",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shadow_x_tbl",
+                "154",
+            ),
         ),
     ),
     (
         "shadow_alpha_tbl.155",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shadow_alpha_tbl",
+                "155",
+            ),
         ),
     ),
     (
         "shadow_x_tbl.159",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shadow_x_tbl",
+                "159",
+            ),
         ),
     ),
     (
         "shadow_alpha_tbl.160",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shadow_alpha_tbl",
+                "160",
+            ),
         ),
     ),
     (
         "wall_alpha_tbl.164",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "wall_alpha_tbl",
+                "164",
+            ),
         ),
     ),
     (
@@ -35996,7 +37304,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -36438,7 +37749,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id.1180",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id",
+                "1180",
+            ),
         ),
     ),
     (
@@ -36704,7 +38018,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "base_tex_tbl.1259",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "base_tex_tbl",
+                "1259",
+            ),
         ),
     ),
     (
@@ -36740,7 +38057,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "frame_tex_tbl.1309",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "frame_tex_tbl",
+                "1309",
+            ),
         ),
     ),
     (
@@ -36760,37 +38080,55 @@ expression: "demangle_lines(contents, &config)"
     (
         "lens_name_tbl.1316",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "lens_name_tbl",
+                "1316",
+            ),
         ),
     ),
     (
         "top_gem_anim_tbl.1348",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "top_gem_anim_tbl",
+                "1348",
+            ),
         ),
     ),
     (
         "blue_flare_alpha_anim_tbl.1349",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "blue_flare_alpha_anim_tbl",
+                "1349",
+            ),
         ),
     ),
     (
         "blue_flare_scl_anim_tbl.1350",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "blue_flare_scl_anim_tbl",
+                "1350",
+            ),
         ),
     ),
     (
         "yellow_flare_alpha_anim_tbl.1351",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "yellow_flare_alpha_anim_tbl",
+                "1351",
+            ),
         ),
     ),
     (
         "under_gem_anim_tbl.1352",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "under_gem_anim_tbl",
+                "1352",
+            ),
         ),
     ),
     (
@@ -36898,7 +38236,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -37038,7 +38379,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "lens_tbl.1147",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "lens_tbl",
+                "1147",
+            ),
         ),
     ),
     (
@@ -37074,7 +38418,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "add_tbl.1167",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "add_tbl",
+                "1167",
+            ),
         ),
     ),
     (
@@ -37096,13 +38443,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "parts_tbl.1181",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "parts_tbl",
+                "1181",
+            ),
         ),
     ),
     (
         "non_parts_tbl.1183",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "non_parts_tbl",
+                "1183",
+            ),
         ),
     ),
     (
@@ -37196,7 +38549,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.858",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "858",
+            ),
         ),
     ),
     (
@@ -37366,7 +38722,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id.1129",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id",
+                "1129",
+            ),
         ),
     ),
     (
@@ -37378,7 +38737,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "film_msg_tbl.1133",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "film_msg_tbl",
+                "1133",
+            ),
         ),
     ),
     (
@@ -37396,7 +38758,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id.1137",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id",
+                "1137",
+            ),
         ),
     ),
     (
@@ -37408,7 +38773,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id.1141",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id",
+                "1141",
+            ),
         ),
     ),
     (
@@ -37504,13 +38872,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "base_tex_tbl.1157",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "base_tex_tbl",
+                "1157",
+            ),
         ),
     ),
     (
         "line_tex_tbl.1170",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "line_tex_tbl",
+                "1170",
+            ),
         ),
     ),
     (
@@ -37628,7 +39002,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -37722,13 +39099,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "cross_fade_in.1006",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cross_fade_in",
+                "1006",
+            ),
         ),
     ),
     (
         "cross_fade_out.1007",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cross_fade_out",
+                "1007",
+            ),
         ),
     ),
     (
@@ -37764,7 +39147,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "rgb_tbl.1044",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rgb_tbl",
+                "1044",
+            ),
         ),
     ),
     (
@@ -37858,7 +39244,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -37920,7 +39309,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "hp_tex_tbl.1078",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "hp_tex_tbl",
+                "1078",
+            ),
         ),
     ),
     (
@@ -37932,19 +39324,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "lens_tbl.1091",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "lens_tbl",
+                "1091",
+            ),
         ),
     ),
     (
         "film_tex.1095",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "film_tex",
+                "1095",
+            ),
         ),
     ),
     (
         "film_num_tex.1096",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "film_num_tex",
+                "1096",
+            ),
         ),
     ),
     (
@@ -37978,7 +39379,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -38582,31 +39986,46 @@ expression: "demangle_lines(contents, &config)"
     (
         "frame_tbl.1156",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "frame_tbl",
+                "1156",
+            ),
         ),
     ),
     (
         "arrow_tbl.1160",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "arrow_tbl",
+                "1160",
+            ),
         ),
     ),
     (
         "shadow_tbl.1161",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "shadow_tbl",
+                "1161",
+            ),
         ),
     ),
     (
         "off_x_tbl.1162",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "off_x_tbl",
+                "1162",
+            ),
         ),
     ),
     (
         "off_y_tbl.1163",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "off_y_tbl",
+                "1163",
+            ),
         ),
     ),
     (
@@ -38714,7 +40133,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -38928,13 +40350,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "item_sel_on.1039",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "item_sel_on",
+                "1039",
+            ),
         ),
     ),
     (
         "item_sel_off.1040",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "item_sel_off",
+                "1040",
+            ),
         ),
     ),
     (
@@ -38946,7 +40374,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "item_doc_tex.1044",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "item_doc_tex",
+                "1044",
+            ),
         ),
     ),
     (
@@ -39054,7 +40485,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -39434,13 +40868,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "csr_in_alpha_tbl.1093",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "csr_in_alpha_tbl",
+                "1093",
+            ),
         ),
     ),
     (
         "csr_loop_alpha_tbl.1094",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "csr_loop_alpha_tbl",
+                "1094",
+            ),
         ),
     ),
     (
@@ -39548,7 +40988,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -39716,19 +41159,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "memo_first_tbl.1006",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "memo_first_tbl",
+                "1006",
+            ),
         ),
     ),
     (
         "memo_second_tbl.1007",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "memo_second_tbl",
+                "1007",
+            ),
         ),
     ),
     (
         "color_type_tbl.1008",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "color_type_tbl",
+                "1008",
+            ),
         ),
     ),
     (
@@ -39792,7 +41244,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -40090,73 +41545,109 @@ expression: "demangle_lines(contents, &config)"
     (
         "number_tbl.1033",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "number_tbl",
+                "1033",
+            ),
         ),
     ),
     (
         "sel_tbl.1034",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sel_tbl",
+                "1034",
+            ),
         ),
     ),
     (
         "bg_tbl.1035",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "bg_tbl",
+                "1035",
+            ),
         ),
     ),
     (
         "protect_tbl.1039",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "protect_tbl",
+                "1039",
+            ),
         ),
     ),
     (
         "number_tbl.1043",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "number_tbl",
+                "1043",
+            ),
         ),
     ),
     (
         "sel_tbl.1056",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sel_tbl",
+                "1056",
+            ),
         ),
     ),
     (
         "not_sel_tbl.1057",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "not_sel_tbl",
+                "1057",
+            ),
         ),
     ),
     (
         "sel_scl_tbl.1058",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sel_scl_tbl",
+                "1058",
+            ),
         ),
     ),
     (
         "non_sel_scl_tbl.1059",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "non_sel_scl_tbl",
+                "1059",
+            ),
         ),
     ),
     (
         "alpha_tbl.1060",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "alpha_tbl",
+                "1060",
+            ),
         ),
     ),
     (
         "sel_tbl.1070",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sel_tbl",
+                "1070",
+            ),
         ),
     ),
     (
         "not_sel_tbl.1071",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "not_sel_tbl",
+                "1071",
+            ),
         ),
     ),
     (
@@ -40250,7 +41741,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -40486,13 +41980,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "crystal_in_alpha_tbl.1024",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "crystal_in_alpha_tbl",
+                "1024",
+            ),
         ),
     ),
     (
         "crystal_flare_in_alpha_tbl.1025",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "crystal_flare_in_alpha_tbl",
+                "1025",
+            ),
         ),
     ),
     (
@@ -40612,7 +42112,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -40976,7 +42479,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -41096,7 +42602,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "chapter_data.1018",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "chapter_data",
+                "1018",
+            ),
         ),
     ),
     (
@@ -41150,43 +42659,64 @@ expression: "demangle_lines(contents, &config)"
     (
         "alpha_tbl.1028",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "alpha_tbl",
+                "1028",
+            ),
         ),
     ),
     (
         "move_in_alpha.1029",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "move_in_alpha",
+                "1029",
+            ),
         ),
     ),
     (
         "exit_menu_alpha.1030",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "exit_menu_alpha",
+                "1030",
+            ),
         ),
     ),
     (
         "move_menu_alpha.1031",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "move_menu_alpha",
+                "1031",
+            ),
         ),
     ),
     (
         "select_tbl.1038",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "select_tbl",
+                "1038",
+            ),
         ),
     ),
     (
         "sel_pk2_tbl.1039",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sel_pk2_tbl",
+                "1039",
+            ),
         ),
     ),
     (
         "non_sel_pk2_tbl.1040",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "non_sel_pk2_tbl",
+                "1040",
+            ),
         ),
     ),
     (
@@ -41236,13 +42766,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "chapter_tbl.1071",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "chapter_tbl",
+                "1071",
+            ),
         ),
     ),
     (
         "msg_id.1075",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id",
+                "1075",
+            ),
         ),
     ),
     (
@@ -41294,7 +42830,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -41500,7 +43039,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "normal_tbl.854",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "normal_tbl",
+                "854",
+            ),
         ),
     ),
     (
@@ -41546,7 +43088,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "normal_tbl.906",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "normal_tbl",
+                "906",
+            ),
         ),
     ),
     (
@@ -41618,7 +43163,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -41668,7 +43216,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -41814,13 +43365,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "iSumiY.90",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iSumiY",
+                "90",
+            ),
         ),
     ),
     (
         "iNon.91",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iNon",
+                "91",
+            ),
         ),
     ),
     (
@@ -41832,7 +43389,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "iPosY.98",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iPosY",
+                "98",
+            ),
         ),
     ),
     (
@@ -41844,13 +43404,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "iPosY.102",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iPosY",
+                "102",
+            ),
         ),
     ),
     (
         "iWakuY.103",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iWakuY",
+                "103",
+            ),
         ),
     ),
     (
@@ -41862,7 +43428,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "iPos.107",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iPos",
+                "107",
+            ),
         ),
     ),
     (
@@ -41886,13 +43455,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "iPosY.120",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iPosY",
+                "120",
+            ),
         ),
     ),
     (
         "iCsrTime.121",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iCsrTime",
+                "121",
+            ),
         ),
     ),
     (
@@ -41904,7 +43479,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "iPosY.125",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iPosY",
+                "125",
+            ),
         ),
     ),
     (
@@ -41928,7 +43506,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "iPosX.135",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iPosX",
+                "135",
+            ),
         ),
     ),
     (
@@ -42028,7 +43609,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -42138,7 +43722,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "sTAlpha.1012",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sTAlpha",
+                "1012",
+            ),
         ),
     ),
     (
@@ -42256,7 +43843,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -42304,37 +43894,55 @@ expression: "demangle_lines(contents, &config)"
     (
         "sTAlpha.1000",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sTAlpha",
+                "1000",
+            ),
         ),
     ),
     (
         "sTAlpha2.1001",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sTAlpha2",
+                "1001",
+            ),
         ),
     ),
     (
         "sMskAlpha.1002",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sMskAlpha",
+                "1002",
+            ),
         ),
     ),
     (
         "sTScale.1003",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sTScale",
+                "1003",
+            ),
         ),
     ),
     (
         "sAlDat.1010",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "sAlDat",
+                "1010",
+            ),
         ),
     ),
     (
         "iDatList.1011",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "iDatList",
+                "1011",
+            ),
         ),
     ),
     (
@@ -42428,7 +44036,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -42558,7 +44169,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -42976,7 +44590,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -43102,7 +44719,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -43202,7 +44822,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -43438,19 +45061,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "p.1072",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "p",
+                "1072",
+            ),
         ),
     ),
     (
         "ofs0.1076",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ofs0",
+                "1076",
+            ),
         ),
     ),
     (
         "ofs1.1077",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ofs1",
+                "1077",
+            ),
         ),
     ),
     (
@@ -43534,7 +45166,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "rst.1204",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rst",
+                "1204",
+            ),
         ),
     ),
     (
@@ -43556,13 +45191,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "rst0.1218",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rst0",
+                "1218",
+            ),
         ),
     ),
     (
         "rst1.1220",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rst1",
+                "1220",
+            ),
         ),
     ),
     (
@@ -43596,7 +45237,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -43832,7 +45476,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.780",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "780",
+            ),
         ),
     ),
     (
@@ -44002,7 +45649,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.738",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "738",
+            ),
         ),
     ),
     (
@@ -44134,7 +45784,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -44344,25 +45997,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_lbl.1048",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_lbl",
+                "1048",
+            ),
         ),
     ),
     (
         "msg_lbl.1049",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_lbl",
+                "1049",
+            ),
         ),
     ),
     (
         "move_alpha_tbl1.1053",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "move_alpha_tbl1",
+                "1053",
+            ),
         ),
     ),
     (
         "move_alpha_tbl2.1054",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "move_alpha_tbl2",
+                "1054",
+            ),
         ),
     ),
     (
@@ -44382,7 +46047,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "move_pos_tbl.1058",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "move_pos_tbl",
+                "1058",
+            ),
         ),
     ),
     (
@@ -44476,7 +46144,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -44550,7 +46221,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -44804,7 +46478,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.786",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "786",
+            ),
         ),
     ),
     (
@@ -44864,7 +46541,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "aFilmTypeNo.1222",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "aFilmTypeNo",
+                "1222",
+            ),
         ),
     ),
     (
@@ -44958,7 +46638,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -45038,13 +46721,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "dif_tex_tbl.985",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "dif_tex_tbl",
+                "985",
+            ),
         ),
     ),
     (
         "alpha_tbl.995",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "alpha_tbl",
+                "995",
+            ),
         ),
     ),
     (
@@ -45066,7 +46755,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -45234,7 +46926,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -45442,7 +47137,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -45546,7 +47244,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -45676,7 +47377,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "act_align.96",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "act_align",
+                "96",
+            ),
         ),
     ),
     (
@@ -45782,7 +47486,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -45938,7 +47645,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -46076,7 +47786,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -46382,7 +48095,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -46588,7 +48304,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.777",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "777",
+            ),
         ),
     ),
     (
@@ -46830,7 +48549,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -46860,31 +48582,46 @@ expression: "demangle_lines(contents, &config)"
     (
         "cnt.1018",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnt",
+                "1018",
+            ),
         ),
     ),
     (
         "alp1.1019",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "alp1",
+                "1019",
+            ),
         ),
     ),
     (
         "alp2.1020",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "alp2",
+                "1020",
+            ),
         ),
     ),
     (
         "flash_fr.1021",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flash_fr",
+                "1021",
+            ),
         ),
     ),
     (
         "fl_cnt.1022",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "fl_cnt",
+                "1022",
+            ),
         ),
     ),
     (
@@ -46984,7 +48721,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -47136,7 +48876,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -47196,7 +48939,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "cnt.1138",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnt",
+                "1138",
+            ),
         ),
     ),
     (
@@ -47210,7 +48956,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "no.1142",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "no",
+                "1142",
+            ),
         ),
     ),
     (
@@ -47224,7 +48973,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "rand_sec.1147",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rand_sec",
+                "1147",
+            ),
         ),
     ),
     (
@@ -47238,7 +48990,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "lever_dir_old.1164",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "lever_dir_old",
+                "1164",
+            ),
         ),
     ),
     (
@@ -47262,25 +49017,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "no_rot_cng2.1243",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "no_rot_cng2",
+                "1243",
+            ),
         ),
     ),
     (
         "keep_rot.1244",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "keep_rot",
+                "1244",
+            ),
         ),
     ),
     (
         "rs.1245",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rs",
+                "1245",
+            ),
         ),
     ),
     (
         "ds.1246",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ds",
+                "1246",
+            ),
         ),
     ),
     (
@@ -47328,25 +49095,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "mvib_time0.1325",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "mvib_time0",
+                "1325",
+            ),
         ),
     ),
     (
         "mvib_time1.1326",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "mvib_time1",
+                "1326",
+            ),
         ),
     ),
     (
         "mvib_degree.1327",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "mvib_degree",
+                "1327",
+            ),
         ),
     ),
     (
         "mpow.1334",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "mpow",
+                "1334",
+            ),
         ),
     ),
     (
@@ -47378,7 +49157,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "old_out_info.1434",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "old_out_info",
+                "1434",
+            ),
         ),
     ),
     (
@@ -47410,7 +49192,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "ani_tbl.1477",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ani_tbl",
+                "1477",
+            ),
         ),
     ),
     (
@@ -47470,7 +49255,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -47652,7 +49440,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "aELDCD_MIO.1234",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "aELDCD_MIO",
+                "1234",
+            ),
         ),
     ),
     (
@@ -47846,7 +49637,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -48034,7 +49828,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -48112,7 +49909,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "tex_data_tbl.991",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "tex_data_tbl",
+                "991",
+            ),
         ),
     ),
     (
@@ -48154,7 +49954,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "next_step_tbl.1001",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "next_step_tbl",
+                "1001",
+            ),
         ),
     ),
     (
@@ -48218,7 +50021,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "in_alpha_tbl.1026",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "in_alpha_tbl",
+                "1026",
+            ),
         ),
     ),
     (
@@ -48246,7 +50052,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "snd_label_tbl.1063",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "snd_label_tbl",
+                "1063",
+            ),
         ),
     ),
     (
@@ -48274,7 +50083,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -48326,7 +50138,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -48378,7 +50193,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -48668,7 +50486,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "six_out_alpha.1027",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "six_out_alpha",
+                "1027",
+            ),
         ),
     ),
     (
@@ -48682,13 +50503,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "in_alpha_tbl.1031",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "in_alpha_tbl",
+                "1031",
+            ),
         ),
     ),
     (
         "out_alpha_tbl.1032",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "out_alpha_tbl",
+                "1032",
+            ),
         ),
     ),
     (
@@ -48808,13 +50635,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "move_alpha_tbl1.1069",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "move_alpha_tbl1",
+                "1069",
+            ),
         ),
     ),
     (
         "move_alpha_tbl2.1070",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "move_alpha_tbl2",
+                "1070",
+            ),
         ),
     ),
     (
@@ -48826,13 +50659,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "move_pos_tbl.1074",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "move_pos_tbl",
+                "1074",
+            ),
         ),
     ),
     (
         "msg_type_tbl.1078",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_type_tbl",
+                "1078",
+            ),
         ),
     ),
     (
@@ -48844,7 +50683,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "move_alpha_tbl.1085",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "move_alpha_tbl",
+                "1085",
+            ),
         ),
     ),
     (
@@ -48856,13 +50698,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "csr_alpha_tbl.1095",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "csr_alpha_tbl",
+                "1095",
+            ),
         ),
     ),
     (
         "flea_alpha_tbl.1114",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flea_alpha_tbl",
+                "1114",
+            ),
         ),
     ),
     (
@@ -48970,7 +50818,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -49024,7 +50875,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -49158,31 +51012,46 @@ expression: "demangle_lines(contents, &config)"
     (
         "moyou1_alpha_tbl.90",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou1_alpha_tbl",
+                "90",
+            ),
         ),
     ),
     (
         "moyou2_alpha_tbl.91",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou2_alpha_tbl",
+                "91",
+            ),
         ),
     ),
     (
         "bg_flea_alpha_tbl.92",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "bg_flea_alpha_tbl",
+                "92",
+            ),
         ),
     ),
     (
         "moyou1_x_tbl.93",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou1_x_tbl",
+                "93",
+            ),
         ),
     ),
     (
         "moyou2_x_tbl.94",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou2_x_tbl",
+                "94",
+            ),
         ),
     ),
     (
@@ -49306,7 +51175,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -49464,7 +51336,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -49644,7 +51519,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -49764,7 +51642,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id_tbl.985",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "985",
+            ),
         ),
     ),
     (
@@ -49788,13 +51669,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_y_tbl.992",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_y_tbl",
+                "992",
+            ),
         ),
     ),
     (
         "msg_id_tbl.993",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "993",
+            ),
         ),
     ),
     (
@@ -49888,7 +51775,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -50152,7 +52042,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "SceneNoToAdpcmNo.1264",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "SceneNoToAdpcmNo",
+                "1264",
+            ),
         ),
     ),
     (
@@ -50172,7 +52065,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "LightTypeToPrefix.1302",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "LightTypeToPrefix",
+                "1302",
+            ),
         ),
     ),
     (
@@ -50192,7 +52088,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "ModelTypeToPrefix.1316",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ModelTypeToPrefix",
+                "1316",
+            ),
         ),
     ),
     (
@@ -50226,7 +52125,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -50492,7 +52394,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -50860,7 +52765,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "BlurAlpha.943",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "BlurAlpha",
+                "943",
+            ),
         ),
     ),
     (
@@ -50890,7 +52798,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "nalp.968",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "nalp",
+                "968",
+            ),
         ),
     ),
     (
@@ -51188,7 +53099,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -51374,7 +53288,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "pause_flg.979",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "pause_flg",
+                "979",
+            ),
         ),
     ),
     (
@@ -51514,7 +53431,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "vib2_val.1097",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "vib2_val",
+                "1097",
+            ),
         ),
     ),
     (
@@ -51528,7 +53448,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -51646,7 +53569,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -51916,7 +53842,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -52120,7 +54049,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id_tbl.1018",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "1018",
+            ),
         ),
     ),
     (
@@ -52192,7 +54124,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg_id_tbl.1022",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "msg_id_tbl",
+                "1022",
+            ),
         ),
     ),
     (
@@ -52224,19 +54159,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "menu_tex_tbl.1035",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "menu_tex_tbl",
+                "1035",
+            ),
         ),
     ),
     (
         "csr_tex_tbl.1042",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "csr_tex_tbl",
+                "1042",
+            ),
         ),
     ),
     (
         "csr_flare_tex_tbl.1043",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "csr_flare_tex_tbl",
+                "1043",
+            ),
         ),
     ),
     (
@@ -52250,7 +54194,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "costume_type_tbl.1050",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "costume_type_tbl",
+                "1050",
+            ),
         ),
     ),
     (
@@ -52264,31 +54211,46 @@ expression: "demangle_lines(contents, &config)"
     (
         "difficulty_tex_tbl.1063",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "difficulty_tex_tbl",
+                "1063",
+            ),
         ),
     ),
     (
         "csr_right_x_tbl.1073",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "csr_right_x_tbl",
+                "1073",
+            ),
         ),
     ),
     (
         "difficulty_csr_right_x_tbl.1074",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "difficulty_csr_right_x_tbl",
+                "1074",
+            ),
         ),
     ),
     (
         "flare_right_x_tbl.1075",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "flare_right_x_tbl",
+                "1075",
+            ),
         ),
     ),
     (
         "difficulty_flare_right_x_tbl.1076",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "difficulty_flare_right_x_tbl",
+                "1076",
+            ),
         ),
     ),
     (
@@ -52326,7 +54288,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -52444,7 +54409,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -52626,7 +54594,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "eldcd_MAYU.1165",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "eldcd_MAYU",
+                "1165",
+            ),
         ),
     ),
     (
@@ -53082,7 +55053,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -53272,31 +55246,46 @@ expression: "demangle_lines(contents, &config)"
     (
         "no.1027",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "no",
+                "1027",
+            ),
         ),
     ),
     (
         "cnt.1044",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnt",
+                "1044",
+            ),
         ),
     ),
     (
         "cnt.1069",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "cnt",
+                "1069",
+            ),
         ),
     ),
     (
         "turn_chk_time.1082",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "turn_chk_time",
+                "1082",
+            ),
         ),
     ),
     (
         "rrot.1107",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rrot",
+                "1107",
+            ),
         ),
     ),
     (
@@ -53378,7 +55367,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -53592,7 +55584,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.688",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "688",
+            ),
         ),
     ),
     (
@@ -53718,7 +55713,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.694",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "694",
+            ),
         ),
     ),
     (
@@ -53828,13 +55826,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "ShutterChanceRgb.982",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ShutterChanceRgb",
+                "982",
+            ),
         ),
     ),
     (
         "NormalRgb.983",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "NormalRgb",
+                "983",
+            ),
         ),
     ),
     (
@@ -53928,7 +55932,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.744",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "744",
+            ),
         ),
     ),
     (
@@ -53988,7 +55995,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.574",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "574",
+            ),
         ),
     ),
     (
@@ -54228,7 +56238,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -54430,7 +56443,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -54752,13 +56768,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "mmsize.105",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "mmsize",
+                "105",
+            ),
         ),
     ),
     (
         "mmsize.109",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "mmsize",
+                "109",
+            ),
         ),
     ),
     (
@@ -54794,7 +56816,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -54990,7 +57015,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -55108,55 +57136,82 @@ expression: "demangle_lines(contents, &config)"
     (
         "kumo_alpha_tbl.96",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "kumo_alpha_tbl",
+                "96",
+            ),
         ),
     ),
     (
         "moyou_alpha_tbl.97",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou_alpha_tbl",
+                "97",
+            ),
         ),
     ),
     (
         "moyou2_alpha_tbl.98",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou2_alpha_tbl",
+                "98",
+            ),
         ),
     ),
     (
         "bokasi_alpha_tbl.99",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "bokasi_alpha_tbl",
+                "99",
+            ),
         ),
     ),
     (
         "moyou_x_tbl.100",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou_x_tbl",
+                "100",
+            ),
         ),
     ),
     (
         "moyou2_x_tbl.101",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "moyou2_x_tbl",
+                "101",
+            ),
         ),
     ),
     (
         "kumo_x_tbl.102",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "kumo_x_tbl",
+                "102",
+            ),
         ),
     ),
     (
         "bokasi_x_tbl.103",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "bokasi_x_tbl",
+                "103",
+            ),
         ),
     ),
     (
         "bokasi2_x_tbl.104",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "bokasi2_x_tbl",
+                "104",
+            ),
         ),
     ),
     (
@@ -55292,7 +57347,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -55360,7 +57418,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "title_tbl.964",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "title_tbl",
+                "964",
+            ),
         ),
     ),
     (
@@ -55374,7 +57435,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.646",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "646",
+            ),
         ),
     ),
     (
@@ -55578,7 +57642,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -55708,7 +57775,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.807",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "807",
+            ),
         ),
     ),
     (
@@ -55814,13 +57884,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "rgb_tbl.15",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rgb_tbl",
+                "15",
+            ),
         ),
     ),
     (
         "alpha_tbl.19",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "alpha_tbl",
+                "19",
+            ),
         ),
     ),
     (
@@ -55936,7 +58012,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.849",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "str",
+                "849",
+            ),
         ),
     ),
     (
@@ -55996,7 +58075,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "this_thread_id.0",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "this_thread_id",
+                "0",
+            ),
         ),
     ),
     (
@@ -56056,7 +58138,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "file_load_stack.1",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "file_load_stack",
+                "1",
+            ),
         ),
     ),
     (
@@ -56578,7 +58663,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "file_full_name.0",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "file_full_name",
+                "0",
+            ),
         ),
     ),
     (
@@ -57242,7 +59330,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "c_cnt.66",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "c_cnt",
+                "66",
+            ),
         ),
     ),
     (
@@ -57394,7 +59485,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "stack.15",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "stack",
+                "15",
+            ),
         ),
     ),
     (
@@ -57760,7 +59854,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "rcv_adr.39",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "rcv_adr",
+                "39",
+            ),
         ),
     ),
     (
@@ -57808,7 +59905,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "ip0.64",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "ip0",
+                "64",
+            ),
         ),
     ),
     (
@@ -58468,7 +60568,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "heap_ptr.39",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "heap_ptr",
+                "39",
+            ),
         ),
     ),
     (
@@ -58480,7 +60583,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "q.12",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "q",
+                "12",
+            ),
         ),
     ),
     (
@@ -58666,7 +60772,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "init_vif_regs.135",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "init_vif_regs",
+                "135",
+            ),
         ),
     ),
     (
@@ -58900,13 +61009,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "gp.15",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "gp",
+                "15",
+            ),
         ),
     ),
     (
         "init_vif_regs.12",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "init_vif_regs",
+                "12",
+            ),
         ),
     ),
     (
@@ -58974,7 +61089,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_sprtagdata.33",
         Err(
-            NotMangled,
+            InvalidNamespaceOnNamespacedGlobal(
+                "sprtagdata",
+            ),
         ),
     ),
     (
@@ -59132,7 +61249,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "transData.15",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "transData",
+                "15",
+            ),
         ),
     ),
     (
@@ -60014,25 +62134,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "p.0",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "p",
+                "0",
+            ),
         ),
     ),
     (
         "completed.1",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "completed",
+                "1",
+            ),
         ),
     ),
     (
         "object.2",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "object",
+                "2",
+            ),
         ),
     ),
     (
         "initialized.3",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "initialized",
+                "3",
+            ),
         ),
     ),
     (
@@ -60092,13 +62224,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "once.0",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "once",
+                "0",
+            ),
         ),
     ),
     (
         "once_regsizes.1",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "once_regsizes",
+                "1",
+            ),
         ),
     ),
     (
@@ -60110,19 +62248,28 @@ expression: "demangle_lines(contents, &config)"
     (
         "eh.2",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "eh",
+                "2",
+            ),
         ),
     ),
     (
         "initialized.3",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "initialized",
+                "3",
+            ),
         ),
     ),
     (
         "top_elt.4",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "top_elt",
+                "4",
+            ),
         ),
     ),
     (
@@ -60202,7 +62349,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "marker.0",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "marker",
+                "0",
+            ),
         ),
     ),
     (
@@ -60772,13 +62922,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "blanks.0",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "blanks",
+                "0",
+            ),
         ),
     ),
     (
         "zeroes.1",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "zeroes",
+                "1",
+            ),
         ),
     ),
     (
@@ -60800,13 +62956,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "blanks.0",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "blanks",
+                "0",
+            ),
         ),
     ),
     (
         "zeroes.1",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "zeroes",
+                "1",
+            ),
         ),
     ),
     (
@@ -60824,7 +62986,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "basefix.0",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "basefix",
+                "0",
+            ),
         ),
     ),
     (
@@ -60878,7 +63043,10 @@ expression: "demangle_lines(contents, &config)"
     (
         "p05.0",
         Err(
-            NotMangled,
+            InvalidNamespacedGlobal(
+                "p05",
+                "0",
+            ),
         ),
     ),
     (

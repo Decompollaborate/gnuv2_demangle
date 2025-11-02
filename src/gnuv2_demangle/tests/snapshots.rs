@@ -1,6 +1,9 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+// Run with this command, then see the diff in a git diff client.
+// cargo insta test --accept
+
 use gnuv2_demangle::{demangle, DemangleConfig, DemangleError};
 
 fn demangle_lines<'s>(

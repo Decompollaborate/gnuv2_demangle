@@ -81,6 +81,8 @@ fn demangle_impl<'s>(
         demangle_virtual_table(config, sym)
     } else if let Some((s, name)) = sym.c_split2("$") {
         demangle_namespaced_global(config, s, name)
+    } else if let Some((s, name)) = sym.c_split2(".") {
+        demangle_namespaced_global(config, s, name)
     } else {
         Err(DemangleError::NotMangled)
     }

@@ -1744,11 +1744,15 @@ fn test_demangle_templated_function_complex() {
 
 #[test]
 fn test_demangle_dot_special() {
-    static CASES: [(&str, &str); 2] = [
+    static CASES: [(&str, &str); 3] = [
         ("_._9RigidBody", "RigidBody::~RigidBody(void)"),
         (
             "_GLOBAL_.I.ePolySlotPool",
             "global constructors keyed to ePolySlotPool",
+        ),
+        (
+            "_6Attrib.gDatabaseExportPolicy",
+            "Attrib::gDatabaseExportPolicy",
         ),
     ];
     let config = DemangleConfig::new();

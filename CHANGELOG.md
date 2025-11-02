@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix not demangling global namespaced variables when the separator used is `.`
+  instead of `$`.
+  - Fixes cases like `_6Attrib.gDatabaseExportPolicy` now being demangled to
+    `Attrib::gDatabaseExportPolicy`.
+
 ## [0.3.0] - 2025-10-12
 
 ### Added
