@@ -79,3 +79,19 @@ fn snapshot_mangled_list_ff2_improved() {
 
     insta::assert_debug_snapshot!(demangle_lines(contents, &config));
 }
+
+#[test]
+fn snapshot_mangled_list_most_wanted_cfilt() {
+    let contents = include_str!("mangled_lists/most_wanted.txt");
+    let config = DemangleConfig::new_cfilt();
+
+    insta::assert_debug_snapshot!(demangle_lines(contents, &config));
+}
+
+#[test]
+fn snapshot_mangled_list_most_wanted_improved() {
+    let contents = include_str!("mangled_lists/most_wanted.txt");
+    let config = DemangleConfig::new_g2dem();
+
+    insta::assert_debug_snapshot!(demangle_lines(contents, &config));
+}
