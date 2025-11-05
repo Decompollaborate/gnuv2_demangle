@@ -1743,8 +1743,8 @@ fn test_demangle_templated_function_complex() {
 */
 
 #[test]
-fn test_demangle_dot_special() {
-    static CASES: [(&str, &str); 3] = [
+fn test_demangle_dot_as_cplus_marker() {
+    static CASES: [(&str, &str); 5] = [
         ("_._9RigidBody", "RigidBody::~RigidBody(void)"),
         (
             "_GLOBAL_.I.ePolySlotPool",
@@ -1753,6 +1753,11 @@ fn test_demangle_dot_special() {
         (
             "_6Attrib.gDatabaseExportPolicy",
             "Attrib::gDatabaseExportPolicy",
+        ),
+        ("_vt.17FEMarkerSelection", "FEMarkerSelection virtual table"),
+        (
+            "_vt.Q23UTLt10FastVector2ZUii16",
+            "UTL::FastVector<unsigned int, 16> virtual table",
         ),
     ];
     let config = DemangleConfig::new();

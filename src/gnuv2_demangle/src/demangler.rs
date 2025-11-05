@@ -46,27 +46,28 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
     if !sym.is_ascii() {
         Err(DemangleError::NonAscii)
     } else {
-        demangle_impl(sym, config, true)
+        // GCC lets users change the default marker ('$') for compatibility
+        // with other toolchains that do not accept '$' in symbol names.
+        let cplus_marker = sym.chars().find(|x| *x == '.').unwrap_or('$');
+
+        demangle_impl(sym, config, cplus_marker, true)
     }
 }
 
 fn demangle_impl<'s>(
     sym: &'s str,
     config: &DemangleConfig,
+    cplus_marker: char,
     allow_global_sym_keyed: bool,
 ) -> Result<String, DemangleError<'s>> {
-    if let Some(s) = sym.strip_prefix("_$_") {
-        demangle_destructor(config, s)
-    } else if let Some(s) = sym.strip_prefix("_._") {
-        // ProDG destructors
+    if let Some(s) = sym.c_strip_prefix_3chars('_', cplus_marker, '_') {
         demangle_destructor(config, s)
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s, sym)
-    } else if let Some(s) = sym.c_cond_and_strip_prefix(allow_global_sym_keyed, "_GLOBAL_$") {
-        demangle_global_sym_keyed(config, s, sym, '$')
-    } else if let Some(s) = sym.c_cond_and_strip_prefix(allow_global_sym_keyed, "_GLOBAL_.") {
-        // ProDG stuff
-        demangle_global_sym_keyed(config, s, sym, '.')
+    } else if let Some(s) =
+        sym.c_cond_and_strip_prefix_and_char(allow_global_sym_keyed, "_GLOBAL_", cplus_marker)
+    {
+        demangle_global_sym_keyed(config, s, cplus_marker, sym)
     } else if let Some((func_name, args)) = sym.c_split2("__F") {
         demangle_free_function(config, func_name, args)
     } else if let Some((method_name, class_and_args)) =
@@ -78,10 +79,8 @@ fn demangle_impl<'s>(
     } else if let Some((func_name, s)) = sym.c_split2("__Q") {
         demangle_namespaced_function(config, func_name, s)
     } else if let Some(sym) = sym.strip_prefix("_vt") {
-        demangle_virtual_table(config, sym)
-    } else if let Some((s, name)) = sym.c_split2("$") {
-        demangle_namespaced_global(config, s, name)
-    } else if let Some((s, name)) = sym.c_split2(".") {
+        demangle_virtual_table(config, sym, cplus_marker)
+    } else if let Some((s, name)) = sym.c_split2_char(cplus_marker) {
         demangle_namespaced_global(config, s, name)
     } else {
         Err(DemangleError::NotMangled)
@@ -588,6 +587,7 @@ fn demangle_type_info_node<'s>(
 fn demangle_virtual_table<'s>(
     config: &DemangleConfig,
     s: &'s str,
+    cplus_marker: char,
 ) -> Result<String, DemangleError<'s>> {
     let allow_array_fixup = true;
     let mut remaining = s;
@@ -595,7 +595,7 @@ fn demangle_virtual_table<'s>(
 
     while !remaining.is_empty() {
         remaining = remaining
-            .strip_prefix('$')
+            .strip_prefix(cplus_marker)
             .ok_or(DemangleError::VTableMissingDollarSeparator(remaining))?;
 
         remaining = if let Some(r) = remaining.strip_prefix('t') {
@@ -662,8 +662,8 @@ fn demangle_namespaced_global<'s>(
 fn demangle_global_sym_keyed<'s>(
     config: &DemangleConfig,
     s: &'s str,
+    cplus_marker: char,
     full_sym: &'s str,
-    special_separator: char,
 ) -> Result<String, DemangleError<'s>> {
     let (remaining, which, is_constructor) = if let Some(r) = s.strip_prefix("I") {
         (r, "constructors", true)
@@ -675,17 +675,17 @@ fn demangle_global_sym_keyed<'s>(
         } else {
             // !HACK(c++filt): c++filt does not recognize `_GLOBAL_$F$`, so it
             // !tries to demangle it as anything else.
-            return demangle_impl(full_sym, config, false);
+            return demangle_impl(full_sym, config, cplus_marker, false);
         }
     } else {
         return Err(DemangleError::InvalidGlobalSymKeyed(s));
     };
 
-    let Some(remaining) = remaining.strip_prefix(special_separator) else {
+    let Some(remaining) = remaining.strip_prefix(cplus_marker) else {
         return Err(DemangleError::InvalidGlobalSymKeyed(s));
     };
 
-    let demangled_sym = demangle_impl(remaining, config, false);
+    let demangled_sym = demangle_impl(remaining, config, cplus_marker, false);
     if !config.fix_namespaced_global_constructor_bug
         && is_constructor
         && remaining.starts_with("__Q")

@@ -9,10 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix not demangling global namespaced variables when the separator used is `.`
-  instead of `$`.
+- Proper support for compilers using `.` as GCC's `CPLUS_MARKER`.
   - Fixes cases like `_6Attrib.gDatabaseExportPolicy` now being demangled to
-    `Attrib::gDatabaseExportPolicy`.
+    `Attrib::gDatabaseExportPolicy` and virtual tables.
 
 ## [0.3.0] - 2025-10-12
 

@@ -5,19 +5,43 @@ pub(crate) trait StrCutter<'s> {
     #[must_use]
     fn c_split2(&'s self, pat: &str) -> Option<(&'s str, &'s str)>;
     #[must_use]
+    fn c_split2_char(&'s self, pat: char) -> Option<(&'s str, &'s str)>;
+    #[must_use]
     fn c_split2_r_starts_with<F>(&'s self, pat: &str, r_cond: F) -> Option<(&'s str, &'s str)>
     where
         F: Fn(char) -> bool;
 
     #[must_use]
-    fn c_cond_and_strip_prefix(&'s self, cond: bool, prefix: &str) -> Option<&'s str>;
+    fn c_cond_and_strip_prefix_and_char(
+        &'s self,
+        cond: bool,
+        prefix: &str,
+        c: char,
+    ) -> Option<&'s str>;
 
     #[must_use]
     fn c_maybe_strip_prefix(&'s self, c: char) -> (&'s str, bool);
+
+    #[must_use]
+    fn c_strip_prefix_3chars(&'s self, a: char, b: char, c: char) -> Option<&'s str>;
 }
 
 impl<'s> StrCutter<'s> for str {
     fn c_split2(&'s self, pat: &str) -> Option<(&'s str, &'s str)> {
+        let mut iter = self.splitn(2, pat);
+
+        if let (Some(l), Some(r)) = (iter.next(), iter.next()) {
+            if l.is_empty() || r.is_empty() {
+                None
+            } else {
+                Some((l, r))
+            }
+        } else {
+            None
+        }
+    }
+
+    fn c_split2_char(&'s self, pat: char) -> Option<(&'s str, &'s str)> {
         let mut iter = self.splitn(2, pat);
 
         if let (Some(l), Some(r)) = (iter.next(), iter.next()) {
@@ -50,9 +74,14 @@ impl<'s> StrCutter<'s> for str {
         }
     }
 
-    fn c_cond_and_strip_prefix(&'s self, cond: bool, prefix: &str) -> Option<&'s str> {
+    fn c_cond_and_strip_prefix_and_char(
+        &'s self,
+        cond: bool,
+        prefix: &str,
+        c: char,
+    ) -> Option<&'s str> {
         if cond {
-            self.strip_prefix(prefix)
+            self.strip_prefix(prefix).and_then(|x| x.strip_prefix(c))
         } else {
             None
         }
@@ -64,5 +93,10 @@ impl<'s> StrCutter<'s> for str {
         } else {
             (self, false)
         }
+    }
+
+    fn c_strip_prefix_3chars(&'s self, a: char, b: char, c: char) -> Option<&'s str> {
+        self.strip_prefix(a)
+            .and_then(|x| x.strip_prefix(b).and_then(|y| y.strip_prefix(c)))
     }
 }

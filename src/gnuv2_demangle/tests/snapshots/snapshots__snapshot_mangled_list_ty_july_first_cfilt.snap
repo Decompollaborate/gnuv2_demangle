@@ -94,7 +94,7 @@ expression: "demangle_lines(contents, &config)"
         "_$tmp_0.1911",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "",
+                "$tmp_0",
             ),
         ),
     ),
@@ -195,7 +195,7 @@ expression: "demangle_lines(contents, &config)"
         "_$tmp_0.1492",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "",
+                "$tmp_0",
             ),
         ),
     ),
@@ -476,7 +476,7 @@ expression: "demangle_lines(contents, &config)"
         "_$tmp_0.1958",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "",
+                "$tmp_0",
             ),
         ),
     ),
@@ -5383,7 +5383,7 @@ expression: "demangle_lines(contents, &config)"
         "_$tmp_0.1942",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "",
+                "$tmp_0",
             ),
         ),
     ),
@@ -7206,7 +7206,7 @@ expression: "demangle_lines(contents, &config)"
         "_$tmp_0.1435",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "",
+                "$tmp_0",
             ),
         ),
     ),
@@ -7769,7 +7769,7 @@ expression: "demangle_lines(contents, &config)"
         "_$tmp_0.887",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "",
+                "$tmp_0",
             ),
         ),
     ),
@@ -11785,7 +11785,7 @@ expression: "demangle_lines(contents, &config)"
         "_GLOBAL_$F$__builtin_new.._.._src_gcc_cp_new1.ccKINnb5",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "GLOBAL_",
+                "GLOBAL_$F$__builtin_new",
             ),
         ),
     ),
@@ -37725,7 +37725,7 @@ expression: "demangle_lines(contents, &config)"
         "_GLOBAL_$F$__builtin_delete.._.._src_gcc_cp_new2.cc1GeU73",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "GLOBAL_",
+                "GLOBAL_$F$__builtin_delete",
             ),
         ),
     ),
