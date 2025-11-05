@@ -98,7 +98,7 @@ fn demangle_template_types_impl<'c, 's>(
     let mut remaining = s;
     let mut types = ArgVec::new(config, None);
 
-    for _ in 0..count.get() {
+    for _i in 0..count.get() {
         let (r, arg, allow_data_after_ellipsis) = if let Some(r) = remaining.strip_prefix('Z') {
             // typename / class
             let (r, arg) = demangle_argument(config, r, &types, template_args, allow_array_fixup)?;

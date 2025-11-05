@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Proper support for compilers using `.` as GCC's `CPLUS_MARKER`.
   - Fixes cases like `_6Attrib.gDatabaseExportPolicy` now being demangled to
     `Attrib::gDatabaseExportPolicy` and virtual tables.
+- Try to avoid choking on trailing underscores after numbers in namespaced
+  symbols.
 
 ## [0.3.0] - 2025-10-12
 

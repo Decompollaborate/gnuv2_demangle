@@ -1767,6 +1767,21 @@ fn test_demangle_dot_as_cplus_marker() {
     }
 }
 
+#[test]
+fn test_demangle_trailing_undescore() {
+    static CASES: [(&str, &str); 1] = [
+        (
+            "CreateRoadBlock__12AICopManagerP8IPursuitiP8IVehiclePQ43UTL11Collectionst11ListableSet4Z8IVehiclei10Z12eVehicleListUi10_4List",
+            "AICopManager::CreateRoadBlock(IPursuit *, int, IVehicle *, UTL::Collections::ListableSet<IVehicle, 10, eVehicleList, 10>::List *)"
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {

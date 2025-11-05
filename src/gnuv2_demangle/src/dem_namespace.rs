@@ -51,10 +51,16 @@ fn demangle_namespaces_impl<'s>(
     let mut remaining = s;
     let mut trailing_type = "";
 
-    for _ in 0..namespace_count.get() {
+    for _i in 0..namespace_count.get() {
         if !namespaces.is_empty() {
             namespaces.push_str("::");
         }
+
+        // Sometimes there's a trailing underscore after a number.
+        // Not sure if this is the correct way to handle this, but at least it
+        // doesn't seem to break anything else.
+        // i.e. CreateRoadBlock__12AICopManagerP8IPursuitiP8IVehiclePQ43UTL11Collectionst11ListableSet4Z8IVehiclei10Z12eVehicleListUi10_4List
+        remaining = remaining.trim_start_matches('_');
 
         let (r, n) = if let Some(temp) = remaining.strip_prefix('t') {
             let (r, template, typ) =
