@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `Attrib::gDatabaseExportPolicy` and virtual tables.
 - Try to avoid choking on trailing underscores after numbers in namespaced
   symbols.
+- Try to avoid failing to demangle when there's a mangled symbol within the
+  mangled symbol.
 
 ## [0.3.0] - 2025-10-12
 

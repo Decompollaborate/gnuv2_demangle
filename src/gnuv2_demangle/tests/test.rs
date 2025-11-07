@@ -1782,6 +1782,83 @@ fn test_demangle_trailing_undescore() {
     }
 }
 
+// TODO
+/*
+#[test]
+fn test_demangle_dunno() {
+    static CASES: [(&str, &str); 10] = [
+        ("Copy4__H2ZQ25UMath7Vector4ZQ25UMath7Vector4__14ConversionUtilRX11RCX01_v", "void ConversionUtil Copy4<UMath::Vector4, UMath::Vector4>(UMath::Vector4 &, UMath::Vector4 const &)"),
+        ("Scale3__H1ZQ25UMath7Vector4__14ConversionUtilRX01f_v", "void ConversionUtil Scale3<UMath::Vector4>(UMath::Vector4 &, float)"),
+        ("Make4__H1ZQ25UMath7Vector4__14ConversionUtilffff_X01", "UMath::Vector4 ConversionUtil Make4<UMath::Vector4>(float, float, float, float)"),
+        ("RightToLeftVector4__H2ZQ25UMath7Vector4ZQ25UMath7Vector4__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftVector4<UMath::Vector4, UMath::Vector4>(UMath::Vector4 const &, UMath::Vector4 &)"),
+        ("RightToLeftMatrix4__H2ZQ25UMath7Matrix4ZQ25UMath7Matrix4__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftMatrix4<UMath::Matrix4, UMath::Matrix4>(UMath::Matrix4 const &, UMath::Matrix4 &)"),
+        ("Make3__H1ZQ25UMath7Vector3__14ConversionUtilfff_X01", "UMath::Vector3 ConversionUtil Make3<UMath::Vector3>(float, float, float)"),
+        ("RightToLeftVector3__H2ZQ25UMath7Vector3ZQ25UMath7Vector3__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftVector3<UMath::Vector3, UMath::Vector3>(UMath::Vector3 const &, UMath::Vector3 &)"),
+        ("Copy4__H2Z8bVector4ZQ25UMath7Vector4__14ConversionUtilRX11RCX01_v", "void ConversionUtil Copy4<bVector4, UMath::Vector4>(UMath::Vector4 &, bVector4 const &)"),
+        ("RightToLeftMatrix4__H2Z8bMatrix4ZQ25UMath7Matrix4__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftMatrix4<bMatrix4, UMath::Matrix4>(bMatrix4 const &, UMath::Matrix4 &)"),
+        ("RightToLeftVector3__H2Z8bVector3ZQ25UMath7Vector3__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftVector3<bVector3, UMath::Vector3>(bVector3 const &, UMath::Vector3 &)"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+*/
+
+// TODO
+/*
+#[test]
+fn test_demangle_dunno() {
+    static CASES: [(&str, &str); 1] = [
+        (
+            "RebuildTable__t10VecHashMap5ZUxZQ26Hermes11PortMessageZt17TablePolicy_Fixed2PFUi_Pv26DefaultTableAllocFunc__FUiPFPvUi_v27DefaultTableFreeFunc__FPvUib0Ui16Ui",
+            "VecHashMap<unsigned long long, Hermes::PortMessage, TablePolicy_Fixed<&DefaultTableAllocFunc(unsigned int), &DefaultTableFreeFunc(void *, unsigned int)>, false, 16>::RebuildTable(unsigned int)"
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
+#[test]
+fn test_demangle_volatile() {
+    static CASES: [(&str, &str); 1] = [
+        (
+            "__Q29RealInput5GcPadPQ29RealInput11GcInterfaceUiPV9PADStatus",
+            "RealInput::GcPad::GcPad(RealInput::GcInterface *, unsigned int, PADStatus volatile *)"
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+*/
+
+#[test]
+fn test_demangle_mangled_within_mangled() {
+    // wtf??
+    static CASES: [(&str, &str); 8] = [
+        ("_vt.Q313FEPlayerCarDB46GetNumCareerCarsWithARecord__13FEPlayerCarDB.0_7NumCars", "FEPlayerCarDB::GetNumCareerCarsWithARecord__13FEPlayerCarDB.0::NumCars virtual table"),
+        ("_vt.Q313FEPlayerCarDB33GetTotalFines__13FEPlayerCarDBb.0_5Fines", "FEPlayerCarDB::GetTotalFines__13FEPlayerCarDBb.0::Fines virtual table"),
+        ("_vt.Q313FEPlayerCarDB38GetNumImpoundedCars__13FEPlayerCarDB.0_11IsImpounded", "FEPlayerCarDB::GetNumImpoundedCars__13FEPlayerCarDB.0::IsImpounded virtual table"),
+        ("_vt.Q313FEPlayerCarDB41GetTotalBustedPursuits__13FEPlayerCarDB.0_14BustedPursuits", "FEPlayerCarDB::GetTotalBustedPursuits__13FEPlayerCarDB.0::BustedPursuits virtual table"),
+        ("_vt.Q313FEPlayerCarDB41GetTotalEvadedPursuits__13FEPlayerCarDB.0_14EvadedPursuits", "FEPlayerCarDB::GetTotalEvadedPursuits__13FEPlayerCarDB.0::EvadedPursuits virtual table"),
+        ("_vt.Q313FEPlayerCarDB33GetTotalBounty__13FEPlayerCarDB.0_6Bounty", "FEPlayerCarDB::GetTotalBounty__13FEPlayerCarDB.0::Bounty virtual table"),
+        ("_vt.Q313FEPlayerCarDB42GetTotalNumInfractions__13FEPlayerCarDBb.0_19TotalNumInfractions", "FEPlayerCarDB::GetTotalNumInfractions__13FEPlayerCarDBb.0::TotalNumInfractions virtual table"),
+        ("_vt.Q313FEPlayerCarDB74GetNumInfraction__13FEPlayerCarDBQ218GInfractionManager14InfractionTypeb.0_13NumInfraction", "FEPlayerCarDB::GetNumInfraction__13FEPlayerCarDBQ218GInfractionManager14InfractionTypeb.0::NumInfraction virtual table"),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {

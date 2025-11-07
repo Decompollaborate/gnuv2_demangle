@@ -61,30 +61,76 @@ fn demangle_impl<'s>(
     allow_global_sym_keyed: bool,
 ) -> Result<String, DemangleError<'s>> {
     if let Some(s) = sym.c_strip_prefix_3chars('_', cplus_marker, '_') {
-        demangle_destructor(config, s)
+        return demangle_destructor(config, s);
     } else if let Some(s) = sym.strip_prefix("__") {
-        demangle_special(config, s, sym)
+        return demangle_special(config, s, sym);
     } else if let Some(s) =
         sym.c_cond_and_strip_prefix_and_char(allow_global_sym_keyed, "_GLOBAL_", cplus_marker)
     {
-        demangle_global_sym_keyed(config, s, cplus_marker, sym)
-    } else if let Some((func_name, args)) = sym.c_split2("__F") {
-        demangle_free_function(config, func_name, args)
-    } else if let Some((method_name, class_and_args)) =
+        return demangle_global_sym_keyed(config, s, cplus_marker, sym);
+    }
+
+    // Some of the checks here can overlap and produce false positives, so if
+    // one fails then try again with the next one, over and over.
+
+    let leading_error = if let Some((func_name, args)) = sym.c_split2("__F") {
+        match demangle_free_function(config, func_name, args) {
+            Ok(d) => return Ok(d),
+            Err(e) => Some(e),
+        }
+    } else {
+        None
+    };
+
+    let leading_error = if let Some((method_name, class_and_args)) =
         sym.c_split2_r_starts_with("__", |c| matches!(c, '1'..='9' | 'C' | 't'))
     {
-        demangle_method(config, method_name, class_and_args)
-    } else if let Some((func_name, s)) = sym.c_split2("__H") {
-        demangle_templated_function(config, func_name, s)
-    } else if let Some((func_name, s)) = sym.c_split2("__Q") {
-        demangle_namespaced_function(config, func_name, s)
-    } else if let Some(sym) = sym.strip_prefix("_vt") {
-        demangle_virtual_table(config, sym, cplus_marker)
-    } else if let Some((s, name)) = sym.c_split2_char(cplus_marker) {
-        demangle_namespaced_global(config, s, name)
+        match demangle_method(config, method_name, class_and_args) {
+            Ok(d) => return Ok(d),
+            Err(e) => leading_error.or(Some(e)),
+        }
     } else {
-        Err(DemangleError::NotMangled)
-    }
+        leading_error
+    };
+
+    let leading_error = if let Some((func_name, s)) = sym.c_split2("__H") {
+        match demangle_templated_function(config, func_name, s) {
+            Ok(d) => return Ok(d),
+            Err(e) => leading_error.or(Some(e)),
+        }
+    } else {
+        leading_error
+    };
+
+    let leading_error = if let Some((func_name, s)) = sym.c_split2("__Q") {
+        match demangle_namespaced_function(config, func_name, s) {
+            Ok(d) => return Ok(d),
+            Err(e) => leading_error.or(Some(e)),
+        }
+    } else {
+        leading_error
+    };
+
+    let leading_error = if let Some(sym) = sym.strip_prefix("_vt") {
+        match demangle_virtual_table(config, sym, cplus_marker) {
+            Ok(d) => return Ok(d),
+            Err(e) => leading_error.or(Some(e)),
+        }
+    } else {
+        leading_error
+    };
+
+    let leading_error = if let Some((s, name)) = sym.c_split2_char(cplus_marker) {
+        match demangle_namespaced_global(config, s, name) {
+            Ok(d) => return Ok(d),
+            Err(e) => leading_error.or(Some(e)),
+        }
+    } else {
+        leading_error
+    };
+
+    // Raise the previous error if any exists.
+    Err(leading_error.unwrap_or(DemangleError::NotMangled))
 }
 
 fn demangle_destructor<'s>(
