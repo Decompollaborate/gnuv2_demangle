@@ -73,13 +73,15 @@ fn demangle_impl<'s>(
     // Some of the checks here can overlap and produce false positives, so if
     // one fails then try again with the next one, over and over.
 
+    let leading_error = None;
+
     let leading_error = if let Some((func_name, args)) = sym.c_split2("__F") {
         match demangle_free_function(config, func_name, args) {
             Ok(d) => return Ok(d),
-            Err(e) => Some(e),
+            Err(e) => leading_error.or(Some(e)),
         }
     } else {
-        None
+        leading_error
     };
 
     let leading_error = if let Some((method_name, class_and_args)) =

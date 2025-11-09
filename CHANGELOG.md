@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for `volatile`.
+
 ### Fixed
 
 - Proper support for compilers using `.` as GCC's `CPLUS_MARKER`.

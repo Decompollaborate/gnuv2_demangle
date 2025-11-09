@@ -701,6 +701,7 @@ fn demangle_arg_qualifiers<'s>(
             'P' => post_qualifiers.insert(0, '*'),
             'R' => post_qualifiers.insert(0, '&'),
             'C' => post_qualifiers.insert_str(0, "const "),
+            'V' => post_qualifiers.insert_str(0, "volatile "),
             _ => break,
         }
 

@@ -1822,13 +1822,23 @@ fn test_demangle_dunno() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
+*/
 
 #[test]
 fn test_demangle_volatile() {
-    static CASES: [(&str, &str); 1] = [
+    static CASES: [(&str, &str); 2] = [
+        /*
+        const char * volatile some_func(volatile  int * volatile * volatile * volatile * volatile * volatile * volatile * volatile data) {
+            return (const char * volatile)data;
+        }
+        */
+        (
+            "some_func__FPVPVPVPVPVPVPVi",
+            "some_func(int volatile *volatile *volatile *volatile *volatile *volatile *volatile *)",
+        ),
         (
             "__Q29RealInput5GcPadPQ29RealInput11GcInterfaceUiPV9PADStatus",
-            "RealInput::GcPad::GcPad(RealInput::GcInterface *, unsigned int, PADStatus volatile *)"
+            "RealInput::GcPad::GcPad(RealInput::GcInterface *, unsigned int, PADStatus volatile *)",
         ),
     ];
     let config = DemangleConfig::new();
@@ -1837,7 +1847,6 @@ fn test_demangle_volatile() {
         assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
     }
 }
-*/
 
 #[test]
 fn test_demangle_mangled_within_mangled() {
