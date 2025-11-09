@@ -158,15 +158,15 @@ fn demangle_templated_value<'s>(
             DemangledArg::Plain(_arg, _array_qualifiers) => {
                 let Remaining { r: aux, d: symbol } =
                     demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
-                let t = format!("{}{}", if is_pointer { "&" } else { "" }, symbol);
+                let ampersand = if is_pointer { "&" } else { "" };
+                let t = format!("{ampersand}{symbol}");
                 (aux, t)
             }
             DemangledArg::FunctionPointer(function_pointer) => {
                 // Function pointers as types in template lists
 
-                // TODO: recover return type
                 let FunctionPointer {
-                    return_type: _return_type,
+                    return_type,
                     array_qualifiers: _,
                     post_qualifiers: _,
                     args,
@@ -175,18 +175,23 @@ fn demangle_templated_value<'s>(
                 let Remaining { r: aux, d: symbol } =
                     demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
 
+                // TODO: check `_mangled_args` demangles to `args`
                 let Some((actual_sym, _mangled_args)) = symbol.c_split2("__F") else {
                     return Err(DemangleError::InvalidFunctionPointerTypeInTemplatedList(
                         r, symbol,
                     ));
                 };
 
-                let t = format!(
-                    "{}{}({})",
-                    if is_pointer { "&" } else { "" },
-                    actual_sym,
-                    args
-                );
+                let ampersand = if is_pointer { "&" } else { "" };
+                let t = if config.fix_function_pointers_in_template_lists {
+                    if is_pointer {
+                        format!("({return_type}(*)({args})) {ampersand}{actual_sym}")
+                    } else {
+                        format!("({return_type}(&)({args})) {ampersand}{actual_sym}")
+                    }
+                } else {
+                    format!("{ampersand}{actual_sym}({args})")
+                };
                 (aux, t)
             }
             DemangledArg::MethodPointer(..)

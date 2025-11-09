@@ -1808,7 +1808,29 @@ fn test_demangle_dunno() {
 
 #[test]
 fn test_demangle_function_pointer_in_template_type_list() {
-    static CASES: [(&str, &str); 1] = [
+    static CASES: [(&str, &str); 3] = [
+        /*
+typedef void *(FUNC1)(unsigned int);
+
+template <FUNC1 *F>
+class Table {
+public:
+    void *alloc(unsigned int a) {
+    }
+};
+
+void *DefaultFunc(unsigned int);
+
+void trigger(Table<
+    DefaultFunc
+> & some_arg) {
+    some_arg.alloc(1);
+}
+        */
+        (
+            "alloc__t5Table1PFUi_Pv16DefaultFunc__FUiUi",
+            "Table<&DefaultFunc(unsigned int)>::alloc(unsigned int)",
+        ),
         /*
 extern void whatever(unsigned int);
 
@@ -1855,8 +1877,97 @@ void trigger(VecHashMap<
             "RebuildTable__t10VecHashMap5ZUxZQ26Hermes11PortMessageZt17TablePolicy_Fixed2PFUi_Pv26DefaultTableAllocFunc__FUiPFPvUi_v27DefaultTableFreeFunc__FPvUib0Ui16Ui",
             "VecHashMap<unsigned long long, Hermes::PortMessage, TablePolicy_Fixed<&DefaultTableAllocFunc(unsigned int), &DefaultTableFreeFunc(void *, unsigned int)>, false, 16>::RebuildTable(unsigned int)"
         ),
+        (
+            "RebuildTable__t10VecHashMap5ZUxZQ26Hermes11PortMessageZt17TablePolicy_Fixed2RFUi_Pv26DefaultTableAllocFunc__FUiPFPvUi_v27DefaultTableFreeFunc__FPvUib0Ui16Ui",
+            "VecHashMap<unsigned long long, Hermes::PortMessage, TablePolicy_Fixed<DefaultTableAllocFunc(unsigned int), &DefaultTableFreeFunc(void *, unsigned int)>, false, 16>::RebuildTable(unsigned int)",
+        ),
     ];
-    let config = DemangleConfig::new();
+    let mut config = DemangleConfig::new();
+    config.fix_function_pointers_in_template_lists = false;
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
+    }
+}
+
+#[test]
+fn test_demangle_function_pointer_in_template_type_list_full_type() {
+    static CASES: [(&str, &str); 3] = [
+        /*
+typedef void *(FUNC1)(unsigned int);
+
+template <FUNC1 *F>
+class Table {
+public:
+    void *alloc(unsigned int a) {
+    }
+};
+
+void *DefaultFunc(unsigned int);
+
+void trigger(Table<
+    DefaultFunc
+> & some_arg) {
+    some_arg.alloc(1);
+}
+        */
+        (
+            "alloc__t5Table1PFUi_Pv16DefaultFunc__FUiUi",
+            "Table<(void *(*)(unsigned int)) &DefaultFunc>::alloc(unsigned int)",
+        ),
+        /*
+extern void whatever(unsigned int);
+
+namespace Hermes {
+    class PortMessage {
+    };
+}
+
+template <typename A, typename B, typename C, bool D, unsigned int E>
+class VecHashMap {
+public:
+    void RebuildTable(unsigned int arg) {
+        whatever(arg);
+    }
+};
+
+typedef void *(FUNC1)(unsigned int);
+typedef void (FUNC12)(void*, unsigned int);
+
+template <FUNC1 *F, FUNC12 *G>
+class TablePolicy_Fixed {
+public:
+
+};
+
+void *DefaultTableAllocFunc(unsigned int);
+void DefaultTableFreeFunc(void *, unsigned int);
+
+void trigger(VecHashMap<
+    unsigned long long,
+    Hermes::PortMessage,
+    TablePolicy_Fixed<
+        DefaultTableAllocFunc,
+        DefaultTableFreeFunc
+    >,
+    false,
+    16
+> & some_arg) {
+    some_arg.RebuildTable(0);
+}
+
+        */
+        (
+            "RebuildTable__t10VecHashMap5ZUxZQ26Hermes11PortMessageZt17TablePolicy_Fixed2PFUi_Pv26DefaultTableAllocFunc__FUiPFPvUi_v27DefaultTableFreeFunc__FPvUib0Ui16Ui",
+            "VecHashMap<unsigned long long, Hermes::PortMessage, TablePolicy_Fixed<(void *(*)(unsigned int)) &DefaultTableAllocFunc, (void(*)(void *, unsigned int)) &DefaultTableFreeFunc>, false, 16>::RebuildTable(unsigned int)"
+        ),
+        (
+            "RebuildTable__t10VecHashMap5ZUxZQ26Hermes11PortMessageZt17TablePolicy_Fixed2RFUi_Pv26DefaultTableAllocFunc__FUiPFPvUi_v27DefaultTableFreeFunc__FPvUib0Ui16Ui",
+            "VecHashMap<unsigned long long, Hermes::PortMessage, TablePolicy_Fixed<(void *(&)(unsigned int)) DefaultTableAllocFunc, (void(*)(void *, unsigned int)) &DefaultTableFreeFunc>, false, 16>::RebuildTable(unsigned int)",
+        ),
+    ];
+    let mut config = DemangleConfig::new();
+    config.fix_function_pointers_in_template_lists = true;
 
     for (mangled, demangled) in CASES {
         assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());

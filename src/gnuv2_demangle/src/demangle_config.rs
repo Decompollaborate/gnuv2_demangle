@@ -272,15 +272,64 @@ pub struct DemangleConfig {
     /// );
     /// ```
     pub fix_array_in_return_position: bool,
+
+    /// If enabled, emit proper syntax for return types of function pointers in
+    /// template lists.
+    ///
+    /// Disabling this option make it mimic the c++filt behavior for function
+    /// pointers in template lists, which is not valid C++ but is simpler to
+    /// read.
+    ///
+    /// The c++filt behavior also omits the return type of the function pointer
+    /// while this option does explicitly shows it.
+    ///
+    /// # Examples
+    ///
+    /// Turning off this setting (mimicking c++filt behavior):
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.fix_function_pointers_in_template_lists = false;
+    ///
+    /// let demangled = demangle("alloc__t5Table1PFUi_Pv16DefaultFunc__FUiUi", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("Table<&DefaultFunc(unsigned int)>::alloc(unsigned int)")
+    /// );
+    /// ```
+    ///
+    /// The setting turned on:
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.fix_function_pointers_in_template_lists = true;
+    ///
+    /// let demangled = demangle("alloc__t5Table1PFUi_Pv16DefaultFunc__FUiUi", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("Table<(void *(*)(unsigned int)) &DefaultFunc>::alloc(unsigned int)")
+    /// );
+    /// ```
+    pub fix_function_pointers_in_template_lists: bool,
 }
 
 impl DemangleConfig {
     /// The default configuration.
+    #[must_use]
+    #[inline]
+    #[track_caller]
     pub const fn new() -> Self {
         Self::new_g2dem()
     }
 
     /// Use improved output and valid C++ syntax whenever possible.
+    #[must_use]
+    #[inline]
+    #[track_caller]
     pub const fn new_g2dem() -> Self {
         Self {
             fix_namespaced_global_constructor_bug: true,
@@ -289,6 +338,7 @@ impl DemangleConfig {
             ellipsis_emit_space_after_comma: true,
             fix_extension_int: true,
             fix_array_in_return_position: true,
+            fix_function_pointers_in_template_lists: true,
         }
     }
 
@@ -296,6 +346,9 @@ impl DemangleConfig {
     /// be considered c++filt bugs.
     ///
     /// Useful for validating demangling against c++filt.
+    #[must_use]
+    #[inline]
+    #[track_caller]
     pub const fn new_cfilt() -> Self {
         Self {
             fix_namespaced_global_constructor_bug: false,
@@ -304,6 +357,7 @@ impl DemangleConfig {
             ellipsis_emit_space_after_comma: false,
             fix_extension_int: false,
             fix_array_in_return_position: false,
+            fix_function_pointers_in_template_lists: false,
         }
     }
 }

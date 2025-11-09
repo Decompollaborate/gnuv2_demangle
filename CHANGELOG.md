@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for `volatile`.
 - Support for function pointers in template lists.
+- `DemangleConfig::fix_function_pointers_in_template_lists`: Emit proper syntax
+  for function pointers in template lists.
 
 ### Fixed
 
