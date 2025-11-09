@@ -41,6 +41,7 @@ pub enum DemangleError<'s> {
     InvalidTypeValueForTemplated(char, &'s str),
     InvalidValueForIntegralTemplated(&'s str),
     InvalidTemplatedPointerReferenceValue(&'s str),
+    InvalidFunctionPointerTypeInTemplatedList(&'s str, &'s str),
     InvalidTemplatedNumberForCharacterValue(&'s str),
     InvalidTemplatedCharacterValue(&'s str, usize),
     InvalidTemplatedBoolean(&'s str),

@@ -31,20 +31,20 @@ pub(crate) enum DemangledArg {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct FunctionPointer {
-    return_type: String,
-    array_qualifiers: OptionDisplay<ArrayQualifiers>,
-    post_qualifiers: String,
-    args: String,
+    pub(crate) return_type: String,
+    pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
+    pub(crate) post_qualifiers: String,
+    pub(crate) args: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct MethodPointer {
-    return_type: String,
-    array_qualifiers: OptionDisplay<ArrayQualifiers>,
-    class: String, // TODO: `&'s str` instead? should be easy, i think...
-    post_qualifiers: String,
-    args: String,
-    is_const_method: bool,
+    pub(crate) return_type: String,
+    pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
+    pub(crate) class: String, // TODO: `&'s str` instead? should be easy, i think...
+    pub(crate) post_qualifiers: String,
+    pub(crate) args: String,
+    pub(crate) is_const_method: bool,
 }
 
 impl fmt::Display for FunctionPointer {

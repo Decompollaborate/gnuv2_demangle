@@ -8,7 +8,7 @@ use alloc::{
     string::{String, ToString},
 };
 
-use crate::{str_cutter::StrCutter, DemangleConfig, DemangleError};
+use crate::{dem_arg::FunctionPointer, str_cutter::StrCutter, DemangleConfig, DemangleError};
 
 use crate::{
     dem::demangle_custom_name,
@@ -146,19 +146,56 @@ fn demangle_templated_value<'s>(
     }
 
     let (remaining, arg) = if is_pointer || is_reference {
-        let (aux, DemangledArg::Plain(_arg, _array_qualifiers)) = demangle_argument(
+        let (aux, demangled_arg) = demangle_argument(
             config,
             r,
             &ArgVec::new(config, None),
             &ArgVec::new(config, None),
             allow_array_fixup,
-        )?
-        else {
-            return Err(DemangleError::InvalidTemplatedPointerReferenceValue(r));
+        )?;
+
+        let (aux, t) = match demangled_arg {
+            DemangledArg::Plain(_arg, _array_qualifiers) => {
+                let Remaining { r: aux, d: symbol } =
+                    demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
+                let t = format!("{}{}", if is_pointer { "&" } else { "" }, symbol);
+                (aux, t)
+            }
+            DemangledArg::FunctionPointer(function_pointer) => {
+                // Function pointers as types in template lists
+
+                // TODO: recover return type
+                let FunctionPointer {
+                    return_type: _return_type,
+                    array_qualifiers: _,
+                    post_qualifiers: _,
+                    args,
+                } = function_pointer;
+
+                let Remaining { r: aux, d: symbol } =
+                    demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
+
+                let Some((actual_sym, _mangled_args)) = symbol.c_split2("__F") else {
+                    return Err(DemangleError::InvalidFunctionPointerTypeInTemplatedList(
+                        r, symbol,
+                    ));
+                };
+
+                let t = format!(
+                    "{}{}({})",
+                    if is_pointer { "&" } else { "" },
+                    actual_sym,
+                    args
+                );
+                (aux, t)
+            }
+            DemangledArg::MethodPointer(..)
+            | DemangledArg::Repeat { .. }
+            | DemangledArg::Ellipsis => {
+                return Err(DemangleError::InvalidTemplatedPointerReferenceValue(r))
+            }
         };
-        let Remaining { r: aux, d: symbol } =
-            demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
-        let t = format!("{}{}", if is_pointer { "&" } else { "" }, symbol);
+
         (aux, DemangledArg::Plain(t, None.into()))
     } else {
         let remaining = r;
