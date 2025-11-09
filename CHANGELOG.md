@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-11-09
+
 ### Added
 
 - Support for `volatile`.
@@ -80,7 +82,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release.
 
-[unreleased]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.3.0...main
+[unreleased]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.4.0...main
+[0.4.0]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/Decompollaborate/gnuv2_demangle/releases/tag/0.1.0
