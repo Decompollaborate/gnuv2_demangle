@@ -61,56 +61,55 @@ fn demangle_impl<'s>(
     allow_global_sym_keyed: bool,
 ) -> Result<String, DemangleError<'s>> {
     if let Some(s) = sym.c_strip_prefix_3chars('_', cplus_marker, '_') {
-        return demangle_destructor(config, s);
+        demangle_destructor(config, s)
     } else if let Some(s) = sym.strip_prefix("__") {
-        return demangle_special(config, s, sym);
+        demangle_special(config, s, sym)
     } else if let Some(s) =
         sym.c_cond_and_strip_prefix_and_char(allow_global_sym_keyed, "_GLOBAL_", cplus_marker)
     {
-        return demangle_global_sym_keyed(config, s, cplus_marker, sym);
+        demangle_global_sym_keyed(config, s, cplus_marker, sym)
+    } else {
+        demangle_impl_failables(sym, config, cplus_marker)
     }
+}
 
+fn demangle_impl_failables<'s>(
+    sym: &'s str,
+    config: &DemangleConfig,
+    cplus_marker: char,
+) -> Result<String, DemangleError<'s>> {
     // Some of the checks here can overlap and produce false positives, so if
     // one fails then try again with the next one, over and over.
 
     let leading_error = None;
 
-    let leading_error = if let Some((func_name, args)) = sym.c_split2("__F") {
-        match demangle_free_function(config, func_name, args) {
-            Ok(d) => return Ok(d),
-            Err(e) => leading_error.or(Some(e)),
+    // Look up for the first appareance of something like `__F`, `__t`, `__H`, etc. and just use that
+    let leading_error = if let Some((sym_name, the_rest, c)) = sym
+        .c_split2_r_starts_with("__", |c| {
+            matches!(c, 'F' | '1'..='9' | 'C' | 't' | 'H' | 'Q')
+        }) {
+        // All the cases here should be the same as the match above.
+        match c {
+            'F' => match demangle_free_function(config, sym_name, &the_rest[1..]) {
+                Ok(d) => return Ok(d),
+                Err(e) => leading_error.or(Some(e)),
+            },
+            '1'..='9' | 'C' | 't' => match demangle_method(config, sym_name, the_rest) {
+                Ok(d) => return Ok(d),
+                Err(e) => leading_error.or(Some(e)),
+            },
+            'H' => match demangle_templated_function(config, sym_name, &the_rest[1..]) {
+                Ok(d) => return Ok(d),
+                Err(e) => leading_error.or(Some(e)),
+            },
+            'Q' => match demangle_namespaced_function(config, sym_name, &the_rest[1..]) {
+                Ok(d) => return Ok(d),
+                Err(e) => leading_error.or(Some(e)),
+            },
+            _ => unreachable!(),
         }
     } else {
-        leading_error
-    };
-
-    let leading_error = if let Some((method_name, class_and_args)) =
-        sym.c_split2_r_starts_with("__", |c| matches!(c, '1'..='9' | 'C' | 't'))
-    {
-        match demangle_method(config, method_name, class_and_args) {
-            Ok(d) => return Ok(d),
-            Err(e) => leading_error.or(Some(e)),
-        }
-    } else {
-        leading_error
-    };
-
-    let leading_error = if let Some((func_name, s)) = sym.c_split2("__H") {
-        match demangle_templated_function(config, func_name, s) {
-            Ok(d) => return Ok(d),
-            Err(e) => leading_error.or(Some(e)),
-        }
-    } else {
-        leading_error
-    };
-
-    let leading_error = if let Some((func_name, s)) = sym.c_split2("__Q") {
-        match demangle_namespaced_function(config, func_name, s) {
-            Ok(d) => return Ok(d),
-            Err(e) => leading_error.or(Some(e)),
-        }
-    } else {
-        leading_error
+        None
     };
 
     let leading_error = if let Some(sym) = sym.strip_prefix("_vt") {
@@ -298,7 +297,7 @@ fn demangle_special<'s>(
                         // special symbol, so try to decode as a function instead.
                         if let Some((func_name, args)) = full_sym.c_split2("__F") {
                             demangle_free_function(config, func_name, args)
-                        } else if let Some((incomplete_method_name, class_and_args)) =
+                        } else if let Some((incomplete_method_name, class_and_args, _c)) =
                             s.c_split2_r_starts_with("__", |c| matches!(c, '1'..='9' | 'C' | 't'))
                         {
                             // split `s` instead of `full_sym` to skip over the

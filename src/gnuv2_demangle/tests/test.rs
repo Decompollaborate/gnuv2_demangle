@@ -676,7 +676,7 @@ fn test_demangle_global_sym_keyed_frame_cfilt() {
         ),
         (
             "_GLOBAL_$F$__as__22_IO_istream_withassignR7istream",
-            Err(DemangleError::InvalidNamespaceOnNamespacedGlobal("GLOBAL_")),
+            Ok("_IO_istream_withassign::_GLOBAL_$F$__as(istream &)"),
         ),
         (
             "_GLOBAL_$F$_IO_stdin_",
@@ -1806,7 +1806,6 @@ fn test_demangle_dunno() {
 }
 */
 
-// TODO
 /*
 #[test]
 fn test_demangle_dunno() {

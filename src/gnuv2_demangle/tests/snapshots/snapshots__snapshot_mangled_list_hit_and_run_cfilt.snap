@@ -105833,10 +105833,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_GLOBAL_$F$__as__22_IO_istream_withassignR7istream",
-        Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "GLOBAL_",
-            ),
+        Ok(
+            "_IO_istream_withassign::_GLOBAL_$F$__as(istream &)",
         ),
     ),
     (

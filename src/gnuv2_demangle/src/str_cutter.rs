@@ -7,7 +7,11 @@ pub(crate) trait StrCutter<'s> {
     #[must_use]
     fn c_split2_char(&'s self, pat: char) -> Option<(&'s str, &'s str)>;
     #[must_use]
-    fn c_split2_r_starts_with<F>(&'s self, pat: &str, r_cond: F) -> Option<(&'s str, &'s str)>
+    fn c_split2_r_starts_with<F>(
+        &'s self,
+        pat: &str,
+        r_cond: F,
+    ) -> Option<(&'s str, &'s str, char)>
     where
         F: Fn(char) -> bool;
 
@@ -55,23 +59,38 @@ impl<'s> StrCutter<'s> for str {
         }
     }
 
-    fn c_split2_r_starts_with<F>(&'s self, pat: &str, r_cond: F) -> Option<(&'s str, &'s str)>
+    fn c_split2_r_starts_with<F>(&'s self, pat: &str, r_cond: F) -> Option<(&'s str, &'s str, char)>
     where
         F: Fn(char) -> bool,
     {
-        let mut iter = self.splitn(2, pat);
+        // This assumes ASCII
 
-        if let (Some(l), Some(r)) = (iter.next(), iter.next()) {
-            if l.is_empty() {
-                None
-            } else if r.starts_with(r_cond) {
-                Some((l, r))
-            } else {
-                None
+        // Start at index 1 to avoid an empty `left`.
+        for i in 1..self.len() {
+            let current = &self[i..];
+
+            // If current is smaller than the pattern then there's no point
+            // in continue looking.
+            if current.len() <= pat.len() {
+                break;
             }
-        } else {
-            None
+
+            // Kinda like an `split`
+            if let Some(right) = current.strip_prefix(pat) {
+                if right.starts_with(&r_cond) {
+                    let left = &self[..i];
+                    let first_right_character =
+                        right
+                            .chars()
+                            .next()
+                            .expect("Due to the previous start_with we expect this to have at least a single character");
+
+                    return Some((left, right, first_right_character));
+                }
+            }
         }
+
+        None
     }
 
     fn c_cond_and_strip_prefix_and_char(
