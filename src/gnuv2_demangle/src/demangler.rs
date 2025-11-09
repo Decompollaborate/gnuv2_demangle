@@ -488,6 +488,31 @@ fn demangle_templated_function<'s>(
         (remaining, None)
     };
 
+    // - First there's an optional namespace used in template specializations.
+    // - Then there's the optional argument list, which may be omitted if there
+    //   are no parameters.
+    // - Finally the return type.
+
+    // Demangle the specialization namespace
+    let (remaining, specialization_namespace) = if let Some(r) = remaining.strip_prefix('_') {
+        let (r, DemangledArg::Plain(specialization_namespace, array_qualifiers)) =
+            demangle_argument(
+                config,
+                r,
+                &ArgVec::new(config, typ.as_deref()),
+                &template_args,
+                allow_array_fixup,
+            )?
+        else {
+            return Err(DemangleError::MalformedTemplatedSpecializationInvalidNamespace(r));
+        };
+
+        (r, Some((specialization_namespace, array_qualifiers)))
+    } else {
+        (remaining, None)
+    };
+
+    // Demangle the argument list
     let (remaining, argument_list) = demangle_argument_list_impl(
         config,
         remaining,
@@ -496,26 +521,42 @@ fn demangle_templated_function<'s>(
         false,
         allow_array_fixup,
     )?;
-    let (return_type, array_qualifiers) = if let Some(r) = remaining.strip_prefix('_') {
-        let (r, DemangledArg::Plain(ret_type, array_qualifiers)) = demangle_argument(
-            config,
-            r,
-            &ArgVec::new(config, typ.as_deref()),
-            &template_args,
-            allow_array_fixup,
-        )?
-        else {
-            return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(r));
+
+    // Demangle the return type
+    let (specialization_namespace, return_type, array_qualifiers) =
+        if let Some(r) = remaining.strip_prefix('_') {
+            let (r, DemangledArg::Plain(ret_type, array_qualifiers)) = demangle_argument(
+                config,
+                r,
+                &ArgVec::new(config, typ.as_deref()),
+                &template_args,
+                allow_array_fixup,
+            )?
+            else {
+                return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(r));
+            };
+
+            if !r.is_empty() {
+                return Err(
+                    DemangleError::TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(r),
+                );
+            }
+            (specialization_namespace, ret_type, array_qualifiers)
+        } else if let Some((actual_return_type, array_qualifiers)) = specialization_namespace {
+            // If there's no argument list and this symbol is not a template
+            // specialization inside a namespace then we mistakenly consumed the
+            // return type as the specialization_namespace
+
+            if !remaining.is_empty() {
+                return Err(
+                    DemangleError::TrailingDataAfterReturnTypeOfTemplatedSpecialization(remaining),
+                );
+            }
+
+            (None, actual_return_type, array_qualifiers)
+        } else {
+            return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(remaining));
         };
-        if !r.is_empty() {
-            return Err(
-                DemangleError::TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(r),
-            );
-        }
-        (ret_type, array_qualifiers)
-    } else {
-        return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(remaining));
-    };
 
     let template_args = template_args.join();
     let formated_template_args = if template_args.ends_with('>') {
@@ -526,6 +567,10 @@ fn demangle_templated_function<'s>(
     let argument_list = argument_list.join();
 
     let mut out = return_type;
+    if let Some((specialization_namespace, _array_qualifiers)) = specialization_namespace {
+        out.push(' ');
+        out.push_str(&specialization_namespace);
+    }
     if let Some(array_qualifiers) = array_qualifiers.as_option() {
         if config.fix_array_in_return_position {
             out.push_str(" (");

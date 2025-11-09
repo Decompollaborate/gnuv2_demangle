@@ -1782,21 +1782,84 @@ fn test_demangle_trailing_undescore() {
     }
 }
 
-// TODO
-/*
 #[test]
-fn test_demangle_dunno() {
-    static CASES: [(&str, &str); 10] = [
-        ("Copy4__H2ZQ25UMath7Vector4ZQ25UMath7Vector4__14ConversionUtilRX11RCX01_v", "void ConversionUtil Copy4<UMath::Vector4, UMath::Vector4>(UMath::Vector4 &, UMath::Vector4 const &)"),
-        ("Scale3__H1ZQ25UMath7Vector4__14ConversionUtilRX01f_v", "void ConversionUtil Scale3<UMath::Vector4>(UMath::Vector4 &, float)"),
-        ("Make4__H1ZQ25UMath7Vector4__14ConversionUtilffff_X01", "UMath::Vector4 ConversionUtil Make4<UMath::Vector4>(float, float, float, float)"),
-        ("RightToLeftVector4__H2ZQ25UMath7Vector4ZQ25UMath7Vector4__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftVector4<UMath::Vector4, UMath::Vector4>(UMath::Vector4 const &, UMath::Vector4 &)"),
-        ("RightToLeftMatrix4__H2ZQ25UMath7Matrix4ZQ25UMath7Matrix4__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftMatrix4<UMath::Matrix4, UMath::Matrix4>(UMath::Matrix4 const &, UMath::Matrix4 &)"),
-        ("Make3__H1ZQ25UMath7Vector3__14ConversionUtilfff_X01", "UMath::Vector3 ConversionUtil Make3<UMath::Vector3>(float, float, float)"),
-        ("RightToLeftVector3__H2ZQ25UMath7Vector3ZQ25UMath7Vector3__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftVector3<UMath::Vector3, UMath::Vector3>(UMath::Vector3 const &, UMath::Vector3 &)"),
-        ("Copy4__H2Z8bVector4ZQ25UMath7Vector4__14ConversionUtilRX11RCX01_v", "void ConversionUtil Copy4<bVector4, UMath::Vector4>(UMath::Vector4 &, bVector4 const &)"),
-        ("RightToLeftMatrix4__H2Z8bMatrix4ZQ25UMath7Matrix4__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftMatrix4<bMatrix4, UMath::Matrix4>(bMatrix4 const &, UMath::Matrix4 &)"),
-        ("RightToLeftVector3__H2Z8bVector3ZQ25UMath7Vector3__14ConversionUtilRCX01RX11_v", "void ConversionUtil RightToLeftVector3<bVector3, UMath::Vector3>(bVector3 const &, UMath::Vector3 &)"),
+fn test_demangle_namespaced_specializations() {
+    static CASES: [(&str, &str); 12] = [
+        /*
+        namespace UMath {
+            class Vector4 {};
+        };
+
+        namespace ConversionUtil {
+            template <typename Src, typename Dst>
+            void Copy4(Dst &dst, const Src &src);
+
+            template <>
+            void Copy4(UMath::Vector4 &dst, const UMath::Vector4 &src) {
+            }
+        }
+        */
+        (
+            "Copy4__H2ZQ25UMath7Vector4ZQ25UMath7Vector4__14ConversionUtilRX11RCX01_v",
+            "void ConversionUtil Copy4<UMath::Vector4, UMath::Vector4>(UMath::Vector4 &, UMath::Vector4 const &)"
+        ),
+        (
+            "Scale3__H1ZQ25UMath7Vector4__14ConversionUtilRX01f_v",
+            "void ConversionUtil Scale3<UMath::Vector4>(UMath::Vector4 &, float)"
+        ),
+        (
+            "Make4__H1ZQ25UMath7Vector4__14ConversionUtilffff_X01",
+            "UMath::Vector4 ConversionUtil Make4<UMath::Vector4>(float, float, float, float)"
+        ),
+        (
+            "RightToLeftVector4__H2ZQ25UMath7Vector4ZQ25UMath7Vector4__14ConversionUtilRCX01RX11_v",
+            "void ConversionUtil RightToLeftVector4<UMath::Vector4, UMath::Vector4>(UMath::Vector4 const &, UMath::Vector4 &)"
+        ),
+        (
+            "RightToLeftMatrix4__H2ZQ25UMath7Matrix4ZQ25UMath7Matrix4__14ConversionUtilRCX01RX11_v",
+            "void ConversionUtil RightToLeftMatrix4<UMath::Matrix4, UMath::Matrix4>(UMath::Matrix4 const &, UMath::Matrix4 &)"
+        ),
+        (
+            "Make3__H1ZQ25UMath7Vector3__14ConversionUtilfff_X01",
+            "UMath::Vector3 ConversionUtil Make3<UMath::Vector3>(float, float, float)"
+        ),
+        (
+            "RightToLeftVector3__H2ZQ25UMath7Vector3ZQ25UMath7Vector3__14ConversionUtilRCX01RX11_v",
+            "void ConversionUtil RightToLeftVector3<UMath::Vector3, UMath::Vector3>(UMath::Vector3 const &, UMath::Vector3 &)"
+        ),
+        (
+            "Copy4__H2Z8bVector4ZQ25UMath7Vector4__14ConversionUtilRX11RCX01_v",
+            "void ConversionUtil Copy4<bVector4, UMath::Vector4>(UMath::Vector4 &, bVector4 const &)"
+        ),
+        (
+            "RightToLeftMatrix4__H2Z8bMatrix4ZQ25UMath7Matrix4__14ConversionUtilRCX01RX11_v",
+            "void ConversionUtil RightToLeftMatrix4<bMatrix4, UMath::Matrix4>(bMatrix4 const &, UMath::Matrix4 &)"
+        ),
+        (
+            "RightToLeftVector3__H2Z8bVector3ZQ25UMath7Vector3__14ConversionUtilRCX01RX11_v",
+            "void ConversionUtil RightToLeftVector3<bVector3, UMath::Vector3>(bVector3 const &, UMath::Vector3 &)"
+        ),
+        (
+            "DeleteObjects__H1Z8GHandler_12GObjectBlock_v",
+            "void GObjectBlock::DeleteObjects<GHandler>()",
+        ),
+        /*
+namespace UMath {
+    class Vector4 {};
+};
+
+namespace ConversionUtil {
+    template <typename OUT>
+    OUT Out();
+    template <>
+    UMath::Vector4 Out<UMath::Vector4>() {
+    }
+}
+        */
+        (
+            "Out__H1ZQ25UMath7Vector4__14ConversionUtilv_X01",
+            "UMath::Vector4 ConversionUtil Out<UMath::Vector4>(void)",
+        ),
     ];
     let config = DemangleConfig::new();
 
@@ -1804,7 +1867,6 @@ fn test_demangle_dunno() {
         assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
-*/
 
 #[test]
 fn test_demangle_function_pointer_in_template_type_list() {

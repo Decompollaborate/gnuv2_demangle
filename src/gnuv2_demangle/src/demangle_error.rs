@@ -86,6 +86,8 @@ pub enum DemangleError<'s> {
     InvalidClassNameOnObjectMemberArgument(&'s str),
     MissingTypeForObjectMemberPointer(&'s str),
     InvalidTypeForObjectMemberPointer(&'s str),
+    MalformedTemplatedSpecializationInvalidNamespace(&'s str),
+    TrailingDataAfterReturnTypeOfTemplatedSpecialization(&'s str),
 }
 
 impl fmt::Display for DemangleError<'_> {
