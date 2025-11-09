@@ -16,12 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DemangleConfig::fix_function_pointers_in_template_lists`: Emit proper syntax
   for function pointers in template lists.
 - Add support for template specializations inside namespaces.
-
-### Fixed
-
 - Proper support for compilers using `.` as GCC's `CPLUS_MARKER`.
   - Fixes cases like `_6Attrib.gDatabaseExportPolicy` now being demangled to
     `Attrib::gDatabaseExportPolicy` and virtual tables.
+
+### Fixed
+
 - Try to avoid choking on trailing underscores after numbers in namespaced
   symbols.
 - Try to avoid failing to demangle when there's a mangled symbol within the
