@@ -19,7 +19,7 @@ fn test_demangling_funcs() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -50,7 +50,7 @@ fn test_demangling_funcs_const_pointer_const() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -60,7 +60,7 @@ fn test_demangle_func_argless() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -76,7 +76,7 @@ fn test_demangle_constructor_destructors() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -99,7 +99,7 @@ fn test_demangle_methods() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -170,7 +170,7 @@ fn test_demangle_operators() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -205,7 +205,7 @@ fn test_demangle_new_delete() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -221,7 +221,7 @@ fn test_demangle_namespaced_function() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -239,7 +239,7 @@ fn test_demangle_namespaced_methods() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -257,7 +257,7 @@ fn test_demangle_remembered_types() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -280,7 +280,7 @@ fn test_demangle_const_namespaced_methods() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -308,7 +308,7 @@ fn test_demangle_repeater_arg() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -322,7 +322,7 @@ fn test_demangle_funcs_starting_with_double_underscore() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -362,7 +362,7 @@ fn test_demangle_type_info_func() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -402,7 +402,7 @@ fn test_demangle_type_info_node() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -421,7 +421,7 @@ fn test_demangle_ellipsis() {
     config.ellipsis_emit_space_after_comma = false;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -440,7 +440,7 @@ fn test_demangle_ellipsis_space() {
     config.ellipsis_emit_space_after_comma = true;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -461,7 +461,7 @@ fn test_demangle_templated_classes() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -520,7 +520,7 @@ fn test_demangle_templated_classes_with_numbers() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -540,7 +540,7 @@ fn test_demangle_vtable() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -560,7 +560,7 @@ fn test_demangle_namespaced_globals() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -578,7 +578,7 @@ fn test_demangle_function_pointers() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -595,7 +595,7 @@ fn test_demangle_function_pointers_within_function_pointers() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -620,7 +620,7 @@ fn test_demangle_global_sym_keyed() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -634,12 +634,12 @@ fn test_demangle_global_sym_keyed_weird_cases() {
 
     config.fix_namespaced_global_constructor_bug = false;
     for (mangled, demangled, _) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 
     config.fix_namespaced_global_constructor_bug = true;
     for (mangled, _, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -704,7 +704,7 @@ fn test_demangle_global_sym_keyed_frame_cfilt() {
     config.demangle_global_keyed_frames = false;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), demangled.as_deref());
+        assert_eq!(demangled.as_deref(), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -766,7 +766,7 @@ fn test_demangle_global_sym_keyed_frame_nocfilt() {
     config.demangle_global_keyed_frames = true;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -785,7 +785,7 @@ fn test_demangle_argument_array() {
     config.fix_array_length_arg = false;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -804,7 +804,7 @@ fn test_demangle_argument_array_fixed() {
     config.fix_array_length_arg = true;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -836,7 +836,7 @@ fn test_demangle_template_with_return_type() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -852,7 +852,7 @@ fn test_avoid_duplicated_template_args_on_constr_destr() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -865,7 +865,7 @@ fn test_more_templated_func_cases() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -879,7 +879,7 @@ fn test_demangle_operator_on_templated() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -907,7 +907,7 @@ fn test_demangle_method_as_argument_() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -965,7 +965,7 @@ fn test_demangle_method_as_argument_in_templated_single() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1008,7 +1008,7 @@ fn test_demangle_method_as_argument_in_templated_many() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1031,7 +1031,7 @@ fn test_demangle_same_sym_but_different_mangling() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1048,7 +1048,7 @@ fn test_demangle_128bits_integers_cfilt() {
     config.fix_extension_int = false;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1065,7 +1065,7 @@ fn test_demangle_128bits_integers_fix() {
     config.fix_extension_int = true;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1111,7 +1111,7 @@ fn test_demangle_template_with_enum_value() {
     config.fix_extension_int = true;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1143,7 +1143,7 @@ fn test_demangle_templated_function_with_value_reuse() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1185,7 +1185,7 @@ fn test_demangle_array_without_pointer_cfilt() {
     config.fix_array_length_arg = false;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1226,7 +1226,7 @@ fn test_demangle_array_without_pointer_fixed() {
     config.fix_array_length_arg = true;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1247,7 +1247,7 @@ fn test_demangle_function_pointer_returning_pointer_to_array_cfilt() {
     config.fix_array_length_arg = false;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1268,7 +1268,7 @@ fn test_demangle_function_pointer_returning_pointer_to_array_fixed() {
     config.fix_array_length_arg = true;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1288,7 +1288,7 @@ fn test_demangle_templated_big_num() {
     config.fix_array_length_arg = true;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1391,7 +1391,7 @@ fn test_demangle_templated_function_returning_array_cfilt() {
     config.fix_array_in_return_position = false;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1496,7 +1496,7 @@ fn test_demangle_templated_function_returning_array_fixed() {
     config.fix_array_in_return_position = true;
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1702,7 +1702,7 @@ fn test_demangle_all_operators() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1719,7 +1719,7 @@ fn test_demangle_templated_class_complex() {
     let mut config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 */
@@ -1737,7 +1737,7 @@ fn test_demangle_templated_function_complex() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 */
@@ -1763,7 +1763,7 @@ fn test_demangle_dot_as_cplus_marker() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1778,7 +1778,7 @@ fn test_demangle_trailing_undescore() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1801,7 +1801,7 @@ fn test_demangle_dunno() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 */
@@ -1818,7 +1818,7 @@ fn test_demangle_dunno() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 */
@@ -1843,7 +1843,7 @@ fn test_demangle_volatile() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1863,7 +1863,7 @@ fn test_demangle_mangled_within_mangled() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1876,7 +1876,7 @@ fn test_demangle_single() {
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {
-        assert_eq!(demangle(mangled, &config).as_deref(), Ok(demangled));
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 */
