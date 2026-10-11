@@ -5,7 +5,7 @@ use core::num::NonZeroUsize;
 
 use alloc::{borrow::Cow, string::String};
 
-use crate::{DemangleConfig, DemangleError};
+use crate::{demangle, DemangleConfig, DemangleError};
 
 use crate::{
     dem::demangle_custom_name,
@@ -71,7 +71,18 @@ fn demangle_namespaces_impl<'s>(
             let Remaining { r, d: ns } =
                 demangle_custom_name(remaining, DemangleError::InvalidCustomNameOnNamespace)?;
             trailing_type = ns;
-            (r, Cow::from(ns))
+
+            // Since the current symbol may actually be defined inside a local
+            // struct inside an outer function (an static function from said
+            // struct or a class destructor, etc), then this namespace may
+            // actually need further demangling.
+            // If we fail, then we just keep the old namespace.
+            let new_ns = match demangle(ns, config) {
+                Ok(new_ns) => Cow::from(new_ns),
+                Err(_e) => Cow::from(ns),
+            };
+
+            (r, new_ns)
         };
         remaining = r;
         namespaces.push_str(&n);

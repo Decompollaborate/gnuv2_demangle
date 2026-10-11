@@ -352,7 +352,7 @@ pub struct DemangleConfig {
     /// let demangled = demangle("inner_func__Q216outer_func__Fv.0_7Private.3", &config);
     /// assert_eq!(
     ///     demangled.as_deref(),
-    ///     Ok("outer_func__Fv.0::Private::inner_func.3()")
+    ///     Ok("outer_func.0(void)::Private::inner_func.3()")
     /// );
     /// ```
     pub demangle_static_suffix: bool,

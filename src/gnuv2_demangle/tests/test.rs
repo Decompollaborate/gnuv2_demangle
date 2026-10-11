@@ -2064,14 +2064,14 @@ fn test_demangle_volatile() {
 fn test_demangle_mangled_within_mangled() {
     // wtf??
     static CASES: [(&str, &str); 8] = [
-        ("_vt.Q313FEPlayerCarDB46GetNumCareerCarsWithARecord__13FEPlayerCarDB.0_7NumCars", "FEPlayerCarDB::GetNumCareerCarsWithARecord__13FEPlayerCarDB.0::NumCars virtual table"),
-        ("_vt.Q313FEPlayerCarDB33GetTotalFines__13FEPlayerCarDBb.0_5Fines", "FEPlayerCarDB::GetTotalFines__13FEPlayerCarDBb.0::Fines virtual table"),
-        ("_vt.Q313FEPlayerCarDB38GetNumImpoundedCars__13FEPlayerCarDB.0_11IsImpounded", "FEPlayerCarDB::GetNumImpoundedCars__13FEPlayerCarDB.0::IsImpounded virtual table"),
-        ("_vt.Q313FEPlayerCarDB41GetTotalBustedPursuits__13FEPlayerCarDB.0_14BustedPursuits", "FEPlayerCarDB::GetTotalBustedPursuits__13FEPlayerCarDB.0::BustedPursuits virtual table"),
-        ("_vt.Q313FEPlayerCarDB41GetTotalEvadedPursuits__13FEPlayerCarDB.0_14EvadedPursuits", "FEPlayerCarDB::GetTotalEvadedPursuits__13FEPlayerCarDB.0::EvadedPursuits virtual table"),
-        ("_vt.Q313FEPlayerCarDB33GetTotalBounty__13FEPlayerCarDB.0_6Bounty", "FEPlayerCarDB::GetTotalBounty__13FEPlayerCarDB.0::Bounty virtual table"),
-        ("_vt.Q313FEPlayerCarDB42GetTotalNumInfractions__13FEPlayerCarDBb.0_19TotalNumInfractions", "FEPlayerCarDB::GetTotalNumInfractions__13FEPlayerCarDBb.0::TotalNumInfractions virtual table"),
-        ("_vt.Q313FEPlayerCarDB74GetNumInfraction__13FEPlayerCarDBQ218GInfractionManager14InfractionTypeb.0_13NumInfraction", "FEPlayerCarDB::GetNumInfraction__13FEPlayerCarDBQ218GInfractionManager14InfractionTypeb.0::NumInfraction virtual table"),
+        ("_vt.Q313FEPlayerCarDB46GetNumCareerCarsWithARecord__13FEPlayerCarDB.0_7NumCars", "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0()::NumCars virtual table"),
+        ("_vt.Q313FEPlayerCarDB33GetTotalFines__13FEPlayerCarDBb.0_5Fines", "FEPlayerCarDB::FEPlayerCarDB::GetTotalFines.0(bool)::Fines virtual table"),
+        ("_vt.Q313FEPlayerCarDB38GetNumImpoundedCars__13FEPlayerCarDB.0_11IsImpounded", "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0()::IsImpounded virtual table"),
+        ("_vt.Q313FEPlayerCarDB41GetTotalBustedPursuits__13FEPlayerCarDB.0_14BustedPursuits", "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0()::BustedPursuits virtual table"),
+        ("_vt.Q313FEPlayerCarDB41GetTotalEvadedPursuits__13FEPlayerCarDB.0_14EvadedPursuits", "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0()::EvadedPursuits virtual table"),
+        ("_vt.Q313FEPlayerCarDB33GetTotalBounty__13FEPlayerCarDB.0_6Bounty", "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0()::Bounty virtual table"),
+        ("_vt.Q313FEPlayerCarDB42GetTotalNumInfractions__13FEPlayerCarDBb.0_19TotalNumInfractions", "FEPlayerCarDB::FEPlayerCarDB::GetTotalNumInfractions.0(bool)::TotalNumInfractions virtual table"),
+        ("_vt.Q313FEPlayerCarDB74GetNumInfraction__13FEPlayerCarDBQ218GInfractionManager14InfractionTypeb.0_13NumInfraction", "FEPlayerCarDB::FEPlayerCarDB::GetNumInfraction.0(GInfractionManager::InfractionType, bool)::NumInfraction virtual table"),
     ];
     let config = DemangleConfig::new();
 
@@ -2094,7 +2094,7 @@ fn test_demangle_function_inside_local_struct() {
         */
         (
             "inner_func__Q216outer_func__Fv.0_7Private.3",
-            "outer_func__Fv.0::Private::inner_func.3()",
+            "outer_func.0(void)::Private::inner_func.3()",
             DemangleError::UnknownType('.', ".3"),
         ),
         /*
@@ -2115,7 +2115,7 @@ fn test_demangle_function_inside_local_struct() {
         */
         (
             "Compare__Q38GManager48GatherVisibleIcons__8GManagerPP5GIconP7IPlayer.0_8IconSortPCvT1.28733",
-            "GManager::GatherVisibleIcons__8GManagerPP5GIconP7IPlayer.0::IconSort::Compare.28733(void const *, void const *)",
+            "GManager::GManager::GatherVisibleIcons.0(GIcon **, IPlayer *)::IconSort::Compare.28733(void const *, void const *)",
             DemangleError::UnknownType('.', ".28733"),
         ),
         /*
@@ -2137,7 +2137,7 @@ fn test_demangle_function_inside_local_struct() {
         */
         (
             "Test__Q58GManager48GatherVisibleIcons__8GManagerPP5GIconP7IPlayer.0_8IconSort87Compare__Q38GManager48GatherVisibleIcons__8GManagerPP5GIconP7IPlayer.0_8IconSortPCvT1.1_5._112PCvT1.28800",
-            "GManager::GatherVisibleIcons__8GManagerPP5GIconP7IPlayer.0::IconSort::Compare__Q38GManager48GatherVisibleIcons__8GManagerPP5GIconP7IPlayer.0_8IconSortPCvT1.1::._112::Test.28800(void const *, void const *)",
+            "GManager::GManager::GatherVisibleIcons.0(GIcon **, IPlayer *)::IconSort::GManager::GManager::GatherVisibleIcons.0(GIcon **, IPlayer *)::IconSort::Compare.1(void const *, void const *)::._112::Test.28800(void const *, void const *)",
             DemangleError::UnknownType('.', ".28800"),
         ),
     ];
