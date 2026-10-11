@@ -24,6 +24,16 @@ impl<'s, T> Remaining<'s, T> {
             d: data,
         }
     }
+
+    pub(crate) fn convert_data<F, U>(self, convert: F) -> Option<Remaining<'s, U>>
+    where
+        F: FnOnce(T) -> Option<U>,
+    {
+        let Self { r, d } = self;
+        let u = convert(d)?;
+
+        Some(Remaining { r, d: u })
+    }
 }
 
 impl<'s, 'd> Remaining<'s, &'d str> {
@@ -44,6 +54,9 @@ impl<'s> Remaining<'s, &'s str> {
 
 pub(crate) trait StrParsing<'s> {
     #[must_use]
+    fn p_number_str(&'s self) -> Option<Remaining<'s, &'s str>>;
+
+    #[must_use]
     fn p_number(&'s self) -> Option<Remaining<'s, usize>>;
     #[must_use]
     fn p_hex_number(&'s self) -> Option<Remaining<'s, usize>>;
@@ -59,14 +72,27 @@ pub(crate) trait StrParsing<'s> {
 }
 
 impl<'s> StrParsing<'s> for str {
-    fn p_number(&'s self) -> Option<Remaining<'s, usize>> {
+    fn p_number_str(&'s self) -> Option<Remaining<'s, &'s str>> {
+        let c = self.chars().next()?;
+
+        // Check first character is a digit
+        if !c.is_ascii_digit() {
+            return None;
+        }
+
         let (remaining, data) = if let Some(index) = self.find(|c: char| !c.is_ascii_digit()) {
-            (&self[index..], self[..index].parse().ok()?)
+            // There's a character somewhere that's not a digit, split it
+            (&self[index..], &self[..index])
         } else {
-            ("", self.parse().ok()?)
+            // The whole str is composed of digits, there's no remainder left
+            ("", self)
         };
 
         Some(Remaining::new(remaining, data))
+    }
+
+    fn p_number(&'s self) -> Option<Remaining<'s, usize>> {
+        self.p_number_str()?.convert_data(|d| d.parse().ok())
     }
 
     fn p_hex_number(&'s self) -> Option<Remaining<'s, usize>> {
@@ -130,6 +156,26 @@ impl<'s> StrParsing<'s> for str {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_parse_number_str() {
+        assert_eq!("1junk".p_number_str(), Some(Remaining::new("junk", "1")),);
+        assert_eq!(
+            "1234567junk123".p_number_str(),
+            Some(Remaining::new("junk123", "1234567")),
+        );
+        assert_eq!(".12345".p_number_str(), None,);
+    }
+
+    #[test]
+    fn test_parse_number() {
+        assert_eq!("1junk".p_number(), Some(Remaining::new("junk", 1)),);
+        assert_eq!(
+            "1234567junk123".p_number(),
+            Some(Remaining::new("junk123", 1234567)),
+        );
+        assert_eq!(".12345".p_number(), None,);
+    }
 
     #[test]
     fn test_parse_number_maybe_multi_digit() {

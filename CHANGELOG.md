@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support demangling symbols with a trailing static numeric suffix.
+  - This is used by g++ to avoid name clashes on static member functions on
+    structs defined inside a function.
+- `DemangleConfig::demangle_static_suffix`: Toggle handling support for the
+  static numeric suffix generated.
+
 ## [0.4.0] - 2025-11-09
 
 ### Added

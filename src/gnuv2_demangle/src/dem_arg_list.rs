@@ -2,11 +2,12 @@
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
 use alloc::{
+    borrow::Cow,
     string::{String, ToString},
     vec::Vec,
 };
 
-use crate::{DemangleConfig, DemangleError};
+use crate::{remainer::StrParsing, DemangleConfig, DemangleError};
 
 use crate::dem_arg::{demangle_argument, DemangledArg};
 
@@ -165,7 +166,7 @@ pub(crate) fn demangle_argument_list<'s>(
     namespace: Option<&str>,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<String, DemangleError<'s>> {
+) -> Result<(Cow<'s, str>, &'s str), DemangleError<'s>> {
     let (remaining, argument_list) = demangle_argument_list_impl(
         config,
         args,
@@ -175,11 +176,26 @@ pub(crate) fn demangle_argument_list<'s>(
         allow_array_fixup,
     )?;
 
+    // Handle the static numeric suffix used to distinguish static symbols inside structs
+    let (remaining, static_suffix) = if let Some(extra) = remaining.strip_prefix('.') {
+        let Some(rem) = extra.p_number_str() else {
+            return Err(DemangleError::NonNumericStaticSuffix(remaining));
+        };
+
+        if !rem.r.is_empty() {
+            return Err(DemangleError::TrailingDataAfterStaticSuffix(rem.r, rem.d));
+        }
+
+        (rem.r, remaining)
+    } else {
+        (remaining, "")
+    };
+
     if !remaining.is_empty() {
         return Err(DemangleError::TrailingDataAfterArgumentList(remaining));
     }
 
-    Ok(argument_list.join())
+    Ok((Cow::from(argument_list.join()), static_suffix))
 }
 
 pub(crate) fn demangle_argument_list_impl<'c, 's, 'ns>(
@@ -193,6 +209,13 @@ pub(crate) fn demangle_argument_list_impl<'c, 's, 'ns>(
     let mut arguments = ArgVec::new(config, namespace);
 
     while !args.is_empty() && !args.starts_with('_') {
+        if config.demangle_static_suffix && args.starts_with('.') {
+            // g++ emits a dot and numeric suffix to handle statics symbols and
+            // avoid them from overlapping between them
+            // c++filt chokes on them and refuses to demangle them.
+            break;
+        }
+
         let old_args = args;
         let (remaining, b) = demangle_argument(
             config,

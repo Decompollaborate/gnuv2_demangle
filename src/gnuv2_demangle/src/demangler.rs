@@ -353,10 +353,10 @@ fn demangle_special<'s>(
         }
     };
 
-    let argument_list = if remaining.is_empty() {
-        "void"
+    let (argument_list, static_suffix) = if remaining.is_empty() {
+        (Cow::from("void"), "")
     } else {
-        &demangle_argument_list(
+        demangle_argument_list(
             config,
             remaining,
             class_name.as_deref(),
@@ -366,9 +366,9 @@ fn demangle_special<'s>(
     };
 
     let out = if let Some(class_name) = class_name {
-        format!("{class_name}::{method_name}({argument_list}){suffix}")
+        format!("{class_name}::{method_name}{static_suffix}({argument_list}){suffix}")
     } else {
-        format!("{method_name}({argument_list}){suffix}")
+        format!("{method_name}{static_suffix}({argument_list}){suffix}")
     };
     Ok(out)
 }
@@ -380,7 +380,7 @@ fn demangle_free_function<'s>(
 ) -> Result<String, DemangleError<'s>> {
     let allow_array_fixup = true;
 
-    let argument_list = demangle_argument_list(
+    let (argument_list, static_suffix) = demangle_argument_list(
         config,
         args,
         None,
@@ -388,7 +388,7 @@ fn demangle_free_function<'s>(
         allow_array_fixup,
     )?;
 
-    Ok(format!("{func_name}({argument_list})"))
+    Ok(format!("{func_name}{static_suffix}({argument_list})"))
 }
 
 fn demangle_method<'s>(
@@ -427,10 +427,10 @@ fn demangle_method<'s>(
         (r, class_name)
     };
 
-    let argument_list = if remaining.is_empty() {
-        "void"
+    let (argument_list, static_suffix) = if remaining.is_empty() {
+        (Cow::from("void"), "")
     } else {
-        &demangle_argument_list(
+        demangle_argument_list(
             config,
             remaining,
             Some(&namespace),
@@ -440,7 +440,7 @@ fn demangle_method<'s>(
     };
 
     Ok(format!(
-        "{namespace}::{method_name}({argument_list}){suffix}"
+        "{namespace}::{method_name}{static_suffix}({argument_list}){suffix}"
     ))
 }
 
@@ -612,10 +612,10 @@ fn demangle_namespaced_function<'s>(
     let (remaining, namespaces, _trailing_namespace) =
         demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
 
-    let argument_list = if remaining.is_empty() {
-        "void"
+    let (argument_list, static_suffix) = if remaining.is_empty() {
+        (Cow::from("void"), "")
     } else {
-        &demangle_argument_list(
+        demangle_argument_list(
             config,
             remaining,
             Some(&namespaces),
@@ -624,7 +624,7 @@ fn demangle_namespaced_function<'s>(
         )?
     };
 
-    let out = format!("{namespaces}::{func_name}({argument_list})");
+    let out = format!("{namespaces}::{func_name}{static_suffix}({argument_list})");
     Ok(out)
 }
 

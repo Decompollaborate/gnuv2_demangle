@@ -65,6 +65,8 @@ pub enum DemangleError<'s> {
     InvalidNumber1OnXArgument(&'s str, usize),
     IndexTooBigForXArgument(&'s str, usize),
     TrailingDataAfterArgumentList(&'s str),
+    NonNumericStaticSuffix(&'s str),
+    TrailingDataAfterStaticSuffix(&'s str, &'s str),
     MalformedTemplateWithReturnTypeMissingReturnType(&'s str),
     MalformedTemplateWithReturnTypeMissingMalformedReturnType(&'s str),
     TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(&'s str),
