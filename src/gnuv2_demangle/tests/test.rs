@@ -2080,6 +2080,59 @@ fn test_demangle_mangled_within_mangled() {
     }
 }
 
+// Issue 4: https://github.com/Decompollaborate/gnuv2_demangle/issues/4
+#[test]
+fn test_demangle_function_inside_local_struct() {
+    static CASES: [(&str, Result<&str, DemangleError<'_>>); 2] = [
+        /*
+        class GManager {
+            GatherVisibleIcons(GIcon **iconArray, IPlayer *player);
+        };
+
+        int GManager::GatherVisibleIcons(GIcon **iconArray, IPlayer *player) {
+            struct IconSort {
+                GIcon *mIcon;
+                int mDist;
+
+                static int Compare(const void *a, const void *b) {
+                    return NULL;
+                }
+            };
+        };
+        */
+        (
+            "Compare__Q38GManager48GatherVisibleIcons__8GManagerPP5GIconP7IPlayer.0_8IconSortPCvT1.28733",
+            Err(DemangleError::UnknownType('.', ".28733")),
+        ),
+        /*
+        int GManager::GatherVisibleIcons(GIcon **iconArray, IPlayer *player) {
+            struct IconSort {
+                GIcon *mIcon;
+                int mDist;
+
+                static int Compare(const void *a, const void *b) {
+                    struct {
+                        static int Test(const void *a, const void *b) {
+                            return NULL;
+                        }
+                    } foo;
+                    return NULL;
+                }
+            };
+        }
+         */
+        (
+            "Test__Q58GManager48GatherVisibleIcons__8GManagerPP5GIconP7IPlayer.0_8IconSort87Compare__Q38GManager48GatherVisibleIcons__8GManagerPP5GIconP7IPlayer.0_8IconSortPCvT1.1_5._112PCvT1.28800",
+            Err(DemangleError::UnknownType('.', ".28800")),
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(demangled.as_deref(), demangle(mangled, &config).as_deref());
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {
