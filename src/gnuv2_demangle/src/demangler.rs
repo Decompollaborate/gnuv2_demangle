@@ -48,10 +48,50 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
     } else {
         // GCC lets users change the default marker ('$') for compatibility
         // with other toolchains that do not accept '$' in symbol names.
-        let cplus_marker = sym.chars().find(|x| *x == '.').unwrap_or('$');
+        let cplus_marker = determine_cplus_marker(sym);
 
         demangle_impl(sym, config, cplus_marker, true)
     }
+}
+
+fn determine_cplus_marker(sym: &str) -> char {
+    let tentative = if sym.starts_with("_$_") {
+        // destructor
+        Some('$')
+    } else if sym.starts_with("_._") {
+        // destructor
+        Some('.')
+    } else if sym.starts_with("_GLOBAL_$") {
+        // global sym keyed
+        Some('$')
+    } else if sym.starts_with("_GLOBAL_.") {
+        // global sym keyed
+        Some('.')
+    } else if sym.starts_with("_vt$") {
+        // virtual table
+        Some('$')
+    } else if sym.starts_with("_vt.") {
+        // virtual table
+        Some('.')
+    } else {
+        None
+    };
+
+    tentative.unwrap_or_else(|| {
+        let namespaced_global =
+            sym.starts_with('_') && sym[1..].starts_with(|c| matches!(c, 't' | 'Q' | '1'..='9'));
+
+        if namespaced_global && sym.contains('$') {
+            // namespaced global
+            '$'
+        } else if namespaced_global && sym.contains('.') {
+            // namespaced global
+            '.'
+        } else {
+            // Unable to determine, fallback
+            '$'
+        }
+    })
 }
 
 fn demangle_impl<'s>(

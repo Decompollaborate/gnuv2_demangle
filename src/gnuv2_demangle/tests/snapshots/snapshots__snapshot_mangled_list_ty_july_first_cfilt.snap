@@ -30,10 +30,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -45,10 +42,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -84,17 +78,14 @@ expression: "demangle_lines(contents, &config)"
     (
         "flinch.1752",
         Err(
-            InvalidNamespacedGlobal(
-                "flinch",
-                "1752",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_$tmp_0.1911",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "$tmp_0",
+                "",
             ),
         ),
     ),
@@ -113,10 +104,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -134,28 +122,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "offset.1500",
         Err(
-            InvalidNamespacedGlobal(
-                "offset",
-                "1500",
-            ),
+            NotMangled,
         ),
     ),
     (
         "up.1501",
         Err(
-            InvalidNamespacedGlobal(
-                "up",
-                "1501",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -167,35 +146,26 @@ expression: "demangle_lines(contents, &config)"
     (
         "oldAng.1557",
         Err(
-            InvalidNamespacedGlobal(
-                "oldAng",
-                "1557",
-            ),
+            NotMangled,
         ),
     ),
     (
         "wiggleRate.1561",
         Err(
-            InvalidNamespacedGlobal(
-                "wiggleRate",
-                "1561",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_$tmp_0.1492",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "$tmp_0",
+                "",
             ),
         ),
     ),
@@ -220,10 +190,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "pickTable.1496",
         Err(
-            InvalidNamespacedGlobal(
-                "pickTable",
-                "1496",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -241,19 +208,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "bLastPressed.1638",
         Err(
-            InvalidNamespacedGlobal(
-                "bLastPressed",
-                "1638",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -289,19 +250,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -343,10 +298,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -358,10 +310,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -373,37 +322,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "modelCount.1836",
         Err(
-            InvalidNamespacedGlobal(
-                "modelCount",
-                "1836",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "FirstFrame.1887",
         Err(
-            InvalidNamespacedGlobal(
-                "FirstFrame",
-                "1887",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -476,17 +413,14 @@ expression: "demangle_lines(contents, &config)"
         "_$tmp_0.1958",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "$tmp_0",
+                "",
             ),
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -498,10 +432,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -537,10 +468,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -552,37 +480,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "LastLogicGameCount.1704",
         Err(
-            InvalidNamespacedGlobal(
-                "LastLogicGameCount",
-                "1704",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "j.1599",
         Err(
-            InvalidNamespacedGlobal(
-                "j",
-                "1599",
-            ),
+            NotMangled,
         ),
     ),
     (
         "up.1603",
         Err(
-            InvalidNamespacedGlobal(
-                "up",
-                "1603",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -606,10 +522,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -627,37 +540,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "rrr.1944",
         Err(
-            InvalidNamespacedGlobal(
-                "rrr",
-                "1944",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pscaler.2029",
         Err(
-            InvalidNamespacedGlobal(
-                "pscaler",
-                "2029",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -669,10 +570,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -702,10 +600,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -717,10 +612,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -732,10 +624,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -747,10 +636,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -768,28 +654,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -819,10 +696,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -834,10 +708,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -855,10 +726,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -876,10 +744,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -897,28 +762,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -936,19 +792,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -960,19 +810,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -990,10 +834,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1023,10 +864,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1068,37 +906,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1122,19 +948,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1146,10 +966,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1191,10 +1008,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1212,10 +1026,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1251,10 +1062,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1266,10 +1074,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1293,10 +1098,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1320,10 +1122,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1365,10 +1164,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1416,10 +1212,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1431,10 +1224,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "sparkEnvelope.1413",
         Err(
-            InvalidNamespacedGlobal(
-                "sparkEnvelope",
-                "1413",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1446,10 +1236,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1479,10 +1266,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1494,37 +1278,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1536,10 +1308,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1563,10 +1332,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1656,19 +1422,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1746,10 +1506,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1773,28 +1530,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1806,19 +1554,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1830,10 +1572,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1845,19 +1584,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1869,28 +1602,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "testFrame.1371",
         Err(
-            InvalidNamespacedGlobal(
-                "testFrame",
-                "1371",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1902,10 +1626,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1917,19 +1638,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1947,28 +1662,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "smokeEnvelope.1395",
         Err(
-            InvalidNamespacedGlobal(
-                "smokeEnvelope",
-                "1395",
-            ),
+            NotMangled,
         ),
     ),
     (
         "bigSmokeEnvelope.1396",
         Err(
-            InvalidNamespacedGlobal(
-                "bigSmokeEnvelope",
-                "1396",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -1980,55 +1686,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "portalEnvelope.1406",
         Err(
-            InvalidNamespacedGlobal(
-                "portalEnvelope",
-                "1406",
-            ),
+            NotMangled,
         ),
     ),
     (
         "waterMistEnvelope.1416",
         Err(
-            InvalidNamespacedGlobal(
-                "waterMistEnvelope",
-                "1416",
-            ),
+            NotMangled,
         ),
     ),
     (
         "fireEnvelope.1429",
         Err(
-            InvalidNamespacedGlobal(
-                "fireEnvelope",
-                "1429",
-            ),
+            NotMangled,
         ),
     ),
     (
         "fireGlowEnvelope.1430",
         Err(
-            InvalidNamespacedGlobal(
-                "fireGlowEnvelope",
-                "1430",
-            ),
+            NotMangled,
         ),
     ),
     (
         "zero.1464",
         Err(
-            InvalidNamespacedGlobal(
-                "zero",
-                "1464",
-            ),
+            NotMangled,
         ),
     ),
     (
         "iceEnvelope.1474",
         Err(
-            InvalidNamespacedGlobal(
-                "iceEnvelope",
-                "1474",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2040,10 +1728,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "dustEnvelope.1496",
         Err(
-            InvalidNamespacedGlobal(
-                "dustEnvelope",
-                "1496",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2067,10 +1752,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "kickUpParticleEnvelope.1506",
         Err(
-            InvalidNamespacedGlobal(
-                "kickUpParticleEnvelope",
-                "1506",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2088,10 +1770,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "gooEnvelope.1519",
         Err(
-            InvalidNamespacedGlobal(
-                "gooEnvelope",
-                "1519",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2103,46 +1782,31 @@ expression: "demangle_lines(contents, &config)"
     (
         "specialEnvelope.1529",
         Err(
-            InvalidNamespacedGlobal(
-                "specialEnvelope",
-                "1529",
-            ),
+            NotMangled,
         ),
     ),
     (
         "frostyBreathEnvelope.1539",
         Err(
-            InvalidNamespacedGlobal(
-                "frostyBreathEnvelope",
-                "1539",
-            ),
+            NotMangled,
         ),
     ),
     (
         "snowTrailEnvelope.1549",
         Err(
-            InvalidNamespacedGlobal(
-                "snowTrailEnvelope",
-                "1549",
-            ),
+            NotMangled,
         ),
     ),
     (
         "waterTrailEnvelope.1559",
         Err(
-            InvalidNamespacedGlobal(
-                "waterTrailEnvelope",
-                "1559",
-            ),
+            NotMangled,
         ),
     ),
     (
         "bullSplashEnvelope.1569",
         Err(
-            InvalidNamespacedGlobal(
-                "bullSplashEnvelope",
-                "1569",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2154,91 +1818,61 @@ expression: "demangle_lines(contents, &config)"
     (
         "canSprayEnvelope.1579",
         Err(
-            InvalidNamespacedGlobal(
-                "canSprayEnvelope",
-                "1579",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "bv.1383",
         Err(
-            InvalidNamespacedGlobal(
-                "bv",
-                "1383",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pCurrentEM.1368",
         Err(
-            InvalidNamespacedGlobal(
-                "pCurrentEM",
-                "1368",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2256,10 +1890,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2277,82 +1908,55 @@ expression: "demangle_lines(contents, &config)"
     (
         "sunPos.1722",
         Err(
-            InvalidNamespacedGlobal(
-                "sunPos",
-                "1722",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "waterSlideEnvelope.1371",
         Err(
-            InvalidNamespacedGlobal(
-                "waterSlideEnvelope",
-                "1371",
-            ),
+            NotMangled,
         ),
     ),
     (
         "waterSlideEnvelope1.1372",
         Err(
-            InvalidNamespacedGlobal(
-                "waterSlideEnvelope1",
-                "1372",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2370,10 +1974,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2403,28 +2004,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "gemEnvelope.1371",
         Err(
-            InvalidNamespacedGlobal(
-                "gemEnvelope",
-                "1371",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pos.1384",
         Err(
-            InvalidNamespacedGlobal(
-                "pos",
-                "1384",
-            ),
+            NotMangled,
         ),
     ),
     (
         "volume.1385",
         Err(
-            InvalidNamespacedGlobal(
-                "volume",
-                "1385",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2436,19 +2028,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2484,28 +2070,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2523,82 +2100,55 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "seed.1422",
         Err(
-            InvalidNamespacedGlobal(
-                "seed",
-                "1422",
-            ),
+            NotMangled,
         ),
     ),
     (
         "seed.1426",
         Err(
-            InvalidNamespacedGlobal(
-                "seed",
-                "1426",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2610,10 +2160,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2631,10 +2178,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2646,10 +2190,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2661,55 +2202,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "vol.1533",
         Err(
-            InvalidNamespacedGlobal(
-                "vol",
-                "1533",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2739,10 +2262,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2754,28 +2274,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2793,37 +2304,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "smokeEnvelope.1377",
         Err(
-            InvalidNamespacedGlobal(
-                "smokeEnvelope",
-                "1377",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2835,19 +2334,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2895,10 +2388,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "counter.1539",
         Err(
-            InvalidNamespacedGlobal(
-                "counter",
-                "1539",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2910,28 +2400,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "pos.1558",
         Err(
-            InvalidNamespacedGlobal(
-                "pos",
-                "1558",
-            ),
+            NotMangled,
         ),
     ),
     (
         "volume.1559",
         Err(
-            InvalidNamespacedGlobal(
-                "volume",
-                "1559",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2943,10 +2424,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2976,10 +2454,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -2997,19 +2472,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3027,37 +2496,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3069,10 +2526,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3084,46 +2538,31 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3135,10 +2574,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3156,10 +2592,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3171,37 +2604,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3219,19 +2640,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3243,10 +2658,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3270,10 +2682,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3285,10 +2694,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3306,37 +2712,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3348,28 +2742,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3387,10 +2772,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3402,28 +2784,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3435,10 +2808,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3492,19 +2862,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3534,19 +2898,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3558,19 +2916,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3582,10 +2934,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3603,10 +2952,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3618,37 +2964,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "vol.1434",
         Err(
-            InvalidNamespacedGlobal(
-                "vol",
-                "1434",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3666,46 +3000,31 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3753,28 +3072,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3786,10 +3096,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3831,37 +3138,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3879,28 +3174,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3924,55 +3210,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -3984,19 +3252,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4014,19 +3276,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4080,10 +3336,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4131,10 +3384,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4152,19 +3402,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4188,10 +3432,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4209,19 +3450,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4251,19 +3486,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.1482",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "1482",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4407,109 +3636,73 @@ expression: "demangle_lines(contents, &config)"
     (
         "LastPitch.2261",
         Err(
-            InvalidNamespacedGlobal(
-                "LastPitch",
-                "2261",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastDelta.2262",
         Err(
-            InvalidNamespacedGlobal(
-                "LastDelta",
-                "2262",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastTargetX.2266",
         Err(
-            InvalidNamespacedGlobal(
-                "LastTargetX",
-                "2266",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastTargetZ.2267",
         Err(
-            InvalidNamespacedGlobal(
-                "LastTargetZ",
-                "2267",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastSourceX.2268",
         Err(
-            InvalidNamespacedGlobal(
-                "LastSourceX",
-                "2268",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastSourceZ.2269",
         Err(
-            InvalidNamespacedGlobal(
-                "LastSourceZ",
-                "2269",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastStart.2678",
         Err(
-            InvalidNamespacedGlobal(
-                "LastStart",
-                "2678",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastEnd.2679",
         Err(
-            InvalidNamespacedGlobal(
-                "LastEnd",
-                "2679",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastResult.2680",
         Err(
-            InvalidNamespacedGlobal(
-                "LastResult",
-                "2680",
-            ),
+            NotMangled,
         ),
     ),
     (
         "bLastHit.2681",
         Err(
-            InvalidNamespacedGlobal(
-                "bLastHit",
-                "2681",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.1377",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "1377",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4527,19 +3720,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.1380",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "1380",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4551,28 +3738,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "up.1558",
         Err(
-            InvalidNamespacedGlobal(
-                "up",
-                "1558",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4662,10 +3840,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4713,10 +3888,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4752,28 +3924,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "delay.1446",
         Err(
-            InvalidNamespacedGlobal(
-                "delay",
-                "1446",
-            ),
+            NotMangled,
         ),
     ),
     (
         "updateCount.1447",
         Err(
-            InvalidNamespacedGlobal(
-                "updateCount",
-                "1447",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -4857,10 +4020,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5004,28 +4164,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "yaw.1665",
         Err(
-            InvalidNamespacedGlobal(
-                "yaw",
-                "1665",
-            ),
+            NotMangled,
         ),
     ),
     (
         "yaw.1672",
         Err(
-            InvalidNamespacedGlobal(
-                "yaw",
-                "1672",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5043,10 +4194,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5070,19 +4218,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5130,10 +4272,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5163,10 +4302,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5190,19 +4326,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5214,37 +4344,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "bCopyrightInitialised.1431",
         Err(
-            InvalidNamespacedGlobal(
-                "bCopyrightInitialised",
-                "1431",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5268,10 +4386,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5283,19 +4398,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5343,19 +4452,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5367,10 +4470,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5383,26 +4483,20 @@ expression: "demangle_lines(contents, &config)"
         "_$tmp_0.1942",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "$tmp_0",
+                "",
             ),
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5426,10 +4520,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5453,10 +4544,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5474,10 +4562,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5507,10 +4592,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5552,10 +4634,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5573,10 +4652,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5600,10 +4676,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5633,10 +4706,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5654,10 +4724,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5675,10 +4742,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5702,10 +4766,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5723,10 +4784,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5750,10 +4808,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5765,10 +4820,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5780,10 +4832,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5795,10 +4844,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5810,10 +4856,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5831,10 +4874,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5846,10 +4886,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5867,10 +4904,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5888,10 +4922,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5909,10 +4940,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5930,10 +4958,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5957,10 +4982,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5972,10 +4994,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -5999,10 +5018,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6080,28 +5096,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "fireGlowEnvelope.1617",
         Err(
-            InvalidNamespacedGlobal(
-                "fireGlowEnvelope",
-                "1617",
-            ),
+            NotMangled,
         ),
     ),
     (
         "fireExplodeEnvelope.1618",
         Err(
-            InvalidNamespacedGlobal(
-                "fireExplodeEnvelope",
-                "1618",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6125,10 +5132,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6158,10 +5162,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6179,10 +5180,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6248,10 +5246,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6263,10 +5258,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6284,10 +5276,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6299,10 +5288,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6326,10 +5312,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6353,10 +5336,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6374,10 +5354,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6395,10 +5372,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6410,28 +5384,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "speedMultiplier.1539",
         Err(
-            InvalidNamespacedGlobal(
-                "speedMultiplier",
-                "1539",
-            ),
+            NotMangled,
         ),
     ),
     (
         "fleeWaypoint.1540",
         Err(
-            InvalidNamespacedGlobal(
-                "fleeWaypoint",
-                "1540",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6455,10 +5420,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6476,10 +5438,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6497,10 +5456,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6524,55 +5480,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pos.1449",
         Err(
-            InvalidNamespacedGlobal(
-                "pos",
-                "1449",
-            ),
+            NotMangled,
         ),
     ),
     (
         "volume.1450",
         Err(
-            InvalidNamespacedGlobal(
-                "volume",
-                "1450",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6584,19 +5522,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6608,10 +5540,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6629,10 +5558,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6644,19 +5570,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6668,10 +5588,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6683,10 +5600,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6698,10 +5612,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6713,10 +5624,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6728,10 +5636,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6743,10 +5648,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6758,10 +5660,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6773,10 +5672,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6788,109 +5684,73 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "avalancheEnvelope.1374",
         Err(
-            InvalidNamespacedGlobal(
-                "avalancheEnvelope",
-                "1374",
-            ),
+            NotMangled,
         ),
     ),
     (
         "cloudEnvelope.1375",
         Err(
-            InvalidNamespacedGlobal(
-                "cloudEnvelope",
-                "1375",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pExplosionVol.1425",
         Err(
-            InvalidNamespacedGlobal(
-                "pExplosionVol",
-                "1425",
-            ),
+            NotMangled,
         ),
     ),
     (
         "vol.1426",
         Err(
-            InvalidNamespacedGlobal(
-                "vol",
-                "1426",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "envelope.1365",
         Err(
-            InvalidNamespacedGlobal(
-                "envelope",
-                "1365",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pSmokeVol.1369",
         Err(
-            InvalidNamespacedGlobal(
-                "pSmokeVol",
-                "1369",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6938,28 +5798,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "seed.1434",
         Err(
-            InvalidNamespacedGlobal(
-                "seed",
-                "1434",
-            ),
+            NotMangled,
         ),
     ),
     (
         "seed.1441",
         Err(
-            InvalidNamespacedGlobal(
-                "seed",
-                "1441",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -6989,163 +5840,109 @@ expression: "demangle_lines(contents, &config)"
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "envelope.1374",
         Err(
-            InvalidNamespacedGlobal(
-                "envelope",
-                "1374",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pRainbowVol.1378",
         Err(
-            InvalidNamespacedGlobal(
-                "pRainbowVol",
-                "1378",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "sawDustEnvelope.1371",
         Err(
-            InvalidNamespacedGlobal(
-                "sawDustEnvelope",
-                "1371",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "smokeEnvelope.1365",
         Err(
-            InvalidNamespacedGlobal(
-                "smokeEnvelope",
-                "1365",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "footSnowEnvelope.1365",
         Err(
-            InvalidNamespacedGlobal(
-                "footSnowEnvelope",
-                "1365",
-            ),
+            NotMangled,
         ),
     ),
     (
         "footIceEnvelope.1366",
         Err(
-            InvalidNamespacedGlobal(
-                "footIceEnvelope",
-                "1366",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
         "waterDripEnvelope.1371",
         Err(
-            InvalidNamespacedGlobal(
-                "waterDripEnvelope",
-                "1371",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colorVec.767",
         Err(
-            InvalidNamespacedGlobal(
-                "colorVec",
-                "767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7206,7 +6003,7 @@ expression: "demangle_lines(contents, &config)"
         "_$tmp_0.1435",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "$tmp_0",
+                "",
             ),
         ),
     ),
@@ -7237,37 +6034,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "collapseLodWeights.702",
         Err(
-            InvalidNamespacedGlobal(
-                "collapseLodWeights",
-                "702",
-            ),
+            NotMangled,
         ),
     ),
     (
         "collapseIndex.703",
         Err(
-            InvalidNamespacedGlobal(
-                "collapseIndex",
-                "703",
-            ),
+            NotMangled,
         ),
     ),
     (
         "collapseLodWeights.710",
         Err(
-            InvalidNamespacedGlobal(
-                "collapseLodWeights",
-                "710",
-            ),
+            NotMangled,
         ),
     ),
     (
         "collapseIndex.711",
         Err(
-            InvalidNamespacedGlobal(
-                "collapseIndex",
-                "711",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7309,10 +6094,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "constants.678",
         Err(
-            InvalidNamespacedGlobal(
-                "constants",
-                "678",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7324,10 +6106,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "modeNames.585",
         Err(
-            InvalidNamespacedGlobal(
-                "modeNames",
-                "585",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7513,10 +6292,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "zero.453",
         Err(
-            InvalidNamespacedGlobal(
-                "zero",
-                "453",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7696,10 +6472,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "last.684",
         Err(
-            InvalidNamespacedGlobal(
-                "last",
-                "684",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7735,10 +6508,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "pMatStrings.684",
         Err(
-            InvalidNamespacedGlobal(
-                "pMatStrings",
-                "684",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7750,54 +6520,39 @@ expression: "demangle_lines(contents, &config)"
     (
         "key.804",
         Err(
-            InvalidNamespacedGlobal(
-                "key",
-                "804",
-            ),
+            NotMangled,
         ),
     ),
     (
         "vu.805",
         Err(
-            InvalidNamespacedGlobal(
-                "vu",
-                "805",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_$tmp_0.887",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "$tmp_0",
+                "",
             ),
         ),
     ),
     (
         "whack.888",
         Err(
-            InvalidNamespacedGlobal(
-                "whack",
-                "888",
-            ),
+            NotMangled,
         ),
     ),
     (
         "key.930",
         Err(
-            InvalidNamespacedGlobal(
-                "key",
-                "930",
-            ),
+            NotMangled,
         ),
     ),
     (
         "vu.931",
         Err(
-            InvalidNamespacedGlobal(
-                "vu",
-                "931",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7815,10 +6570,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "bDefaultInit.780",
         Err(
-            InvalidNamespacedGlobal(
-                "bDefaultInit",
-                "780",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7848,10 +6600,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "first.334",
         Err(
-            InvalidNamespacedGlobal(
-                "first",
-                "334",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7881,10 +6630,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "pi.450",
         Err(
-            InvalidNamespacedGlobal(
-                "pi",
-                "450",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -7962,10 +6708,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "lastCdFilename.343",
         Err(
-            InvalidNamespacedGlobal(
-                "lastCdFilename",
-                "343",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -8025,10 +6768,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "count.334",
         Err(
-            InvalidNamespacedGlobal(
-                "count",
-                "334",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -8184,37 +6924,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "disable_path3.813",
         Err(
-            InvalidNamespacedGlobal(
-                "disable_path3",
-                "813",
-            ),
+            NotMangled,
         ),
     ),
     (
         "targetIterations.820",
         Err(
-            InvalidNamespacedGlobal(
-                "targetIterations",
-                "820",
-            ),
+            NotMangled,
         ),
     ),
     (
         "iterationsAtThisRate.821",
         Err(
-            InvalidNamespacedGlobal(
-                "iterationsAtThisRate",
-                "821",
-            ),
+            NotMangled,
         ),
     ),
     (
         "slowmo.822",
         Err(
-            InvalidNamespacedGlobal(
-                "slowmo",
-                "822",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -8250,28 +6978,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "unique.480",
         Err(
-            InvalidNamespacedGlobal(
-                "unique",
-                "480",
-            ),
+            NotMangled,
         ),
     ),
     (
         "getPicture.481",
         Err(
-            InvalidNamespacedGlobal(
-                "getPicture",
-                "481",
-            ),
+            NotMangled,
         ),
     ),
     (
         "flipFlop.501",
         Err(
-            InvalidNamespacedGlobal(
-                "flipFlop",
-                "501",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -9185,28 +7904,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "c_cnt.57",
         Err(
-            InvalidNamespacedGlobal(
-                "c_cnt",
-                "57",
-            ),
+            NotMangled,
         ),
     ),
     (
         "q1.3",
         Err(
-            InvalidNamespacedGlobal(
-                "q1",
-                "3",
-            ),
+            NotMangled,
         ),
     ),
     (
         "q2.4",
         Err(
-            InvalidNamespacedGlobal(
-                "q2",
-                "4",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -9220,19 +7930,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "gp.6",
         Err(
-            InvalidNamespacedGlobal(
-                "gp",
-                "6",
-            ),
+            NotMangled,
         ),
     ),
     (
         "init_mp3.3",
         Err(
-            InvalidNamespacedGlobal(
-                "init_mp3",
-                "3",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -9426,9 +8130,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_sprtagdata.24",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "sprtagdata",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -9728,10 +8430,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "p.3",
         Err(
-            InvalidNamespacedGlobal(
-                "p",
-                "3",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -10009,19 +8708,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "blanks.12",
         Err(
-            InvalidNamespacedGlobal(
-                "blanks",
-                "12",
-            ),
+            NotMangled,
         ),
     ),
     (
         "zeroes.13",
         Err(
-            InvalidNamespacedGlobal(
-                "zeroes",
-                "13",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -10039,10 +8732,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "basefix.3",
         Err(
-            InvalidNamespacedGlobal(
-                "basefix",
-                "3",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -10060,28 +8750,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "lc_ctype.3",
         Err(
-            InvalidNamespacedGlobal(
-                "lc_ctype",
-                "3",
-            ),
+            NotMangled,
         ),
     ),
     (
         "last_lc_ctype.4",
         Err(
-            InvalidNamespacedGlobal(
-                "last_lc_ctype",
-                "4",
-            ),
+            NotMangled,
         ),
     ),
     (
         "p05.27",
         Err(
-            InvalidNamespacedGlobal(
-                "p05",
-                "27",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -10103,19 +8784,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "blanks.12",
         Err(
-            InvalidNamespacedGlobal(
-                "blanks",
-                "12",
-            ),
+            NotMangled,
         ),
     ),
     (
         "zeroes.13",
         Err(
-            InvalidNamespacedGlobal(
-                "zeroes",
-                "13",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -10127,10 +8802,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "heap_ptr.30",
         Err(
-            InvalidNamespacedGlobal(
-                "heap_ptr",
-                "30",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -11785,7 +10457,7 @@ expression: "demangle_lines(contents, &config)"
         "_GLOBAL_$F$__builtin_new.._.._src_gcc_cp_new1.ccKINnb5",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "GLOBAL_$F$__builtin_new",
+                "GLOBAL_",
             ),
         ),
     ),
@@ -37725,7 +36397,7 @@ expression: "demangle_lines(contents, &config)"
         "_GLOBAL_$F$__builtin_delete.._.._src_gcc_cp_new2.cc1GeU73",
         Err(
             InvalidNamespaceOnNamespacedGlobal(
-                "GLOBAL_$F$__builtin_delete",
+                "GLOBAL_",
             ),
         ),
     ),

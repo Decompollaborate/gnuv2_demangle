@@ -122079,10 +122079,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "base_pos.37555",
         Err(
-            InvalidNamespacedGlobal(
-                "base_pos",
-                "37555",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -122100,10 +122097,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "priority.37568",
         Err(
-            InvalidNamespacedGlobal(
-                "priority",
-                "37568",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -122139,10 +122133,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "base_pos.37575",
         Err(
-            InvalidNamespacedGlobal(
-                "base_pos",
-                "37575",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -132306,10 +132297,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "algos.3467",
         Err(
-            InvalidNamespacedGlobal(
-                "algos",
-                "3467",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -162975,10 +162963,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "log_8.33993",
         Err(
-            InvalidNamespacedGlobal(
-                "log_8",
-                "33993",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -163200,10 +163185,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "luaT_eventname.34129",
         Err(
-            InvalidNamespacedGlobal(
-                "luaT_eventname",
-                "34129",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -173289,10 +173271,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "diagnols.14250",
         Err(
-            InvalidNamespacedGlobal(
-                "diagnols",
-                "14250",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -184218,10 +184197,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "speed_test.28362",
         Err(
-            InvalidNamespacedGlobal(
-                "speed_test",
-                "28362",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -193275,10 +193251,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "offsets.10648",
         Err(
-            InvalidNamespacedGlobal(
-                "offsets",
-                "10648",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -195060,10 +195033,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "up.24862",
         Err(
-            InvalidNamespacedGlobal(
-                "up",
-                "24862",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -195099,10 +195069,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "up.24887",
         Err(
-            InvalidNamespacedGlobal(
-                "up",
-                "24887",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -195426,19 +195393,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "blanks.29",
         Err(
-            InvalidNamespacedGlobal(
-                "blanks",
-                "29",
-            ),
+            NotMangled,
         ),
     ),
     (
         "zeroes.30",
         Err(
-            InvalidNamespacedGlobal(
-                "zeroes",
-                "30",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -195492,19 +195453,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "blanks.12",
         Err(
-            InvalidNamespacedGlobal(
-                "blanks",
-                "12",
-            ),
+            NotMangled,
         ),
     ),
     (
         "zeroes.13",
         Err(
-            InvalidNamespacedGlobal(
-                "zeroes",
-                "13",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -199286,10 +199241,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "brakeLeft.32036",
         Err(
-            InvalidNamespacedGlobal(
-                "brakeLeft",
-                "32036",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -199313,19 +199265,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "brakeLeft.32301",
         Err(
-            InvalidNamespacedGlobal(
-                "brakeLeft",
-                "32301",
-            ),
+            NotMangled,
         ),
     ),
     (
         "brakeLeft.32341",
         Err(
-            InvalidNamespacedGlobal(
-                "brakeLeft",
-                "32341",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -199499,10 +199445,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "height.36345",
         Err(
-            InvalidNamespacedGlobal(
-                "height",
-                "36345",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -199550,37 +199493,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "lastSpawnLane.38662",
         Err(
-            InvalidNamespacedGlobal(
-                "lastSpawnLane",
-                "38662",
-            ),
+            NotMangled,
         ),
     ),
     (
         "currentSegmentIndex.38672",
         Err(
-            InvalidNamespacedGlobal(
-                "currentSegmentIndex",
-                "38672",
-            ),
+            NotMangled,
         ),
     ),
     (
         "spawnSegmentIndex.38673",
         Err(
-            InvalidNamespacedGlobal(
-                "spawnSegmentIndex",
-                "38673",
-            ),
+            NotMangled,
         ),
     ),
     (
         "currentSpawnIndex.38674",
         Err(
-            InvalidNamespacedGlobal(
-                "currentSpawnIndex",
-                "38674",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -199994,10 +199925,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "gGUKindexer.4751",
         Err(
-            InvalidNamespacedGlobal(
-                "gGUKindexer",
-                "4751",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -200159,10 +200087,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "found_memory_stomp_once.3842",
         Err(
-            InvalidNamespacedGlobal(
-                "found_memory_stomp_once",
-                "3842",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -200204,10 +200129,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "cameralink.3469",
         Err(
-            InvalidNamespacedGlobal(
-                "cameralink",
-                "3469",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -200303,10 +200225,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "old_pov.29797",
         Err(
-            InvalidNamespacedGlobal(
-                "old_pov",
-                "29797",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -200582,10 +200501,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "i.6840",
         Err(
-            InvalidNamespacedGlobal(
-                "i",
-                "6840",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -200651,10 +200567,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "PlayerUpgrade.14976",
         Err(
-            InvalidNamespacedGlobal(
-                "PlayerUpgrade",
-                "14976",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -200912,10 +200825,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "counter.33705",
         Err(
-            InvalidNamespacedGlobal(
-                "counter",
-                "33705",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -201437,10 +201347,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "LastV8Used.30949",
         Err(
-            InvalidNamespacedGlobal(
-                "LastV8Used",
-                "30949",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -201566,10 +201473,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "AI_ENGINE_PITCH_OFFSET.31583",
         Err(
-            InvalidNamespacedGlobal(
-                "AI_ENGINE_PITCH_OFFSET",
-                "31583",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -201593,10 +201497,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "LastRandom.31722",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "31722",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -201626,73 +201527,49 @@ expression: "demangle_lines(contents, &config)"
     (
         "LastRandom.33304",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33304",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastRandom.33305",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33305",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastRandom.33306",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33306",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastRandom.33307",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33307",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastRandom.33308",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33308",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastRandom.33309",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33309",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastRandom.33310",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33310",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastRandom.33311",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33311",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -201758,10 +201635,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "HonkingCarCnt.33639",
         Err(
-            InvalidNamespacedGlobal(
-                "HonkingCarCnt",
-                "33639",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -201773,10 +201647,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "LastRandom.33712",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33712",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -201800,28 +201671,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "LastRandom.33749",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33749",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastRandom.33750",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33750",
-            ),
+            NotMangled,
         ),
     ),
     (
         "LastRandom.33754",
         Err(
-            InvalidNamespacedGlobal(
-                "LastRandom",
-                "33754",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -202703,10 +202565,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "done.16761",
         Err(
-            InvalidNamespacedGlobal(
-                "done",
-                "16761",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -202718,10 +202577,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "time.16768",
         Err(
-            InvalidNamespacedGlobal(
-                "time",
-                "16768",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -203099,19 +202955,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "lastactive.31181",
         Err(
-            InvalidNamespacedGlobal(
-                "lastactive",
-                "31181",
-            ),
+            NotMangled,
         ),
     ),
     (
         "lastactive.31182",
         Err(
-            InvalidNamespacedGlobal(
-                "lastactive",
-                "31182",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -203191,19 +203041,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "downSampledWidth.31276",
         Err(
-            InvalidNamespacedGlobal(
-                "downSampledWidth",
-                "31276",
-            ),
+            NotMangled,
         ),
     ),
     (
         "downSampledHeight.31277",
         Err(
-            InvalidNamespacedGlobal(
-                "downSampledHeight",
-                "31277",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -203359,102 +203203,73 @@ expression: "demangle_lines(contents, &config)"
     (
         "WasPal50.31308",
         Err(
-            InvalidNamespacedGlobal(
-                "WasPal50",
-                "31308",
-            ),
+            NotMangled,
         ),
     ),
     (
         "WasWidescreen.31309",
         Err(
-            InvalidNamespacedGlobal(
-                "WasWidescreen",
-                "31309",
-            ),
+            NotMangled,
         ),
     ),
     (
         "bFirstTime.31319",
         Err(
-            InvalidNamespacedGlobal(
-                "bFirstTime",
-                "31319",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_enabled.31332",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "enabled",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevPFmt.31339",
         Err(
-            InvalidNamespacedGlobal(
-                "prevPFmt",
-                "31339",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_pformats.31340",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "pformats",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevZFmt.31341",
         Err(
-            InvalidNamespacedGlobal(
-                "prevZFmt",
-                "31341",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_zformats.31342",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "zformats",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_xOrig.31346",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "xOrig",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_yOrig.31347",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "yOrig",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_wd.31348",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "wd",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_ht.31349",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "ht",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -203466,9 +203281,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_enabled.31410",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "enabled",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -203678,19 +203491,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "NOStime.31435",
         Err(
-            InvalidNamespacedGlobal(
-                "NOStime",
-                "31435",
-            ),
+            NotMangled,
         ),
     ),
     (
         "NOSfade.31436",
         Err(
-            InvalidNamespacedGlobal(
-                "NOSfade",
-                "31436",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -203720,10 +203527,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "prevMode.31506",
         Err(
-            InvalidNamespacedGlobal(
-                "prevMode",
-                "31506",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -203741,28 +203545,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "prev.31519",
         Err(
-            InvalidNamespacedGlobal(
-                "prev",
-                "31519",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevRGB.31523",
         Err(
-            InvalidNamespacedGlobal(
-                "prevRGB",
-                "31523",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevAlpha.31524",
         Err(
-            InvalidNamespacedGlobal(
-                "prevAlpha",
-                "31524",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -203840,10 +203635,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "fog_enable.31705",
         Err(
-            InvalidNamespacedGlobal(
-                "fog_enable",
-                "31705",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -203969,82 +203761,55 @@ expression: "demangle_lines(contents, &config)"
     (
         "pPrevSolid.31826",
         Err(
-            InvalidNamespacedGlobal(
-                "pPrevSolid",
-                "31826",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pPrevView.31827",
         Err(
-            InvalidNamespacedGlobal(
-                "pPrevView",
-                "31827",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pPrevLocalWorld.31828",
         Err(
-            InvalidNamespacedGlobal(
-                "pPrevLocalWorld",
-                "31828",
-            ),
+            NotMangled,
         ),
     ),
     (
         "position_table.31830",
         Err(
-            InvalidNamespacedGlobal(
-                "position_table",
-                "31830",
-            ),
+            NotMangled,
         ),
     ),
     (
         "position_table_16.31831",
         Err(
-            InvalidNamespacedGlobal(
-                "position_table_16",
-                "31831",
-            ),
+            NotMangled,
         ),
     ),
     (
         "normal_table.31832",
         Err(
-            InvalidNamespacedGlobal(
-                "normal_table",
-                "31832",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colour_table0.31833",
         Err(
-            InvalidNamespacedGlobal(
-                "colour_table0",
-                "31833",
-            ),
+            NotMangled,
         ),
     ),
     (
         "colour_table1.31834",
         Err(
-            InvalidNamespacedGlobal(
-                "colour_table1",
-                "31834",
-            ),
+            NotMangled,
         ),
     ),
     (
         "uv_table.31835",
         Err(
-            InvalidNamespacedGlobal(
-                "uv_table",
-                "31835",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -204224,10 +203989,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "LARGE_NUMBER.31899",
         Err(
-            InvalidNamespacedGlobal(
-                "LARGE_NUMBER",
-                "31899",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -204365,28 +204127,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "prevopt.32084",
         Err(
-            InvalidNamespacedGlobal(
-                "prevopt",
-                "32084",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevopt.32088",
         Err(
-            InvalidNamespacedGlobal(
-                "prevopt",
-                "32088",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevopt.32092",
         Err(
-            InvalidNamespacedGlobal(
-                "prevopt",
-                "32092",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -204530,37 +204283,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "warn_once.33294",
         Err(
-            InvalidNamespacedGlobal(
-                "warn_once",
-                "33294",
-            ),
+            NotMangled,
         ),
     ),
     (
         "warn_once.33364",
         Err(
-            InvalidNamespacedGlobal(
-                "warn_once",
-                "33364",
-            ),
+            NotMangled,
         ),
     ),
     (
         "random_seed.33848",
         Err(
-            InvalidNamespacedGlobal(
-                "random_seed",
-                "33848",
-            ),
+            NotMangled,
         ),
     ),
     (
         "aseed.33912",
         Err(
-            InvalidNamespacedGlobal(
-                "aseed",
-                "33912",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -204812,10 +204553,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "recurse.35407",
         Err(
-            InvalidNamespacedGlobal(
-                "recurse",
-                "35407",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -204839,10 +204577,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "pSystem.35755",
         Err(
-            InvalidNamespacedGlobal(
-                "pSystem",
-                "35755",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -204854,10 +204589,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "sOpName.36228",
         Err(
-            InvalidNamespacedGlobal(
-                "sOpName",
-                "36228",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -205349,10 +205081,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "song_info_loaded.34751",
         Err(
-            InvalidNamespacedGlobal(
-                "song_info_loaded",
-                "34751",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -205364,19 +205093,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "prevModelNameHash.35592",
         Err(
-            InvalidNamespacedGlobal(
-                "prevModelNameHash",
-                "35592",
-            ),
+            NotMangled,
         ),
     ),
     (
         "modelNameKey.35593",
         Err(
-            InvalidNamespacedGlobal(
-                "modelNameKey",
-                "35593",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -205544,19 +205267,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "unlockType.38610",
         Err(
-            InvalidNamespacedGlobal(
-                "unlockType",
-                "38610",
-            ),
+            NotMangled,
         ),
     ),
     (
         "unlockType.38626",
         Err(
-            InvalidNamespacedGlobal(
-                "unlockType",
-                "38626",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -205796,19 +205513,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "typeTable.32142",
         Err(
-            InvalidNamespacedGlobal(
-                "typeTable",
-                "32142",
-            ),
+            NotMangled,
         ),
     ),
     (
         "regionTable.32149",
         Err(
-            InvalidNamespacedGlobal(
-                "regionTable",
-                "32149",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -205832,19 +205543,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "xLeft.34877",
         Err(
-            InvalidNamespacedGlobal(
-                "xLeft",
-                "34877",
-            ),
+            NotMangled,
         ),
     ),
     (
         "yTop.34878",
         Err(
-            InvalidNamespacedGlobal(
-                "yTop",
-                "34878",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -205856,19 +205561,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "line.34880",
         Err(
-            InvalidNamespacedGlobal(
-                "line",
-                "34880",
-            ),
+            NotMangled,
         ),
     ),
     (
         "milestoneNames.34881",
         Err(
-            InvalidNamespacedGlobal(
-                "milestoneNames",
-                "34881",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -205892,55 +205591,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "kObjectTemplateKey.37622",
         Err(
-            InvalidNamespacedGlobal(
-                "kObjectTemplateKey",
-                "37622",
-            ),
+            NotMangled,
         ),
     ),
     (
         "kObjectTemplateKey.37635",
         Err(
-            InvalidNamespacedGlobal(
-                "kObjectTemplateKey",
-                "37635",
-            ),
+            NotMangled,
         ),
     ),
     (
         "kObjectTemplateKey.37642",
         Err(
-            InvalidNamespacedGlobal(
-                "kObjectTemplateKey",
-                "37642",
-            ),
+            NotMangled,
         ),
     ),
     (
         "kObjectTemplateKey.37649",
         Err(
-            InvalidNamespacedGlobal(
-                "kObjectTemplateKey",
-                "37649",
-            ),
+            NotMangled,
         ),
     ),
     (
         "kObjectTemplateKey.37656",
         Err(
-            InvalidNamespacedGlobal(
-                "kObjectTemplateKey",
-                "37656",
-            ),
+            NotMangled,
         ),
     ),
     (
         "kObjectTemplateKey.37663",
         Err(
-            InvalidNamespacedGlobal(
-                "kObjectTemplateKey",
-                "37663",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -205970,28 +205651,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "accessorTable.11371",
         Err(
-            InvalidNamespacedGlobal(
-                "accessorTable",
-                "11371",
-            ),
+            NotMangled,
         ),
     ),
     (
         "flagMapping.32877",
         Err(
-            InvalidNamespacedGlobal(
-                "flagMapping",
-                "32877",
-            ),
+            NotMangled,
         ),
     ),
     (
         "kDisableNIS.32896",
         Err(
-            InvalidNamespacedGlobal(
-                "kDisableNIS",
-                "32896",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -206015,55 +205687,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "fOverwroteDefaultsFacingScale.37496",
         Err(
-            InvalidNamespacedGlobal(
-                "fOverwroteDefaultsFacingScale",
-                "37496",
-            ),
+            NotMangled,
         ),
     ),
     (
         "fDefaultFacingScale.37497",
         Err(
-            InvalidNamespacedGlobal(
-                "fDefaultFacingScale",
-                "37497",
-            ),
+            NotMangled,
         ),
     ),
     (
         "fOverwroteDefaultsGrazingScale.37498",
         Err(
-            InvalidNamespacedGlobal(
-                "fOverwroteDefaultsGrazingScale",
-                "37498",
-            ),
+            NotMangled,
         ),
     ),
     (
         "fDefaultGrazingScale.37499",
         Err(
-            InvalidNamespacedGlobal(
-                "fDefaultGrazingScale",
-                "37499",
-            ),
+            NotMangled,
         ),
     ),
     (
         "wason.38444",
         Err(
-            InvalidNamespacedGlobal(
-                "wason",
-                "38444",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prev_mode.38445",
         Err(
-            InvalidNamespacedGlobal(
-                "prev_mode",
-                "38445",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -206261,19 +205915,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "previousVelocity.55375",
         Err(
-            InvalidNamespacedGlobal(
-                "previousVelocity",
-                "55375",
-            ),
+            NotMangled,
         ),
     ),
     (
         "timeAtCollision.55376",
         Err(
-            InvalidNamespacedGlobal(
-                "timeAtCollision",
-                "55376",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -206387,28 +206035,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "camera_dt.28476",
         Err(
-            InvalidNamespacedGlobal(
-                "camera_dt",
-                "28476",
-            ),
+            NotMangled,
         ),
     ),
     (
         "last_sim_tick_animated.28477",
         Err(
-            InvalidNamespacedGlobal(
-                "last_sim_tick_animated",
-                "28477",
-            ),
+            NotMangled,
         ),
     ),
     (
         "last_render_frame_animated.28478",
         Err(
-            InvalidNamespacedGlobal(
-                "last_render_frame_animated",
-                "28478",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -206420,10 +206059,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "timeStep.28488",
         Err(
-            InvalidNamespacedGlobal(
-                "timeStep",
-                "28488",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -206441,28 +206077,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "recursion_checker.28498",
         Err(
-            InvalidNamespacedGlobal(
-                "recursion_checker",
-                "28498",
-            ),
+            NotMangled,
         ),
     ),
     (
         "previous_ticks.28499",
         Err(
-            InvalidNamespacedGlobal(
-                "previous_ticks",
-                "28499",
-            ),
+            NotMangled,
         ),
     ),
     (
         "PrintFreeMem.28503",
         Err(
-            InvalidNamespacedGlobal(
-                "PrintFreeMem",
-                "28503",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -206720,10 +206347,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "dummy.32338",
         Err(
-            InvalidNamespacedGlobal(
-                "dummy",
-                "32338",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -206777,10 +206401,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "buffer_num.32546",
         Err(
-            InvalidNamespacedGlobal(
-                "buffer_num",
-                "32546",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -206942,10 +206563,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "total_captured.32815",
         Err(
-            InvalidNamespacedGlobal(
-                "total_captured",
-                "32815",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -207071,10 +206689,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "hexChars.33689",
         Err(
-            InvalidNamespacedGlobal(
-                "hexChars",
-                "33689",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -207158,10 +206773,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "StaticEasterEggsTable.34218",
         Err(
-            InvalidNamespacedGlobal(
-                "StaticEasterEggsTable",
-                "34218",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -207239,109 +206851,73 @@ expression: "demangle_lines(contents, &config)"
     (
         "SeenTimerProblem.34444",
         Err(
-            InvalidNamespacedGlobal(
-                "SeenTimerProblem",
-                "34444",
-            ),
+            NotMangled,
         ),
     ),
     (
         "SavedTimeDifferenceInMicroseconds.34445",
         Err(
-            InvalidNamespacedGlobal(
-                "SavedTimeDifferenceInMicroseconds",
-                "34445",
-            ),
+            NotMangled,
         ),
     ),
     (
         "SavedTimeDifferenceInMiliseconds.34446",
         Err(
-            InvalidNamespacedGlobal(
-                "SavedTimeDifferenceInMiliseconds",
-                "34446",
-            ),
+            NotMangled,
         ),
     ),
     (
         "SavedTimeDifferenceInSeconds.34447",
         Err(
-            InvalidNamespacedGlobal(
-                "SavedTimeDifferenceInSeconds",
-                "34447",
-            ),
+            NotMangled,
         ),
     ),
     (
         "Saved_start_video_time_elapsed.34448",
         Err(
-            InvalidNamespacedGlobal(
-                "Saved_start_video_time_elapsed",
-                "34448",
-            ),
+            NotMangled,
         ),
     ),
     (
         "Saved_high_nibble.34449",
         Err(
-            InvalidNamespacedGlobal(
-                "Saved_high_nibble",
-                "34449",
-            ),
+            NotMangled,
         ),
     ),
     (
         "HadBadTimeDifferenceInMiliseconds.34450",
         Err(
-            InvalidNamespacedGlobal(
-                "HadBadTimeDifferenceInMiliseconds",
-                "34450",
-            ),
+            NotMangled,
         ),
     ),
     (
         "HadBadTimeDifferenceInSeconds.34451",
         Err(
-            InvalidNamespacedGlobal(
-                "HadBadTimeDifferenceInSeconds",
-                "34451",
-            ),
+            NotMangled,
         ),
     ),
     (
         "HadBad_start_video_time_elapsed.34452",
         Err(
-            InvalidNamespacedGlobal(
-                "HadBad_start_video_time_elapsed",
-                "34452",
-            ),
+            NotMangled,
         ),
     ),
     (
         "HadBad_video_time_elapsed.34453",
         Err(
-            InvalidNamespacedGlobal(
-                "HadBad_video_time_elapsed",
-                "34453",
-            ),
+            NotMangled,
         ),
     ),
     (
         "HadBad_MicrosecondsToMiliseconds.34454",
         Err(
-            InvalidNamespacedGlobal(
-                "HadBad_MicrosecondsToMiliseconds",
-                "34454",
-            ),
+            NotMangled,
         ),
     ),
     (
         "HadBad_MilisecondsToSeconds.34455",
         Err(
-            InvalidNamespacedGlobal(
-                "HadBad_MilisecondsToSeconds",
-                "34455",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -208085,19 +207661,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "StaticToDynamicBrakeForceRatio.32494",
         Err(
-            InvalidNamespacedGlobal(
-                "StaticToDynamicBrakeForceRatio",
-                "32494",
-            ),
+            NotMangled,
         ),
     ),
     (
         "BrakeLockAngularVelocityFactor.32495",
         Err(
-            InvalidNamespacedGlobal(
-                "BrakeLockAngularVelocityFactor",
-                "32495",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -208421,46 +207991,31 @@ expression: "demangle_lines(contents, &config)"
     (
         "resetButtonPressed.25896",
         Err(
-            InvalidNamespacedGlobal(
-                "resetButtonPressed",
-                "25896",
-            ),
+            NotMangled,
         ),
     ),
     (
         "queuedSavingResetButtonPressed.25897",
         Err(
-            InvalidNamespacedGlobal(
-                "queuedSavingResetButtonPressed",
-                "25897",
-            ),
+            NotMangled,
         ),
     ),
     (
         "resetMode.25898",
         Err(
-            InvalidNamespacedGlobal(
-                "resetMode",
-                "25898",
-            ),
+            NotMangled,
         ),
     ),
     (
         "softwareResetCheckStarted.25899",
         Err(
-            InvalidNamespacedGlobal(
-                "softwareResetCheckStarted",
-                "25899",
-            ),
+            NotMangled,
         ),
     ),
     (
         "num_queued_resets.25901",
         Err(
-            InvalidNamespacedGlobal(
-                "num_queued_resets",
-                "25901",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -208478,10 +208033,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "stagePrev.26088",
         Err(
-            InvalidNamespacedGlobal(
-                "stagePrev",
-                "26088",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -208871,10 +208423,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "max_samplerequests.25590",
         Err(
-            InvalidNamespacedGlobal(
-                "max_samplerequests",
-                "25590",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -208916,10 +208465,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "req_timer.26707",
         Err(
-            InvalidNamespacedGlobal(
-                "req_timer",
-                "26707",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -209837,19 +209383,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "datapts.29390",
         Err(
-            InvalidNamespacedGlobal(
-                "datapts",
-                "29390",
-            ),
+            NotMangled,
         ),
     ),
     (
         "spkrID911.29413",
         Err(
-            InvalidNamespacedGlobal(
-                "spkrID911",
-                "29413",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -209891,19 +209431,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "prev_heat.30802",
         Err(
-            InvalidNamespacedGlobal(
-                "prev_heat",
-                "30802",
-            ),
+            NotMangled,
         ),
     ),
     (
         "dir_tracking.30959",
         Err(
-            InvalidNamespacedGlobal(
-                "dir_tracking",
-                "30959",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -210005,10 +209539,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "prev_need_loading_bar.26275",
         Err(
-            InvalidNamespacedGlobal(
-                "prev_need_loading_bar",
-                "26275",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -210158,19 +209689,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "initialized.26964",
         Err(
-            InvalidNamespacedGlobal(
-                "initialized",
-                "26964",
-            ),
+            NotMangled,
         ),
     ),
     (
         "counter.26985",
         Err(
-            InvalidNamespacedGlobal(
-                "counter",
-                "26985",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -210260,28 +209785,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "oldDistFogColour.27397",
         Err(
-            InvalidNamespacedGlobal(
-                "oldDistFogColour",
-                "27397",
-            ),
+            NotMangled,
         ),
     ),
     (
         "oldDistFogPower.27398",
         Err(
-            InvalidNamespacedGlobal(
-                "oldDistFogPower",
-                "27398",
-            ),
+            NotMangled,
         ),
     ),
     (
         "oldDistFogStart.27399",
         Err(
-            InvalidNamespacedGlobal(
-                "oldDistFogStart",
-                "27399",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -210299,10 +209815,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "ticS.27592",
         Err(
-            InvalidNamespacedGlobal(
-                "ticS",
-                "27592",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -210344,10 +209857,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "regionB.27617",
         Err(
-            InvalidNamespacedGlobal(
-                "regionB",
-                "27617",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -210755,19 +210265,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "counter.31665",
         Err(
-            InvalidNamespacedGlobal(
-                "counter",
-                "31665",
-            ),
+            NotMangled,
         ),
     ),
     (
         "counter.31669",
         Err(
-            InvalidNamespacedGlobal(
-                "counter",
-                "31669",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -210977,10 +210481,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "matAng.33578",
         Err(
-            InvalidNamespacedGlobal(
-                "matAng",
-                "33578",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -211178,28 +210679,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "lastTime.35170",
         Err(
-            InvalidNamespacedGlobal(
-                "lastTime",
-                "35170",
-            ),
+            NotMangled,
         ),
     ),
     (
         "last_result_was_textures.35424",
         Err(
-            InvalidNamespacedGlobal(
-                "last_result_was_textures",
-                "35424",
-            ),
+            NotMangled,
         ),
     ),
     (
         "loop_number.35434",
         Err(
-            InvalidNamespacedGlobal(
-                "loop_number",
-                "35434",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -211475,10 +210967,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "iMaxNumNodes.10751",
         Err(
-            InvalidNamespacedGlobal(
-                "iMaxNumNodes",
-                "10751",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -211676,19 +211165,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "zoomIn.27766",
         Err(
-            InvalidNamespacedGlobal(
-                "zoomIn",
-                "27766",
-            ),
+            NotMangled,
         ),
     ),
     (
         "zoomOut.27767",
         Err(
-            InvalidNamespacedGlobal(
-                "zoomOut",
-                "27767",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -211706,19 +211189,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "ValidForMikeMann.29465",
         Err(
-            InvalidNamespacedGlobal(
-                "ValidForMikeMann",
-                "29465",
-            ),
+            NotMangled,
         ),
     ),
     (
         "goddamcrap.29466",
         Err(
-            InvalidNamespacedGlobal(
-                "goddamcrap",
-                "29466",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -211904,37 +211381,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "phys_type.30541",
         Err(
-            InvalidNamespacedGlobal(
-                "phys_type",
-                "30541",
-            ),
+            NotMangled,
         ),
     ),
     (
         "markers.30542",
         Err(
-            InvalidNamespacedGlobal(
-                "markers",
-                "30542",
-            ),
+            NotMangled,
         ),
     ),
     (
         "slot_id.30543",
         Err(
-            InvalidNamespacedGlobal(
-                "slot_id",
-                "30543",
-            ),
+            NotMangled,
         ),
     ),
     (
         "markers.30544",
         Err(
-            InvalidNamespacedGlobal(
-                "markers",
-                "30544",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -212202,10 +211667,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "lower.9",
         Err(
-            InvalidNamespacedGlobal(
-                "lower",
-                "9",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -213490,10 +212952,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "modulebankhandle.375",
         Err(
-            InvalidNamespacedGlobal(
-                "modulebankhandle",
-                "375",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -213505,10 +212964,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "lasthandle.129",
         Err(
-            InvalidNamespacedGlobal(
-                "lasthandle",
-                "129",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -213526,10 +212982,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "lastTick.126",
         Err(
-            InvalidNamespacedGlobal(
-                "lastTick",
-                "126",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -213589,19 +213042,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "ret.126",
         Err(
-            InvalidNamespacedGlobal(
-                "ret",
-                "126",
-            ),
+            NotMangled,
         ),
     ),
     (
         "freekey.126",
         Err(
-            InvalidNamespacedGlobal(
-                "freekey",
-                "126",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -213613,10 +213060,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "systaskadded.168",
         Err(
-            InvalidNamespacedGlobal(
-                "systaskadded",
-                "168",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -213640,19 +213084,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "curTick.460",
         Err(
-            InvalidNamespacedGlobal(
-                "curTick",
-                "460",
-            ),
+            NotMangled,
         ),
     ),
     (
         "araminited.470",
         Err(
-            InvalidNamespacedGlobal(
-                "araminited",
-                "470",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -213940,10 +213378,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "first.183",
         Err(
-            InvalidNamespacedGlobal(
-                "first",
-                "183",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -213999,324 +213434,229 @@ expression: "demangle_lines(contents, &config)"
     (
         "value.10688",
         Err(
-            InvalidNamespacedGlobal(
-                "value",
-                "10688",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_0.10689",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.16707",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "16707",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_3.16708",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18593",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18593",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_11.18594",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18631",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18631",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_12.18632",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18663",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18663",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_13.18664",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18695",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18695",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_14.18696",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18727",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18727",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_15.18728",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18765",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18765",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_16.18766",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18797",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18797",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_17.18798",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18829",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18829",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_18.18830",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18873",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18873",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_19.18874",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.18905",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "18905",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_20.18906",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "patrolgoal.31353",
         Err(
-            InvalidNamespacedGlobal(
-                "patrolgoal",
-                "31353",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_34.31354",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.32498",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "32498",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_35.32499",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.35274",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "35274",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_37.35275",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "car_hash.35783",
         Err(
-            InvalidNamespacedGlobal(
-                "car_hash",
-                "35783",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_38.35784",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "heli_hash.35785",
         Err(
-            InvalidNamespacedGlobal(
-                "heli_hash",
-                "35785",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_39.35786",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "variation.36214",
         Err(
-            InvalidNamespacedGlobal(
-                "variation",
-                "36214",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_40.36215",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.37060",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "37060",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_41.37061",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -215008,10 +214348,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "text.4279",
         Err(
-            InvalidNamespacedGlobal(
-                "text",
-                "4279",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -215137,222 +214474,157 @@ expression: "demangle_lines(contents, &config)"
     (
         "ret.17933",
         Err(
-            InvalidNamespacedGlobal(
-                "ret",
-                "17933",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_2.17934",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prev_position.17968",
         Err(
-            InvalidNamespacedGlobal(
-                "prev_position",
-                "17968",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_3.17969",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.27577",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "27577",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_19.27578",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.27633",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "27633",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_20.27634",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.27659",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "27659",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_21.27660",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.29502",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "29502",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_22.29503",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "name.29723",
         Err(
-            InvalidNamespacedGlobal(
-                "name",
-                "29723",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_23.29724",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "name.29825",
         Err(
-            InvalidNamespacedGlobal(
-                "name",
-                "29825",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_24.29826",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "name.29881",
         Err(
-            InvalidNamespacedGlobal(
-                "name",
-                "29881",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_25.29882",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "name.29937",
         Err(
-            InvalidNamespacedGlobal(
-                "name",
-                "29937",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_26.29938",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "name.29993",
         Err(
-            InvalidNamespacedGlobal(
-                "name",
-                "29993",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_27.29994",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "name.30094",
         Err(
-            InvalidNamespacedGlobal(
-                "name",
-                "30094",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_28.30095",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "name.30147",
         Err(
-            InvalidNamespacedGlobal(
-                "name",
-                "30147",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_29.30148",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -215826,171 +215098,121 @@ expression: "demangle_lines(contents, &config)"
     (
         "k.30900",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "30900",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_17.30901",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.31037",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "31037",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_21.31038",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.31045",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "31045",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_22.31046",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.31153",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "31153",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_25.31154",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.31161",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "31161",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_26.31162",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.34411",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "34411",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_29.34412",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevbrakestate.35478",
         Err(
-            InvalidNamespacedGlobal(
-                "prevbrakestate",
-                "35478",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_30.35479",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.35630",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "35630",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_31.35631",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.35662",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "35662",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_32.35663",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.36612",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "36612",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_33.36613",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -216318,35 +215540,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "k.15950",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "15950",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_13.15951",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "tmp_refCnt.31253",
         Err(
-            InvalidNamespacedGlobal(
-                "tmp_refCnt",
-                "31253",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_28.31254",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -216892,46 +216104,31 @@ expression: "demangle_lines(contents, &config)"
     (
         "mhL2V.32020",
         Err(
-            InvalidNamespacedGlobal(
-                "mhL2V",
-                "32020",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevVtxFmt.32111",
         Err(
-            InvalidNamespacedGlobal(
-                "prevVtxFmt",
-                "32111",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevopt.32112",
         Err(
-            InvalidNamespacedGlobal(
-                "prevopt",
-                "32112",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevVertexFormat.32116",
         Err(
-            InvalidNamespacedGlobal(
-                "prevVertexFormat",
-                "32116",
-            ),
+            NotMangled,
         ),
     ),
     (
         "prevVertexDescription.32117",
         Err(
-            InvalidNamespacedGlobal(
-                "prevVertexDescription",
-                "32117",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -217819,86 +217016,61 @@ expression: "demangle_lines(contents, &config)"
     (
         "k.27406",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "27406",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_18.27407",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "scale.29589",
         Err(
-            InvalidNamespacedGlobal(
-                "scale",
-                "29589",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_19.29590",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.29612",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "29612",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_20.29613",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "iSystem.35753",
         Err(
-            InvalidNamespacedGlobal(
-                "iSystem",
-                "35753",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_24.35754",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "sMemcardImp.35756",
         Err(
-            InvalidNamespacedGlobal(
-                "sMemcardImp",
-                "35756",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_25.35757",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -217994,86 +217166,61 @@ expression: "demangle_lines(contents, &config)"
     (
         "k.28785",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "28785",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_17.28786",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.31452",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "31452",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_24.31453",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.32656",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "32656",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_26.32657",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.32682",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "32682",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_27.32683",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.32737",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "32737",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_29.32738",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -218367,290 +217514,205 @@ expression: "demangle_lines(contents, &config)"
     (
         "k.13265",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "13265",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_1.13266",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.13306",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "13306",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_2.13307",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.13344",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "13344",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_3.13345",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.26869",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "26869",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_19.26870",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.26895",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "26895",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_20.26896",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.27521",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "27521",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_21.27522",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.27565",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "27565",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_22.27566",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.27597",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "27597",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_23.27598",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.27623",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "27623",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_24.27624",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "quarterMileInMeters.31487",
         Err(
-            InvalidNamespacedGlobal(
-                "quarterMileInMeters",
-                "31487",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_25.31488",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "sixtyMphInMetersPerSec.31489",
         Err(
-            InvalidNamespacedGlobal(
-                "sixtyMphInMetersPerSec",
-                "31489",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_26.31490",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "lower.32099",
         Err(
-            InvalidNamespacedGlobal(
-                "lower",
-                "32099",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_28.32100",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "upper.32104",
         Err(
-            InvalidNamespacedGlobal(
-                "upper",
-                "32104",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_29.32105",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.34061",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "34061",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_31.34062",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.34099",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "34099",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_32.34100",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.35687",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "35687",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_34.35688",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.36003",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "36003",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_36.36004",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -218692,103 +217754,73 @@ expression: "demangle_lines(contents, &config)"
     (
         "k.29730",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "29730",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_15.29731",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.29762",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "29762",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_16.29763",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.29806",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "29806",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_17.29807",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.29850",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "29850",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_18.29851",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.30181",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "30181",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_26.30182",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.30213",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "30213",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_27.30214",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -218812,350 +217844,247 @@ expression: "demangle_lines(contents, &config)"
     (
         "hash.12646",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "12646",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_5.12647",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.12654",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "12654",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_6.12655",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "value.29117",
         Err(
-            InvalidNamespacedGlobal(
-                "value",
-                "29117",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_23.29118",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.30964",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "30964",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_32.30965",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.30996",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "30996",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_33.30997",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "value.39127",
         Err(
-            InvalidNamespacedGlobal(
-                "value",
-                "39127",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_37.39128",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.39647",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "39647",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_39.39648",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.40339",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "40339",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_41.40340",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.41431",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "41431",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_50.41432",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.41663",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "41663",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_58.41664",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.41689",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "41689",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_59.41690",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.41913",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "41913",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_66.41914",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.42193",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "42193",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_74.42194",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.42231",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "42231",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_75.42232",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.42403",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "42403",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_80.42404",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.42461",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "42461",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_82.42462",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.42493",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "42493",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_83.42494",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.42615",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "42615",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_87.42616",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "k.42671",
         Err(
-            InvalidNamespacedGlobal(
-                "k",
-                "42671",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_88.42672",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "gDefaultDataArea.43405",
         Err(
-            InvalidNamespacedGlobal(
-                "gDefaultDataArea",
-                "43405",
-            ),
+            NotMangled,
         ),
     ),
     (
         "instance.54980",
         Err(
-            InvalidNamespacedGlobal(
-                "instance",
-                "54980",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_95.54981",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -219419,10 +218348,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "sprint_buffer.32547",
         Err(
-            InvalidNamespacedGlobal(
-                "sprint_buffer",
-                "32547",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -219788,214 +218714,151 @@ expression: "demangle_lines(contents, &config)"
     (
         "value.13005",
         Err(
-            InvalidNamespacedGlobal(
-                "value",
-                "13005",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_4.13006",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "value.13016",
         Err(
-            InvalidNamespacedGlobal(
-                "value",
-                "13016",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_5.13017",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "value.13027",
         Err(
-            InvalidNamespacedGlobal(
-                "value",
-                "13027",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_6.13028",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "value.13038",
         Err(
-            InvalidNamespacedGlobal(
-                "value",
-                "13038",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_7.13039",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "value.13049",
         Err(
-            InvalidNamespacedGlobal(
-                "value",
-                "13049",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_8.13050",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "value.13060",
         Err(
-            InvalidNamespacedGlobal(
-                "value",
-                "13060",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_9.13061",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.23295",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "23295",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_10.23296",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.23303",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "23303",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_11.23304",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "temp_record.28290",
         Err(
-            InvalidNamespacedGlobal(
-                "temp_record",
-                "28290",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_24.28291",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "tunings.28622",
         Err(
-            InvalidNamespacedGlobal(
-                "tunings",
-                "28622",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_25.28623",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "fix.31644",
         Err(
-            InvalidNamespacedGlobal(
-                "fix",
-                "31644",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.31919",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "31919",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_40.31920",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.31927",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "31927",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_41.31928",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -220411,180 +219274,127 @@ expression: "demangle_lines(contents, &config)"
     (
         "hash.18890",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "18890",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_10.18891",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.18898",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "18898",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_11.18899",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.19006",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "19006",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_14.19007",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.19014",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "19014",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_15.19015",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.19056",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "19056",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_18.19057",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.19064",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "19064",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_19.19065",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "null_record.23326",
         Err(
-            InvalidNamespacedGlobal(
-                "null_record",
-                "23326",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.37036",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "37036",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_46.37037",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.37044",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "37044",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_47.37045",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.37152",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "37152",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_50.37153",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.37160",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "37160",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_51.37161",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -221206,28 +220016,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "profdata.25844",
         Err(
-            InvalidNamespacedGlobal(
-                "profdata",
-                "25844",
-            ),
+            NotMangled,
         ),
     ),
     (
         "softwareResetStartTick.25900",
         Err(
-            InvalidNamespacedGlobal(
-                "softwareResetStartTick",
-                "25900",
-            ),
+            NotMangled,
         ),
     ),
     (
         "sDisplayName.29516",
         Err(
-            InvalidNamespacedGlobal(
-                "sDisplayName",
-                "29516",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -221389,86 +220190,61 @@ expression: "demangle_lines(contents, &config)"
     (
         "hash.19645",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "19645",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_13.19646",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.19653",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "19653",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_14.19654",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.19664",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "19664",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_15.19665",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.19672",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "19672",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_16.19673",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "r.25453",
         Err(
-            InvalidNamespacedGlobal(
-                "r",
-                "25453",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_20.25454",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -221618,129 +220394,91 @@ expression: "demangle_lines(contents, &config)"
     (
         "msg.25523",
         Err(
-            InvalidNamespacedGlobal(
-                "msg",
-                "25523",
-            ),
+            NotMangled,
         ),
     ),
     (
         "tune.25789",
         Err(
-            InvalidNamespacedGlobal(
-                "tune",
-                "25789",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_18.25790",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "requests_in_queue.26705",
         Err(
-            InvalidNamespacedGlobal(
-                "requests_in_queue",
-                "26705",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_19.26706",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "fw0.29386",
         Err(
-            InvalidNamespacedGlobal(
-                "fw0",
-                "29386",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_24.29387",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "startpos.29388",
         Err(
-            InvalidNamespacedGlobal(
-                "startpos",
-                "29388",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_25.29389",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "speed0.29400",
         Err(
-            InvalidNamespacedGlobal(
-                "speed0",
-                "29400",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_26.29401",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "t_brake_start.29402",
         Err(
-            InvalidNamespacedGlobal(
-                "t_brake_start",
-                "29402",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_27.29403",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "t_currdir.30960",
         Err(
-            InvalidNamespacedGlobal(
-                "t_currdir",
-                "30960",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_35.30961",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -222646,54 +221384,37 @@ expression: "demangle_lines(contents, &config)"
     (
         "last_jettison_print.26154",
         Err(
-            InvalidNamespacedGlobal(
-                "last_jettison_print",
-                "26154",
-            ),
+            NotMangled,
         ),
     ),
     (
         "map_table.26965",
         Err(
-            InvalidNamespacedGlobal(
-                "map_table",
-                "26965",
-            ),
+            NotMangled,
         ),
     ),
     (
         "text.26984",
         Err(
-            InvalidNamespacedGlobal(
-                "text",
-                "26984",
-            ),
+            NotMangled,
         ),
     ),
     (
         "lcamPosInside.27614",
         Err(
-            InvalidNamespacedGlobal(
-                "lcamPosInside",
-                "27614",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_14.27615",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "dataBackup.27616",
         Err(
-            InvalidNamespacedGlobal(
-                "dataBackup",
-                "27616",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -222963,239 +221684,169 @@ expression: "demangle_lines(contents, &config)"
     (
         "hash.29913",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "29913",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_21.29914",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.29921",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "29921",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_22.29922",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.30029",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "30029",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_25.30030",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.30037",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "30037",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_26.30038",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.30079",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "30079",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_29.30080",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.30087",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "30087",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_30.30088",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.30142",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "30142",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_35.30143",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.30150",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "30150",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_36.30151",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "sCarWorldPosition.31751",
         Err(
-            InvalidNamespacedGlobal(
-                "sCarWorldPosition",
-                "31751",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_45.31752",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "TheParameterMapsManager.36151",
         Err(
-            InvalidNamespacedGlobal(
-                "TheParameterMapsManager",
-                "36151",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_46.36152",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "AutoParameterAccessors.36159",
         Err(
-            InvalidNamespacedGlobal(
-                "AutoParameterAccessors",
-                "36159",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_47.36160",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "tCs.36848",
         Err(
-            InvalidNamespacedGlobal(
-                "tCs",
-                "36848",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_48.36849",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "tCd.36850",
         Err(
-            InvalidNamespacedGlobal(
-                "tCd",
-                "36850",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_49.36851",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "tI.36852",
         Err(
-            InvalidNamespacedGlobal(
-                "tI",
-                "36852",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_50.36853",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -223705,137 +222356,97 @@ expression: "demangle_lines(contents, &config)"
     (
         "wPos.10506",
         Err(
-            InvalidNamespacedGlobal(
-                "wPos",
-                "10506",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_7.10507",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "wPos.10514",
         Err(
-            InvalidNamespacedGlobal(
-                "wPos",
-                "10514",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_8.10515",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "roadSpline.21136",
         Err(
-            InvalidNamespacedGlobal(
-                "roadSpline",
-                "21136",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_10.21137",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "roadSpline.21173",
         Err(
-            InvalidNamespacedGlobal(
-                "roadSpline",
-                "21173",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_12.21174",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.22642",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "22642",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_16.22643",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.22650",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "22650",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_17.22651",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.22724",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "22724",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_24.22725",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "hash.22732",
         Err(
-            InvalidNamespacedGlobal(
-                "hash",
-                "22732",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_25.22733",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -223967,18 +222578,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "TheGarageCarLoader.27807",
         Err(
-            InvalidNamespacedGlobal(
-                "TheGarageCarLoader",
-                "27807",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_15.27808",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -224176,37 +222782,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "str.13",
         Err(
-            InvalidNamespacedGlobal(
-                "str",
-                "13",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pch.20",
         Err(
-            InvalidNamespacedGlobal(
-                "pch",
-                "20",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pch.3",
         Err(
-            InvalidNamespacedGlobal(
-                "pch",
-                "3",
-            ),
+            NotMangled,
         ),
     ),
     (
         "initialized.10",
         Err(
-            InvalidNamespacedGlobal(
-                "initialized",
-                "10",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -224659,10 +223253,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "FData.84",
         Err(
-            InvalidNamespacedGlobal(
-                "FData",
-                "84",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -224934,10 +223525,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "ptr.447",
         Err(
-            InvalidNamespacedGlobal(
-                "ptr",
-                "447",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -225237,19 +223825,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "statInfo.695",
         Err(
-            InvalidNamespacedGlobal(
-                "statInfo",
-                "695",
-            ),
+            NotMangled,
         ),
     ),
     (
         "sMsg.608",
         Err(
-            InvalidNamespacedGlobal(
-                "sMsg",
-                "608",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -225435,10 +224017,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "findFileInfo.635",
         Err(
-            InvalidNamespacedGlobal(
-                "findFileInfo",
-                "635",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -225718,37 +224297,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "cumulative_written.21",
         Err(
-            InvalidNamespacedGlobal(
-                "cumulative_written",
-                "21",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pch_pointer.22",
         Err(
-            InvalidNamespacedGlobal(
-                "pch_pointer",
-                "22",
-            ),
+            NotMangled,
         ),
     ),
     (
         "cumulative_written.4",
         Err(
-            InvalidNamespacedGlobal(
-                "cumulative_written",
-                "4",
-            ),
+            NotMangled,
         ),
     ),
     (
         "pch_pointer.5",
         Err(
-            InvalidNamespacedGlobal(
-                "pch_pointer",
-                "5",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -227727,19 +226294,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "lastwhile.78",
         Err(
-            InvalidNamespacedGlobal(
-                "lastwhile",
-                "78",
-            ),
+            NotMangled,
         ),
     ),
     (
         "lastendif.79",
         Err(
-            InvalidNamespacedGlobal(
-                "lastendif",
-                "79",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -227781,19 +226342,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "reentry.39",
         Err(
-            InvalidNamespacedGlobal(
-                "reentry",
-                "39",
-            ),
+            NotMangled,
         ),
     ),
     (
         "lastsystemtask.46",
         Err(
-            InvalidNamespacedGlobal(
-                "lastsystemtask",
-                "46",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -227847,19 +226402,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "slotA.384",
         Err(
-            InvalidNamespacedGlobal(
-                "slotA",
-                "384",
-            ),
+            NotMangled,
         ),
     ),
     (
         "slotB.385",
         Err(
-            InvalidNamespacedGlobal(
-                "slotB",
-                "385",
-            ),
+            NotMangled,
         ),
     ),
     (
@@ -229968,17 +228517,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_0.609",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (
         "_.tmp_0.636",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+            NotMangled,
         ),
     ),
     (

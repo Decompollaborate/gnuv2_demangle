@@ -16,6 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DemangleConfig::demangle_static_suffix`: Toggle handling support for the
   static numeric suffix generated.
 
+### Changed
+
+- `CPLUS_MARKER` detection has been improved, it should give less false
+  positives.
+
 ## [0.4.0] - 2025-11-09
 
 ### Added
