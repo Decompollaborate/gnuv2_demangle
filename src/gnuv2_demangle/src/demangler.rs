@@ -7,7 +7,7 @@ use alloc::{
     vec::Vec,
 };
 
-use crate::{DemangleConfig, DemangleError};
+use crate::{dem_other::demangle_static_suffix, DemangleConfig, DemangleError};
 
 use crate::{
     dem::{demangle_custom_name, demangle_method_qualifier},
@@ -194,8 +194,15 @@ fn demangle_destructor<'s>(
         (r, Cow::from(class_name), Cow::from(class_name))
     };
 
+    let Remaining {
+        r,
+        d: static_suffix,
+    } = demangle_static_suffix(config, r)?;
+
     if r.is_empty() {
-        Ok(format!("{namespace}::~{typ}(void)"))
+        Ok(format!(
+            "{namespace}{static_suffix}::~{typ}{static_suffix}(void)"
+        ))
     } else {
         Err(DemangleError::TrailingDataOnDestructor(r))
     }

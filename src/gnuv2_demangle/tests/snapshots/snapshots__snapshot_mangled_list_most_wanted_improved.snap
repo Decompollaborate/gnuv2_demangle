@@ -42451,10 +42451,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_._Q313FEPlayerCarDB74GetNumInfraction__13FEPlayerCarDBQ218GInfractionManager14InfractionTypeb.0_13NumInfraction.35650",
-        Err(
-            TrailingDataOnDestructor(
-                ".35650",
-            ),
+        Ok(
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumInfraction.0(GInfractionManager::InfractionType, bool)::NumInfraction.35650::~NumInfraction.35650(void)",
         ),
     ),
     (
@@ -42465,10 +42463,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_._Q313FEPlayerCarDB42GetTotalNumInfractions__13FEPlayerCarDBb.0_19TotalNumInfractions.35670",
-        Err(
-            TrailingDataOnDestructor(
-                ".35670",
-            ),
+        Ok(
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalNumInfractions.0(bool)::TotalNumInfractions.35670::~TotalNumInfractions.35670(void)",
         ),
     ),
     (
@@ -42479,10 +42475,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_._Q313FEPlayerCarDB33GetTotalBounty__13FEPlayerCarDB.0_6Bounty.35689",
-        Err(
-            TrailingDataOnDestructor(
-                ".35689",
-            ),
+        Ok(
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0()::Bounty.35689::~Bounty.35689(void)",
         ),
     ),
     (
@@ -42493,10 +42487,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_._Q313FEPlayerCarDB41GetTotalEvadedPursuits__13FEPlayerCarDB.0_14EvadedPursuits.35706",
-        Err(
-            TrailingDataOnDestructor(
-                ".35706",
-            ),
+        Ok(
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0()::EvadedPursuits.35706::~EvadedPursuits.35706(void)",
         ),
     ),
     (
@@ -42507,10 +42499,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_._Q313FEPlayerCarDB41GetTotalBustedPursuits__13FEPlayerCarDB.0_14BustedPursuits.35723",
-        Err(
-            TrailingDataOnDestructor(
-                ".35723",
-            ),
+        Ok(
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0()::BustedPursuits.35723::~BustedPursuits.35723(void)",
         ),
     ),
     (
@@ -42521,10 +42511,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_._Q313FEPlayerCarDB38GetNumImpoundedCars__13FEPlayerCarDB.0_11IsImpounded.35740",
-        Err(
-            TrailingDataOnDestructor(
-                ".35740",
-            ),
+        Ok(
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0()::IsImpounded.35740::~IsImpounded.35740(void)",
         ),
     ),
     (
@@ -42535,10 +42523,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_._Q313FEPlayerCarDB33GetTotalFines__13FEPlayerCarDBb.0_5Fines.35758",
-        Err(
-            TrailingDataOnDestructor(
-                ".35758",
-            ),
+        Ok(
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalFines.0(bool)::Fines.35758::~Fines.35758(void)",
         ),
     ),
     (
@@ -42549,10 +42535,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_._Q313FEPlayerCarDB46GetNumCareerCarsWithARecord__13FEPlayerCarDB.0_7NumCars.35774",
-        Err(
-            TrailingDataOnDestructor(
-                ".35774",
-            ),
+        Ok(
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0()::NumCars.35774::~NumCars.35774(void)",
         ),
     ),
     (

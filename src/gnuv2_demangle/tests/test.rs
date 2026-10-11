@@ -2083,7 +2083,7 @@ fn test_demangle_mangled_within_mangled() {
 // Issue 4: https://github.com/Decompollaborate/gnuv2_demangle/issues/4
 #[test]
 fn test_demangle_function_inside_local_struct() {
-    static CASES: [(&str, &str, DemangleError<'_>); 3] = [
+    static CASES: [(&str, &str, DemangleError<'_>); 4] = [
         /*
         void outer_func(void) {
             struct Private {
@@ -2096,6 +2096,19 @@ fn test_demangle_function_inside_local_struct() {
             "inner_func__Q216outer_func__Fv.0_7Private.3",
             "outer_func.0(void)::Private::inner_func.3()",
             DemangleError::UnknownType('.', ".3"),
+        ),
+        /*
+        void outer_func() {
+            class Silly {
+                ~Silly() {
+                }
+            };
+        }
+        */
+        (
+            "_$_Q216outer_func__Fv.0_5Silly.3",
+            "outer_func.0(void)::Silly.3::~Silly.3(void)",
+            DemangleError::TrailingDataOnDestructor(".3"),
         ),
         /*
         class GManager {

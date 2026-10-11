@@ -7,7 +7,9 @@ use alloc::{
     vec::Vec,
 };
 
-use crate::{remainer::StrParsing, DemangleConfig, DemangleError};
+use crate::{
+    dem_other::demangle_static_suffix, remainer::Remaining, DemangleConfig, DemangleError,
+};
 
 use crate::dem_arg::{demangle_argument, DemangledArg};
 
@@ -176,20 +178,10 @@ pub(crate) fn demangle_argument_list<'s>(
         allow_array_fixup,
     )?;
 
-    // Handle the static numeric suffix used to distinguish static symbols inside structs
-    let (remaining, static_suffix) = if let Some(extra) = remaining.strip_prefix('.') {
-        let Some(rem) = extra.p_number_str() else {
-            return Err(DemangleError::NonNumericStaticSuffix(remaining));
-        };
-
-        if !rem.r.is_empty() {
-            return Err(DemangleError::TrailingDataAfterStaticSuffix(rem.r, rem.d));
-        }
-
-        (rem.r, remaining)
-    } else {
-        (remaining, "")
-    };
+    let Remaining {
+        r: remaining,
+        d: static_suffix,
+    } = demangle_static_suffix(config, remaining)?;
 
     if !remaining.is_empty() {
         return Err(DemangleError::TrailingDataAfterArgumentList(remaining));

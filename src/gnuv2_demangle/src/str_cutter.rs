@@ -83,7 +83,7 @@ impl<'s> StrCutter<'s> for str {
                         right
                             .chars()
                             .next()
-                            .expect("Due to the previous start_with we expect this to have at least a single character");
+                            .expect("Due to the previous starts_with we expect this to have at least a single character");
 
                     return Some((left, right, first_right_character));
                 }
