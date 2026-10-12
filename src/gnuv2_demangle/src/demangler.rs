@@ -6,18 +6,20 @@ use alloc::{
     string::{String, ToString},
     vec::Vec,
 };
+use core::fmt::Write;
 
 use crate::{
+    dem_namespaced_type::{demangle_namespaced_type, NamespaceKind, NamespacedType},
     dem_other::{demangle_static_suffix, StaticSuffix},
     DemangleConfig, DemangleError,
 };
 
 use crate::{
-    dem::{demangle_custom_name, demangle_method_qualifier},
+    dem::demangle_method_qualifier,
     dem_arg::{demangle_argument, DemangledArg},
     dem_arg_list::{demangle_argument_list, demangle_argument_list_impl, ArgVec},
     dem_namespace::demangle_namespaces,
-    dem_template::{demangle_template, demangle_template_with_return_type},
+    dem_template::demangle_template_with_return_type,
     remainer::Remaining,
     str_cutter::StrCutter,
 };
@@ -203,19 +205,19 @@ fn demangle_destructor<'s>(
 ) -> Result<String, DemangleError<'s>> {
     let allow_array_fixup = true;
 
-    let (r, namespace, typ) = if let Some(s) = s.strip_prefix('t') {
-        let (r, template, typ) =
-            demangle_template(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
-        (r, Cow::from(template), Cow::from(typ))
-    } else if let Some(s) = s.strip_prefix('Q') {
-        let (r, namespaces, trailing_namespace) =
-            demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
-        (r, Cow::from(namespaces), Cow::from(trailing_namespace))
-    } else {
-        let Remaining { r, d: class_name } =
-            demangle_custom_name(s, DemangleError::InvalidClassNameOnDestructor)?;
-        (r, Cow::from(class_name), Cow::from(class_name))
-    };
+    let Remaining {
+        r,
+        d: NamespacedType {
+            namespace,
+            type_name,
+        },
+    } = demangle_namespaced_type(
+        config,
+        s,
+        allow_array_fixup,
+        DemangleError::InvalidClassNameOnDestructor,
+    )?
+    .ok_or(DemangleError::InvalidTypeNameForDestructor(s))?;
 
     let Remaining {
         r,
@@ -224,7 +226,7 @@ fn demangle_destructor<'s>(
 
     if r.is_empty() {
         Ok(format!(
-            "{namespace}{static_suffix}::~{typ}{static_suffix}(void)"
+            "{namespace}{static_suffix}::~{type_name}{static_suffix}(void)"
         ))
     } else {
         Err(DemangleError::TrailingDataOnDestructor(r))
@@ -237,44 +239,27 @@ fn demangle_special<'s>(
     full_sym: &'s str,
 ) -> Result<String, DemangleError<'s>> {
     let allow_array_fixup = true;
-    let c = s
-        .chars()
-        .next()
-        .ok_or(DemangleError::RanOutWhileDemanglingSpecial)?;
 
-    let (remaining, class_name, method_name, suffix) = if matches!(c, '1'..='9') {
-        // class constructor
-        let Remaining { r, d: class_name } =
-            demangle_custom_name(s, DemangleError::InvalidClassNameOnConstructor)?;
-
-        (r, Some(Cow::from(class_name)), Cow::from(class_name), "")
-    } else if let Some(remaining) = s.strip_prefix("tf") {
+    let (remaining, class_name, method_name, suffix) = if let Some(remaining) = s.strip_prefix("tf")
+    {
         return demangle_type_info_function(config, remaining);
     } else if let Some(remaining) = s.strip_prefix("ti") {
         return demangle_type_info_node(config, remaining);
-    } else if let Some(remaining) = s.strip_prefix('t') {
-        let (remaining, template, typ) = demangle_template(
-            config,
-            remaining,
-            &ArgVec::new(config, None),
-            allow_array_fixup,
-        )?;
+    } else if let Some(nt) = demangle_namespaced_type(
+        config,
+        s,
+        allow_array_fixup,
+        DemangleError::InvalidClassNameOnConstructor,
+    )? {
+        let Remaining {
+            r,
+            d: NamespacedType {
+                namespace,
+                type_name,
+            },
+        } = nt;
 
-        (remaining, Some(Cow::from(template)), Cow::from(typ), "")
-    } else if let Some(q_less) = s.strip_prefix('Q') {
-        let (remaining, namespaces, trailing_namespace) = demangle_namespaces(
-            config,
-            q_less,
-            &ArgVec::new(config, None),
-            allow_array_fixup,
-        )?;
-
-        (
-            remaining,
-            Some(Cow::from(namespaces)),
-            Cow::from(trailing_namespace),
-            "",
-        )
+        (r, Some(namespace), Cow::from(type_name), "")
     } else {
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
         let op = &s[..end_index];
@@ -397,29 +382,22 @@ fn demangle_special<'s>(
                 d: suffix,
             } = demangle_method_qualifier(remaining);
 
-            let (remaining, namespaces) = if let Some(q_less) = remaining.strip_prefix('Q') {
-                let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(
-                    config,
-                    q_less,
-                    &ArgVec::new(config, None),
-                    allow_array_fixup,
-                )?;
+            let Remaining {
+                r: remaining,
+                d:
+                    NamespacedType {
+                        namespace,
+                        type_name: _,
+                    },
+            } = demangle_namespaced_type(
+                config,
+                remaining,
+                allow_array_fixup,
+                DemangleError::InvalidClassNameOnOperator,
+            )?
+            .ok_or(DemangleError::InvalidTypeNameForOperator(remaining))?;
 
-                (remaining, Cow::from(namespaces))
-            } else if let Some(r) = remaining.strip_prefix('t') {
-                let (remaining, template, _typ) =
-                    demangle_template(config, r, &ArgVec::new(config, None), allow_array_fixup)?;
-
-                (remaining, Cow::from(template))
-            } else {
-                let Remaining { r, d: class_name } =
-                    demangle_custom_name(remaining, DemangleError::InvalidClassNameOnOperator)?
-                        .d_as_cow();
-
-                (r, class_name)
-            };
-
-            (remaining, Some(namespaces), method_name, suffix)
+            (remaining, Some(namespace), method_name, suffix)
         }
     };
 
@@ -429,7 +407,7 @@ fn demangle_special<'s>(
         demangle_argument_list(
             config,
             remaining,
-            class_name.as_deref(),
+            class_name.as_ref(),
             &ArgVec::new(config, None),
             allow_array_fixup,
         )?
@@ -472,30 +450,19 @@ fn demangle_method<'s>(
         d: suffix,
     } = demangle_method_qualifier(class_and_args);
 
-    let (remaining, namespace) = if let Some(templated) = remaining.strip_prefix('t') {
-        let (remaining, template, _typ) = demangle_template(
-            config,
-            templated,
-            &ArgVec::new(config, None),
-            allow_array_fixup,
-        )?;
-
-        (remaining, Cow::from(template))
-    } else if let Some(q_less) = remaining.strip_prefix('Q') {
-        let (remaining, namespaces, _trailing_namespace) = demangle_namespaces(
-            config,
-            q_less,
-            &ArgVec::new(config, None),
-            allow_array_fixup,
-        )?;
-
-        (remaining, Cow::from(namespaces))
-    } else {
-        let Remaining { r, d: class_name } =
-            demangle_custom_name(remaining, DemangleError::InvalidClassNameOnMethod)?.d_as_cow();
-
-        (r, class_name)
-    };
+    let Remaining {
+        r: remaining,
+        d: NamespacedType {
+            namespace,
+            type_name: _,
+        },
+    } = demangle_namespaced_type(
+        config,
+        remaining,
+        allow_array_fixup,
+        DemangleError::InvalidClassNameOnMethod,
+    )?
+    .ok_or(DemangleError::InvalidTypeNameForMethod(remaining))?;
 
     let (argument_list, static_suffix) = if remaining.is_empty() {
         (Cow::from("void"), StaticSuffix::none())
@@ -536,24 +503,15 @@ fn demangle_templated_function<'s>(
     } = demangle_method_qualifier(remaining);
 
     let (remaining, typ) = if let Some(typ) = typ {
-        (remaining, Some(typ))
-    } else if remaining.starts_with(|c| matches!(c, '1'..='9')) {
-        let Remaining { r, d: namespace } = demangle_custom_name(
-            remaining,
-            DemangleError::InvalidNamespaceOnTemplatedFunction,
-        )?
-        .d_as_cow();
-        (r, Some(namespace))
-    } else if let Some(r) = remaining.strip_prefix('t') {
-        let (r, template, _typ) =
-            demangle_template(config, r, &ArgVec::new(config, None), allow_array_fixup)?;
-
-        (r, Some(Cow::from(template)))
-    } else if let Some(r) = remaining.strip_prefix('Q') {
-        let (r, namespaces, _trailing_namespace) =
-            demangle_namespaces(config, r, &ArgVec::new(config, None), allow_array_fixup)?;
-
-        (r, Some(Cow::from(namespaces)))
+        (remaining, Some(typ.namespace))
+    } else if let Some(nt) = demangle_namespaced_type(
+        config,
+        remaining,
+        allow_array_fixup,
+        DemangleError::InvalidNamespaceOnTemplatedFunction,
+    )? {
+        let Remaining { r, d: nt } = nt;
+        (r, Some(nt.namespace))
     } else {
         (remaining, None)
     };
@@ -569,7 +527,7 @@ fn demangle_templated_function<'s>(
             demangle_argument(
                 config,
                 r,
-                &ArgVec::new(config, typ.as_deref()),
+                &ArgVec::new(config, typ.as_ref()),
                 &template_args,
                 allow_array_fixup,
             )?
@@ -586,7 +544,7 @@ fn demangle_templated_function<'s>(
     let (remaining, argument_list) = demangle_argument_list_impl(
         config,
         remaining,
-        typ.as_deref(),
+        typ.as_ref(),
         &template_args,
         false,
         allow_array_fixup,
@@ -598,7 +556,7 @@ fn demangle_templated_function<'s>(
             let (r, DemangledArg::Plain(ret_type, array_qualifiers)) = demangle_argument(
                 config,
                 r,
-                &ArgVec::new(config, typ.as_deref()),
+                &ArgVec::new(config, typ.as_ref()),
                 &template_args,
                 allow_array_fixup,
             )?
@@ -653,7 +611,7 @@ fn demangle_templated_function<'s>(
         out.push(' ');
     }
     if let Some(typ) = typ {
-        out.push_str(&typ);
+        out.push_str(&typ.to_string());
         out.push_str("::");
     }
     out.push_str(func_name);
@@ -679,8 +637,11 @@ fn demangle_namespaced_function<'s>(
 ) -> Result<String, DemangleError<'s>> {
     let allow_array_fixup = true;
 
-    let (remaining, namespaces, _trailing_namespace) =
-        demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
+    let Remaining {
+        r: remaining,
+        d: (namespaces, _trailing_namespace),
+    } = demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
+    let namespaces = NamespaceKind::Namespace(namespaces);
 
     let (argument_list, static_suffix) = if remaining.is_empty() {
         (Cow::from("void"), StaticSuffix::none())
@@ -760,29 +721,38 @@ fn demangle_virtual_table<'s>(
             .strip_prefix(cplus_marker)
             .ok_or(DemangleError::VTableMissingDollarSeparator(remaining))?;
 
-        remaining = if let Some(r) = remaining.strip_prefix('t') {
-            let (r, template, _typ) =
-                demangle_template(config, r, &ArgVec::new(config, None), allow_array_fixup)?;
+        let Remaining {
+            r,
+            d:
+                NamespacedType {
+                    namespace,
+                    type_name: _,
+                },
+        } = demangle_namespaced_type(
+            config,
+            remaining,
+            allow_array_fixup,
+            DemangleError::InvalidClassNameOnVirtualTable,
+        )?
+        .ok_or(DemangleError::InvalidTypeNameForVirtualTable(remaining))?;
 
-            stuff.push(Cow::from(template));
-            r
-        } else if let Some(r) = remaining.strip_prefix('Q') {
-            let (r, namespaces, _trailing_namespace) =
-                demangle_namespaces(config, r, &ArgVec::new(config, None), allow_array_fixup)?;
-
-            stuff.push(Cow::from(namespaces));
-            r
-        } else {
-            let Remaining { r, d: class_name } =
-                demangle_custom_name(remaining, DemangleError::InvalidClassNameOnVirtualTable)?
-                    .d_as_cow();
-
-            stuff.push(class_name);
-            r
-        };
+        stuff.push(namespace);
+        remaining = r;
     }
 
-    Ok(format!("{} virtual table", stuff.join("::")))
+    let mut buf = String::new();
+    {
+        let mut iter = stuff.into_iter();
+
+        // TODO: get rid of these unwraps
+        if let Some(ns) = iter.next() {
+            write!(buf, "{ns}").unwrap();
+        }
+        for ns in iter {
+            write!(buf, "::{ns}").unwrap();
+        }
+    }
+    Ok(format!("{buf} virtual table"))
 }
 
 fn demangle_namespaced_global<'s>(
@@ -796,23 +766,19 @@ fn demangle_namespaced_global<'s>(
         return Err(DemangleError::InvalidNamespacedGlobal(s, name));
     };
 
-    let (r, space) = if let Some(r) = remaining.strip_prefix('t') {
-        let (r, template, _typ) =
-            demangle_template(config, r, &ArgVec::new(config, None), allow_array_fixup)?;
-
-        (r, Cow::from(template))
-    } else if let Some(r) = remaining.strip_prefix('Q') {
-        let (r, namespaces, _trailing_namespace) =
-            demangle_namespaces(config, r, &ArgVec::new(config, None), allow_array_fixup)?;
-
-        (r, Cow::from(namespaces))
-    } else {
-        let Remaining { r, d: class_name } =
-            demangle_custom_name(remaining, DemangleError::InvalidNamespaceOnNamespacedGlobal)?
-                .d_as_cow();
-
-        (r, class_name)
-    };
+    let Remaining {
+        r,
+        d: NamespacedType {
+            namespace: space,
+            type_name: _,
+        },
+    } = demangle_namespaced_type(
+        config,
+        remaining,
+        allow_array_fixup,
+        DemangleError::InvalidNamespaceOnNamespacedGlobal,
+    )?
+    .ok_or(DemangleError::InvalidTypeNameForNamespacedGlobal(remaining))?;
 
     if !r.is_empty() {
         return Err(DemangleError::TrailingDataOnNamespacedGlobal(r));

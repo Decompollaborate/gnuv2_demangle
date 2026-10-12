@@ -10456,7 +10456,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_GLOBAL_$F$__builtin_new.._.._src_gcc_cp_new1.ccKINnb5",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "GLOBAL_",
             ),
         ),
@@ -28862,7 +28862,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_GLOBAL_$F$__default_terminate",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "GLOBAL_",
             ),
         ),
@@ -36396,7 +36396,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_GLOBAL_$F$__builtin_delete.._.._src_gcc_cp_new2.cc1GeU73",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "GLOBAL_",
             ),
         ),
@@ -39360,7 +39360,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_GLOBAL_$F$_$_9type_info",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "GLOBAL_",
             ),
         ),
@@ -65240,7 +65240,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_GLOBAL_$F$nothrow",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "GLOBAL_",
             ),
         ),

@@ -664,7 +664,7 @@ fn test_demangle_global_sym_keyed_frame_cfilt() {
         ),
         (
             "_GLOBAL_$F$cout",
-            Err(DemangleError::InvalidNamespaceOnNamespacedGlobal("GLOBAL_")),
+            Err(DemangleError::InvalidTypeNameForNamespacedGlobal("GLOBAL_")),
         ),
         (
             "_GLOBAL_$F$_un_link__9streambuf",
@@ -680,7 +680,7 @@ fn test_demangle_global_sym_keyed_frame_cfilt() {
         ),
         (
             "_GLOBAL_$F$_IO_stdin_",
-            Err(DemangleError::InvalidNamespaceOnNamespacedGlobal("GLOBAL_")),
+            Err(DemangleError::InvalidTypeNameForNamespacedGlobal("GLOBAL_")),
         ),
         (
             "_GLOBAL_$F$__8stdiobufP7__sFILE",
@@ -688,12 +688,12 @@ fn test_demangle_global_sym_keyed_frame_cfilt() {
         ),
         (
             "_GLOBAL_$F$__default_terminate",
-            Err(DemangleError::InvalidNamespaceOnNamespacedGlobal("GLOBAL_")),
+            Err(DemangleError::InvalidTypeNameForNamespacedGlobal("GLOBAL_")),
         ),
         ("_GLOBAL_$F$terminate__Fv", Ok("_GLOBAL_$F$terminate(void)")),
         (
             "_GLOBAL_$F$_$_9type_info",
-            Err(DemangleError::InvalidNamespaceOnNamespacedGlobal("GLOBAL_")),
+            Err(DemangleError::InvalidTypeNameForNamespacedGlobal("GLOBAL_")),
         ),
         (
             "_GLOBAL_$F$before__C9type_infoRC9type_info",

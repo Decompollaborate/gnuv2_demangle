@@ -3,12 +3,14 @@
 
 use core::num::NonZeroUsize;
 
-use alloc::{
-    borrow::Cow,
-    string::{String, ToString},
-};
+use alloc::string::{String, ToString};
 
-use crate::{dem_arg::FunctionPointer, str_cutter::StrCutter, DemangleConfig, DemangleError};
+use crate::{
+    dem_arg::FunctionPointer,
+    dem_namespaced_type::{NamespaceKind, NamespacedType},
+    str_cutter::StrCutter,
+    DemangleConfig, DemangleError,
+};
 
 use crate::{
     dem::demangle_custom_name,
@@ -51,7 +53,7 @@ pub(crate) fn demangle_template_with_return_type<'c, 's>(
     config: &'c DemangleConfig,
     s: &'s str,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ArgVec<'c, 's>, Option<Cow<'s, str>>), DemangleError<'s>> {
+) -> Result<(&'s str, ArgVec<'c, 's, 's>, Option<NamespacedType<'s>>), DemangleError<'s>> {
     let Some(Remaining { r, d: digit }) = s.p_digit() else {
         return Err(DemangleError::InvalidTemplateReturnCount(s));
     };
@@ -69,18 +71,32 @@ pub(crate) fn demangle_template_with_return_type<'c, 's>(
         return Err(DemangleError::MalformedTemplateWithReturnType(r));
     };
     let (r, namespaces) = if let Some(q_less) = r.strip_prefix('Q') {
-        let (r, namespaces, _trailing_namespace) = demangle_namespaces(
+        let Remaining {
+            r,
+            d: (namespaces, trailing_namespace),
+        } = demangle_namespaces(
             config,
             q_less,
             &ArgVec::new(config, None),
             allow_array_fixup,
         )?;
 
-        (r, Some(Cow::from(namespaces)))
+        let nt = NamespacedType {
+            namespace: NamespaceKind::Namespace(namespaces),
+            type_name: trailing_namespace,
+        };
+
+        (r, Some(nt))
     } else if r.starts_with(|c| matches!(c, '1'..='9')) {
-        let Remaining { r, d: namespace } =
-            demangle_custom_name(r, DemangleError::InvalidNamespaceOnTemplatedFunction)?.d_as_cow();
-        (r, Some(namespace))
+        let Remaining { r, d: classname } =
+            demangle_custom_name(r, DemangleError::InvalidNamespaceOnTemplatedFunction)?;
+
+        let nt = NamespacedType {
+            namespace: NamespaceKind::Class(classname),
+            type_name: classname,
+        };
+
+        (r, Some(nt))
     } else {
         (r, None)
     };
@@ -94,7 +110,7 @@ fn demangle_template_types_impl<'c, 's>(
     count: NonZeroUsize,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ArgVec<'c, 's>), DemangleError<'s>> {
+) -> Result<(&'s str, ArgVec<'c, 's, 's>), DemangleError<'s>> {
     let mut remaining = s;
     let mut types = ArgVec::new(config, None);
 

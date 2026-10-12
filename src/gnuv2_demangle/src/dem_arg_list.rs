@@ -1,6 +1,8 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+use core::fmt;
+
 use alloc::{
     borrow::Cow,
     string::{String, ToString},
@@ -8,6 +10,7 @@ use alloc::{
 };
 
 use crate::{
+    dem_namespaced_type::NamespaceKind,
     dem_other::{demangle_static_suffix, StaticSuffix},
     remainer::Remaining,
     DemangleConfig, DemangleError,
@@ -22,10 +25,38 @@ enum ProcessedArg {
     Ellipsis,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) enum ResolvedProcessedArg<'ns, 'nsp, 'p> {
+    Namespace(&'nsp NamespaceKind<'ns>),
+    Plain(&'p str),
+    Ellipsis,
+}
+
+impl fmt::Display for ResolvedProcessedArg<'_, '_, '_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Namespace(ns) => write!(f, "{ns}"),
+            Self::Plain(p) => write!(f, "{p}"),
+            Self::Ellipsis => write!(f, "..."),
+        }
+    }
+}
+
+// silly
+impl<'s> From<ResolvedProcessedArg<'s, '_, 's>> for Cow<'s, str> {
+    fn from(value: ResolvedProcessedArg<'s, '_, 's>) -> Self {
+        match value {
+            ResolvedProcessedArg::Namespace(ntn) => Cow::from(ntn),
+            ResolvedProcessedArg::Plain(p) => Cow::from(p),
+            ResolvedProcessedArg::Ellipsis => Cow::from("..."),
+        }
+    }
+}
+
 #[derive(Debug)]
-pub(crate) struct ArgVec<'c, 'ns> {
+pub(crate) struct ArgVec<'c, 'ns, 'nsp> {
     config: &'c DemangleConfig,
-    namespace: Option<&'ns str>,
+    namespace: Option<&'nsp NamespaceKind<'ns>>,
     args: Vec<ProcessedArg>,
 
     /// !HACK(c++filt): Allows to avoid emitting an space between a comma and
@@ -36,8 +67,11 @@ pub(crate) struct ArgVec<'c, 'ns> {
     trailing_ellipsis: bool,
 }
 
-impl<'c, 'ns> ArgVec<'c, 'ns> {
-    pub(crate) fn new(config: &'c DemangleConfig, namespace: Option<&'ns str>) -> Self {
+impl<'c, 'ns, 'nsp> ArgVec<'c, 'ns, 'nsp> {
+    pub(crate) fn new(
+        config: &'c DemangleConfig,
+        namespace: Option<&'nsp NamespaceKind<'ns>>,
+    ) -> Self {
         Self {
             config,
             namespace,
@@ -46,10 +80,18 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
         }
     }
 
-    pub(crate) fn get(&self, mut index: usize) -> Option<&str> {
+    pub(crate) fn len(&self) -> usize {
+        let extra = if self.namespace.is_some() { 1 } else { 0 };
+        self.args.len() + extra
+    }
+
+    pub(crate) fn get<'p>(
+        &'p self,
+        mut index: usize,
+    ) -> Option<ResolvedProcessedArg<'ns, 'nsp, 'p>> {
         if let Some(namespace) = self.namespace {
             if index == 0 {
-                return Some(namespace);
+                return Some(ResolvedProcessedArg::Namespace(namespace));
             } else {
                 index -= 1;
             }
@@ -58,14 +100,14 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
         loop {
             let arg = self.args.get(index)?;
             match arg {
-                ProcessedArg::Plain(p) => break Some(p),
+                ProcessedArg::Plain(p) => break Some(ResolvedProcessedArg::Plain(p)),
                 ProcessedArg::Lookback { index: i } => {
                     if *i >= index {
                         break None;
                     }
                     index = *i;
                 }
-                ProcessedArg::Ellipsis => break Some("..."),
+                ProcessedArg::Ellipsis => break Some(ResolvedProcessedArg::Ellipsis),
             }
         }
     }
@@ -93,16 +135,7 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
             }
             DemangledArg::Repeat { count, index } => {
                 // Check the index is in-bounds
-                if self.namespace.is_some() {
-                    if index == 0 {
-                        // we're grood
-                    } else {
-                        let i = index - 1;
-                        if i >= self.args.len() {
-                            return Err(DemangleError::InvalidRepeatingArgument(s));
-                        }
-                    }
-                } else if index >= self.args.len() {
+                if index >= self.len() {
                     return Err(DemangleError::InvalidRepeatingArgument(s));
                 }
 
@@ -132,22 +165,26 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
 
         for arg in &self.args {
             match arg {
-                ProcessedArg::Plain(plain) => args.push(plain.as_str()),
+                ProcessedArg::Plain(plain) => args.push(Cow::from(plain.as_str())),
                 ProcessedArg::Lookback { index } => {
                     let arg = if let Some(namespace) = self.namespace {
                         if *index == 0 {
-                            namespace
+                            Cow::from(namespace)
                         } else {
-                            args.get(*index - 1)
-                                .expect("Indices were verified when pushing the arguments")
+                            Cow::clone(
+                                args.get(*index - 1)
+                                    .expect("Indices were verified when pushing the arguments"),
+                            )
                         }
                     } else {
-                        args.get(*index)
-                            .expect("Indices were verified when pushing the arguments")
+                        Cow::clone(
+                            args.get(*index)
+                                .expect("Indices were verified when pushing the arguments"),
+                        )
                     };
                     args.push(arg);
                 }
-                ProcessedArg::Ellipsis => args.push("..."),
+                ProcessedArg::Ellipsis => args.push(Cow::from("...")),
             }
         }
 
@@ -167,7 +204,7 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
 pub(crate) fn demangle_argument_list<'s>(
     config: &DemangleConfig,
     args: &'s str,
-    namespace: Option<&str>,
+    namespace: Option<&'_ NamespaceKind<'_>>,
     template_args: &ArgVec,
     allow_array_fixup: bool,
 ) -> Result<(Cow<'s, str>, StaticSuffix<'s>), DemangleError<'s>> {
@@ -192,14 +229,14 @@ pub(crate) fn demangle_argument_list<'s>(
     Ok((Cow::from(argument_list.join()), static_suffix))
 }
 
-pub(crate) fn demangle_argument_list_impl<'c, 's, 'ns>(
+pub(crate) fn demangle_argument_list_impl<'c, 's, 'ns, 'nsp>(
     config: &'c DemangleConfig,
     mut args: &'s str,
-    namespace: Option<&'ns str>,
+    namespace: Option<&'nsp NamespaceKind<'ns>>,
     template_args: &ArgVec,
     allow_data_after_ellipsis: bool,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ArgVec<'c, 'ns>), DemangleError<'s>> {
+) -> Result<(&'s str, ArgVec<'c, 'ns, 'nsp>), DemangleError<'s>> {
     let mut arguments = ArgVec::new(config, namespace);
 
     while !args.is_empty() && !args.starts_with('_') {

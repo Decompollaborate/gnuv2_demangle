@@ -331,8 +331,10 @@ where
             (r, true, Cow::from(class_name))
         }
         'Q' => {
-            let (remaining, namespaces, _trailing_namespace) =
-                demangle_namespaces(config, &args[1..], template_args, allow_array_fixup)?;
+            let Remaining {
+                r: remaining,
+                d: (namespaces, _trailing_namespace),
+            } = demangle_namespaces(config, &args[1..], template_args, allow_array_fixup)?;
             (remaining, true, Cow::from(namespaces))
         }
         'T' => {
@@ -341,9 +343,14 @@ where
                 .p_number_maybe_multi_digit()
                 .ok_or(DemangleError::InvalidLookbackCount(args))?;
 
-            let referenced_arg = parsed_arguments
-                .get(lookback)
-                .ok_or(DemangleError::LookbackCountTooBig(args, lookback))?;
+            let referenced_arg =
+                parsed_arguments
+                    .get(lookback)
+                    .ok_or(DemangleError::LookbackCountTooBig(
+                        args,
+                        lookback,
+                        parsed_arguments.len(),
+                    ))?;
 
             (r, false, Cow::from(referenced_arg))
         }

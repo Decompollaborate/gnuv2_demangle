@@ -1,9 +1,9 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use core::num::NonZeroUsize;
+use core::{fmt, num::NonZeroUsize};
 
-use alloc::{borrow::Cow, string::String};
+use alloc::{borrow::Cow, vec::Vec};
 
 use crate::{demangle, DemangleConfig, DemangleError};
 
@@ -14,13 +14,76 @@ use crate::{
     remainer::{Remaining, StrParsing},
 };
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct NamespaceVec<'s> {
+    namepace_list: Vec<Cow<'s, str>>,
+}
+
+impl<'s> NamespaceVec<'s> {
+    const fn new() -> Self {
+        Self {
+            namepace_list: Vec::new(),
+        }
+    }
+
+    fn push(&mut self, ns: Cow<'s, str>) {
+        self.namepace_list.push(ns);
+    }
+}
+
+impl<'s> fmt::Display for NamespaceVec<'s> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut iter = self.namepace_list.iter();
+
+        let Some(n) = iter.next() else {
+            return Ok(());
+        };
+
+        write!(f, "{n}")?;
+        for n in iter {
+            write!(f, "::{n}")?;
+        }
+
+        Ok(())
+    }
+}
+
+// silly
+impl<'s> From<&NamespaceVec<'s>> for Cow<'s, str> {
+    fn from(value: &NamespaceVec<'s>) -> Self {
+        if value.namepace_list.len() == 1 {
+            Cow::clone(
+                value
+                    .namepace_list
+                    .first()
+                    .expect("Already checked the len"),
+            )
+        } else {
+            Cow::from(value.to_string())
+        }
+    }
+}
+impl<'s> From<NamespaceVec<'s>> for Cow<'s, str> {
+    fn from(value: NamespaceVec<'s>) -> Self {
+        if value.namepace_list.len() == 1 {
+            value
+                .namepace_list
+                .into_iter()
+                .next()
+                .expect("Already checked the len")
+        } else {
+            Cow::from(value.to_string())
+        }
+    }
+}
+
 // 'Q' must be stripped already
 pub(crate) fn demangle_namespaces<'s>(
     config: &DemangleConfig,
     s: &'s str,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
+) -> Result<Remaining<'s, (NamespaceVec<'s>, &'s str)>, DemangleError<'s>> {
     let Remaining {
         r,
         d: namespace_count,
@@ -46,16 +109,12 @@ fn demangle_namespaces_impl<'s>(
     namespace_count: NonZeroUsize,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
-    let mut namespaces = String::new();
+) -> Result<Remaining<'s, (NamespaceVec<'s>, &'s str)>, DemangleError<'s>> {
+    let mut namespaces = NamespaceVec::new();
     let mut remaining = s;
     let mut trailing_type = "";
 
     for _i in 0..namespace_count.get() {
-        if !namespaces.is_empty() {
-            namespaces.push_str("::");
-        }
-
         // Sometimes there's a trailing underscore after a number.
         // Not sure if this is the correct way to handle this, but at least it
         // doesn't seem to break anything else.
@@ -85,8 +144,8 @@ fn demangle_namespaces_impl<'s>(
             (r, new_ns)
         };
         remaining = r;
-        namespaces.push_str(&n);
+        namespaces.push(n);
     }
 
-    Ok((remaining, namespaces, trailing_type))
+    Ok(Remaining::new(remaining, (namespaces, trailing_type)))
 }

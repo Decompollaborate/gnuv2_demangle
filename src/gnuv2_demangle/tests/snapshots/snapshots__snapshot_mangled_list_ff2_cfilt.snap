@@ -60896,7 +60896,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcIntens",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -60910,7 +60910,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcIntens_Out",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -60924,7 +60924,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcPoint",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -60938,7 +60938,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcPoint_Out",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -60952,7 +60952,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcNoExtend",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -60966,7 +60966,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcSpotOnly",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -60980,7 +60980,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcPointOnly",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -60994,7 +60994,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcSpotPoint",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61008,7 +61008,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DUMMYR",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61022,7 +61022,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWKICK",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61036,7 +61036,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$D_PROLOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61050,7 +61050,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$D_EL_NonS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61064,7 +61064,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$D_EL_UseS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61078,7 +61078,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$D_EL_NoUseSP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61092,7 +61092,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPE2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61106,7 +61106,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$LWLOOP2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61120,7 +61120,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61134,7 +61134,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61160,7 +61160,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EXLIGHT_TYPE2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61174,7 +61174,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2EX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61188,7 +61188,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2EX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61202,7 +61202,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2BK",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61216,7 +61216,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61230,7 +61230,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2EX_Swap",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61244,7 +61244,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2EX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61258,7 +61258,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2EX_SwapRet",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61272,7 +61272,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2EXSingle",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61286,7 +61286,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2EXOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61300,7 +61300,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RPersClipOut2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61314,7 +61314,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOut2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61328,7 +61328,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SET_ADC2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61342,7 +61342,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPE2W",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61356,7 +61356,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2W",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61370,7 +61370,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2W",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61384,7 +61384,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EXLIGHT_TYPE2W",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61398,7 +61398,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2WEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61412,7 +61412,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2WEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61426,7 +61426,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2WBK",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61440,7 +61440,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE2W",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61466,7 +61466,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2WEX_Swap",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61480,7 +61480,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2WEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61494,7 +61494,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2WEX_SwapRet",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61508,7 +61508,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2WEXSingle",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61522,7 +61522,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2WEXOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61536,7 +61536,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RPersClipOut2W",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61550,7 +61550,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOut2W",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61564,7 +61564,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SET_ADC2W",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61578,7 +61578,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPE0",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61592,7 +61592,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE0",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61606,7 +61606,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61620,7 +61620,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE0EX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61634,7 +61634,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0EX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61648,7 +61648,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0BK",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61662,7 +61662,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE0",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61676,7 +61676,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL0EX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61690,7 +61690,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL0EXSingle",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61704,7 +61704,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL0EXOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61718,7 +61718,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersInner",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61744,7 +61744,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RPersClipOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61758,7 +61758,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPers",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61772,7 +61772,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SET_ADC",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61786,7 +61786,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Z_MINUS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61800,7 +61800,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersFirst",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61814,7 +61814,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MULTI_PROLOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61828,7 +61828,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_MULTI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61842,7 +61842,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_MULTI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61874,7 +61874,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcIntens",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61888,7 +61888,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcIntens_Out",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61902,7 +61902,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcPoint",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61916,7 +61916,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcPoint_Out",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61930,7 +61930,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcNoExtend",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61944,7 +61944,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcSpotOnly",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61958,7 +61958,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcPointOnly",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61972,7 +61972,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcSpotPoint",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -61986,7 +61986,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_XYZ",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62000,7 +62000,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_ZP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62014,7 +62014,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_ZM",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62028,7 +62028,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_RClip",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62042,7 +62042,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_RCLoop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62056,7 +62056,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_Culling",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62070,7 +62070,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_XP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62084,7 +62084,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_XM",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62110,7 +62110,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_YP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62124,7 +62124,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_YM",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62138,7 +62138,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_OUT",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62152,7 +62152,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62166,7 +62166,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_Loop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62180,7 +62180,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_CCheck",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62194,7 +62194,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62208,7 +62208,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_CI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62222,7 +62222,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_LoopOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62236,7 +62236,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_GetAlpha",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62250,7 +62250,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI_Y",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62264,7 +62264,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI_Z",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62278,7 +62278,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI_IA",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62292,7 +62292,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_EPILOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62306,7 +62306,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcParallel",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62320,7 +62320,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIVP0_PROLOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62346,7 +62346,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_PROLOGUE_OUT",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62360,7 +62360,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_EL_NonS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62374,7 +62374,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_EL_UseS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62388,7 +62388,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_EL_NoUseSP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62402,7 +62402,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_JumpType",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62416,7 +62416,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPE0PD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62424,7 +62424,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE0PD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62438,7 +62438,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0PD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62452,7 +62452,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE0PDEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62466,7 +62466,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0PDEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62480,7 +62480,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0PDBK",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62494,7 +62494,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE0PD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62508,7 +62508,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL0PDEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62522,7 +62522,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL0PDEXSingle",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62536,7 +62536,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL0PDEXOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62550,7 +62550,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip0P_Inner",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62564,7 +62564,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip0P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62578,7 +62578,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip0P_Loop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62592,7 +62592,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip0P_Loop_O",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62606,7 +62606,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip0P_Loop_1",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62620,7 +62620,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipFirst0P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62646,7 +62646,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip0P_RD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62660,7 +62660,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Div0P_Start",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62674,7 +62674,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Div0P_Loop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62688,7 +62688,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MakeFan0P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62702,7 +62702,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MakeFan0P_LOOP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62716,7 +62716,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Div0P_Reg",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62730,7 +62730,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP0_PROLOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62744,7 +62744,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP_EL_NonS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62758,7 +62758,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP_EL_UseS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62772,7 +62772,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP_EL_NoUseSP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62786,7 +62786,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP_JumpType",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62800,7 +62800,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP0_EPILOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62814,7 +62814,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPE0P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62822,7 +62822,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE0P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62836,7 +62836,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62850,7 +62850,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE0PEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62864,7 +62864,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0PEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62878,7 +62878,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0PBK",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62892,7 +62892,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE0P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62906,7 +62906,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL0PEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62932,7 +62932,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL0PEXSingle",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62946,7 +62946,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL0PEXOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62960,7 +62960,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersInnerP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62974,7 +62974,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RPersClipOutP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -62988,7 +62988,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63002,7 +63002,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersInnerP_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63016,7 +63016,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RPersClipOutP_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63030,7 +63030,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63044,7 +63044,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP_Div_2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63058,7 +63058,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersFirstP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63072,7 +63072,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SET_ADCP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63086,7 +63086,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63118,7 +63118,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcIntens",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63132,7 +63132,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcIntens_Out",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63146,7 +63146,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcPoint",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63160,7 +63160,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcPoint_Out",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63174,7 +63174,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcNoExtend",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63188,7 +63188,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcSpotOnly",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63202,7 +63202,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcPointOnly",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63216,7 +63216,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcSpotPoint",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63236,7 +63236,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_XYZ",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63250,7 +63250,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_ZP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63264,7 +63264,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_ZM",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63278,7 +63278,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_RClip",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63292,7 +63292,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_RCLoop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63306,7 +63306,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_Culling",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63320,7 +63320,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_XP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63334,7 +63334,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_XM",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63348,7 +63348,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_YP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63362,7 +63362,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_YM",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63376,7 +63376,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_OUT",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63390,7 +63390,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63404,7 +63404,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_Loop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63418,7 +63418,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_CCheck",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63432,7 +63432,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63446,7 +63446,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_CI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63460,7 +63460,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_LoopOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63486,7 +63486,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_GetAlpha",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63500,7 +63500,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI_Y",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63514,7 +63514,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI_Z",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63528,7 +63528,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI_IA",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63542,7 +63542,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_EPILOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63556,7 +63556,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcParallel",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63570,7 +63570,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIVP2_PROLOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63584,7 +63584,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_PROLOGUE_OUT",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63598,7 +63598,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_EL_NonS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63612,7 +63612,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_EL_UseS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63626,7 +63626,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_EL_NoUseSP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63640,7 +63640,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_JumpType",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63654,7 +63654,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPE2PD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63662,7 +63662,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2PD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63676,7 +63676,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2PD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63690,7 +63690,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2PDEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63704,7 +63704,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2PDEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63718,7 +63718,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2PDBK",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63732,7 +63732,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE2PD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63746,7 +63746,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PDEX_ADC3",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63760,7 +63760,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PDEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63786,7 +63786,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PDEXPrePre",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63800,7 +63800,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PDEXSingle",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63814,7 +63814,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PDEXOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63828,7 +63828,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2P_Inner",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63842,7 +63842,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63856,7 +63856,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2P_Loop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63870,7 +63870,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2P_Exl",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63884,7 +63884,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2P_Nocalc",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63898,7 +63898,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipFirst2P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63912,7 +63912,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2P_RD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63926,7 +63926,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPE2FPD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63940,7 +63940,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2FPD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63954,7 +63954,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2FPD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63968,7 +63968,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE2FPD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63982,7 +63982,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2FP_Inner",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -63996,7 +63996,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CLEAR_MESH_P2FD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64010,7 +64010,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2FP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64024,7 +64024,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2FP_2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64038,7 +64038,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2FP_Loop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64064,7 +64064,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2FP_Loop_O",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64078,7 +64078,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipFirst2FP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64092,7 +64092,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2FP_CL",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64106,7 +64106,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2FP_RD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64120,7 +64120,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Div2P_Start",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64134,7 +64134,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Div2P_Loop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64148,7 +64148,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MakeFan2P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64162,7 +64162,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MakeFan2P_LOOP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64176,7 +64176,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClip2P_Reg",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64190,7 +64190,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP2_PROLOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64204,7 +64204,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP_EL_NonS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64218,7 +64218,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP_EL_UseS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64232,7 +64232,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP_EL_NoUseSP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64246,7 +64246,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP_JumpType",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64260,7 +64260,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DP2_EPILOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64274,7 +64274,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPE2P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64288,7 +64288,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64302,7 +64302,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64328,7 +64328,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EXLIGHT_TYPE2P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64342,7 +64342,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2PEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64356,7 +64356,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2PEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64370,7 +64370,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2PBK",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64384,7 +64384,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE2P",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64398,7 +64398,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64412,7 +64412,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SET_ADCP2_Cul",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64426,7 +64426,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PEX_Swap",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64440,7 +64440,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PEX",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64454,7 +64454,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PEX_SwapRet",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64468,7 +64468,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PEXSingle",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64482,7 +64482,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcEL2PEXOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64496,7 +64496,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPE2FP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64510,7 +64510,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2FP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64524,7 +64524,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CLEAR_MESH_P2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64538,7 +64538,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CLEAR_MESH_P2F_LO",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64552,7 +64552,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP2FP_START",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64566,7 +64566,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2FP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64580,7 +64580,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EXLIGHT_TYPE2FP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64594,7 +64594,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EXLIGHT_TYPE2FP_LO",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64620,7 +64620,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EXLIGHT2FP_Swap_Ret",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64634,7 +64634,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP2FP_END",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64648,7 +64648,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE2FP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64662,7 +64662,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EXLIGHT2FP_Swap",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64676,7 +64676,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersInnerP2_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64690,7 +64690,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RPersClipOutP2_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64704,7 +64704,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP2_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64718,7 +64718,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP2_Div_2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64732,7 +64732,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersP2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64746,7 +64746,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64760,7 +64760,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersInnerP2F_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64774,7 +64774,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RPersClipOutP2F_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64788,7 +64788,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP2F_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64802,7 +64802,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MULTIP_PROLOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64816,7 +64816,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_MULTI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64830,7 +64830,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_MULTI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64862,7 +64862,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_XYZ",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64876,7 +64876,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_ZP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64890,7 +64890,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_ZM",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64904,7 +64904,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_RClip",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64918,7 +64918,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_RCLoop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64932,7 +64932,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_Culling",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64946,7 +64946,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_XP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64960,7 +64960,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_XM",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64974,7 +64974,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_YP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -64988,7 +64988,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_YM",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65002,7 +65002,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$Scissor_OUT",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65016,7 +65016,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65030,7 +65030,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_Loop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65044,7 +65044,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_CCheck",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65058,7 +65058,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65072,7 +65072,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_CI",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65086,7 +65086,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_LoopOut",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65112,7 +65112,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_GetAlpha",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65126,7 +65126,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI_Y",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65140,7 +65140,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI_Z",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65154,7 +65154,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SliceP_NI_IA",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65168,7 +65168,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIV_EPILOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65182,7 +65182,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CalcParallel",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65196,7 +65196,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIVPS_PROLOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65210,7 +65210,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIVPS_PROLOGUE_OUT",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65224,7 +65224,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DIVPS_EPILOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65238,7 +65238,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPEP2SD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65252,7 +65252,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPEP2D",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65266,7 +65266,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPEP2D",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65280,7 +65280,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2_Inner",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65294,7 +65294,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2_St",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65308,7 +65308,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65334,7 +65334,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersInnerP2_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65348,7 +65348,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RPersClipOutP2_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65362,7 +65362,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP2_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65376,7 +65376,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipFirstP2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65390,7 +65390,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2_RD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65404,7 +65404,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPEP2FSD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65418,7 +65418,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPEP2FD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65432,7 +65432,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CLEAR_MESH_P2FD_LO",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65446,7 +65446,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPEP2D_St",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65460,7 +65460,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPEP2FD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65474,7 +65474,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPEP2FD_End",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65488,7 +65488,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2F_Inner",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65502,7 +65502,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CLEAR_MESH_P2FD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65516,7 +65516,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2F_St",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65530,7 +65530,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65544,7 +65544,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2F_2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65558,7 +65558,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipFirstP2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65572,7 +65572,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2F_RD",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65586,7 +65586,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersInnerP2F_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65600,7 +65600,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RPersClipOutP2F_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65614,7 +65614,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP2F_Div",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65628,7 +65628,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DivP2_Start",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65642,7 +65642,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DivP2_Loop",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65668,7 +65668,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MakeFanP2_LOOP",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65682,7 +65682,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$GetClipP2_Reg",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65696,7 +65696,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DPS_PROLOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65710,7 +65710,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DPS_EPILOGUE",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65724,7 +65724,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPEP2S",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65738,7 +65738,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPEP2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65752,7 +65752,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPEP2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65766,7 +65766,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SET_ADCP2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65780,7 +65780,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65794,7 +65794,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$DRAWTYPEP2FS",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65808,7 +65808,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPEP2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65822,7 +65822,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CLEAR_MESH_P2F_LO",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65836,7 +65836,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPEP2F_Start",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65862,7 +65862,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPEP2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65876,7 +65876,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPEP2F_End",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65890,7 +65890,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOutP2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65904,7 +65904,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SET_ADCP2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65918,7 +65918,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$CLEAR_MESH_P2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65932,7 +65932,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$RotTransPersP2F",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65946,7 +65946,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65960,7 +65960,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65974,7 +65974,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE2_Ret",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -65988,7 +65988,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$EP_TYPE2",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -66002,7 +66002,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$SwapOut2_1",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -66016,7 +66016,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$MLOOP_TYPE0",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -66030,7 +66030,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$PLOOP_TYPE0",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
@@ -66044,7 +66044,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_$ShadowEnd",
         Err(
-            InvalidNamespaceOnNamespacedGlobal(
+            InvalidTypeNameForNamespacedGlobal(
                 "",
             ),
         ),
