@@ -7,7 +7,10 @@ use alloc::{
     vec::Vec,
 };
 
-use crate::{dem_other::demangle_static_suffix, DemangleConfig, DemangleError};
+use crate::{
+    dem_other::{demangle_static_suffix, StaticSuffix},
+    DemangleConfig, DemangleError,
+};
 
 use crate::{
     dem::{demangle_custom_name, demangle_method_qualifier},
@@ -421,7 +424,7 @@ fn demangle_special<'s>(
     };
 
     let (argument_list, static_suffix) = if remaining.is_empty() {
-        (Cow::from("void"), "")
+        (Cow::from("void"), StaticSuffix::none())
     } else {
         demangle_argument_list(
             config,
@@ -495,7 +498,7 @@ fn demangle_method<'s>(
     };
 
     let (argument_list, static_suffix) = if remaining.is_empty() {
-        (Cow::from("void"), "")
+        (Cow::from("void"), StaticSuffix::none())
     } else {
         demangle_argument_list(
             config,
@@ -680,7 +683,7 @@ fn demangle_namespaced_function<'s>(
         demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
 
     let (argument_list, static_suffix) = if remaining.is_empty() {
-        (Cow::from("void"), "")
+        (Cow::from("void"), StaticSuffix::none())
     } else {
         demangle_argument_list(
             config,

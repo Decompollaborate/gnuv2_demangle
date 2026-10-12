@@ -8,7 +8,9 @@ use alloc::{
 };
 
 use crate::{
-    dem_other::demangle_static_suffix, remainer::Remaining, DemangleConfig, DemangleError,
+    dem_other::{demangle_static_suffix, StaticSuffix},
+    remainer::Remaining,
+    DemangleConfig, DemangleError,
 };
 
 use crate::dem_arg::{demangle_argument, DemangledArg};
@@ -168,7 +170,7 @@ pub(crate) fn demangle_argument_list<'s>(
     namespace: Option<&str>,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<(Cow<'s, str>, &'s str), DemangleError<'s>> {
+) -> Result<(Cow<'s, str>, StaticSuffix<'s>), DemangleError<'s>> {
     let (remaining, argument_list) = demangle_argument_list_impl(
         config,
         args,
