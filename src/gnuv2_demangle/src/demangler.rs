@@ -67,6 +67,22 @@ fn determine_cplus_marker(sym: &str) -> char {
     } else if sym.starts_with("_GLOBAL_.") {
         // global sym keyed
         Some('.')
+    } else if sym
+        .c_strip_prefix_3str_and_pat("_", '$', "tmp_", |c| {
+            matches!(c.chars().next(), Some('0'..='9'))
+        })
+        .is_some()
+    {
+        // in function static initialized
+        Some('$')
+    } else if sym
+        .c_strip_prefix_3str_and_pat("_", '.', "tmp_", |c| {
+            matches!(c.chars().next(), Some('0'..='9'))
+        })
+        .is_some()
+    {
+        // in function static initialized
+        Some('.')
     } else if sym.starts_with("_vt$") {
         // virtual table
         Some('$')
@@ -108,6 +124,10 @@ fn demangle_impl<'s>(
         sym.c_cond_and_strip_prefix_and_char(allow_global_sym_keyed, "_GLOBAL_", cplus_marker)
     {
         demangle_global_sym_keyed(config, s, cplus_marker, sym)
+    } else if let Some(s) = sym.c_strip_prefix_3str_and_pat("_", cplus_marker, "tmp_", |c| {
+        matches!(c.chars().next(), Some('0'..='9'))
+    }) {
+        demangle_in_function_static_initialized(config, s)
     } else {
         demangle_impl_failables(sym, config, cplus_marker)
     }
@@ -839,4 +859,27 @@ fn demangle_global_sym_keyed<'s>(
         .unwrap_or_else(|_| Cow::from(remaining));
 
     Ok(format!("global {which} keyed to {actual_sym}"))
+}
+
+fn demangle_in_function_static_initialized<'s>(
+    config: &DemangleConfig,
+    s: &'s str,
+) -> Result<String, DemangleError<'s>> {
+    if !config.demangle_in_function_static_initialized {
+        return Err(DemangleError::InFunctionStaticInitializedDisabled(s));
+    }
+
+    let Some((left, right)) = s.c_split2_char('.') else {
+        return Err(DemangleError::InFunctionStaticInitializedMissingPair(s));
+    };
+
+    let left: usize = left
+        .parse()
+        .map_err(|_| DemangleError::InFunctionStaticInitializedFirstNotNumber(left))?;
+    let right: usize = right
+        .parse()
+        .map_err(|_| DemangleError::InFunctionStaticInitializedSecondNotNumber(right))?;
+
+    // made up convention
+    Ok(format!("in-function-static initialized {left} {right}"))
 }

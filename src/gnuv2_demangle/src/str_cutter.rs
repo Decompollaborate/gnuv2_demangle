@@ -28,6 +28,25 @@ pub(crate) trait StrCutter<'s> {
 
     #[must_use]
     fn c_strip_prefix_3chars(&'s self, a: char, b: char, c: char) -> Option<&'s str>;
+
+    /// Checks for a 4 way starts with.
+    ///
+    /// Checks if this string starts with parameter `a`, followed by `b` and
+    /// then followed by `c`. Then the remaining string must return true when
+    /// passed to the `pat` argument.
+    ///
+    /// Returns the string after `c` if all the above conditions pass, `None`
+    /// otherwise.
+    #[must_use]
+    fn c_strip_prefix_3str_and_pat<F>(
+        &'s self,
+        a: &str,
+        b: char,
+        c: &str,
+        pat: F,
+    ) -> Option<&'s str>
+    where
+        F: FnOnce(&str) -> bool;
 }
 
 impl<'s> StrCutter<'s> for str {
@@ -117,5 +136,40 @@ impl<'s> StrCutter<'s> for str {
     fn c_strip_prefix_3chars(&'s self, a: char, b: char, c: char) -> Option<&'s str> {
         self.strip_prefix(a)
             .and_then(|x| x.strip_prefix(b).and_then(|y| y.strip_prefix(c)))
+    }
+
+    fn c_strip_prefix_3str_and_pat<F>(
+        &'s self,
+        a: &str,
+        b: char,
+        c: &str,
+        pat: F,
+    ) -> Option<&'s str>
+    where
+        F: FnOnce(&str) -> bool,
+    {
+        let remaining = self.strip_prefix(a)?.strip_prefix(b)?.strip_prefix(c)?;
+
+        if pat(remaining) {
+            Some(remaining)
+        } else {
+            None
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_c_strip_prefix_3str_and_pat() {
+        assert_eq!(
+            "_$tmp_0.7".c_strip_prefix_3str_and_pat("_", '$', "tmp_", |c| matches!(
+                c.chars().next(),
+                Some('0'..='9')
+            )),
+            Some("0.7"),
+        );
     }
 }

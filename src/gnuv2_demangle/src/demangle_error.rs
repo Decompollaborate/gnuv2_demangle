@@ -90,6 +90,10 @@ pub enum DemangleError<'s> {
     InvalidTypeForObjectMemberPointer(&'s str),
     MalformedTemplatedSpecializationInvalidNamespace(&'s str),
     TrailingDataAfterReturnTypeOfTemplatedSpecialization(&'s str),
+    InFunctionStaticInitializedDisabled(&'s str),
+    InFunctionStaticInitializedMissingPair(&'s str),
+    InFunctionStaticInitializedFirstNotNumber(&'s str),
+    InFunctionStaticInitializedSecondNotNumber(&'s str),
 }
 
 impl fmt::Display for DemangleError<'_> {

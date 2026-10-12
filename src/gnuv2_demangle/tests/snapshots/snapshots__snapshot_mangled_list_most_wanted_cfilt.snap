@@ -213440,7 +213440,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_0.10689",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "0.10689",
+            ),
         ),
     ),
     (
@@ -213452,7 +213454,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_3.16708",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "3.16708",
+            ),
         ),
     ),
     (
@@ -213464,7 +213468,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_11.18594",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "11.18594",
+            ),
         ),
     ),
     (
@@ -213476,7 +213482,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_12.18632",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "12.18632",
+            ),
         ),
     ),
     (
@@ -213488,7 +213496,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_13.18664",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "13.18664",
+            ),
         ),
     ),
     (
@@ -213500,7 +213510,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_14.18696",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "14.18696",
+            ),
         ),
     ),
     (
@@ -213512,7 +213524,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_15.18728",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "15.18728",
+            ),
         ),
     ),
     (
@@ -213524,7 +213538,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_16.18766",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "16.18766",
+            ),
         ),
     ),
     (
@@ -213536,7 +213552,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_17.18798",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "17.18798",
+            ),
         ),
     ),
     (
@@ -213548,7 +213566,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_18.18830",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "18.18830",
+            ),
         ),
     ),
     (
@@ -213560,7 +213580,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_19.18874",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "19.18874",
+            ),
         ),
     ),
     (
@@ -213572,7 +213594,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_20.18906",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "20.18906",
+            ),
         ),
     ),
     (
@@ -213584,7 +213608,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_34.31354",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "34.31354",
+            ),
         ),
     ),
     (
@@ -213596,7 +213622,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_35.32499",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "35.32499",
+            ),
         ),
     ),
     (
@@ -213608,7 +213636,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_37.35275",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "37.35275",
+            ),
         ),
     ),
     (
@@ -213620,7 +213650,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_38.35784",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "38.35784",
+            ),
         ),
     ),
     (
@@ -213632,7 +213664,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_39.35786",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "39.35786",
+            ),
         ),
     ),
     (
@@ -213644,7 +213678,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_40.36215",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "40.36215",
+            ),
         ),
     ),
     (
@@ -213656,7 +213692,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_41.37061",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "41.37061",
+            ),
         ),
     ),
     (
@@ -214480,7 +214518,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_2.17934",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "2.17934",
+            ),
         ),
     ),
     (
@@ -214492,7 +214532,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_3.17969",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "3.17969",
+            ),
         ),
     ),
     (
@@ -214504,7 +214546,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_19.27578",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "19.27578",
+            ),
         ),
     ),
     (
@@ -214516,7 +214560,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_20.27634",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "20.27634",
+            ),
         ),
     ),
     (
@@ -214528,7 +214574,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_21.27660",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "21.27660",
+            ),
         ),
     ),
     (
@@ -214540,7 +214588,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_22.29503",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "22.29503",
+            ),
         ),
     ),
     (
@@ -214552,7 +214602,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_23.29724",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "23.29724",
+            ),
         ),
     ),
     (
@@ -214564,7 +214616,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_24.29826",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "24.29826",
+            ),
         ),
     ),
     (
@@ -214576,7 +214630,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_25.29882",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "25.29882",
+            ),
         ),
     ),
     (
@@ -214588,7 +214644,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_26.29938",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "26.29938",
+            ),
         ),
     ),
     (
@@ -214600,7 +214658,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_27.29994",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "27.29994",
+            ),
         ),
     ),
     (
@@ -214612,7 +214672,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_28.30095",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "28.30095",
+            ),
         ),
     ),
     (
@@ -214624,7 +214686,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_29.30148",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "29.30148",
+            ),
         ),
     ),
     (
@@ -215104,7 +215168,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_17.30901",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "17.30901",
+            ),
         ),
     ),
     (
@@ -215116,7 +215182,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_21.31038",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "21.31038",
+            ),
         ),
     ),
     (
@@ -215128,7 +215196,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_22.31046",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "22.31046",
+            ),
         ),
     ),
     (
@@ -215140,7 +215210,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_25.31154",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "25.31154",
+            ),
         ),
     ),
     (
@@ -215152,7 +215224,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_26.31162",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "26.31162",
+            ),
         ),
     ),
     (
@@ -215164,7 +215238,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_29.34412",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "29.34412",
+            ),
         ),
     ),
     (
@@ -215176,7 +215252,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_30.35479",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "30.35479",
+            ),
         ),
     ),
     (
@@ -215188,7 +215266,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_31.35631",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "31.35631",
+            ),
         ),
     ),
     (
@@ -215200,7 +215280,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_32.35663",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "32.35663",
+            ),
         ),
     ),
     (
@@ -215212,7 +215294,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_33.36613",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "33.36613",
+            ),
         ),
     ),
     (
@@ -215546,7 +215630,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_13.15951",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "13.15951",
+            ),
         ),
     ),
     (
@@ -215558,7 +215644,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_28.31254",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "28.31254",
+            ),
         ),
     ),
     (
@@ -217022,7 +217110,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_18.27407",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "18.27407",
+            ),
         ),
     ),
     (
@@ -217034,7 +217124,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_19.29590",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "19.29590",
+            ),
         ),
     ),
     (
@@ -217046,7 +217138,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_20.29613",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "20.29613",
+            ),
         ),
     ),
     (
@@ -217058,7 +217152,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_24.35754",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "24.35754",
+            ),
         ),
     ),
     (
@@ -217070,7 +217166,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_25.35757",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "25.35757",
+            ),
         ),
     ),
     (
@@ -217172,7 +217270,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_17.28786",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "17.28786",
+            ),
         ),
     ),
     (
@@ -217184,7 +217284,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_24.31453",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "24.31453",
+            ),
         ),
     ),
     (
@@ -217196,7 +217298,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_26.32657",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "26.32657",
+            ),
         ),
     ),
     (
@@ -217208,7 +217312,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_27.32683",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "27.32683",
+            ),
         ),
     ),
     (
@@ -217220,7 +217326,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_29.32738",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "29.32738",
+            ),
         ),
     ),
     (
@@ -217520,7 +217628,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_1.13266",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "1.13266",
+            ),
         ),
     ),
     (
@@ -217532,7 +217642,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_2.13307",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "2.13307",
+            ),
         ),
     ),
     (
@@ -217544,7 +217656,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_3.13345",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "3.13345",
+            ),
         ),
     ),
     (
@@ -217556,7 +217670,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_19.26870",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "19.26870",
+            ),
         ),
     ),
     (
@@ -217568,7 +217684,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_20.26896",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "20.26896",
+            ),
         ),
     ),
     (
@@ -217580,7 +217698,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_21.27522",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "21.27522",
+            ),
         ),
     ),
     (
@@ -217592,7 +217712,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_22.27566",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "22.27566",
+            ),
         ),
     ),
     (
@@ -217604,7 +217726,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_23.27598",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "23.27598",
+            ),
         ),
     ),
     (
@@ -217616,7 +217740,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_24.27624",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "24.27624",
+            ),
         ),
     ),
     (
@@ -217628,7 +217754,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_25.31488",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "25.31488",
+            ),
         ),
     ),
     (
@@ -217640,7 +217768,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_26.31490",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "26.31490",
+            ),
         ),
     ),
     (
@@ -217652,7 +217782,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_28.32100",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "28.32100",
+            ),
         ),
     ),
     (
@@ -217664,7 +217796,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_29.32105",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "29.32105",
+            ),
         ),
     ),
     (
@@ -217676,7 +217810,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_31.34062",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "31.34062",
+            ),
         ),
     ),
     (
@@ -217688,7 +217824,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_32.34100",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "32.34100",
+            ),
         ),
     ),
     (
@@ -217700,7 +217838,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_34.35688",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "34.35688",
+            ),
         ),
     ),
     (
@@ -217712,7 +217852,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_36.36004",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "36.36004",
+            ),
         ),
     ),
     (
@@ -217760,7 +217902,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_15.29731",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "15.29731",
+            ),
         ),
     ),
     (
@@ -217772,7 +217916,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_16.29763",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "16.29763",
+            ),
         ),
     ),
     (
@@ -217784,7 +217930,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_17.29807",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "17.29807",
+            ),
         ),
     ),
     (
@@ -217796,7 +217944,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_18.29851",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "18.29851",
+            ),
         ),
     ),
     (
@@ -217808,7 +217958,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_26.30182",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "26.30182",
+            ),
         ),
     ),
     (
@@ -217820,7 +217972,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_27.30214",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "27.30214",
+            ),
         ),
     ),
     (
@@ -217850,7 +218004,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_5.12647",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "5.12647",
+            ),
         ),
     ),
     (
@@ -217862,7 +218018,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_6.12655",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "6.12655",
+            ),
         ),
     ),
     (
@@ -217874,7 +218032,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_23.29118",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "23.29118",
+            ),
         ),
     ),
     (
@@ -217886,7 +218046,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_32.30965",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "32.30965",
+            ),
         ),
     ),
     (
@@ -217898,7 +218060,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_33.30997",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "33.30997",
+            ),
         ),
     ),
     (
@@ -217910,7 +218074,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_37.39128",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "37.39128",
+            ),
         ),
     ),
     (
@@ -217922,7 +218088,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_39.39648",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "39.39648",
+            ),
         ),
     ),
     (
@@ -217934,7 +218102,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_41.40340",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "41.40340",
+            ),
         ),
     ),
     (
@@ -217946,7 +218116,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_50.41432",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "50.41432",
+            ),
         ),
     ),
     (
@@ -217958,7 +218130,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_58.41664",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "58.41664",
+            ),
         ),
     ),
     (
@@ -217970,7 +218144,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_59.41690",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "59.41690",
+            ),
         ),
     ),
     (
@@ -217982,7 +218158,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_66.41914",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "66.41914",
+            ),
         ),
     ),
     (
@@ -217994,7 +218172,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_74.42194",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "74.42194",
+            ),
         ),
     ),
     (
@@ -218006,7 +218186,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_75.42232",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "75.42232",
+            ),
         ),
     ),
     (
@@ -218018,7 +218200,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_80.42404",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "80.42404",
+            ),
         ),
     ),
     (
@@ -218030,7 +218214,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_82.42462",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "82.42462",
+            ),
         ),
     ),
     (
@@ -218042,7 +218228,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_83.42494",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "83.42494",
+            ),
         ),
     ),
     (
@@ -218054,7 +218242,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_87.42616",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "87.42616",
+            ),
         ),
     ),
     (
@@ -218066,7 +218256,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_88.42672",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "88.42672",
+            ),
         ),
     ),
     (
@@ -218084,7 +218276,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_95.54981",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "95.54981",
+            ),
         ),
     ),
     (
@@ -218720,7 +218914,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_4.13006",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "4.13006",
+            ),
         ),
     ),
     (
@@ -218732,7 +218928,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_5.13017",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "5.13017",
+            ),
         ),
     ),
     (
@@ -218744,7 +218942,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_6.13028",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "6.13028",
+            ),
         ),
     ),
     (
@@ -218756,7 +218956,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_7.13039",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "7.13039",
+            ),
         ),
     ),
     (
@@ -218768,7 +218970,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_8.13050",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "8.13050",
+            ),
         ),
     ),
     (
@@ -218780,7 +218984,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_9.13061",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "9.13061",
+            ),
         ),
     ),
     (
@@ -218792,7 +218998,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_10.23296",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "10.23296",
+            ),
         ),
     ),
     (
@@ -218804,7 +219012,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_11.23304",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "11.23304",
+            ),
         ),
     ),
     (
@@ -218816,7 +219026,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_24.28291",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "24.28291",
+            ),
         ),
     ),
     (
@@ -218828,7 +219040,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_25.28623",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "25.28623",
+            ),
         ),
     ),
     (
@@ -218846,7 +219060,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_40.31920",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "40.31920",
+            ),
         ),
     ),
     (
@@ -218858,7 +219074,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_41.31928",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "41.31928",
+            ),
         ),
     ),
     (
@@ -219280,7 +219498,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_10.18891",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "10.18891",
+            ),
         ),
     ),
     (
@@ -219292,7 +219512,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_11.18899",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "11.18899",
+            ),
         ),
     ),
     (
@@ -219304,7 +219526,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_14.19007",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "14.19007",
+            ),
         ),
     ),
     (
@@ -219316,7 +219540,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_15.19015",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "15.19015",
+            ),
         ),
     ),
     (
@@ -219328,7 +219554,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_18.19057",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "18.19057",
+            ),
         ),
     ),
     (
@@ -219340,7 +219568,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_19.19065",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "19.19065",
+            ),
         ),
     ),
     (
@@ -219358,7 +219588,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_46.37037",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "46.37037",
+            ),
         ),
     ),
     (
@@ -219370,7 +219602,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_47.37045",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "47.37045",
+            ),
         ),
     ),
     (
@@ -219382,7 +219616,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_50.37153",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "50.37153",
+            ),
         ),
     ),
     (
@@ -219394,7 +219630,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_51.37161",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "51.37161",
+            ),
         ),
     ),
     (
@@ -220196,7 +220434,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_13.19646",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "13.19646",
+            ),
         ),
     ),
     (
@@ -220208,7 +220448,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_14.19654",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "14.19654",
+            ),
         ),
     ),
     (
@@ -220220,7 +220462,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_15.19665",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "15.19665",
+            ),
         ),
     ),
     (
@@ -220232,7 +220476,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_16.19673",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "16.19673",
+            ),
         ),
     ),
     (
@@ -220244,7 +220490,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_20.25454",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "20.25454",
+            ),
         ),
     ),
     (
@@ -220406,7 +220654,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_18.25790",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "18.25790",
+            ),
         ),
     ),
     (
@@ -220418,7 +220668,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_19.26706",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "19.26706",
+            ),
         ),
     ),
     (
@@ -220430,7 +220682,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_24.29387",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "24.29387",
+            ),
         ),
     ),
     (
@@ -220442,7 +220696,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_25.29389",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "25.29389",
+            ),
         ),
     ),
     (
@@ -220454,7 +220710,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_26.29401",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "26.29401",
+            ),
         ),
     ),
     (
@@ -220466,7 +220724,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_27.29403",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "27.29403",
+            ),
         ),
     ),
     (
@@ -220478,7 +220738,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_35.30961",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "35.30961",
+            ),
         ),
     ),
     (
@@ -221408,7 +221670,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_14.27615",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "14.27615",
+            ),
         ),
     ),
     (
@@ -221690,7 +221954,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_21.29914",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "21.29914",
+            ),
         ),
     ),
     (
@@ -221702,7 +221968,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_22.29922",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "22.29922",
+            ),
         ),
     ),
     (
@@ -221714,7 +221982,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_25.30030",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "25.30030",
+            ),
         ),
     ),
     (
@@ -221726,7 +221996,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_26.30038",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "26.30038",
+            ),
         ),
     ),
     (
@@ -221738,7 +222010,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_29.30080",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "29.30080",
+            ),
         ),
     ),
     (
@@ -221750,7 +222024,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_30.30088",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "30.30088",
+            ),
         ),
     ),
     (
@@ -221762,7 +222038,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_35.30143",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "35.30143",
+            ),
         ),
     ),
     (
@@ -221774,7 +222052,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_36.30151",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "36.30151",
+            ),
         ),
     ),
     (
@@ -221786,7 +222066,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_45.31752",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "45.31752",
+            ),
         ),
     ),
     (
@@ -221798,7 +222080,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_46.36152",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "46.36152",
+            ),
         ),
     ),
     (
@@ -221810,7 +222094,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_47.36160",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "47.36160",
+            ),
         ),
     ),
     (
@@ -221822,7 +222108,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_48.36849",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "48.36849",
+            ),
         ),
     ),
     (
@@ -221834,7 +222122,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_49.36851",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "49.36851",
+            ),
         ),
     ),
     (
@@ -221846,7 +222136,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_50.36853",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "50.36853",
+            ),
         ),
     ),
     (
@@ -222362,7 +222654,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_7.10507",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "7.10507",
+            ),
         ),
     ),
     (
@@ -222374,7 +222668,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_8.10515",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "8.10515",
+            ),
         ),
     ),
     (
@@ -222386,7 +222682,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_10.21137",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "10.21137",
+            ),
         ),
     ),
     (
@@ -222398,7 +222696,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_12.21174",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "12.21174",
+            ),
         ),
     ),
     (
@@ -222410,7 +222710,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_16.22643",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "16.22643",
+            ),
         ),
     ),
     (
@@ -222422,7 +222724,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_17.22651",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "17.22651",
+            ),
         ),
     ),
     (
@@ -222434,7 +222738,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_24.22725",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "24.22725",
+            ),
         ),
     ),
     (
@@ -222446,7 +222752,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_25.22733",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "25.22733",
+            ),
         ),
     ),
     (
@@ -222584,7 +222892,9 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_15.27808",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "15.27808",
+            ),
         ),
     ),
     (
@@ -228517,13 +228827,17 @@ expression: "demangle_lines(contents, &config)"
     (
         "_.tmp_0.609",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "0.609",
+            ),
         ),
     ),
     (
         "_.tmp_0.636",
         Err(
-            NotMangled,
+            InFunctionStaticInitializedDisabled(
+                "0.636",
+            ),
         ),
     ),
     (

@@ -12,9 +12,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support demangling symbols with a trailing static numeric suffix.
   - This is used by g++ to avoid name clashes on static member functions on
     structs defined inside a function.
+  - `DemangleConfig::demangle_static_suffix`: Toggle handling support for the
+    static numeric suffix generated.
+  - Mangled symbols like `inner_func__Q216outer_func__Fv.0_7Private.3` now
+    demangle as `outer_func.0(void)::Private::inner_func.3()` (free function
+    containing local struct defining static function).
 - Support demangling namespaces that are actually a whole mangled symbol.
-- `DemangleConfig::demangle_static_suffix`: Toggle handling support for the
-  static numeric suffix generated.
+- Support for "in-function-static initialized" symbols.
+  - Those are compiler-generated symbols used to track if an in-function static
+    symbol has been initialized or not. Used only when the initializer is a non
+    constant value, like a function call.
+  - This is a made up convention since this doesn't seem to be a common thing
+    to demangle at all.
+  - `DemangleConfig::demangle_in_function_static_initialized`: Toggle support
+    for demangling this.
 
 ### Changed
 

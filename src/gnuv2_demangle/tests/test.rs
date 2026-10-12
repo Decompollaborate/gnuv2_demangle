@@ -2166,6 +2166,46 @@ fn test_demangle_function_inside_local_struct() {
     }
 }
 
+#[test]
+fn test_demangle_in_function_static_initialized() {
+    static CASES: [(&str, &str, DemangleError<'_>); 3] = [
+        /*
+        static int hi(void) {
+            return 4;
+        }
+        int outer_func(void) {
+            static int something = hi();
+            return something;
+        }
+        */
+        (
+            "_$tmp_0.7",
+            "in-function-static initialized 0 7",
+            DemangleError::InFunctionStaticInitializedDisabled("0.7"),
+        ),
+        (
+            "_.tmp_0.7",
+            "in-function-static initialized 0 7",
+            DemangleError::InFunctionStaticInitializedDisabled("0.7"),
+        ),
+        (
+            "_.tmp_36.36004",
+            "in-function-static initialized 36 36004",
+            DemangleError::InFunctionStaticInitializedDisabled("36.36004"),
+        ),
+    ];
+
+    for (mangled, demangled, err) in CASES {
+        let mut config = DemangleConfig::new();
+
+        config.demangle_in_function_static_initialized = true;
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
+
+        config.demangle_in_function_static_initialized = false;
+        assert_eq!(Err(err), demangle(mangled, &config));
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {

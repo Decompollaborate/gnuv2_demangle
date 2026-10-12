@@ -356,6 +356,51 @@ pub struct DemangleConfig {
     /// );
     /// ```
     pub demangle_static_suffix: bool,
+
+    /// Handle demangling the "in-function-static initialized" compiler
+    /// generated symbols
+    ///
+    /// Those are compiler-generated symbols used to track if an in-function
+    /// static symbol has been initialized or not. Used only when the
+    /// initializer is a non constant value, like a function call.
+    ///
+    /// This is a made up convention since this doesn't seem to be a common
+    /// thing to demangle at all.
+    ///
+    /// This is just another c++filt compatibility setting.
+    ///
+    /// # Examples
+    ///
+    /// Turning off this setting (mimicking c++filt behavior):
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig, DemangleError};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.demangle_in_function_static_initialized = false;
+    ///
+    /// let demangled = demangle("_$tmp_0.7", &config);
+    /// assert_eq!(
+    ///     demangled,
+    ///     Err(DemangleError::InFunctionStaticInitializedDisabled("0.7")),
+    /// );
+    /// ```
+    ///
+    /// The setting turned on:
+    ///
+    /// ```
+    /// use gnuv2_demangle::{demangle, DemangleConfig};
+    ///
+    /// let mut config = DemangleConfig::new();
+    /// config.demangle_in_function_static_initialized = true;
+    ///
+    /// let demangled = demangle("_$tmp_0.7", &config);
+    /// assert_eq!(
+    ///     demangled.as_deref(),
+    ///     Ok("in-function-static initialized 0 7")
+    /// );
+    /// ```
+    pub demangle_in_function_static_initialized: bool,
 }
 
 impl DemangleConfig {
@@ -381,6 +426,7 @@ impl DemangleConfig {
             fix_array_in_return_position: true,
             fix_function_pointers_in_template_lists: true,
             demangle_static_suffix: true,
+            demangle_in_function_static_initialized: true,
         }
     }
 
@@ -401,6 +447,7 @@ impl DemangleConfig {
             fix_array_in_return_position: false,
             fix_function_pointers_in_template_lists: false,
             demangle_static_suffix: false,
+            demangle_in_function_static_initialized: false,
         }
     }
 }

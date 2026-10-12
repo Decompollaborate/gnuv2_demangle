@@ -83,10 +83,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_$tmp_0.1911",
-        Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+        Ok(
+            "in-function-static initialized 0 1911",
         ),
     ),
     (
@@ -163,10 +161,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_$tmp_0.1492",
-        Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+        Ok(
+            "in-function-static initialized 0 1492",
         ),
     ),
     (
@@ -411,10 +407,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_$tmp_0.1958",
-        Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+        Ok(
+            "in-function-static initialized 0 1958",
         ),
     ),
     (
@@ -4481,10 +4475,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_$tmp_0.1942",
-        Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+        Ok(
+            "in-function-static initialized 0 1942",
         ),
     ),
     (
@@ -6001,10 +5993,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_$tmp_0.1435",
-        Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+        Ok(
+            "in-function-static initialized 0 1435",
         ),
     ),
     (
@@ -6531,10 +6521,8 @@ expression: "demangle_lines(contents, &config)"
     ),
     (
         "_$tmp_0.887",
-        Err(
-            InvalidNamespaceOnNamespacedGlobal(
-                "",
-            ),
+        Ok(
+            "in-function-static initialized 0 887",
         ),
     ),
     (
