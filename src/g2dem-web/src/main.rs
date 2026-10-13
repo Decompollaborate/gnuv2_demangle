@@ -174,7 +174,7 @@ impl App {
 
         html! {
           <footer>
-            <p> { "© 2025 " } <a target="_blank" href={ "https://github.com/Decompollaborate/" }>{ "Decompollaborate" }</a> </p>
+            <p> { "© 2025-2026 " } <a target="_blank" href={ "https://github.com/Decompollaborate/" }>{ "Decompollaborate" }</a> </p>
             <p> { "Powered by " } <a target="_blank" href={ built_info::PKG_REPOSITORY }>{ "gnuv2_demangle" }</a> </p>
             <p> { git_info } </p>
           </footer>

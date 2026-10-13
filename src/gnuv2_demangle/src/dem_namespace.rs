@@ -3,7 +3,7 @@
 
 use core::{fmt, num::NonZeroUsize};
 
-use alloc::{borrow::Cow, vec::Vec};
+use alloc::{borrow::Cow, vec::Vec, string::ToString};
 
 use crate::{demangle, DemangleConfig, DemangleError};
 
