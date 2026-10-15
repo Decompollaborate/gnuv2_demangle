@@ -11,7 +11,7 @@ use core::fmt::Write;
 use crate::{
     dem_namespaced_type::demangle_namespaced_type,
     dem_other::{demangle_static_suffix, StaticSuffix},
-    tree::{NamespaceKind, NamespacedType},
+    tree::{MethodQualifier, NamespaceKind, NamespacedType},
     DemangleConfig, DemangleError,
 };
 
@@ -260,7 +260,12 @@ fn demangle_special<'s>(
             },
         } = nt;
 
-        (r, Some(namespace), Cow::from(type_name), "")
+        (
+            r,
+            Some(namespace),
+            Cow::from(type_name),
+            MethodQualifier::No,
+        )
     } else {
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
         let op = &s[..end_index];
@@ -376,7 +381,7 @@ fn demangle_special<'s>(
         };
 
         if let Some(remaining) = remaining.strip_prefix('F') {
-            (remaining, None, method_name, "")
+            (remaining, None, method_name, MethodQualifier::No)
         } else {
             let Remaining {
                 r: remaining,
@@ -620,7 +625,7 @@ fn demangle_templated_function<'s>(
     out.push('(');
     out.push_str(&argument_list);
     out.push(')');
-    out.push_str(suffix);
+    out.push_str(&suffix.to_string());
     if let Some(array_qualifiers) = array_qualifiers.as_option() {
         if config.fix_array_in_return_position {
             out.push(')');

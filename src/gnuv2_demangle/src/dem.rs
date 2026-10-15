@@ -3,7 +3,7 @@
 
 use crate::{
     remainer::{Remaining, StrParsing},
-    tree::CustomName,
+    tree::{CustomName, MethodQualifier},
     DemangleError,
 };
 
@@ -23,10 +23,10 @@ where
     }
 }
 
-pub(crate) fn demangle_method_qualifier(s: &str) -> Remaining<'_, &str> {
+pub(crate) fn demangle_method_qualifier<'s>(s: &'s str) -> Remaining<'s, MethodQualifier> {
     if let Some(remaining) = s.strip_prefix('C') {
-        Remaining::new(remaining, " const")
+        Remaining::new(remaining, MethodQualifier::Const)
     } else {
-        Remaining::new(s, "")
+        Remaining::new(s, MethodQualifier::No)
     }
 }
