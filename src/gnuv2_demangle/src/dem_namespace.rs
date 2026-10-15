@@ -1,11 +1,11 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use core::{fmt, num::NonZeroUsize};
+use core::num::NonZeroUsize;
 
-use alloc::{borrow::Cow, string::ToString, vec::Vec};
+use alloc::borrow::Cow;
 
-use crate::dem::CustomName;
+use crate::tree::CustomName;
 use crate::{demangle, DemangleConfig, DemangleError};
 
 use crate::{
@@ -13,70 +13,8 @@ use crate::{
     dem_arg_list::ArgVec,
     dem_template::demangle_template,
     remainer::{Remaining, StrParsing},
+    tree::NamespaceVec,
 };
-
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct NamespaceVec<'s> {
-    namepace_list: Vec<Cow<'s, str>>,
-}
-
-impl<'s> NamespaceVec<'s> {
-    const fn new() -> Self {
-        Self {
-            namepace_list: Vec::new(),
-        }
-    }
-
-    fn push(&mut self, ns: Cow<'s, str>) {
-        self.namepace_list.push(ns);
-    }
-}
-
-impl<'s> fmt::Display for NamespaceVec<'s> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let mut iter = self.namepace_list.iter();
-
-        let Some(n) = iter.next() else {
-            return Ok(());
-        };
-
-        write!(f, "{n}")?;
-        for n in iter {
-            write!(f, "::{n}")?;
-        }
-
-        Ok(())
-    }
-}
-
-// silly
-impl<'s> From<&NamespaceVec<'s>> for Cow<'s, str> {
-    fn from(value: &NamespaceVec<'s>) -> Self {
-        if value.namepace_list.len() == 1 {
-            Cow::clone(
-                value
-                    .namepace_list
-                    .first()
-                    .expect("Already checked the len"),
-            )
-        } else {
-            Cow::from(value.to_string())
-        }
-    }
-}
-impl<'s> From<NamespaceVec<'s>> for Cow<'s, str> {
-    fn from(value: NamespaceVec<'s>) -> Self {
-        if value.namepace_list.len() == 1 {
-            value
-                .namepace_list
-                .into_iter()
-                .next()
-                .expect("Already checked the len")
-        } else {
-            Cow::from(value.to_string())
-        }
-    }
-}
 
 // 'Q' must be stripped already
 pub(crate) fn demangle_namespaces<'s>(
@@ -123,7 +61,7 @@ fn demangle_namespaces_impl<'s>(
         remaining = remaining.trim_start_matches('_');
 
         let (r, n) = if let Some(temp) = remaining.strip_prefix('t') {
-            let Remaining { r, d:t } =
+            let Remaining { r, d: t } =
                 demangle_template(config, temp, template_args, allow_array_fixup)?;
             trailing_type = t.class_name();
             (r, Cow::from(t.into_template()))

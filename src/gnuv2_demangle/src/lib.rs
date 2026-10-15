@@ -23,6 +23,9 @@ pub(crate) mod dem_namespace;
 pub(crate) mod dem_namespaced_type;
 pub(crate) mod dem_other;
 pub(crate) mod dem_template;
+
+pub(crate) mod tree;
+
 pub(crate) mod option_display;
 pub(crate) mod remainer;
 pub(crate) mod str_cutter;

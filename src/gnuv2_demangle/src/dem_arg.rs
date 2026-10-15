@@ -356,8 +356,10 @@ where
         }
         't' => {
             // templates
-            let Remaining { r: remaining, d: template } =
-                demangle_template(config, &args[1..], template_args, allow_array_fixup)?;
+            let Remaining {
+                r: remaining,
+                d: template,
+            } = demangle_template(config, &args[1..], template_args, allow_array_fixup)?;
             (remaining, true, Cow::from(template.into_template()))
         }
         'X' => {

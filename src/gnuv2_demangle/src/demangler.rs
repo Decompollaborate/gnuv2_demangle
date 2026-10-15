@@ -9,8 +9,9 @@ use alloc::{
 use core::fmt::Write;
 
 use crate::{
-    dem_namespaced_type::{demangle_namespaced_type, NamespaceKind, NamespacedType},
+    dem_namespaced_type::demangle_namespaced_type,
     dem_other::{demangle_static_suffix, StaticSuffix},
+    tree::{NamespaceKind, NamespacedType},
     DemangleConfig, DemangleError,
 };
 

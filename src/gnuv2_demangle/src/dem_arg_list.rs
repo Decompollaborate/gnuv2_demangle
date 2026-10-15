@@ -10,9 +10,9 @@ use alloc::{
 };
 
 use crate::{
-    dem_namespaced_type::NamespaceKind,
     dem_other::{demangle_static_suffix, StaticSuffix},
     remainer::Remaining,
+    tree::NamespaceKind,
     DemangleConfig, DemangleError,
 };
 
