@@ -5,7 +5,7 @@ use alloc::{borrow::Cow, string::String};
 use core::fmt;
 
 use crate::{
-    dem::demangle_custom_name,
+    dem::{demangle_custom_name, CustomName},
     dem_arg_list::ArgVec,
     dem_namespace::{demangle_namespaces, NamespaceVec},
     dem_template::demangle_template,
@@ -16,11 +16,11 @@ use crate::{
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct NamespacedType<'s> {
     pub(crate) namespace: NamespaceKind<'s>,
-    pub(crate) type_name: &'s str,
+    pub(crate) type_name: CustomName<'s>,
 }
 
 impl<'s> NamespacedType<'s> {
-    const fn new(namespace: NamespaceKind<'s>, type_name: &'s str) -> Self {
+    pub(crate) const fn new(namespace: NamespaceKind<'s>, type_name: CustomName<'s>) -> Self {
         Self {
             namespace,
             type_name,
@@ -32,7 +32,7 @@ impl<'s> NamespacedType<'s> {
 pub(crate) enum NamespaceKind<'s> {
     Template(String),
     Namespace(NamespaceVec<'s>),
-    Class(&'s str),
+    Class(CustomName<'s>),
 }
 
 impl<'s> fmt::Display for NamespaceKind<'s> {
@@ -72,12 +72,11 @@ where
 
         Some(Remaining::new(r, nt))
     } else if let Some(s) = s.strip_prefix('t') {
-        let (r, template, typ) =
-            demangle_template(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
+        let t =
+            demangle_template(config, s, &ArgVec::new(config, None), allow_array_fixup)?
+            .convert_data(|d| d.into_namespaced_type());
 
-        let nt = NamespacedType::new(NamespaceKind::Template(template), typ);
-
-        Some(Remaining::new(r, nt))
+        Some(t)
     } else if let Some(s) = s.strip_prefix('Q') {
         let ns = demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?
             .convert_data(|(namespaces, trailing_namespace)| {

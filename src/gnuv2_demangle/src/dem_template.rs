@@ -6,6 +6,7 @@ use core::num::NonZeroUsize;
 use alloc::string::{String, ToString};
 
 use crate::{
+    dem::CustomName,
     dem_arg::FunctionPointer,
     dem_namespaced_type::{NamespaceKind, NamespacedType},
     str_cutter::StrCutter,
@@ -20,12 +21,38 @@ use crate::{
     remainer::{Remaining, StrParsing},
 };
 
+pub(crate) struct Template<'s> {
+    template: String,
+    class_name: CustomName<'s>,
+}
+
+impl<'s> Template<'s> {
+    pub(crate) const fn new(template: String,
+        class_name: CustomName<'s>,
+    ) -> Self {
+        Self { template, class_name }
+    }
+
+    pub(crate) fn into_template(self) -> String {
+        self.template
+    }
+    pub(crate) fn class_name(&self) -> CustomName<'s> {
+        self.class_name
+    }
+
+    pub(crate) fn into_namespaced_type(self) -> NamespacedType<'s> {
+        let Self { template, class_name } = self;
+
+        NamespacedType::new(NamespaceKind::Template(template), class_name)
+    }
+}
+
 pub(crate) fn demangle_template<'s>(
     config: &DemangleConfig,
     s: &'s str,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<(&'s str, String, &'s str), DemangleError<'s>> {
+) -> Result<Remaining<'s, Template<'s>>, DemangleError<'s>> {
     let Remaining { r, d: class_name } =
         demangle_custom_name(s, DemangleError::InvalidCustomNameOnTemplate)?;
     let Some(Remaining {
@@ -46,7 +73,10 @@ pub(crate) fn demangle_template<'s>(
     } else {
         format!("{}<{}>", class_name, templated)
     };
-    Ok((remaining, template, class_name))
+
+    let t = Template::new(template, class_name);
+
+    Ok(Remaining::new(remaining, t))
 }
 
 pub(crate) fn demangle_template_with_return_type<'c, 's>(
@@ -190,6 +220,7 @@ fn demangle_templated_value<'s>(
 
                 let Remaining { r: aux, d: symbol } =
                     demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
+                let symbol = symbol.into_raw();
 
                 // TODO: check `_mangled_args` demangles to `args`
                 let Some((actual_sym, _mangled_args)) = symbol.c_split2("__F") else {

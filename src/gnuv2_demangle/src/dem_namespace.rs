@@ -5,6 +5,7 @@ use core::{fmt, num::NonZeroUsize};
 
 use alloc::{borrow::Cow, string::ToString, vec::Vec};
 
+use crate::dem::CustomName;
 use crate::{demangle, DemangleConfig, DemangleError};
 
 use crate::{
@@ -83,7 +84,7 @@ pub(crate) fn demangle_namespaces<'s>(
     s: &'s str,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<Remaining<'s, (NamespaceVec<'s>, &'s str)>, DemangleError<'s>> {
+) -> Result<Remaining<'s, (NamespaceVec<'s>, CustomName<'s>)>, DemangleError<'s>> {
     let Remaining {
         r,
         d: namespace_count,
@@ -109,10 +110,10 @@ fn demangle_namespaces_impl<'s>(
     namespace_count: NonZeroUsize,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<Remaining<'s, (NamespaceVec<'s>, &'s str)>, DemangleError<'s>> {
+) -> Result<Remaining<'s, (NamespaceVec<'s>, CustomName<'s>)>, DemangleError<'s>> {
     let mut namespaces = NamespaceVec::new();
     let mut remaining = s;
-    let mut trailing_type = "";
+    let mut trailing_type = CustomName::new("");
 
     for _i in 0..namespace_count.get() {
         // Sometimes there's a trailing underscore after a number.
@@ -122,10 +123,10 @@ fn demangle_namespaces_impl<'s>(
         remaining = remaining.trim_start_matches('_');
 
         let (r, n) = if let Some(temp) = remaining.strip_prefix('t') {
-            let (r, template, typ) =
+            let Remaining { r, d:t } =
                 demangle_template(config, temp, template_args, allow_array_fixup)?;
-            trailing_type = typ;
-            (r, Cow::from(template))
+            trailing_type = t.class_name();
+            (r, Cow::from(t.into_template()))
         } else {
             let Remaining { r, d: ns } =
                 demangle_custom_name(remaining, DemangleError::InvalidCustomNameOnNamespace)?;
@@ -136,7 +137,7 @@ fn demangle_namespaces_impl<'s>(
             // struct or a class destructor, etc), then this namespace may
             // actually need further demangling.
             // If we fail, then we just keep the old namespace.
-            let new_ns = match demangle(ns, config) {
+            let new_ns = match demangle(ns.into_raw(), config) {
                 Ok(new_ns) => Cow::from(new_ns),
                 Err(_e) => Cow::from(ns),
             };

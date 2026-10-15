@@ -356,9 +356,9 @@ where
         }
         't' => {
             // templates
-            let (remaining, template, _typ) =
+            let Remaining { r: remaining, d: template } =
                 demangle_template(config, &args[1..], template_args, allow_array_fixup)?;
-            (remaining, true, Cow::from(template))
+            (remaining, true, Cow::from(template.into_template()))
         }
         'X' => {
             // Index into type of templated function
