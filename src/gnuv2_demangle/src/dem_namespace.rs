@@ -10,10 +10,9 @@ use crate::{demangle, DemangleConfig, DemangleError};
 
 use crate::{
     dem::demangle_custom_name,
-    dem_arg_list::ArgVec,
     dem_template::demangle_template,
     remainer::{Remaining, StrParsing},
-    tree::NamespaceVec,
+    tree::{ArgVec, NamespaceVec},
 };
 
 // 'Q' must be stripped already

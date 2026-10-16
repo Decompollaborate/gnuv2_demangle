@@ -3,11 +3,10 @@
 
 use crate::{
     dem::demangle_custom_name,
-    dem_arg_list::ArgVec,
     dem_namespace::demangle_namespaces,
     dem_template::demangle_template,
     remainer::Remaining,
-    tree::{NamespaceKind, NamespacedType},
+    tree::{ArgVec, NamespaceKind, NamespacedType},
     DemangleConfig, DemangleError,
 };
 

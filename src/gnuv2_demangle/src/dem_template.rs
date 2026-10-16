@@ -5,18 +5,13 @@ use alloc::string::ToString;
 use core::num::NonZeroUsize;
 
 use crate::{
-    dem_arg::FunctionPointer,
-    str_cutter::StrCutter,
-    tree::{NamespaceKind, NamespacedType, Template},
-    DemangleConfig, DemangleError,
-};
-
-use crate::{
     dem::demangle_custom_name,
-    dem_arg::{demangle_argument, DemangledArg},
-    dem_arg_list::ArgVec,
+    dem_arg::demangle_argument,
     dem_namespace::demangle_namespaces,
     remainer::{Remaining, StrParsing},
+    str_cutter::StrCutter,
+    tree::{ArgVec, DemangledArg, FunctionPointer, NamespaceKind, NamespacedType, Template},
+    DemangleConfig, DemangleError,
 };
 
 pub(crate) fn demangle_template<'s>(

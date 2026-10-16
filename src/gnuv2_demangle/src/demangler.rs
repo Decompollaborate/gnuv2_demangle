@@ -9,20 +9,17 @@ use alloc::{
 use core::fmt::Write;
 
 use crate::{
-    dem_namespaced_type::demangle_namespaced_type,
-    dem_other::{demangle_static_suffix, StaticSuffix},
-    tree::{MethodQualifier, NamespaceKind, NamespacedType},
-    DemangleConfig, DemangleError,
-};
-
-use crate::{
     dem::demangle_method_qualifier,
-    dem_arg::{demangle_argument, DemangledArg},
-    dem_arg_list::{demangle_argument_list, demangle_argument_list_impl, ArgVec},
+    dem_arg::demangle_argument,
+    dem_arg_list::{demangle_argument_list, demangle_argument_list_impl},
     dem_namespace::demangle_namespaces,
+    dem_namespaced_type::demangle_namespaced_type,
+    dem_other::demangle_static_suffix,
     dem_template::demangle_template_with_return_type,
     remainer::Remaining,
     str_cutter::StrCutter,
+    tree::{ArgVec, DemangledArg, MethodQualifier, NamespaceKind, NamespacedType, StaticSuffix},
+    DemangleConfig, DemangleError,
 };
 
 /// Demangle a symbol.
