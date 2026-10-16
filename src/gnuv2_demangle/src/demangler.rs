@@ -18,7 +18,10 @@ use crate::{
     dem_template::demangle_template_with_return_type,
     remainer::Remaining,
     str_cutter::StrCutter,
-    tree::{ArgVec, DemangledArg, MethodQualifier, NamespaceKind, NamespacedType, StaticSuffix},
+    tree::{
+        ArgVec, Demangled, DemangledArg, MethodQualifier, NamespaceKind, NamespacedType,
+        StaticSuffix,
+    },
     DemangleConfig, DemangleError,
 };
 
@@ -53,7 +56,7 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
         // with other toolchains that do not accept '$' in symbol names.
         let cplus_marker = determine_cplus_marker(sym);
 
-        demangle_impl(sym, config, cplus_marker, true)
+        demangle_impl(sym, config, cplus_marker, true).map(|demangled| demangled.into_string())
     }
 }
 
@@ -118,9 +121,9 @@ fn demangle_impl<'s>(
     config: &DemangleConfig,
     cplus_marker: char,
     allow_global_sym_keyed: bool,
-) -> Result<String, DemangleError<'s>> {
+) -> Result<Demangled, DemangleError<'s>> {
     if let Some(s) = sym.c_strip_prefix_3chars('_', cplus_marker, '_') {
-        demangle_destructor(config, s)
+        demangle_destructor(config, s).map(Demangled::Destructor)
     } else if let Some(s) = sym.strip_prefix("__") {
         demangle_special(config, s, sym)
     } else if let Some(s) =
@@ -131,6 +134,7 @@ fn demangle_impl<'s>(
         matches!(c.chars().next(), Some('0'..='9'))
     }) {
         demangle_in_function_static_initialized(config, s)
+            .map(Demangled::InFunctionStaticInitialized)
     } else {
         demangle_impl_failables(sym, config, cplus_marker)
     }
@@ -140,7 +144,7 @@ fn demangle_impl_failables<'s>(
     sym: &'s str,
     config: &DemangleConfig,
     cplus_marker: char,
-) -> Result<String, DemangleError<'s>> {
+) -> Result<Demangled, DemangleError<'s>> {
     // Some of the checks here can overlap and produce false positives, so if
     // one fails then try again with the next one, over and over.
 
@@ -154,19 +158,19 @@ fn demangle_impl_failables<'s>(
         // All the cases here should be the same as the match above.
         match c {
             'F' => match demangle_free_function(config, sym_name, &the_rest[1..]) {
-                Ok(d) => return Ok(d),
+                Ok(d) => return Ok(Demangled::FreeFunction(d)),
                 Err(e) => leading_error.or(Some(e)),
             },
             '1'..='9' | 'C' | 't' => match demangle_method(config, sym_name, the_rest) {
-                Ok(d) => return Ok(d),
+                Ok(d) => return Ok(Demangled::Method(d)),
                 Err(e) => leading_error.or(Some(e)),
             },
             'H' => match demangle_templated_function(config, sym_name, &the_rest[1..]) {
-                Ok(d) => return Ok(d),
+                Ok(d) => return Ok(Demangled::TemplatedFunction(d)),
                 Err(e) => leading_error.or(Some(e)),
             },
             'Q' => match demangle_namespaced_function(config, sym_name, &the_rest[1..]) {
-                Ok(d) => return Ok(d),
+                Ok(d) => return Ok(Demangled::NamespacedFunction(d)),
                 Err(e) => leading_error.or(Some(e)),
             },
             _ => unreachable!(),
@@ -177,7 +181,7 @@ fn demangle_impl_failables<'s>(
 
     let leading_error = if let Some(sym) = sym.strip_prefix("_vt") {
         match demangle_virtual_table(config, sym, cplus_marker) {
-            Ok(d) => return Ok(d),
+            Ok(d) => return Ok(Demangled::VirtualTable(d)),
             Err(e) => leading_error.or(Some(e)),
         }
     } else {
@@ -186,7 +190,7 @@ fn demangle_impl_failables<'s>(
 
     let leading_error = if let Some((s, name)) = sym.c_split2_char(cplus_marker) {
         match demangle_namespaced_global(config, s, name) {
-            Ok(d) => return Ok(d),
+            Ok(d) => return Ok(Demangled::NamespacedGlobal(d)),
             Err(e) => leading_error.or(Some(e)),
         }
     } else {
@@ -231,18 +235,26 @@ fn demangle_destructor<'s>(
     }
 }
 
+// TODO: remove
+enum SpecialDiscriminator {
+    NamespacedType,
+    OperatorFree,
+    OperatorMethod,
+}
+
 fn demangle_special<'s>(
     config: &DemangleConfig,
     s: &'s str,
     full_sym: &'s str,
-) -> Result<String, DemangleError<'s>> {
+) -> Result<Demangled, DemangleError<'s>> {
     let allow_array_fixup = true;
 
-    let (remaining, class_name, method_name, suffix) = if let Some(remaining) = s.strip_prefix("tf")
+    let (remaining, class_name, method_name, suffix, discriminator) = if let Some(remaining) =
+        s.strip_prefix("tf")
     {
-        return demangle_type_info_function(config, remaining);
+        return demangle_type_info_function(config, remaining).map(Demangled::TypeInfoFunction);
     } else if let Some(remaining) = s.strip_prefix("ti") {
-        return demangle_type_info_node(config, remaining);
+        return demangle_type_info_node(config, remaining).map(Demangled::TypeInfoNode);
     } else if let Some(nt) = demangle_namespaced_type(
         config,
         s,
@@ -262,6 +274,7 @@ fn demangle_special<'s>(
             Some(namespace),
             Cow::from(type_name),
             MethodQualifier::No,
+            SpecialDiscriminator::NamespacedType,
         )
     } else {
         let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
@@ -355,6 +368,7 @@ fn demangle_special<'s>(
                         // special symbol, so try to decode as a function instead.
                         if let Some((func_name, args)) = full_sym.c_split2("__F") {
                             demangle_free_function(config, func_name, args)
+                                .map(Demangled::FreeFunction)
                         } else if let Some((incomplete_method_name, class_and_args, _c)) =
                             s.c_split2_r_starts_with("__", |c| matches!(c, '1'..='9' | 'C' | 't'))
                         {
@@ -367,8 +381,10 @@ fn demangle_special<'s>(
 
                             let method_name = &full_sym[..incomplete_method_name.len() + 2];
                             demangle_method(config, method_name, class_and_args)
+                                .map(Demangled::Method)
                         } else if let Some((func_name, s)) = full_sym.c_split2("__H") {
                             demangle_templated_function(config, func_name, s)
+                                .map(Demangled::TemplatedFunction)
                         } else {
                             Err(DemangleError::UnrecognizedSpecialMethod(op))
                         }
@@ -378,7 +394,13 @@ fn demangle_special<'s>(
         };
 
         if let Some(remaining) = remaining.strip_prefix('F') {
-            (remaining, None, method_name, MethodQualifier::No)
+            (
+                remaining,
+                None,
+                method_name,
+                MethodQualifier::No,
+                SpecialDiscriminator::OperatorFree,
+            )
         } else {
             let Remaining {
                 r: remaining,
@@ -400,7 +422,13 @@ fn demangle_special<'s>(
             )?
             .ok_or(DemangleError::InvalidTypeNameForOperator(remaining))?;
 
-            (remaining, Some(namespace), method_name, suffix)
+            (
+                remaining,
+                Some(namespace),
+                method_name,
+                suffix,
+                SpecialDiscriminator::OperatorMethod,
+            )
         }
     };
 
@@ -421,7 +449,11 @@ fn demangle_special<'s>(
     } else {
         format!("{method_name}{static_suffix}({argument_list}){suffix}")
     };
-    Ok(out)
+    Ok(match discriminator {
+        SpecialDiscriminator::NamespacedType => Demangled::NamespacedType(out),
+        SpecialDiscriminator::OperatorFree => Demangled::OperatorFree(out),
+        SpecialDiscriminator::OperatorMethod => Demangled::OperatorMethod(out),
+    })
 }
 
 fn demangle_free_function<'s>(
@@ -795,7 +827,7 @@ fn demangle_global_sym_keyed<'s>(
     s: &'s str,
     cplus_marker: char,
     full_sym: &'s str,
-) -> Result<String, DemangleError<'s>> {
+) -> Result<Demangled, DemangleError<'s>> {
     let (remaining, which, is_constructor) = if let Some(r) = s.strip_prefix("I") {
         (r, "constructors", true)
     } else if let Some(r) = s.strip_prefix("D") {
@@ -830,7 +862,9 @@ fn demangle_global_sym_keyed<'s>(
         .map(Cow::from)
         .unwrap_or_else(|_| Cow::from(remaining));
 
-    Ok(format!("global {which} keyed to {actual_sym}"))
+    Ok(Demangled::GlobalSymKeyed(format!(
+        "global {which} keyed to {actual_sym}"
+    )))
 }
 
 fn demangle_in_function_static_initialized<'s>(
