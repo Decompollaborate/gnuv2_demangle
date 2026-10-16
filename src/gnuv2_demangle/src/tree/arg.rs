@@ -11,6 +11,7 @@ pub(crate) enum DemangledArg {
     Plain(String, OptionDisplay<ArrayQualifiers>),
     FunctionPointer(FunctionPointer),
     MethodPointer(MethodPointer),
+    ObjectPointer(String),
     Repeat { count: NonZeroUsize, index: usize },
     Ellipsis,
 }

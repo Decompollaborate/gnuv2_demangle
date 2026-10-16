@@ -168,7 +168,7 @@ fn demangle_templated_value<'s>(
         )?;
 
         let (aux, t) = match demangled_arg {
-            DemangledArg::Plain(_arg, _array_qualifiers) => {
+            DemangledArg::Plain(..) => {
                 let Remaining { r: aux, d: symbol } =
                     demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
                 let ampersand = if is_pointer { "&" } else { "" };
@@ -206,6 +206,13 @@ fn demangle_templated_value<'s>(
                 } else {
                     format!("{ampersand}{actual_sym}({args})")
                 };
+                (aux, t)
+            }
+            DemangledArg::ObjectPointer(..) => {
+                let Remaining { r: aux, d: symbol } =
+                    demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
+                let ampersand = if is_pointer { "&" } else { "" };
+                let t = format!("{ampersand}{symbol}");
                 (aux, t)
             }
             DemangledArg::MethodPointer(..)

@@ -92,6 +92,7 @@ impl<'c, 'ns, 'nsp> ArgVec<'c, 'ns, 'nsp> {
             DemangledArg::MethodPointer(method_pointer) => {
                 ProcessedArg::Plain(method_pointer.to_string())
             }
+            DemangledArg::ObjectPointer(object) => ProcessedArg::Plain(format!("{object}")),
             DemangledArg::Repeat { count, index } => {
                 // Check the index is in-bounds
                 if index >= self.len() {

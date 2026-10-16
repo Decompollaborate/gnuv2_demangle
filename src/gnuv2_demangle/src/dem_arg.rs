@@ -16,8 +16,9 @@ use crate::{
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::{
-        ArgVec, ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, Signedness, Type,
-        TypeMeta,
+        ArgVec, ArrayQualifiers,
+        DemangledArg,
+        FunctionPointer, MethodPointer, Signedness, Type, TypeMeta,
     },
     DemangleConfig, DemangleError,
 };
@@ -76,7 +77,7 @@ pub(crate) fn demangle_argument<'s>(
             array_qualifiers,
             allow_array_fixup,
         )?;
-        Ok((r, DemangledArg::Plain(mp, None.into())))
+        Ok((r, DemangledArg::ObjectPointer(mp)))
     } else {
         // 'G' is used for classes, structs and unions, so we must make sure we
         // don't parse a primitive type next, otherwise this is not properly
@@ -355,6 +356,12 @@ fn demangle_function_pointer_arg<'s>(
                 args: sub_args,
             }
         }
+        DemangledArg::ObjectPointer(object) => FunctionPointer {
+            return_type: format!("{sign}{object}"),
+            array_qualifiers: None.into(),
+            post_qualifiers,
+            args: func_args.join(),
+        },
         DemangledArg::Repeat { .. } | DemangledArg::Ellipsis => {
             return Err(DemangleError::InvalidReturnTypeForFunctionPointer(r))
         }
