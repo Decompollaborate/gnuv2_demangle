@@ -5,6 +5,7 @@ use alloc::string::String;
 
 use super::{CustomName, NamespaceKind, NamespacedType};
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct Template<'s> {
     template: String,
     class_name: CustomName<'s>,
@@ -18,6 +19,9 @@ impl<'s> Template<'s> {
         }
     }
 
+    pub(crate) fn template(&self) -> &str {
+        &self.template
+    }
     pub(crate) fn into_template(self) -> String {
         self.template
     }

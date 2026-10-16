@@ -9,6 +9,7 @@ mod namespace;
 mod namespaced_type;
 mod static_suffix;
 mod template;
+mod typ;
 
 pub(crate) use arg::{ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, Signedness};
 pub(crate) use arg_vec::ArgVec;
@@ -18,3 +19,4 @@ pub(crate) use namespace::NamespaceVec;
 pub(crate) use namespaced_type::{NamespaceKind, NamespacedType};
 pub(crate) use static_suffix::StaticSuffix;
 pub(crate) use template::Template;
+pub(crate) use typ::{Type, TypeMeta};

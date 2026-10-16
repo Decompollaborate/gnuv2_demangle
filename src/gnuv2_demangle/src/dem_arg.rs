@@ -15,7 +15,10 @@ use crate::{
     option_display::OptionDisplay,
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
-    tree::{ArgVec, ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, Signedness},
+    tree::{
+        ArgVec, ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, Signedness, Type,
+        TypeMeta,
+    },
     DemangleConfig, DemangleError,
 };
 
@@ -80,10 +83,7 @@ pub(crate) fn demangle_argument<'s>(
         // mangled.
         let (args, must_be_class_like) = args.c_maybe_strip_prefix('G');
 
-        let Remaining {
-            r,
-            d: (is_class_like, typ, sign),
-        } = demangle_arg_type(
+        let Remaining { r, d: typ } = demangle_arg_type(
             config,
             args,
             sign,
@@ -92,14 +92,15 @@ pub(crate) fn demangle_argument<'s>(
             allow_array_fixup,
         )?;
 
-        if must_be_class_like && !is_class_like {
+        if must_be_class_like && !typ.class_like() {
             return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
         }
+        let sign = &typ.sign();
 
         let out = format!(
             "{}{}{}{}",
             sign,
-            typ,
+            typ.typ(),
             if !post_qualifiers.is_empty() { " " } else { "" },
             post_qualifiers.trim_matches(' ')
         );
@@ -115,7 +116,7 @@ fn demangle_arg_type<'s, 'pa, 't, 'out>(
     parsed_arguments: &'pa ArgVec,
     template_args: &'t ArgVec,
     allow_array_fixup: bool,
-) -> Result<Remaining<'s, (bool, Cow<'out, str>, Signedness)>, DemangleError<'s>>
+) -> Result<Remaining<'s, TypeMeta<'out>>, DemangleError<'s>>
 where
     's: 'out,
     'pa: 'out,
@@ -126,18 +127,18 @@ where
         .next()
         .ok_or(DemangleError::RanOutOfArguments)?;
 
-    let (args, is_class_like, typ) = match c {
-        'c' => (&args[1..], false, Cow::from("char")),
-        's' => (&args[1..], false, Cow::from("short")),
-        'i' => (&args[1..], false, Cow::from("int")),
-        'l' => (&args[1..], false, Cow::from("long")),
-        'x' => (&args[1..], false, Cow::from("long long")),
-        'f' => (&args[1..], false, Cow::from("float")),
-        'd' => (&args[1..], false, Cow::from("double")),
-        'r' => (&args[1..], false, Cow::from("long double")),
-        'b' => (&args[1..], false, Cow::from("bool")),
-        'w' => (&args[1..], false, Cow::from("wchar_t")),
-        'v' => (&args[1..], false, Cow::from("void")),
+    let (args, typ) = match c {
+        'c' => (&args[1..], Type::Char),
+        's' => (&args[1..], Type::Short),
+        'i' => (&args[1..], Type::Int),
+        'l' => (&args[1..], Type::Long),
+        'x' => (&args[1..], Type::LongLong),
+        'f' => (&args[1..], Type::Float),
+        'd' => (&args[1..], Type::Double),
+        'r' => (&args[1..], Type::LongDouble),
+        'b' => (&args[1..], Type::Bool),
+        'w' => (&args[1..], Type::WChar),
+        'v' => (&args[1..], Type::Void),
         'I' => {
             let Remaining { r, d: bitwidth } = args[1..].p_hex_number().ok_or(
                 DemangleError::MissingBitwidthForExtensionInteger(&args[1..]),
@@ -154,12 +155,12 @@ where
                     if config.fix_extension_int {
                         if sign == Signedness::Unsigned {
                             sign = Signedness::No;
-                            "__uint128_t"
+                            Type::UInt128
                         } else {
-                            "__int128_t"
+                            Type::SInt128
                         }
                     } else {
-                        "int128_t"
+                        Type::Int128
                     }
                 }
                 _ => {
@@ -168,19 +169,19 @@ where
                     ));
                 }
             };
-            (r, false, Cow::from(typ))
+            (r, typ)
         }
         '1'..='9' => {
             let Remaining { r, d: class_name } =
                 demangle_custom_name(args, DemangleError::InvalidCustomNameOnArgument)?;
-            (r, true, Cow::from(class_name))
+            (r, Type::Class(class_name))
         }
         'Q' => {
             let Remaining {
                 r: remaining,
                 d: (namespaces, _trailing_namespace),
             } = demangle_namespaces(config, &args[1..], template_args, allow_array_fixup)?;
-            (remaining, true, Cow::from(namespaces))
+            (remaining, Type::Namespaces(namespaces))
         }
         'T' => {
             // Remembered type / look back
@@ -197,7 +198,14 @@ where
                         parsed_arguments.len(),
                     ))?;
 
-            (r, false, Cow::from(referenced_arg))
+            let referenced_arg = Cow::from(referenced_arg);
+            (
+                r,
+                Type::LookBack {
+                    referenced_arg,
+                    lookback,
+                },
+            )
         }
         't' => {
             // templates
@@ -205,7 +213,7 @@ where
                 r: remaining,
                 d: template,
             } = demangle_template(config, &args[1..], template_args, allow_array_fixup)?;
-            (remaining, true, Cow::from(template.into_template()))
+            (remaining, Type::Template(template))
         }
         'X' => {
             // Index into type of templated function
@@ -229,14 +237,23 @@ where
                 return Err(DemangleError::IndexTooBigForXArgument(r, index));
             };
 
-            (r, false, Cow::from(t))
+            let referenced_arg = Cow::from(t);
+            (
+                r,
+                Type::TemplatedFunctionIndex {
+                    referenced_arg,
+                    lookback: index,
+                },
+            )
         }
         _ => {
             return Err(DemangleError::UnknownType(c, args));
         }
     };
 
-    Ok(Remaining::new(args, (is_class_like, typ, sign)))
+    let t = TypeMeta::new(sign, typ);
+
+    Ok(Remaining::new(args, t))
 }
 
 /// Handles any arg that can't be qualified
