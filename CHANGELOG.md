@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Experimental tree-like output format for `g2dem` with the `--tree`/`-t` flag.
+  - This can be selected in `g2dem-web` too.
+  - Note this format is may change at any time without notice. Don't rely on
+    the tree format at all.
 
 ### Changed
 

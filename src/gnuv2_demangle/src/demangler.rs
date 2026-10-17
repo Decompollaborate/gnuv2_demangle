@@ -12,9 +12,9 @@ use crate::{
     dem::demangle_method_qualifier,
     dem_arg::demangle_argument,
     dem_arg_list::{demangle_argument_list, demangle_argument_list_impl},
+    dem_destructor::demangle_destructor,
     dem_namespace::demangle_namespaces,
     dem_namespaced_type::demangle_namespaced_type,
-    dem_other::demangle_static_suffix,
     dem_template::demangle_template_with_return_type,
     remainer::Remaining,
     str_cutter::StrCutter,
@@ -34,7 +34,7 @@ use crate::{
 /// ```
 /// use gnuv2_demangle::{demangle, DemangleConfig};
 ///
-    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
+/// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
 /// let config = DemangleConfig::new();
 ///
 /// let demangled = demangle("_$_5tName", &config)?;
@@ -51,7 +51,10 @@ use crate::{
 /// # Ok(())
 /// # }
 /// ```
-pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<Demangled<'s>, DemangleError<'s>> {
+pub fn demangle<'s>(
+    sym: &'s str,
+    config: &DemangleConfig,
+) -> Result<Demangled<'s>, DemangleError<'s>> {
     if !sym.is_ascii() {
         Err(DemangleError::NonAscii)
     } else {
@@ -202,40 +205,6 @@ fn demangle_impl_failables<'s>(
 
     // Raise the previous error if any exists.
     Err(leading_error.unwrap_or(DemangleError::NotMangled))
-}
-
-fn demangle_destructor<'s>(
-    config: &DemangleConfig,
-    s: &'s str,
-) -> Result<String, DemangleError<'s>> {
-    let allow_array_fixup = true;
-
-    let Remaining {
-        r,
-        d: NamespacedType {
-            namespace,
-            type_name,
-        },
-    } = demangle_namespaced_type(
-        config,
-        s,
-        allow_array_fixup,
-        DemangleError::InvalidClassNameOnDestructor,
-    )?
-    .ok_or(DemangleError::InvalidTypeNameForDestructor(s))?;
-
-    let Remaining {
-        r,
-        d: static_suffix,
-    } = demangle_static_suffix(config, r)?;
-
-    if r.is_empty() {
-        Ok(format!(
-            "{namespace}{static_suffix}::~{type_name}{static_suffix}(void)"
-        ))
-    } else {
-        Err(DemangleError::TrailingDataOnDestructor(r))
-    }
 }
 
 // TODO: remove

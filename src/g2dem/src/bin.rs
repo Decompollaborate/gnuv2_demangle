@@ -29,6 +29,7 @@ struct Args {
     /// Show a tree representation of the demangled symbol instead.
     ///
     /// Currently experimental.
+    /// Note the output tree format may change at any time without notice.
     #[argp(switch, short = 't')]
     tree: bool,
 

@@ -4,10 +4,12 @@
 use alloc::{borrow::Cow, string::String};
 use core::fmt;
 
+use super::Destructor;
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
 pub enum Demangled<'s> {
-    Destructor(String),
+    Destructor(Destructor<'s>),
     TypeInfoFunction(String),
     TypeInfoNode(String),
     NamespacedType(String),
@@ -21,17 +23,13 @@ pub enum Demangled<'s> {
     NamespacedFunction(String),
     VirtualTable(String),
     NamespacedGlobal(String),
-
-    // TODO: remove when any other variant depends on lifetime 's
-    #[doc(hidden)]
-    Dummy(core::marker::PhantomData<&'s str>)
 }
 
 impl<'s> Demangled<'s> {
     // TODO: remove when we get rid of every String variant.
     pub(crate) fn into_string(self) -> String {
         match self {
-            Self::Destructor(inner) => inner,
+            Self::Destructor(inner) => inner.to_string(),
             Self::TypeInfoFunction(inner) => inner,
             Self::TypeInfoNode(inner) => inner,
             Self::NamespacedType(inner) => inner,
@@ -45,7 +43,6 @@ impl<'s> Demangled<'s> {
             Self::NamespacedFunction(inner) => inner,
             Self::VirtualTable(inner) => inner,
             Self::NamespacedGlobal(inner) => inner,
-            Self::Dummy(_inner) => unreachable!(),
         }
     }
 }
@@ -67,7 +64,6 @@ impl<'s> fmt::Display for Demangled<'s> {
             Self::NamespacedFunction(inner) => write!(f, "{inner}"),
             Self::VirtualTable(inner) => write!(f, "{inner}"),
             Self::NamespacedGlobal(inner) => write!(f, "{inner}"),
-            Self::Dummy(_inner) => unreachable!(),
         }
     }
 }

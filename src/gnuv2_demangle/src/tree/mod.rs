@@ -6,6 +6,7 @@ mod arg_qualifier;
 mod arg_vec;
 mod custom_name;
 mod demangled;
+mod destructor;
 mod method_qualifier;
 mod namespace;
 mod namespaced_type;
@@ -18,6 +19,7 @@ pub(crate) use arg_qualifier::{ArgPostQualifier, ArgPostQualifierVec, ArgQualifi
 pub(crate) use arg_vec::ArgVec;
 pub(crate) use custom_name::CustomName;
 pub use demangled::Demangled;
+pub use destructor::Destructor;
 pub(crate) use method_qualifier::MethodQualifier;
 pub(crate) use namespace::NamespaceVec;
 pub(crate) use namespaced_type::{NamespaceKind, NamespacedType};
