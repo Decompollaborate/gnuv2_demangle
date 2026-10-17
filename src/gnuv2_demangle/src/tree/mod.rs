@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
 mod arg;
+mod arg_qualifier;
 mod arg_vec;
 mod custom_name;
 mod demangled;
@@ -13,6 +14,7 @@ mod template;
 mod typ;
 
 pub(crate) use arg::{ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, Signedness};
+pub(crate) use arg_qualifier::{ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers};
 pub(crate) use arg_vec::ArgVec;
 pub(crate) use custom_name::CustomName;
 pub(crate) use demangled::Demangled;

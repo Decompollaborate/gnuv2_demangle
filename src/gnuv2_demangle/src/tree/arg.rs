@@ -4,7 +4,7 @@
 use alloc::string::String;
 use core::{fmt, num::NonZeroUsize};
 
-use crate::option_display::OptionDisplay;
+use crate::{option_display::OptionDisplay, tree::ArgPostQualifierVec};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum DemangledArg {
@@ -140,7 +140,7 @@ impl fmt::Display for Signedness {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct ArrayQualifiers {
-    pub(crate) inner_post_qualifiers: String,
+    pub(crate) inner_post_qualifiers: ArgPostQualifierVec,
     // TODO: would be better to store this as a vector instead of an array?
     pub(crate) arrays: String,
 }

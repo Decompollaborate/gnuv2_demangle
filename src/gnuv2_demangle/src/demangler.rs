@@ -637,7 +637,7 @@ fn demangle_templated_function<'s>(
     if let Some(array_qualifiers) = array_qualifiers.as_option() {
         if config.fix_array_in_return_position {
             out.push_str(" (");
-            out.push_str(&array_qualifiers.inner_post_qualifiers);
+            out.push_str(&array_qualifiers.inner_post_qualifiers.to_string());
         } else {
             out.push_str(&array_qualifiers.to_string());
             out.push(' ');

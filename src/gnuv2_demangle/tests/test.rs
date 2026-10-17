@@ -894,7 +894,7 @@ fn test_demangle_method_as_argument_() {
     };
     void class_method_args(void (SomeClass::*)(void)) {}
     */
-    static CASES: [(&str, &str); 2] = [
+    static CASES: [(&str, &str); 3] = [
         (
             "class_method_args__FPM9SomeClassFP9SomeClass_v",
             "class_method_args(void (SomeClass::*)())",
@@ -903,6 +903,47 @@ fn test_demangle_method_as_argument_() {
             "class_method_args__FPM9SomeClassCFPC9SomeClass_v",
             "class_method_args(void (SomeClass::*)() const)",
         ),
+        /*
+        // note `const` is not mangled.
+        class SomeClass {
+        public:
+            void AClassMethod(void) {}
+        };
+        void class_method_args(void (SomeClass::*const*volatile*&)(void)) {}
+        */
+        (
+            "class_method_args__FPVPPM9SomeClassFP9SomeClass_v",
+            "class_method_args(void (SomeClass::**volatile *)())",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
+    }
+}
+
+#[test]
+fn test_demangle_object_pointer_arg() {
+    static CASES: [(&str, &str); 1] = [
+        // EE GCC 2.95.3 (SN BUILD v1.14)
+        /*
+        typedef unsigned int size_t;
+
+        class X {
+        public:
+            int X::* mp;
+            int X:: * operator->*(int X::* a) { return a; }
+        };
+
+        void use_operator(void) {
+            X a;
+            int X::* _mp = 0;
+
+            a->*_mp;    // pointer-to-member
+        }
+        */
+        ("__rm__1XPO1X_i", "X::operator->*(int (X::*))"),
     ];
     let config = DemangleConfig::new();
 
