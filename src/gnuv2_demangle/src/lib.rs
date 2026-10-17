@@ -18,15 +18,8 @@ pub use demangle_error::DemangleError;
 pub use demangler::demangle;
 
 // internal utilities
-pub(crate) mod dem;
-pub(crate) mod dem_arg;
-pub(crate) mod dem_arg_list;
-pub(crate) mod dem_arg_qualifiers;
-pub(crate) mod dem_destructor;
-pub(crate) mod dem_namespace;
-pub(crate) mod dem_namespaced_type;
-pub(crate) mod dem_other;
-pub(crate) mod dem_template;
+pub(crate) mod dem_branch;
+pub(crate) mod dem_leaf;
 
 pub mod tree;
 

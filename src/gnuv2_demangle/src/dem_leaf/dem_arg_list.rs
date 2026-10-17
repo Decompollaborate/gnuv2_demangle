@@ -3,9 +3,9 @@
 
 use alloc::borrow::Cow;
 
+use super::{dem_arg::demangle_argument, dem_other::demangle_static_suffix};
+
 use crate::{
-    dem_arg::demangle_argument,
-    dem_other::demangle_static_suffix,
     remainer::Remaining,
     tree::{ArgVec, NamespaceKind, StaticSuffix},
     DemangleConfig, DemangleError,

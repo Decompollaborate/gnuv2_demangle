@@ -7,12 +7,13 @@ use alloc::{
 };
 use core::num::NonZeroUsize;
 
-use crate::{
-    dem::demangle_custom_name,
-    dem_arg_list::demangle_argument_list_impl,
-    dem_arg_qualifiers::demangle_arg_qualifiers,
-    dem_namespace::demangle_namespaces,
+use super::{
+    dem::demangle_custom_name, dem_arg_list::demangle_argument_list_impl,
+    dem_arg_qualifiers::demangle_arg_qualifiers, dem_namespace::demangle_namespaces,
     dem_template::demangle_template,
+};
+
+use crate::{
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::{

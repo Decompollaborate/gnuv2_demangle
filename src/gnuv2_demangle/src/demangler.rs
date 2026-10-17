@@ -9,13 +9,15 @@ use alloc::{
 use core::fmt::Write;
 
 use crate::{
-    dem::demangle_method_qualifier,
-    dem_arg::demangle_argument,
-    dem_arg_list::{demangle_argument_list, demangle_argument_list_impl},
-    dem_destructor::demangle_destructor,
-    dem_namespace::demangle_namespaces,
-    dem_namespaced_type::demangle_namespaced_type,
-    dem_template::demangle_template_with_return_type,
+    dem_branch::dem_destructor::demangle_destructor,
+    dem_leaf::{
+        dem::demangle_method_qualifier,
+        dem_arg::demangle_argument,
+        dem_arg_list::{demangle_argument_list, demangle_argument_list_impl},
+        dem_namespace::demangle_namespaces,
+        dem_namespaced_type::demangle_namespaced_type,
+        dem_template::demangle_template_with_return_type,
+    },
     remainer::Remaining,
     str_cutter::StrCutter,
     tree::{

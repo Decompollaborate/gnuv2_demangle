@@ -2,8 +2,7 @@
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
 use crate::{
-    dem_namespaced_type::demangle_namespaced_type,
-    dem_other::demangle_static_suffix,
+    dem_leaf::{dem_namespaced_type::demangle_namespaced_type, dem_other::demangle_static_suffix},
     remainer::Remaining,
     tree::{Destructor, NamespacedType},
     DemangleConfig, DemangleError,

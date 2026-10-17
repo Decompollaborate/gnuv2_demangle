@@ -4,10 +4,11 @@
 use alloc::string::ToString;
 use core::num::NonZeroUsize;
 
+use super::{
+    dem::demangle_custom_name, dem_arg::demangle_argument, dem_namespace::demangle_namespaces,
+};
+
 use crate::{
-    dem::demangle_custom_name,
-    dem_arg::demangle_argument,
-    dem_namespace::demangle_namespaces,
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::{ArgVec, DemangledArg, FunctionPointer, NamespaceKind, NamespacedType, Template},

@@ -1,10 +1,11 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+use super::{
+    dem::demangle_custom_name, dem_namespace::demangle_namespaces, dem_template::demangle_template,
+};
+
 use crate::{
-    dem::demangle_custom_name,
-    dem_namespace::demangle_namespaces,
-    dem_template::demangle_template,
     remainer::Remaining,
     tree::{ArgVec, NamespaceKind, NamespacedType},
     DemangleConfig, DemangleError,

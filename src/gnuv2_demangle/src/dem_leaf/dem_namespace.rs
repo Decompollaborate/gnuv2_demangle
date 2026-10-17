@@ -1,18 +1,16 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+use alloc::borrow::Cow;
 use core::num::NonZeroUsize;
 
-use alloc::borrow::Cow;
-
-use crate::tree::CustomName;
-use crate::{demangle, DemangleConfig, DemangleError};
+use super::{dem::demangle_custom_name, dem_template::demangle_template};
 
 use crate::{
-    dem::demangle_custom_name,
-    dem_template::demangle_template,
+    demangle,
     remainer::{Remaining, StrParsing},
-    tree::{ArgVec, NamespaceVec},
+    tree::{ArgVec, CustomName, NamespaceVec},
+    DemangleConfig, DemangleError,
 };
 
 // 'Q' must be stripped already
