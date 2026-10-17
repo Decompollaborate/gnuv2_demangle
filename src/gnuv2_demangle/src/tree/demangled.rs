@@ -1,7 +1,10 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, string::{String, ToString}};
+use alloc::{
+    borrow::Cow,
+    string::{String, ToString},
+};
 use core::fmt;
 
 use super::Destructor;
