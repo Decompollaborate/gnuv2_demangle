@@ -9,9 +9,11 @@ use yew::html::Scope;
 use yew::{html, Component, Html, TargetCast};
 
 mod demangling_style;
+mod output_format;
 mod theme;
 
 pub use demangling_style::DemanglingStyle;
+pub use output_format::OutputFormat;
 pub use theme::Theme;
 
 pub trait Storagable

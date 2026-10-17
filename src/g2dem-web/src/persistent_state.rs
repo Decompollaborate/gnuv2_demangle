@@ -8,6 +8,7 @@ use crate::settings::*;
 pub struct PersistentState {
     pub theme: Theme,
     pub demangling_style: DemanglingStyle,
+    pub output_format: OutputFormat,
 }
 
 impl PersistentState {
@@ -15,6 +16,7 @@ impl PersistentState {
         Self {
             theme: Storagable::load_storage(Default::default),
             demangling_style: Storagable::load_storage(Default::default),
+            output_format: Storagable::load_storage(Default::default),
         }
     }
 
@@ -22,6 +24,7 @@ impl PersistentState {
         let Self {
             theme,
             demangling_style,
+            output_format,
         } = self;
 
         info!("Saving theme: {theme:?}");
@@ -29,5 +32,8 @@ impl PersistentState {
 
         info!("Saving demangling_style: {demangling_style:?}");
         demangling_style.save_storage();
+
+        info!("Saving output_format: {output_format:?}");
+        output_format.save_storage();
     }
 }

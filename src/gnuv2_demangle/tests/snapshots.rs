@@ -12,7 +12,7 @@ fn demangle_lines<'s>(
 ) -> Vec<(&'s str, Result<String, DemangleError<'s>>)> {
     contents
         .lines()
-        .map(|line| (line, demangle(line, config)))
+        .map(|line| (line, demangle(line, config).map(|x| x.to_string())))
         .collect()
 }
 

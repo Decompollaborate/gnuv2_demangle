@@ -53,7 +53,7 @@ use gnuv2_demangle::{demangle, DemangleConfig};
 let config = DemangleConfig::new();
 let demangled = demangle("do_thing__C6StupidRC6StupidT1", &config);
 assert_eq!(
-    demangled.as_deref(),
+    demangled.map(|d| d.to_string()).as_deref(),
     Ok("Stupid::do_thing(Stupid const &, Stupid const &) const"),
 );
 ```

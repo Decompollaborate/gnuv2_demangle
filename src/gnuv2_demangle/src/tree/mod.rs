@@ -17,7 +17,7 @@ pub(crate) use arg::{ArrayQualifiers, DemangledArg, FunctionPointer, MethodPoint
 pub(crate) use arg_qualifier::{ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers};
 pub(crate) use arg_vec::ArgVec;
 pub(crate) use custom_name::CustomName;
-pub(crate) use demangled::Demangled;
+pub use demangled::Demangled;
 pub(crate) use method_qualifier::MethodQualifier;
 pub(crate) use namespace::NamespaceVec;
 pub(crate) use namespaced_type::{NamespaceKind, NamespacedType};

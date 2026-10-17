@@ -1,9 +1,14 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use gnuv2_demangle::{demangle, DemangleConfig, DemangleError};
+use gnuv2_demangle::{DemangleConfig, DemangleError};
 
 use pretty_assertions::assert_eq;
+
+// hack to avoid fixing every function call
+fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, DemangleError<'s>> {
+    gnuv2_demangle::demangle(sym, config).map(|demangled| demangled.to_string())
+}
 
 #[test]
 fn test_demangling_funcs() {

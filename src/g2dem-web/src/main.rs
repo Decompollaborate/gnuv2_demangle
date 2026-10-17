@@ -32,6 +32,7 @@ pub enum Msg {
     InputData(String),
     ChangeTheme(Theme),
     ChangeDemanglingStyle(DemanglingStyle),
+    ChangeOutputFormat(OutputFormat),
 }
 
 pub struct App {
@@ -90,6 +91,9 @@ impl Component for App {
             }
             Msg::ChangeDemanglingStyle(demangling_style) => {
                 self.state.demangling_style = demangling_style;
+            }
+            Msg::ChangeOutputFormat(output_format) => {
+                self.state.output_format = output_format;
             }
         }
 
@@ -232,6 +236,11 @@ impl App {
         for sym in self.user_input.lines() {
             let row = match demangle(sym.trim(), &config) {
                 Ok(demangled) => {
+                    let demangled = match self.state.output_format {
+                        OutputFormat::Cpp => demangled.to_string(),
+                        OutputFormat::Tree => format!("{:#?}", demangled),
+                    };
+
                     let highlighted = highlight_cpp_cod(&demangled).unwrap_or(demangled);
                     let highlighted_html = Html::from_html_unchecked(highlighted.into());
                     html! {
@@ -261,11 +270,17 @@ impl App {
             Msg::ChangeDemanglingStyle,
         );
 
+        let dropdown_output_format =
+            self.state
+                .output_format
+                .gen_dropdown(link, label_position, Msg::ChangeOutputFormat);
+
         html! {
           <>
             <h3> { "⚙️ Configuration" } </h3>
             <div class="settings">
               { dropdown_demangling_style }
+              { dropdown_output_format }
             </div>
           </>
         }

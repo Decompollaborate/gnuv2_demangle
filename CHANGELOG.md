@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Experimental tree-like output format for `g2dem` with the `--tree`/`-t` flag.
+
+### Changed
+
+- `demangle` returns a `Demangled` type instead of a plain `String`.
+
 ## [0.5.0] - 2026-10-12
 
 ### Added

@@ -34,21 +34,24 @@ use crate::{
 /// ```
 /// use gnuv2_demangle::{demangle, DemangleConfig};
 ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
 /// let config = DemangleConfig::new();
 ///
-/// let demangled = demangle("_$_5tName", &config);
+/// let demangled = demangle("_$_5tName", &config)?;
 /// assert_eq!(
-///     demangled.as_deref(),
-///     Ok("tName::~tName(void)")
+///     demangled.to_string().as_str(),
+///     "tName::~tName(void)",
 /// );
 ///
-/// let demangled = demangle("a_function__Q35silly8my_thing17another_namespacefffi", &config);
+/// let demangled = demangle("a_function__Q35silly8my_thing17another_namespacefffi", &config)?;
 /// assert_eq!(
-///     demangled.as_deref(),
-///     Ok("silly::my_thing::another_namespace::a_function(float, float, float, int)")
+///     demangled.to_string().as_str(),
+///     "silly::my_thing::another_namespace::a_function(float, float, float, int)",
 /// );
+/// # Ok(())
+/// # }
 /// ```
-pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, DemangleError<'s>> {
+pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<Demangled<'s>, DemangleError<'s>> {
     if !sym.is_ascii() {
         Err(DemangleError::NonAscii)
     } else {
@@ -56,7 +59,7 @@ pub fn demangle<'s>(sym: &'s str, config: &DemangleConfig) -> Result<String, Dem
         // with other toolchains that do not accept '$' in symbol names.
         let cplus_marker = determine_cplus_marker(sym);
 
-        demangle_impl(sym, config, cplus_marker, true).map(|demangled| demangled.into_string())
+        demangle_impl(sym, config, cplus_marker, true)
     }
 }
 
@@ -121,7 +124,7 @@ fn demangle_impl<'s>(
     config: &DemangleConfig,
     cplus_marker: char,
     allow_global_sym_keyed: bool,
-) -> Result<Demangled, DemangleError<'s>> {
+) -> Result<Demangled<'s>, DemangleError<'s>> {
     if let Some(s) = sym.c_strip_prefix_3chars('_', cplus_marker, '_') {
         demangle_destructor(config, s).map(Demangled::Destructor)
     } else if let Some(s) = sym.strip_prefix("__") {
@@ -144,7 +147,7 @@ fn demangle_impl_failables<'s>(
     sym: &'s str,
     config: &DemangleConfig,
     cplus_marker: char,
-) -> Result<Demangled, DemangleError<'s>> {
+) -> Result<Demangled<'s>, DemangleError<'s>> {
     // Some of the checks here can overlap and produce false positives, so if
     // one fails then try again with the next one, over and over.
 
@@ -246,7 +249,7 @@ fn demangle_special<'s>(
     config: &DemangleConfig,
     s: &'s str,
     full_sym: &'s str,
-) -> Result<Demangled, DemangleError<'s>> {
+) -> Result<Demangled<'s>, DemangleError<'s>> {
     let allow_array_fixup = true;
 
     let (remaining, class_name, method_name, suffix, discriminator) = if let Some(remaining) =
@@ -827,7 +830,7 @@ fn demangle_global_sym_keyed<'s>(
     s: &'s str,
     cplus_marker: char,
     full_sym: &'s str,
-) -> Result<Demangled, DemangleError<'s>> {
+) -> Result<Demangled<'s>, DemangleError<'s>> {
     let (remaining, which, is_constructor) = if let Some(r) = s.strip_prefix("I") {
         (r, "constructors", true)
     } else if let Some(r) = s.strip_prefix("D") {

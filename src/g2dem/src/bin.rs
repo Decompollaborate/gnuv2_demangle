@@ -26,6 +26,12 @@ struct Args {
     #[argp(option, short = 'm', default = "Mode::default()")]
     mode: Mode,
 
+    /// Show a tree representation of the demangled symbol instead.
+    ///
+    /// Currently experimental.
+    #[argp(switch, short = 't')]
+    tree: bool,
+
     /// Print current version information and exit.
     #[argp(switch, short = 'V')]
     version: bool,
@@ -92,6 +98,18 @@ fn show_version() {
     }
 }
 
+fn print_sym(sym: String, config: &DemangleConfig, tree: bool) {
+    if let Ok(demangled) = demangle(&sym, config) {
+        if tree {
+            println!("{demangled:#?}");
+        } else {
+            println!("{demangled}");
+        }
+    } else {
+        println!("{sym}");
+    }
+}
+
 fn main() {
     let args: Args = argp::parse_args_or_exit(argp::DEFAULT);
 
@@ -109,19 +127,11 @@ fn main() {
         for line in io::stdin().lock().lines() {
             let line = line.expect("Error reading from stdin");
 
-            if let Ok(demangled) = demangle(&line, &config) {
-                println!("{demangled}");
-            } else {
-                println!("{line}");
-            }
+            print_sym(line, &config, args.tree);
         }
     } else {
         for mangled in args.syms {
-            if let Ok(demangled) = demangle(&mangled, &config) {
-                println!("{demangled}");
-            } else {
-                println!("{mangled}");
-            }
+            print_sym(mangled, &config, args.tree);
         }
     }
 }

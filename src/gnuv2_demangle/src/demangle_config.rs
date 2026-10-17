@@ -22,14 +22,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_namespaced_global_constructor_bug = false;
     ///
-    /// let demangled = demangle("_GLOBAL_$I$__Q210Scenegraph10Scenegraph", &config);
+    /// let demangled = demangle("_GLOBAL_$I$__Q210Scenegraph10Scenegraph", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("Scenegraph::Scenegraph::Scenegraph(void)")
+    ///     demangled.to_string().as_str(),
+    ///     "Scenegraph::Scenegraph::Scenegraph(void)",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     ///
     /// The setting turned on:
@@ -37,14 +40,18 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_namespaced_global_constructor_bug = true;
     ///
-    /// let demangled = demangle("_GLOBAL_$I$__Q210Scenegraph10Scenegraph", &config);
+    /// let demangled = demangle("_GLOBAL_$I$__Q210Scenegraph10Scenegraph", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("global constructors keyed to Scenegraph::Scenegraph::Scenegraph(void)")
+    ///     demangled.to_string().as_str(),
+    ///     "global constructors keyed to Scenegraph::Scenegraph::Scenegraph(void)",
     /// );
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fix_namespaced_global_constructor_bug: bool,
 
     /// By default g++ subtracts 1 from the length of array arguments, thus
@@ -65,14 +72,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_array_length_arg = false;
     ///
-    /// let demangled = demangle("simpler_array__FPA41_A24_Ci", &config);
+    /// let demangled = demangle("simpler_array__FPA41_A24_Ci", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("simpler_array(int const (*)[41][24])")
+    ///     demangled.to_string().as_str(),
+    ///     "simpler_array(int const (*)[41][24])",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     ///
     /// The setting turned on:
@@ -80,14 +90,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_array_length_arg = true;
     ///
-    /// let demangled = demangle("simpler_array__FPA41_A24_Ci", &config);
+    /// let demangled = demangle("simpler_array__FPA41_A24_Ci", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("simpler_array(int const (*)[42][25])")
+    ///     demangled.to_string().as_str(),
+    ///     "simpler_array(int const (*)[42][25])",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     pub fix_array_length_arg: bool,
 
@@ -110,18 +123,21 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.demangle_global_keyed_frames = false;
     ///
-    /// let demangled = demangle("_GLOBAL_$F$__7istreamiP9streambufP7ostream", &config);
+    /// let demangled = demangle("_GLOBAL_$F$__7istreamiP9streambufP7ostream", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("istream::_GLOBAL_$F$(int, streambuf *, ostream *)")
+    ///     demangled.to_string().as_str(),
+    ///     "istream::_GLOBAL_$F$(int, streambuf *, ostream *)",
     /// );
     /// let demangled = demangle("_GLOBAL_$F$__default_terminate", &config);
     /// assert!(
     ///     demangled.is_err()
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     ///
     /// The setting turned on:
@@ -129,19 +145,22 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.demangle_global_keyed_frames = true;
     ///
-    /// let demangled = demangle("_GLOBAL_$F$__7istreamiP9streambufP7ostream", &config);
+    /// let demangled = demangle("_GLOBAL_$F$__7istreamiP9streambufP7ostream", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("global frames keyed to istream::istream(int, streambuf *, ostream *)")
+    ///     demangled.to_string().as_str(),
+    ///     "global frames keyed to istream::istream(int, streambuf *, ostream *)",
     /// );
-    /// let demangled = demangle("_GLOBAL_$F$__default_terminate", &config);
+    /// let demangled = demangle("_GLOBAL_$F$__default_terminate", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("global frames keyed to __default_terminate")
+    ///     demangled.to_string().as_str(),
+    ///     "global frames keyed to __default_terminate",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     pub demangle_global_keyed_frames: bool,
 
@@ -157,14 +176,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.ellipsis_emit_space_after_comma = false;
     ///
-    /// let demangled = demangle("Printf__7ConsolePce", &config);
+    /// let demangled = demangle("Printf__7ConsolePce", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("Console::Printf(char *,...)")
+    ///     demangled.to_string().as_str(),
+    ///     "Console::Printf(char *,...)",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     ///
     /// The setting turned on:
@@ -172,14 +194,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.ellipsis_emit_space_after_comma = true;
     ///
-    /// let demangled = demangle("Printf__7ConsolePce", &config);
+    /// let demangled = demangle("Printf__7ConsolePce", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("Console::Printf(char *, ...)")
+    ///     demangled.to_string().as_str(),
+    ///     "Console::Printf(char *, ...)",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     pub ellipsis_emit_space_after_comma: bool,
 
@@ -198,19 +223,22 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_extension_int = false;
     ///
-    /// let demangled = demangle("testing_func__FRCI80", &config);
+    /// let demangled = demangle("testing_func__FRCI80", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("testing_func(int128_t const &)")
+    ///     demangled.to_string().as_str(),
+    ///     "testing_func(int128_t const &)",
     /// );
-    /// let demangled = demangle("testing_func__FRCUI80", &config);
+    /// let demangled = demangle("testing_func__FRCUI80", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("testing_func(unsigned int128_t const &)")
+    ///     demangled.to_string().as_str(),
+    ///     "testing_func(unsigned int128_t const &)",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     ///
     /// The setting turned on:
@@ -218,19 +246,22 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_extension_int = true;
     ///
-    /// let demangled = demangle("testing_func__FRCI80", &config);
+    /// let demangled = demangle("testing_func__FRCI80", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("testing_func(__int128_t const &)")
+    ///     demangled.to_string().as_str(),
+    ///     "testing_func(__int128_t const &)",
     /// );
-    /// let demangled = demangle("testing_func__FRCUI80", &config);
+    /// let demangled = demangle("testing_func__FRCUI80", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("testing_func(__uint128_t const &)")
+    ///     demangled.to_string().as_str(),
+    ///     "testing_func(__uint128_t const &)",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     pub fix_extension_int: bool,
 
@@ -247,14 +278,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_array_in_return_position = false;
     ///
-    /// let demangled = demangle("an_array__H1Zi_X01_PA3_f", &config);
+    /// let demangled = demangle("an_array__H1Zi_X01_PA3_f", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("float (*)[3] an_array<int>(int)")
+    ///     demangled.to_string().as_str(),
+    ///     "float (*)[3] an_array<int>(int)",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     ///
     /// The setting turned on:
@@ -262,14 +296,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_array_in_return_position = true;
     ///
-    /// let demangled = demangle("an_array__H1Zi_X01_PA3_f", &config);
+    /// let demangled = demangle("an_array__H1Zi_X01_PA3_f", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("float (*an_array<int>(int))[3]")
+    ///     demangled.to_string().as_str(),
+    ///     "float (*an_array<int>(int))[3]",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     pub fix_array_in_return_position: bool,
 
@@ -290,14 +327,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_function_pointers_in_template_lists = false;
     ///
-    /// let demangled = demangle("alloc__t5Table1PFUi_Pv16DefaultFunc__FUiUi", &config);
+    /// let demangled = demangle("alloc__t5Table1PFUi_Pv16DefaultFunc__FUiUi", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("Table<&DefaultFunc(unsigned int)>::alloc(unsigned int)")
+    ///     demangled.to_string().as_str(),
+    ///     "Table<&DefaultFunc(unsigned int)>::alloc(unsigned int)",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     ///
     /// The setting turned on:
@@ -305,14 +345,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.fix_function_pointers_in_template_lists = true;
     ///
-    /// let demangled = demangle("alloc__t5Table1PFUi_Pv16DefaultFunc__FUiUi", &config);
+    /// let demangled = demangle("alloc__t5Table1PFUi_Pv16DefaultFunc__FUiUi", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("Table<(void *(*)(unsigned int)) &DefaultFunc>::alloc(unsigned int)")
+    ///     demangled.to_string().as_str(),
+    ///     "Table<(void *(*)(unsigned int)) &DefaultFunc>::alloc(unsigned int)",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     pub fix_function_pointers_in_template_lists: bool,
 
@@ -331,6 +374,7 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig, DemangleError};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.demangle_static_suffix = false;
     ///
@@ -339,6 +383,8 @@ pub struct DemangleConfig {
     ///     demangled,
     ///     Err(DemangleError::UnknownType('.', ".3")),
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     ///
     /// The setting turned on:
@@ -346,14 +392,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.demangle_static_suffix = true;
     ///
-    /// let demangled = demangle("inner_func__Q216outer_func__Fv.0_7Private.3", &config);
+    /// let demangled = demangle("inner_func__Q216outer_func__Fv.0_7Private.3", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("outer_func.0(void)::Private::inner_func.3()")
+    ///     demangled.to_string().as_str(),
+    ///     "outer_func.0(void)::Private::inner_func.3()",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     pub demangle_static_suffix: bool,
 
@@ -376,6 +425,7 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig, DemangleError};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.demangle_in_function_static_initialized = false;
     ///
@@ -384,6 +434,8 @@ pub struct DemangleConfig {
     ///     demangled,
     ///     Err(DemangleError::InFunctionStaticInitializedDisabled("0.7")),
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     ///
     /// The setting turned on:
@@ -391,14 +443,17 @@ pub struct DemangleConfig {
     /// ```
     /// use gnuv2_demangle::{demangle, DemangleConfig};
     ///
+    /// # fn main() -> Result<(), gnuv2_demangle::DemangleError<'static>> {
     /// let mut config = DemangleConfig::new();
     /// config.demangle_in_function_static_initialized = true;
     ///
-    /// let demangled = demangle("_$tmp_0.7", &config);
+    /// let demangled = demangle("_$tmp_0.7", &config)?;
     /// assert_eq!(
-    ///     demangled.as_deref(),
-    ///     Ok("in-function-static initialized 0 7")
+    ///     demangled.to_string().as_str(),
+    ///     "in-function-static initialized 0 7",
     /// );
+    /// # Ok(())
+    /// # }
     /// ```
     pub demangle_in_function_static_initialized: bool,
 }

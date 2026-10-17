@@ -4,6 +4,8 @@
 #![doc = include_str!("../README.md")]
 #![cfg_attr(not(feature = "std"), no_std)]
 
+#![deny(unnameable_types)]
+
 #[macro_use]
 extern crate alloc;
 
@@ -25,7 +27,7 @@ pub(crate) mod dem_namespaced_type;
 pub(crate) mod dem_other;
 pub(crate) mod dem_template;
 
-pub(crate) mod tree;
+pub mod tree;
 
 pub(crate) mod option_display;
 pub(crate) mod remainer;
