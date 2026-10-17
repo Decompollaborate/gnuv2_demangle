@@ -5,10 +5,7 @@ use crate::{
     dem_namespaced_type::demangle_namespaced_type,
     dem_other::demangle_static_suffix,
     remainer::Remaining,
-    tree::{
-        Destructor,
-        NamespacedType,
-    },
+    tree::{Destructor, NamespacedType},
     DemangleConfig, DemangleError,
 };
 
