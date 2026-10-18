@@ -7,14 +7,14 @@ use alloc::{
 };
 use core::fmt;
 
-use super::Destructor;
+use super::{Destructor, TypeInfoFunction, TypeInfoNode};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
 pub enum Demangled<'s> {
     Destructor(Destructor<'s>),
-    TypeInfoFunction(String),
-    TypeInfoNode(String),
+    TypeInfoFunction(TypeInfoFunction<'s>),
+    TypeInfoNode(TypeInfoNode<'s>),
     NamespacedType(String),
     OperatorFree(String),
     OperatorMethod(String),
@@ -33,8 +33,8 @@ impl<'s> Demangled<'s> {
     pub(crate) fn into_string(self) -> String {
         match self {
             Self::Destructor(inner) => inner.to_string(),
-            Self::TypeInfoFunction(inner) => inner,
-            Self::TypeInfoNode(inner) => inner,
+            Self::TypeInfoFunction(inner) => inner.to_string(),
+            Self::TypeInfoNode(inner) => inner.to_string(),
             Self::NamespacedType(inner) => inner,
             Self::OperatorFree(inner) => inner,
             Self::OperatorMethod(inner) => inner,

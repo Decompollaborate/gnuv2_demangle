@@ -13,16 +13,19 @@ mod namespaced_type;
 mod static_suffix;
 mod template;
 mod typ;
+mod type_info;
 
 pub(crate) use arg::{ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, Signedness};
 pub(crate) use arg_qualifier::{ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers};
 pub(crate) use arg_vec::ArgVec;
 pub(crate) use custom_name::CustomName;
-pub use demangled::Demangled;
-pub use destructor::Destructor;
 pub(crate) use method_qualifier::MethodQualifier;
 pub(crate) use namespace::NamespaceVec;
 pub(crate) use namespaced_type::{NamespaceKind, NamespacedType};
 pub(crate) use static_suffix::StaticSuffix;
 pub(crate) use template::Template;
 pub(crate) use typ::{Type, TypeMeta};
+
+pub use demangled::Demangled;
+pub use destructor::Destructor;
+pub use type_info::{TypeInfoFunction, TypeInfoNode};

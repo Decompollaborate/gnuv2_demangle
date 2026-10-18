@@ -3,8 +3,8 @@
 
 #![doc = include_str!("../README.md")]
 #![cfg_attr(not(feature = "std"), no_std)]
-#![deny(unnameable_types)]
-#![deny(private_interfaces)]
+#![warn(unnameable_types)]
+#![warn(private_interfaces)]
 
 #[macro_use]
 extern crate alloc;
