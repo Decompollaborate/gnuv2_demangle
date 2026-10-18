@@ -8,8 +8,8 @@ use alloc::{
 use core::fmt;
 
 use super::{
-    Destructor, GlobalSymKeyed, InFunctionStaticInitialized, NamespacedGlobal, TypeInfoFunction,
-    TypeInfoNode, VirtualTable,
+    Destructor, FreeFunction, GlobalSymKeyed, InFunctionStaticInitialized, Method,
+    NamespacedFunction, NamespacedGlobal, TypeInfoFunction, TypeInfoNode, VirtualTable,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -24,10 +24,10 @@ pub enum Demangled<'s> {
     OperatorMethod(String),
     GlobalSymKeyed(GlobalSymKeyed<'s>),
     InFunctionStaticInitialized(InFunctionStaticInitialized),
-    FreeFunction(String),
-    Method(String), // ClassFunction :thinking:
+    FreeFunction(FreeFunction<'s>),
+    Method(Method<'s>), // ClassFunction :thinking:
     TemplatedFunction(String),
-    NamespacedFunction(String),
+    NamespacedFunction(NamespacedFunction<'s>),
     NamespacedGlobal(NamespacedGlobal<'s>),
 }
 
@@ -44,10 +44,10 @@ impl<'s> Demangled<'s> {
             Self::OperatorMethod(inner) => inner,
             Self::GlobalSymKeyed(inner) => inner.to_string(),
             Self::InFunctionStaticInitialized(inner) => inner.to_string(),
-            Self::FreeFunction(inner) => inner,
-            Self::Method(inner) => inner,
+            Self::FreeFunction(inner) => inner.to_string(),
+            Self::Method(inner) => inner.to_string(),
             Self::TemplatedFunction(inner) => inner,
-            Self::NamespacedFunction(inner) => inner,
+            Self::NamespacedFunction(inner) => inner.to_string(),
             Self::NamespacedGlobal(inner) => inner.to_string(),
         }
     }

@@ -10,7 +10,10 @@ use alloc::{
 use crate::{
     dem_branch::{
         dem_destructor::demangle_destructor,
+        dem_free_function::demangle_free_function,
         dem_in_function_static_initialized::demangle_in_function_static_initialized,
+        dem_method::demangle_method,
+        dem_namespaced_function::demangle_namespaced_function,
         dem_namespaced_global::demangle_namespaced_global,
         dem_type_info::{demangle_type_info_function, demangle_type_info_node},
         dem_virtual_tables::demangle_virtual_table,
@@ -19,7 +22,6 @@ use crate::{
         dem::demangle_method_qualifier,
         dem_arg::demangle_argument,
         dem_arg_list::{demangle_argument_list, demangle_argument_list_impl},
-        dem_namespace::demangle_namespaces,
         dem_namespaced_type::demangle_namespaced_type,
         dem_template::demangle_template_with_return_type,
     },
@@ -27,7 +29,7 @@ use crate::{
     str_cutter::StrCutter,
     tree::{
         ArgVec, Demangled, DemangledArg, GlobalSymKeyed, GlobalSymKeyedKind, GlobalSymKeyedSym,
-        MethodQualifier, NamespaceKind, NamespacedType, StaticSuffix,
+        MethodQualifier, NamespacedType, StaticSuffix,
     },
     DemangleConfig, DemangleError,
 };
@@ -435,66 +437,6 @@ fn demangle_special<'s>(
     })
 }
 
-fn demangle_free_function<'s>(
-    config: &DemangleConfig,
-    func_name: &'s str,
-    args: &'s str,
-) -> Result<String, DemangleError<'s>> {
-    let allow_array_fixup = true;
-
-    let (argument_list, static_suffix) = demangle_argument_list(
-        config,
-        args,
-        None,
-        &ArgVec::new(config, None),
-        allow_array_fixup,
-    )?;
-
-    Ok(format!("{func_name}{static_suffix}({argument_list})"))
-}
-
-fn demangle_method<'s>(
-    config: &DemangleConfig,
-    method_name: &'s str,
-    class_and_args: &'s str,
-) -> Result<String, DemangleError<'s>> {
-    let allow_array_fixup = true;
-    let Remaining {
-        r: remaining,
-        d: suffix,
-    } = demangle_method_qualifier(class_and_args);
-
-    let Remaining {
-        r: remaining,
-        d: NamespacedType {
-            namespace,
-            type_name: _,
-        },
-    } = demangle_namespaced_type(
-        config,
-        remaining,
-        allow_array_fixup,
-        DemangleError::InvalidClassNameOnMethod,
-    )?
-    .ok_or(DemangleError::InvalidTypeNameForMethod(remaining))?;
-
-    let (argument_list, static_suffix) = if remaining.is_empty() {
-        (Cow::from("void"), StaticSuffix::none())
-    } else {
-        demangle_argument_list(
-            config,
-            remaining,
-            Some(&namespace),
-            &ArgVec::new(config, None),
-            allow_array_fixup,
-        )?
-    };
-
-    Ok(format!(
-        "{namespace}::{method_name}{static_suffix}({argument_list}){suffix}"
-    ))
-}
-
 /// Templated functions and methods.
 ///
 /// A templated method is templated individually, it doesn't matter if the
@@ -641,35 +583,6 @@ fn demangle_templated_function<'s>(
         }
     }
 
-    Ok(out)
-}
-
-fn demangle_namespaced_function<'s>(
-    config: &DemangleConfig,
-    func_name: &'s str,
-    s: &'s str,
-) -> Result<String, DemangleError<'s>> {
-    let allow_array_fixup = true;
-
-    let Remaining {
-        r: remaining,
-        d: (namespaces, _trailing_namespace),
-    } = demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
-    let namespaces = NamespaceKind::Namespace(namespaces);
-
-    let (argument_list, static_suffix) = if remaining.is_empty() {
-        (Cow::from("void"), StaticSuffix::none())
-    } else {
-        demangle_argument_list(
-            config,
-            remaining,
-            Some(&namespaces),
-            &ArgVec::new(config, None),
-            allow_array_fixup,
-        )?
-    };
-
-    let out = format!("{namespaces}::{func_name}{static_suffix}({argument_list})");
     Ok(out)
 }
 

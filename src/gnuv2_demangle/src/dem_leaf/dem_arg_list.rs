@@ -27,6 +27,7 @@ pub(crate) fn demangle_argument_list<'s>(
         allow_array_fixup,
     )?;
 
+    // TODO: Consider moving this call to demangle_argument_list_impl
     let Remaining {
         r: remaining,
         d: static_suffix,
