@@ -7,7 +7,7 @@ use alloc::{
 };
 use core::fmt;
 
-use super::{Destructor, TypeInfoFunction, TypeInfoNode};
+use super::{Destructor, TypeInfoFunction, TypeInfoNode, VirtualTable};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
@@ -15,6 +15,7 @@ pub enum Demangled<'s> {
     Destructor(Destructor<'s>),
     TypeInfoFunction(TypeInfoFunction<'s>),
     TypeInfoNode(TypeInfoNode<'s>),
+    VirtualTable(VirtualTable<'s>),
     NamespacedType(String),
     OperatorFree(String),
     OperatorMethod(String),
@@ -24,7 +25,6 @@ pub enum Demangled<'s> {
     Method(String), // ClassFunction :thinking:
     TemplatedFunction(String),
     NamespacedFunction(String),
-    VirtualTable(String),
     NamespacedGlobal(String),
 }
 
@@ -35,6 +35,7 @@ impl<'s> Demangled<'s> {
             Self::Destructor(inner) => inner.to_string(),
             Self::TypeInfoFunction(inner) => inner.to_string(),
             Self::TypeInfoNode(inner) => inner.to_string(),
+            Self::VirtualTable(inner) => inner.to_string(),
             Self::NamespacedType(inner) => inner,
             Self::OperatorFree(inner) => inner,
             Self::OperatorMethod(inner) => inner,
@@ -44,7 +45,6 @@ impl<'s> Demangled<'s> {
             Self::Method(inner) => inner,
             Self::TemplatedFunction(inner) => inner,
             Self::NamespacedFunction(inner) => inner,
-            Self::VirtualTable(inner) => inner,
             Self::NamespacedGlobal(inner) => inner,
         }
     }
@@ -56,6 +56,7 @@ impl<'s> fmt::Display for Demangled<'s> {
             Self::Destructor(inner) => write!(f, "{inner}"),
             Self::TypeInfoFunction(inner) => write!(f, "{inner}"),
             Self::TypeInfoNode(inner) => write!(f, "{inner}"),
+            Self::VirtualTable(inner) => write!(f, "{inner}"),
             Self::NamespacedType(inner) => write!(f, "{inner}"),
             Self::OperatorFree(inner) => write!(f, "{inner}"),
             Self::OperatorMethod(inner) => write!(f, "{inner}"),
@@ -65,7 +66,6 @@ impl<'s> fmt::Display for Demangled<'s> {
             Self::Method(inner) => write!(f, "{inner}"),
             Self::TemplatedFunction(inner) => write!(f, "{inner}"),
             Self::NamespacedFunction(inner) => write!(f, "{inner}"),
-            Self::VirtualTable(inner) => write!(f, "{inner}"),
             Self::NamespacedGlobal(inner) => write!(f, "{inner}"),
         }
     }

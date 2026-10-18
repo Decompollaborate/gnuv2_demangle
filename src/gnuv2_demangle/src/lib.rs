@@ -5,6 +5,7 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(unnameable_types)]
 #![warn(private_interfaces)]
+#![warn(clippy::unwrap_used)]
 
 #[macro_use]
 extern crate alloc;

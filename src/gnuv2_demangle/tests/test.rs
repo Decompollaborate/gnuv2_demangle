@@ -531,17 +531,26 @@ fn test_demangle_templated_classes_with_numbers() {
 
 #[test]
 fn test_demangle_vtable() {
-    static CASES: [(&str, &str); 3] = [
+    static CASES: [(&str, &str); 2] = [
         ("_vt$15ISpatialProxyAA", "ISpatialProxyAA virtual table"),
         (
             "_vt$t11ChangeState1ZQ211CharacterAi4Loco",
             "ChangeState<CharacterAi::Loco> virtual table",
         ),
-        (
-            "_vt$Q211CharacterAi6GetOut$13EventListener",
-            "CharacterAi::GetOut::EventListener virtual table",
-        ),
     ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
+    }
+}
+
+#[test]
+fn test_demangle_vtable_from_namespace_list() {
+    static CASES: [(&str, &str); 1] = [(
+        "_vt$Q211CharacterAi6GetOut$13EventListener",
+        "CharacterAi::GetOut::EventListener virtual table",
+    )];
     let config = DemangleConfig::new();
 
     for (mangled, demangled) in CASES {

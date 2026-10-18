@@ -14,6 +14,7 @@ mod static_suffix;
 mod template;
 mod typ;
 mod type_info;
+mod virtual_table;
 
 pub(crate) use arg::{ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, Signedness};
 pub(crate) use arg_qualifier::{ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers};
@@ -29,3 +30,4 @@ pub(crate) use typ::{Type, TypeMeta};
 pub use demangled::Demangled;
 pub use destructor::Destructor;
 pub use type_info::{TypeInfoFunction, TypeInfoNode};
+pub use virtual_table::VirtualTable;

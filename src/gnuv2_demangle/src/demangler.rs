@@ -4,14 +4,13 @@
 use alloc::{
     borrow::Cow,
     string::{String, ToString},
-    vec::Vec,
 };
-use core::fmt::Write;
 
 use crate::{
     dem_branch::{
         dem_destructor::demangle_destructor,
         dem_type_info::{demangle_type_info_function, demangle_type_info_node},
+        dem_virtual_tables::demangle_virtual_table,
     },
     dem_leaf::{
         dem::demangle_method_qualifier,
@@ -669,54 +668,6 @@ fn demangle_namespaced_function<'s>(
 
     let out = format!("{namespaces}::{func_name}{static_suffix}({argument_list})");
     Ok(out)
-}
-
-fn demangle_virtual_table<'s>(
-    config: &DemangleConfig,
-    s: &'s str,
-    cplus_marker: char,
-) -> Result<String, DemangleError<'s>> {
-    let allow_array_fixup = true;
-    let mut remaining = s;
-    let mut stuff = Vec::new();
-
-    while !remaining.is_empty() {
-        remaining = remaining
-            .strip_prefix(cplus_marker)
-            .ok_or(DemangleError::VTableMissingDollarSeparator(remaining))?;
-
-        let Remaining {
-            r,
-            d:
-                NamespacedType {
-                    namespace,
-                    type_name: _,
-                },
-        } = demangle_namespaced_type(
-            config,
-            remaining,
-            allow_array_fixup,
-            DemangleError::InvalidClassNameOnVirtualTable,
-        )?
-        .ok_or(DemangleError::InvalidTypeNameForVirtualTable(remaining))?;
-
-        stuff.push(namespace);
-        remaining = r;
-    }
-
-    let mut buf = String::new();
-    {
-        let mut iter = stuff.into_iter();
-
-        // TODO: get rid of these unwraps
-        if let Some(ns) = iter.next() {
-            write!(buf, "{ns}").unwrap();
-        }
-        for ns in iter {
-            write!(buf, "::{ns}").unwrap();
-        }
-    }
-    Ok(format!("{buf} virtual table"))
 }
 
 fn demangle_namespaced_global<'s>(

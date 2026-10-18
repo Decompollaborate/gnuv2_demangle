@@ -3,3 +3,4 @@
 
 pub(crate) mod dem_destructor;
 pub(crate) mod dem_type_info;
+pub(crate) mod dem_virtual_tables;
