@@ -8,8 +8,8 @@ use alloc::{
 use core::fmt;
 
 use super::{
-    Destructor, GlobalSymKeyed, InFunctionStaticInitialized, TypeInfoFunction, TypeInfoNode,
-    VirtualTable,
+    Destructor, GlobalSymKeyed, InFunctionStaticInitialized, NamespacedGlobal, TypeInfoFunction,
+    TypeInfoNode, VirtualTable,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -28,7 +28,7 @@ pub enum Demangled<'s> {
     Method(String), // ClassFunction :thinking:
     TemplatedFunction(String),
     NamespacedFunction(String),
-    NamespacedGlobal(String),
+    NamespacedGlobal(NamespacedGlobal<'s>),
 }
 
 impl<'s> Demangled<'s> {
@@ -48,7 +48,7 @@ impl<'s> Demangled<'s> {
             Self::Method(inner) => inner,
             Self::TemplatedFunction(inner) => inner,
             Self::NamespacedFunction(inner) => inner,
-            Self::NamespacedGlobal(inner) => inner,
+            Self::NamespacedGlobal(inner) => inner.to_string(),
         }
     }
 }

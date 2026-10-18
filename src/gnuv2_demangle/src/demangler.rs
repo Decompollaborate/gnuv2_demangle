@@ -11,6 +11,7 @@ use crate::{
     dem_branch::{
         dem_destructor::demangle_destructor,
         dem_in_function_static_initialized::demangle_in_function_static_initialized,
+        dem_namespaced_global::demangle_namespaced_global,
         dem_type_info::{demangle_type_info_function, demangle_type_info_node},
         dem_virtual_tables::demangle_virtual_table,
     },
@@ -670,38 +671,6 @@ fn demangle_namespaced_function<'s>(
 
     let out = format!("{namespaces}::{func_name}{static_suffix}({argument_list})");
     Ok(out)
-}
-
-fn demangle_namespaced_global<'s>(
-    config: &DemangleConfig,
-    s: &'s str,
-    name: &'s str,
-) -> Result<String, DemangleError<'s>> {
-    let allow_array_fixup = true;
-
-    let Some(remaining) = s.strip_prefix('_') else {
-        return Err(DemangleError::InvalidNamespacedGlobal(s, name));
-    };
-
-    let Remaining {
-        r,
-        d: NamespacedType {
-            namespace: space,
-            type_name: _,
-        },
-    } = demangle_namespaced_type(
-        config,
-        remaining,
-        allow_array_fixup,
-        DemangleError::InvalidNamespaceOnNamespacedGlobal,
-    )?
-    .ok_or(DemangleError::InvalidTypeNameForNamespacedGlobal(remaining))?;
-
-    if !r.is_empty() {
-        return Err(DemangleError::TrailingDataOnNamespacedGlobal(r));
-    }
-
-    Ok(format!("{space}::{name}"))
 }
 
 fn demangle_global_sym_keyed<'s>(
