@@ -3,12 +3,14 @@
 
 use alloc::{
     borrow::Cow,
+    boxed::Box,
     string::{String, ToString},
 };
 
 use crate::{
     dem_branch::{
         dem_destructor::demangle_destructor,
+        dem_in_function_static_initialized::demangle_in_function_static_initialized,
         dem_type_info::{demangle_type_info_function, demangle_type_info_node},
         dem_virtual_tables::demangle_virtual_table,
     },
@@ -23,8 +25,8 @@ use crate::{
     remainer::Remaining,
     str_cutter::StrCutter,
     tree::{
-        ArgVec, Demangled, DemangledArg, MethodQualifier, NamespaceKind, NamespacedType,
-        StaticSuffix,
+        ArgVec, Demangled, DemangledArg, GlobalSymKeyed, GlobalSymKeyedKind, GlobalSymKeyedSym,
+        MethodQualifier, NamespaceKind, NamespacedType, StaticSuffix,
     },
     DemangleConfig, DemangleError,
 };
@@ -708,13 +710,13 @@ fn demangle_global_sym_keyed<'s>(
     cplus_marker: char,
     full_sym: &'s str,
 ) -> Result<Demangled<'s>, DemangleError<'s>> {
-    let (remaining, which, is_constructor) = if let Some(r) = s.strip_prefix("I") {
-        (r, "constructors", true)
+    let (remaining, which) = if let Some(r) = s.strip_prefix("I") {
+        (r, GlobalSymKeyedKind::Constructors)
     } else if let Some(r) = s.strip_prefix("D") {
-        (r, "destructors", false)
+        (r, GlobalSymKeyedKind::Destructors)
     } else if let Some(r) = s.strip_prefix("F") {
         if config.demangle_global_keyed_frames {
-            (r, "frames", false)
+            (r, GlobalSymKeyedKind::Frames)
         } else {
             // !HACK(c++filt): c++filt does not recognize `_GLOBAL_$F$`, so it
             // !tries to demangle it as anything else.
@@ -730,7 +732,7 @@ fn demangle_global_sym_keyed<'s>(
 
     let demangled_sym = demangle_impl(remaining, config, cplus_marker, false);
     if !config.fix_namespaced_global_constructor_bug
-        && is_constructor
+        && which.is_constructor()
         && remaining.starts_with("__Q")
     {
         // !HACK(c++filt): Seems like c++filt has a bug where it won't output
@@ -738,34 +740,11 @@ fn demangle_global_sym_keyed<'s>(
         return demangled_sym;
     }
 
-    let actual_sym = demangled_sym
-        .map(Cow::from)
-        .unwrap_or_else(|_| Cow::from(remaining));
+    let actual_sym = demangled_sym.map_or_else(
+        |_| GlobalSymKeyedSym::Raw(remaining),
+        |d| GlobalSymKeyedSym::Demangled(Box::new(d)),
+    );
 
-    Ok(Demangled::GlobalSymKeyed(format!(
-        "global {which} keyed to {actual_sym}"
-    )))
-}
-
-fn demangle_in_function_static_initialized<'s>(
-    config: &DemangleConfig,
-    s: &'s str,
-) -> Result<String, DemangleError<'s>> {
-    if !config.demangle_in_function_static_initialized {
-        return Err(DemangleError::InFunctionStaticInitializedDisabled(s));
-    }
-
-    let Some((left, right)) = s.c_split2_char('.') else {
-        return Err(DemangleError::InFunctionStaticInitializedMissingPair(s));
-    };
-
-    let left: usize = left
-        .parse()
-        .map_err(|_| DemangleError::InFunctionStaticInitializedFirstNotNumber(left))?;
-    let right: usize = right
-        .parse()
-        .map_err(|_| DemangleError::InFunctionStaticInitializedSecondNotNumber(right))?;
-
-    // made up convention
-    Ok(format!("in-function-static initialized {left} {right}"))
+    let gsk = GlobalSymKeyed::new(which, actual_sym);
+    Ok(Demangled::GlobalSymKeyed(gsk))
 }

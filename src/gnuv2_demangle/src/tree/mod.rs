@@ -7,6 +7,8 @@ mod arg_vec;
 mod custom_name;
 mod demangled;
 mod destructor;
+mod global_sym_keyed;
+mod in_function_static_initialized;
 mod method_qualifier;
 mod namespace;
 mod namespaced_type;
@@ -27,7 +29,11 @@ pub(crate) use static_suffix::StaticSuffix;
 pub(crate) use template::Template;
 pub(crate) use typ::{Type, TypeMeta};
 
+pub(crate) use global_sym_keyed::{GlobalSymKeyedKind, GlobalSymKeyedSym};
+
 pub use demangled::Demangled;
 pub use destructor::Destructor;
+pub use global_sym_keyed::GlobalSymKeyed;
+pub use in_function_static_initialized::InFunctionStaticInitialized;
 pub use type_info::{TypeInfoFunction, TypeInfoNode};
 pub use virtual_table::VirtualTable;

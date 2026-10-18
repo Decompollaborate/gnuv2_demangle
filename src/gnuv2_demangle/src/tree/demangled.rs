@@ -7,7 +7,10 @@ use alloc::{
 };
 use core::fmt;
 
-use super::{Destructor, TypeInfoFunction, TypeInfoNode, VirtualTable};
+use super::{
+    Destructor, GlobalSymKeyed, InFunctionStaticInitialized, TypeInfoFunction, TypeInfoNode,
+    VirtualTable,
+};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[non_exhaustive]
@@ -19,8 +22,8 @@ pub enum Demangled<'s> {
     NamespacedType(String),
     OperatorFree(String),
     OperatorMethod(String),
-    GlobalSymKeyed(String),
-    InFunctionStaticInitialized(String),
+    GlobalSymKeyed(GlobalSymKeyed<'s>),
+    InFunctionStaticInitialized(InFunctionStaticInitialized),
     FreeFunction(String),
     Method(String), // ClassFunction :thinking:
     TemplatedFunction(String),
@@ -39,8 +42,8 @@ impl<'s> Demangled<'s> {
             Self::NamespacedType(inner) => inner,
             Self::OperatorFree(inner) => inner,
             Self::OperatorMethod(inner) => inner,
-            Self::GlobalSymKeyed(inner) => inner,
-            Self::InFunctionStaticInitialized(inner) => inner,
+            Self::GlobalSymKeyed(inner) => inner.to_string(),
+            Self::InFunctionStaticInitialized(inner) => inner.to_string(),
             Self::FreeFunction(inner) => inner,
             Self::Method(inner) => inner,
             Self::TemplatedFunction(inner) => inner,
