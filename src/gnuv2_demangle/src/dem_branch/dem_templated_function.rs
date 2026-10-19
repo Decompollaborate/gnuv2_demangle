@@ -1,0 +1,164 @@
+/* SPDX-FileCopyrightText: © 2026 Decompollaborate */
+/* SPDX-License-Identifier: MIT OR Apache-2.0 */
+
+use alloc::string::{String, ToString};
+
+use crate::{
+    dem_leaf::{
+        dem::demangle_method_qualifier, dem_arg::demangle_argument,
+        dem_arg_list::demangle_argument_list_impl, dem_namespaced_type::demangle_namespaced_type,
+        dem_template::demangle_template_with_return_type,
+    },
+    remainer::Remaining,
+    tree::{ArgVec, DemangledArg},
+    DemangleConfig, DemangleError,
+};
+
+/// Templated functions and methods.
+///
+/// A templated method is templated individually, it doesn't matter if the
+/// class it comes from is templated or not.
+pub(crate) fn demangle_templated_function<'s>(
+    config: &DemangleConfig,
+    func_name: &'s str,
+    s: &'s str,
+) -> Result<String, DemangleError<'s>> {
+    // Arrays do need to be fixed up if it appears in the template list, but
+    // not in the rest of the definition.
+    let allow_array_fixup = true;
+    let (remaining, template_args, typ) =
+        demangle_template_with_return_type(config, s, allow_array_fixup)?;
+    let allow_array_fixup = false;
+
+    let Remaining {
+        r: remaining,
+        d: suffix,
+    } = demangle_method_qualifier(remaining);
+
+    let (remaining, typ) = if let Some(typ) = typ {
+        (remaining, Some(typ.namespace))
+    } else if let Some(nt) = demangle_namespaced_type(
+        config,
+        remaining,
+        allow_array_fixup,
+        DemangleError::InvalidNamespaceOnTemplatedFunction,
+    )? {
+        let Remaining { r, d: nt } = nt;
+        (r, Some(nt.namespace))
+    } else {
+        (remaining, None)
+    };
+
+    // - First there's an optional namespace used in template specializations.
+    // - Then there's the optional argument list, which may be omitted if there
+    //   are no parameters.
+    // - Finally the return type.
+
+    // Demangle the specialization namespace
+    let (remaining, specialization_namespace) = if let Some(r) = remaining.strip_prefix('_') {
+        let (r, DemangledArg::Plain(specialization_namespace, array_qualifiers)) =
+            demangle_argument(
+                config,
+                r,
+                &ArgVec::new(config, typ.as_ref()),
+                &template_args,
+                allow_array_fixup,
+            )?
+        else {
+            return Err(DemangleError::MalformedTemplatedSpecializationInvalidNamespace(r));
+        };
+
+        (r, Some((specialization_namespace, array_qualifiers)))
+    } else {
+        (remaining, None)
+    };
+
+    // Demangle the argument list
+    let (remaining, argument_list) = demangle_argument_list_impl(
+        config,
+        remaining,
+        typ.as_ref(),
+        &template_args,
+        false,
+        allow_array_fixup,
+    )?;
+
+    // Demangle the return type
+    let (specialization_namespace, return_type, array_qualifiers) =
+        if let Some(r) = remaining.strip_prefix('_') {
+            let (r, DemangledArg::Plain(ret_type, array_qualifiers)) = demangle_argument(
+                config,
+                r,
+                &ArgVec::new(config, typ.as_ref()),
+                &template_args,
+                allow_array_fixup,
+            )?
+            else {
+                return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(r));
+            };
+
+            if !r.is_empty() {
+                return Err(
+                    DemangleError::TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(r),
+                );
+            }
+            (specialization_namespace, ret_type, array_qualifiers)
+        } else if let Some((actual_return_type, array_qualifiers)) = specialization_namespace {
+            // If there's no argument list and this symbol is not a template
+            // specialization inside a namespace then we mistakenly consumed the
+            // return type as the specialization_namespace
+
+            if !remaining.is_empty() {
+                return Err(
+                    DemangleError::TrailingDataAfterReturnTypeOfTemplatedSpecialization(remaining),
+                );
+            }
+
+            (None, actual_return_type, array_qualifiers)
+        } else {
+            return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(remaining));
+        };
+
+    let template_args = template_args.join();
+    let formated_template_args = if template_args.ends_with('>') {
+        format!("<{} >", template_args)
+    } else {
+        format!("<{}>", template_args)
+    };
+    let argument_list = argument_list.join();
+
+    let mut out = return_type;
+    if let Some((specialization_namespace, _array_qualifiers)) = specialization_namespace {
+        out.push(' ');
+        out.push_str(&specialization_namespace);
+    }
+    if let Some(array_qualifiers) = array_qualifiers.as_option() {
+        if config.fix_array_in_return_position {
+            out.push_str(" (");
+            out.push_str(&array_qualifiers.inner_post_qualifiers.to_string());
+        } else {
+            out.push_str(&array_qualifiers.to_string());
+            out.push(' ');
+        }
+    } else {
+        out.push(' ');
+    }
+    if let Some(typ) = typ {
+        out.push_str(&typ.to_string());
+        out.push_str("::");
+    }
+    out.push_str(func_name);
+    out.push_str(&formated_template_args);
+    out.push('(');
+    out.push_str(&argument_list);
+    out.push(')');
+    out.push_str(&suffix.to_string());
+    if let Some(array_qualifiers) = array_qualifiers.as_option() {
+        if config.fix_array_in_return_position {
+            out.push(')');
+            out.push_str(&array_qualifiers.arrays);
+        }
+    }
+
+    Ok(out)
+}
