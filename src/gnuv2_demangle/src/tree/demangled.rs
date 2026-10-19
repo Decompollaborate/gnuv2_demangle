@@ -9,7 +9,8 @@ use core::fmt;
 
 use super::{
     Destructor, FreeFunction, GlobalSymKeyed, InFunctionStaticInitialized, Method,
-    NamespacedFunction, NamespacedGlobal, TypeInfoFunction, TypeInfoNode, VirtualTable,
+    NamespacedFunction, NamespacedGlobal, OperatorFunction, OperatorMethod, TypeInfoFunction,
+    TypeInfoNode, VirtualTable,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -20,8 +21,8 @@ pub enum Demangled<'s> {
     TypeInfoNode(TypeInfoNode<'s>),
     VirtualTable(VirtualTable<'s>),
     NamespacedTypeClassMethod(String),
-    OperatorFree(String),
-    OperatorMethod(String),
+    OperatorFunction(OperatorFunction<'s>),
+    OperatorMethod(OperatorMethod<'s>),
     GlobalSymKeyed(GlobalSymKeyed<'s>),
     InFunctionStaticInitialized(InFunctionStaticInitialized),
     FreeFunction(FreeFunction<'s>),
@@ -40,8 +41,8 @@ impl<'s> Demangled<'s> {
             Self::TypeInfoNode(inner) => inner.to_string(),
             Self::VirtualTable(inner) => inner.to_string(),
             Self::NamespacedTypeClassMethod(inner) => inner,
-            Self::OperatorFree(inner) => inner,
-            Self::OperatorMethod(inner) => inner,
+            Self::OperatorFunction(inner) => inner.to_string(),
+            Self::OperatorMethod(inner) => inner.to_string(),
             Self::GlobalSymKeyed(inner) => inner.to_string(),
             Self::InFunctionStaticInitialized(inner) => inner.to_string(),
             Self::FreeFunction(inner) => inner.to_string(),
@@ -61,7 +62,7 @@ impl<'s> fmt::Display for Demangled<'s> {
             Self::TypeInfoNode(inner) => write!(f, "{inner}"),
             Self::VirtualTable(inner) => write!(f, "{inner}"),
             Self::NamespacedTypeClassMethod(inner) => write!(f, "{inner}"),
-            Self::OperatorFree(inner) => write!(f, "{inner}"),
+            Self::OperatorFunction(inner) => write!(f, "{inner}"),
             Self::OperatorMethod(inner) => write!(f, "{inner}"),
             Self::GlobalSymKeyed(inner) => write!(f, "{inner}"),
             Self::InFunctionStaticInitialized(inner) => write!(f, "{inner}"),

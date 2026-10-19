@@ -10,8 +10,8 @@ use crate::{
 };
 
 pub(crate) fn demangle_operator<'s>(
-    s: &'s str,
     config: &DemangleConfig,
+    s: &'s str,
     allow_array_fixup: bool,
 ) -> Result<Option<Remaining<'s, Operator>>, DemangleError<'s>> {
     let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
