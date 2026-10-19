@@ -11,20 +11,20 @@ use crate::{
         dem_method::demangle_method,
         dem_namespaced_function::demangle_namespaced_function,
         dem_namespaced_global::demangle_namespaced_global,
-        namespaced_type_class_method::demangle_namespaced_type_class_method,
+        dem_namespaced_type_class_method::demangle_namespaced_type_class_method,
         dem_templated_function::demangle_templated_function,
         dem_type_info::{demangle_type_info_function, demangle_type_info_node},
         dem_virtual_tables::demangle_virtual_table,
     },
     dem_leaf::{
-        dem::demangle_method_qualifier, dem_arg::demangle_argument,
-        dem_arg_list::demangle_argument_list, dem_namespaced_type::demangle_namespaced_type,
+        dem::demangle_method_qualifier, dem_arg_list::demangle_argument_list,
+        dem_namespaced_type::demangle_namespaced_type, dem_operator::demangle_operator,
     },
     remainer::Remaining,
     str_cutter::StrCutter,
     tree::{
-        ArgVec, Demangled, DemangledArg, GlobalSymKeyed, GlobalSymKeyedKind, GlobalSymKeyedSym,
-        MethodQualifier, NamespacedType, StaticSuffix,
+        ArgVec, Demangled, GlobalSymKeyed, GlobalSymKeyedKind, GlobalSymKeyedSym, MethodQualifier,
+        NamespacedType, StaticSuffix,
     },
     DemangleConfig, DemangleError,
 };
@@ -224,185 +224,100 @@ fn demangle_special<'s>(
 ) -> Result<Demangled<'s>, DemangleError<'s>> {
     let allow_array_fixup = true;
 
-    let (remaining, class_name, method_name, suffix, discriminator) = if let Some(remaining) =
-        s.strip_prefix("tf")
-    {
-        return demangle_type_info_function(config, remaining).map(Demangled::TypeInfoFunction);
-    } else if let Some(remaining) = s.strip_prefix("ti") {
-        return demangle_type_info_node(config, remaining).map(Demangled::TypeInfoNode);
-    } else if let Some(nt) = demangle_namespaced_type(
-        config,
-        s,
-        allow_array_fixup,
-        DemangleError::InvalidClassNameOnConstructor,
-    )? {
-        let Remaining {
-            r,
-            d: namespaced_type,
-        } = nt;
-
-        return demangle_namespaced_type_class_method(
+    let (remaining, class_name, method_name, suffix, discriminator) =
+        if let Some(remaining) = s.strip_prefix("tf") {
+            return demangle_type_info_function(config, remaining).map(Demangled::TypeInfoFunction);
+        } else if let Some(remaining) = s.strip_prefix("ti") {
+            return demangle_type_info_node(config, remaining).map(Demangled::TypeInfoNode);
+        } else if let Some(nt) = demangle_namespaced_type(
             config,
-            r,
-            namespaced_type,
+            s,
             allow_array_fixup,
-        )
-        .map(Demangled::NamespacedTypeClassMethod);
-    } else {
-        let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
-        let op = &s[..end_index];
+            DemangleError::InvalidClassNameOnConstructor,
+        )? {
+            let Remaining {
+                r,
+                d: namespaced_type,
+            } = nt;
 
-        // Skip the underscore
-        let remaining = &s[end_index + 2..];
+            return demangle_namespaced_type_class_method(
+                config,
+                r,
+                namespaced_type,
+                allow_array_fixup,
+            )
+            .map(Demangled::NamespacedTypeClassMethod);
+        } else {
+            let Some(Remaining {
+                r: remaining,
+                d: operator,
+            }) = demangle_operator(s, config, allow_array_fixup)?
+            else {
+                return {
+                    // This may be a plain function that got confused with a
+                    // special symbol, so try to decode as a function instead.
+                    if let Some((func_name, args)) = full_sym.c_split2("__F") {
+                        demangle_free_function(config, func_name, args).map(Demangled::FreeFunction)
+                    } else if let Some((incomplete_method_name, class_and_args, _c)) =
+                        s.c_split2_r_starts_with("__", |c| matches!(c, '1'..='9' | 'C' | 't'))
+                    {
+                        // split `s` instead of `full_sym` to skip over the
+                        // first `__`,
+                        // if that check passes, then recover the actual
+                        // method name, including the initial `__`, by
+                        // using the length of the `incomplete_method_name`
+                        // to slice the `full_sym`.
 
-        let method_name = match op {
-            // Memory
-            "nw" => Cow::from("operator new"),
-            "dl" => Cow::from("operator delete"),
-            "vn" => Cow::from("operator new []"),
-            "vd" => Cow::from("operator delete []"),
-
-            // Comparison
-            "eq" => Cow::from("operator=="),
-            "ne" => Cow::from("operator!="),
-            "lt" => Cow::from("operator<"),
-            "gt" => Cow::from("operator>"),
-            "le" => Cow::from("operator<="),
-            "ge" => Cow::from("operator>="),
-
-            // Assignment
-            "as" => Cow::from("operator="),
-            "apl" => Cow::from("operator+="),
-            "ami" => Cow::from("operator-="),
-            "aml" => Cow::from("operator*="),
-            "adv" => Cow::from("operator/="),
-            "amd" => Cow::from("operator%="),
-            "aer" => Cow::from("operator^="),
-            "aad" => Cow::from("operator&="),
-            "aor" => Cow::from("operator|="),
-            "als" => Cow::from("operator<<="),
-            "ars" => Cow::from("operator>>="),
-
-            // Bitwise
-            "er" => Cow::from("operator^"),
-            "ad" => Cow::from("operator&"),
-            "or" => Cow::from("operator|"),
-            "ls" => Cow::from("operator<<"),
-            "rs" => Cow::from("operator>>"),
-            "co" => Cow::from("operator~"),
-
-            // Increment/Decrement
-            "pp" => Cow::from("operator++"),
-            "mm" => Cow::from("operator--"),
-
-            // Logical
-            "aa" => Cow::from("operator&&"),
-            "oo" => Cow::from("operator||"),
-            "nt" => Cow::from("operator!"),
-
-            // Member access
-            "vc" => Cow::from("operator[]"),
-            "rf" => Cow::from("operator->"),
-            "rm" => Cow::from("operator->*"),
-
-            // Arithmetic
-            "pl" => Cow::from("operator+"),
-            "mi" => Cow::from("operator-"),
-            "ml" => Cow::from("operator*"),
-            "dv" => Cow::from("operator/"),
-            "md" => Cow::from("operator%"),
-
-            // Other
-            "cl" => Cow::from("operator()"),
-            "cm" => Cow::from("operator, "),
-
-            _ => {
-                if let Some(cast) = op.strip_prefix("op") {
-                    let (remaining, DemangledArg::Plain(typ, array_qualifiers)) =
-                        demangle_argument(
-                            config,
-                            cast,
-                            &ArgVec::new(config, None),
-                            &ArgVec::new(config, None),
-                            allow_array_fixup,
-                        )?
-                    else {
-                        return Err(DemangleError::UnrecognizedSpecialMethod(op));
-                    };
-                    if !remaining.is_empty() {
-                        return Err(DemangleError::MalformedCastOperatorOverload(remaining));
+                        let method_name = &full_sym[..incomplete_method_name.len() + 2];
+                        demangle_method(config, method_name, class_and_args).map(Demangled::Method)
+                    } else if let Some((func_name, s)) = full_sym.c_split2("__H") {
+                        demangle_templated_function(config, func_name, s)
+                            .map(Demangled::TemplatedFunction)
+                    } else {
+                        let op = s.find("__").map_or(s, |end_index| &s[..end_index]);
+                        Err(DemangleError::UnrecognizedSpecialMethod(op))
                     }
+                };
+            };
 
-                    Cow::from(format!("operator {typ}{array_qualifiers}"))
-                } else {
-                    return {
-                        // This may be a plain function that got confused with a
-                        // special symbol, so try to decode as a function instead.
-                        if let Some((func_name, args)) = full_sym.c_split2("__F") {
-                            demangle_free_function(config, func_name, args)
-                                .map(Demangled::FreeFunction)
-                        } else if let Some((incomplete_method_name, class_and_args, _c)) =
-                            s.c_split2_r_starts_with("__", |c| matches!(c, '1'..='9' | 'C' | 't'))
-                        {
-                            // split `s` instead of `full_sym` to skip over the
-                            // first `__`,
-                            // if that check passes, then recover the actual
-                            // method name, including the initial `__`, by
-                            // using the length of the `incomplete_method_name`
-                            // to slice the `full_sym`.
+            if let Some(remaining) = remaining.strip_prefix('F') {
+                (
+                    remaining,
+                    None,
+                    operator,
+                    MethodQualifier::No,
+                    SpecialDiscriminator::OperatorFree,
+                )
+            } else {
+                let Remaining {
+                    r: remaining,
+                    d: suffix,
+                } = demangle_method_qualifier(remaining);
 
-                            let method_name = &full_sym[..incomplete_method_name.len() + 2];
-                            demangle_method(config, method_name, class_and_args)
-                                .map(Demangled::Method)
-                        } else if let Some((func_name, s)) = full_sym.c_split2("__H") {
-                            demangle_templated_function(config, func_name, s)
-                                .map(Demangled::TemplatedFunction)
-                        } else {
-                            Err(DemangleError::UnrecognizedSpecialMethod(op))
-                        }
-                    };
-                }
+                let Remaining {
+                    r: remaining,
+                    d:
+                        NamespacedType {
+                            namespace,
+                            type_name: _,
+                        },
+                } = demangle_namespaced_type(
+                    config,
+                    remaining,
+                    allow_array_fixup,
+                    DemangleError::InvalidClassNameOnOperator,
+                )?
+                .ok_or(DemangleError::InvalidTypeNameForOperator(remaining))?;
+
+                (
+                    remaining,
+                    Some(namespace),
+                    operator,
+                    suffix,
+                    SpecialDiscriminator::OperatorMethod,
+                )
             }
         };
-
-        if let Some(remaining) = remaining.strip_prefix('F') {
-            (
-                remaining,
-                None,
-                method_name,
-                MethodQualifier::No,
-                SpecialDiscriminator::OperatorFree,
-            )
-        } else {
-            let Remaining {
-                r: remaining,
-                d: suffix,
-            } = demangle_method_qualifier(remaining);
-
-            let Remaining {
-                r: remaining,
-                d:
-                    NamespacedType {
-                        namespace,
-                        type_name: _,
-                    },
-            } = demangle_namespaced_type(
-                config,
-                remaining,
-                allow_array_fixup,
-                DemangleError::InvalidClassNameOnOperator,
-            )?
-            .ok_or(DemangleError::InvalidTypeNameForOperator(remaining))?;
-
-            (
-                remaining,
-                Some(namespace),
-                method_name,
-                suffix,
-                SpecialDiscriminator::OperatorMethod,
-            )
-        }
-    };
 
     let (argument_list, static_suffix) = if remaining.is_empty() {
         (Cow::from("void"), StaticSuffix::none())
