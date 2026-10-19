@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::{String, ToString};
+use alloc::string::ToString;
 
 use crate::{
     dem_leaf::{
@@ -10,7 +10,7 @@ use crate::{
         dem_template::demangle_template_with_return_type,
     },
     remainer::Remaining,
-    tree::{ArgVec, DemangledArg},
+    tree::{ArgVec, DemangledArg, TemplatedFunction},
     DemangleConfig, DemangleError,
 };
 
@@ -22,7 +22,7 @@ pub(crate) fn demangle_templated_function<'s>(
     config: &DemangleConfig,
     func_name: &'s str,
     s: &'s str,
-) -> Result<String, DemangleError<'s>> {
+) -> Result<TemplatedFunction<'s>, DemangleError<'s>> {
     // Arrays do need to be fixed up if it appears in the template list, but
     // not in the rest of the definition.
     let allow_array_fixup = true;
@@ -160,5 +160,5 @@ pub(crate) fn demangle_templated_function<'s>(
         }
     }
 
-    Ok(out)
+    Ok(TemplatedFunction::new(out))
 }

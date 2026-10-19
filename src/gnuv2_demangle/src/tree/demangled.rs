@@ -1,16 +1,12 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{
-    borrow::Cow,
-    string::{String, ToString},
-};
 use core::fmt;
 
 use super::{
     Destructor, FreeFunction, GlobalSymKeyed, InFunctionStaticInitialized, Method,
-    NamespacedFunction, NamespacedGlobal, OperatorFunction, OperatorMethod, TypeInfoFunction,
-    TypeInfoNode, VirtualTable,
+    NamespacedFunction, NamespacedGlobal, NamespacedTypeClassMethod, OperatorFunction,
+    OperatorMethod, TemplatedFunction, TypeInfoFunction, TypeInfoNode, VirtualTable,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -20,38 +16,16 @@ pub enum Demangled<'s> {
     TypeInfoFunction(TypeInfoFunction<'s>),
     TypeInfoNode(TypeInfoNode<'s>),
     VirtualTable(VirtualTable<'s>),
-    NamespacedTypeClassMethod(String),
+    NamespacedTypeClassMethod(NamespacedTypeClassMethod<'s>),
     OperatorFunction(OperatorFunction<'s>),
     OperatorMethod(OperatorMethod<'s>),
     GlobalSymKeyed(GlobalSymKeyed<'s>),
     InFunctionStaticInitialized(InFunctionStaticInitialized),
     FreeFunction(FreeFunction<'s>),
     Method(Method<'s>), // ClassFunction :thinking:
-    TemplatedFunction(String),
+    TemplatedFunction(TemplatedFunction<'s>),
     NamespacedFunction(NamespacedFunction<'s>),
     NamespacedGlobal(NamespacedGlobal<'s>),
-}
-
-impl<'s> Demangled<'s> {
-    // TODO: remove when we get rid of every String variant.
-    pub(crate) fn into_string(self) -> String {
-        match self {
-            Self::Destructor(inner) => inner.to_string(),
-            Self::TypeInfoFunction(inner) => inner.to_string(),
-            Self::TypeInfoNode(inner) => inner.to_string(),
-            Self::VirtualTable(inner) => inner.to_string(),
-            Self::NamespacedTypeClassMethod(inner) => inner,
-            Self::OperatorFunction(inner) => inner.to_string(),
-            Self::OperatorMethod(inner) => inner.to_string(),
-            Self::GlobalSymKeyed(inner) => inner.to_string(),
-            Self::InFunctionStaticInitialized(inner) => inner.to_string(),
-            Self::FreeFunction(inner) => inner.to_string(),
-            Self::Method(inner) => inner.to_string(),
-            Self::TemplatedFunction(inner) => inner,
-            Self::NamespacedFunction(inner) => inner.to_string(),
-            Self::NamespacedGlobal(inner) => inner.to_string(),
-        }
-    }
 }
 
 impl<'s> fmt::Display for Demangled<'s> {
@@ -72,12 +46,5 @@ impl<'s> fmt::Display for Demangled<'s> {
             Self::NamespacedFunction(inner) => write!(f, "{inner}"),
             Self::NamespacedGlobal(inner) => write!(f, "{inner}"),
         }
-    }
-}
-
-// silly
-impl<'s> From<Demangled<'s>> for Cow<'s, str> {
-    fn from(value: Demangled) -> Self {
-        Cow::from(value.into_string())
     }
 }

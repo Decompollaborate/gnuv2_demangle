@@ -31,7 +31,8 @@ fn demangle_lines_plain<'s>(
         .map(|line| {
             (
                 line,
-                demangle(line, config).map_or_else(|_| Cow::from(line), |x| Cow::from(x)),
+                demangle(line, config)
+                    .map_or_else(|_| Cow::from(line), |x| Cow::from(x.to_string())),
             )
         })
         .collect()

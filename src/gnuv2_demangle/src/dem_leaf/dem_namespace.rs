@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
+use alloc::{borrow::Cow, string::ToString};
 use core::num::NonZeroUsize;
 
 use super::{dem::demangle_custom_name, dem_template::demangle_template};
@@ -73,7 +73,7 @@ fn demangle_namespaces_impl<'s>(
             // actually need further demangling.
             // If we fail, then we just keep the old namespace.
             let new_ns = match demangle(ns.into_raw(), config) {
-                Ok(new_ns) => Cow::from(new_ns),
+                Ok(new_ns) => Cow::from(new_ns.to_string()),
                 Err(_e) => Cow::from(ns),
             };
 

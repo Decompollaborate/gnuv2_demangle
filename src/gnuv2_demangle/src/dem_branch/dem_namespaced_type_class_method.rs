@@ -1,11 +1,11 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, string::String};
+use alloc::borrow::Cow;
 
 use crate::{
     dem_leaf::dem_arg_list::demangle_argument_list,
-    tree::{ArgVec, NamespacedType, StaticSuffix},
+    tree::{ArgVec, NamespacedType, NamespacedTypeClassMethod, StaticSuffix},
     DemangleConfig, DemangleError,
 };
 
@@ -15,7 +15,7 @@ pub(crate) fn demangle_namespaced_type_class_method<'s>(
     s: &'s str,
     namespaced_type: NamespacedType<'s>,
     allow_array_fixup: bool,
-) -> Result<String, DemangleError<'s>> {
+) -> Result<NamespacedTypeClassMethod<'s>, DemangleError<'s>> {
     let remaining = s;
 
     let NamespacedType {
@@ -35,7 +35,8 @@ pub(crate) fn demangle_namespaced_type_class_method<'s>(
         )?
     };
 
-    let out = format!("{class_name}::{method_name}{static_suffix}({argument_list})");
-
+    let out = NamespacedTypeClassMethod::new(format!(
+        "{class_name}::{method_name}{static_suffix}({argument_list})"
+    ));
     Ok(out)
 }

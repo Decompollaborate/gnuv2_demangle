@@ -18,14 +18,10 @@ use crate::{
         dem_type_info::{demangle_type_info_function, demangle_type_info_node},
         dem_virtual_tables::demangle_virtual_table,
     },
-    dem_leaf::{
-        dem_namespaced_type::demangle_namespaced_type, dem_operator::demangle_operator,
-    },
+    dem_leaf::{dem_namespaced_type::demangle_namespaced_type, dem_operator::demangle_operator},
     remainer::Remaining,
     str_cutter::StrCutter,
-    tree::{
-        Demangled, GlobalSymKeyed, GlobalSymKeyedKind, GlobalSymKeyedSym,
-    },
+    tree::{Demangled, GlobalSymKeyed, GlobalSymKeyedKind, GlobalSymKeyedSym},
     DemangleConfig, DemangleError,
 };
 
@@ -233,13 +229,8 @@ fn demangle_special<'s>(
             d: namespaced_type,
         } = nt;
 
-        demangle_namespaced_type_class_method(
-            config,
-            r,
-            namespaced_type,
-            allow_array_fixup,
-        )
-        .map(Demangled::NamespacedTypeClassMethod)
+        demangle_namespaced_type_class_method(config, r, namespaced_type, allow_array_fixup)
+            .map(Demangled::NamespacedTypeClassMethod)
     } else {
         let Some(Remaining {
             r: remaining,
