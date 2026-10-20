@@ -15,6 +15,9 @@ impl<T> OptionDisplay<T> {
     pub(crate) fn as_option(&self) -> &Option<T> {
         &self.0
     }
+    pub(crate) fn into_option(self) -> Option<T> {
+        self.0
+    }
 }
 
 impl<T> ops::Deref for OptionDisplay<T> {

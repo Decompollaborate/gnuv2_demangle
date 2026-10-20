@@ -1,8 +1,6 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::ToString;
-
 use crate::{
     dem_leaf::{
         dem::demangle_method_qualifier, dem_arg::demangle_argument,
@@ -32,7 +30,7 @@ pub(crate) fn demangle_templated_function<'s>(
 
     let Remaining {
         r: remaining,
-        d: suffix,
+        d: method_qualifier,
     } = demangle_method_qualifier(remaining);
 
     let (remaining, typ) = if let Some(typ) = typ {
@@ -120,45 +118,20 @@ pub(crate) fn demangle_templated_function<'s>(
         };
 
     let template_args = template_args.join();
-    let formated_template_args = if template_args.ends_with('>') {
-        format!("<{} >", template_args)
-    } else {
-        format!("<{}>", template_args)
-    };
     let argument_list = argument_list.join();
 
-    let mut out = return_type;
-    if let Some((specialization_namespace, _array_qualifiers)) = specialization_namespace {
-        out.push(' ');
-        out.push_str(&specialization_namespace);
-    }
-    if let Some(array_qualifiers) = array_qualifiers.as_option() {
-        if config.fix_array_in_return_position {
-            out.push_str(" (");
-            out.push_str(&array_qualifiers.inner_post_qualifiers.to_string());
-        } else {
-            out.push_str(&array_qualifiers.to_string());
-            out.push(' ');
-        }
-    } else {
-        out.push(' ');
-    }
-    if let Some(typ) = typ {
-        out.push_str(&typ.to_string());
-        out.push_str("::");
-    }
-    out.push_str(func_name);
-    out.push_str(&formated_template_args);
-    out.push('(');
-    out.push_str(&argument_list);
-    out.push(')');
-    out.push_str(&suffix.to_string());
-    if let Some(array_qualifiers) = array_qualifiers.as_option() {
-        if config.fix_array_in_return_position {
-            out.push(')');
-            out.push_str(&array_qualifiers.arrays);
-        }
-    }
+    let array_qualifiers = array_qualifiers
+        .into_option()
+        .map(|x| (x, config.fix_array_in_return_position));
 
-    Ok(TemplatedFunction::new(out))
+    Ok(TemplatedFunction::new(
+        func_name,
+        method_qualifier,
+        template_args,
+        argument_list,
+        return_type,
+        specialization_namespace.map(|(x, _)| x),
+        array_qualifiers,
+        typ,
+    ))
 }
