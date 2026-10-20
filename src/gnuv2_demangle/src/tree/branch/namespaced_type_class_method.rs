@@ -1,16 +1,16 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, sync::Arc};
+use alloc::sync::Arc;
 use core::fmt;
 
-use crate::tree::leaf::{CustomName, NamespacedType, StaticSuffix};
+use crate::tree::leaf::{ArgVec, CustomName, NamespacedType, StaticSuffix};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct NamespacedTypeClassMethod<'s> {
     method_name: CustomName<'s>,
     namespace: Arc<NamespacedType<'s>>,
-    argument_list: Cow<'s, str>,
+    argument_list: ArgVec<'s>,
     static_suffix: StaticSuffix<'s>,
 }
 
@@ -18,7 +18,7 @@ impl<'s> NamespacedTypeClassMethod<'s> {
     pub(crate) const fn new(
         method_name: CustomName<'s>,
         namespace: Arc<NamespacedType<'s>>,
-        argument_list: Cow<'s, str>,
+        argument_list: ArgVec<'s>,
         static_suffix: StaticSuffix<'s>,
     ) -> Self {
         Self {

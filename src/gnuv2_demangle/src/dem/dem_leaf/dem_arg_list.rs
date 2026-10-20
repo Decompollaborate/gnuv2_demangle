@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, sync::Arc};
+use alloc::sync::Arc;
 
 use super::{demangle_argument, demangle_static_suffix};
 
@@ -11,14 +11,17 @@ use crate::{
     DemangleConfig, DemangleError,
 };
 
-pub(crate) fn demangle_argument_list<'s>(
+pub(crate) fn demangle_argument_list<'s, 'ns>(
     config: &DemangleConfig,
     args: &'s str,
-    namespace: Option<Arc<NamespacedType<'_>>>,
+    namespace: Option<Arc<NamespacedType<'ns>>>,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<(Cow<'s, str>, StaticSuffix<'s>), DemangleError<'s>> {
-    let (remaining, argument_list) = demangle_argument_list_impl(
+) -> Result<(ArgVec<'ns>, StaticSuffix<'s>), DemangleError<'s>> {
+    let Remaining {
+        r: remaining,
+        d: argument_list,
+    } = demangle_argument_list_impl(
         config,
         args,
         namespace,
@@ -37,17 +40,17 @@ pub(crate) fn demangle_argument_list<'s>(
         return Err(DemangleError::TrailingDataAfterArgumentList(remaining));
     }
 
-    Ok((Cow::from(argument_list.join()), static_suffix))
+    Ok((argument_list, static_suffix))
 }
 
-pub(crate) fn demangle_argument_list_impl<'c, 's, 'ns>(
-    config: &'c DemangleConfig,
+pub(crate) fn demangle_argument_list_impl<'s, 'ns>(
+    config: &DemangleConfig,
     mut args: &'s str,
     namespace: Option<Arc<NamespacedType<'ns>>>,
     template_args: &ArgVec,
     allow_data_after_ellipsis: bool,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ArgVec<'c, 'ns>), DemangleError<'s>> {
+) -> Result<Remaining<'s, ArgVec<'ns>>, DemangleError<'s>> {
     let mut arguments = ArgVec::new(config, namespace);
 
     while !args.is_empty() && !args.starts_with('_') {
@@ -73,5 +76,5 @@ pub(crate) fn demangle_argument_list_impl<'c, 's, 'ns>(
         }
     }
 
-    Ok((args, arguments))
+    Ok(Remaining::new(args, arguments))
 }

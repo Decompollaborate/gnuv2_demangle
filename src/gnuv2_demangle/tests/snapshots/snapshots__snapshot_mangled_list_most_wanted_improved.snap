@@ -42476,49 +42476,49 @@ expression: "demangle_lines(contents, &config)"
     (
         "_._Q313FEPlayerCarDB33GetTotalBounty__13FEPlayerCarDB.0_6Bounty.35689",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0()::Bounty.35689::~Bounty.35689(void)",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0(void)::Bounty.35689::~Bounty.35689(void)",
         ),
     ),
     (
         "Callback__CQ313FEPlayerCarDB33GetTotalBounty__13FEPlayerCarDB.0_6BountyRC14FECareerRecord.35688",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0()::Bounty::Callback.35688(FECareerRecord const &) const",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0(void)::Bounty::Callback.35688(FECareerRecord const &) const",
         ),
     ),
     (
         "_._Q313FEPlayerCarDB41GetTotalEvadedPursuits__13FEPlayerCarDB.0_14EvadedPursuits.35706",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0()::EvadedPursuits.35706::~EvadedPursuits.35706(void)",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0(void)::EvadedPursuits.35706::~EvadedPursuits.35706(void)",
         ),
     ),
     (
         "Callback__CQ313FEPlayerCarDB41GetTotalEvadedPursuits__13FEPlayerCarDB.0_14EvadedPursuitsRC14FECareerRecord.35705",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0()::EvadedPursuits::Callback.35705(FECareerRecord const &) const",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0(void)::EvadedPursuits::Callback.35705(FECareerRecord const &) const",
         ),
     ),
     (
         "_._Q313FEPlayerCarDB41GetTotalBustedPursuits__13FEPlayerCarDB.0_14BustedPursuits.35723",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0()::BustedPursuits.35723::~BustedPursuits.35723(void)",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0(void)::BustedPursuits.35723::~BustedPursuits.35723(void)",
         ),
     ),
     (
         "Callback__CQ313FEPlayerCarDB41GetTotalBustedPursuits__13FEPlayerCarDB.0_14BustedPursuitsRC14FECareerRecord.35722",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0()::BustedPursuits::Callback.35722(FECareerRecord const &) const",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0(void)::BustedPursuits::Callback.35722(FECareerRecord const &) const",
         ),
     ),
     (
         "_._Q313FEPlayerCarDB38GetNumImpoundedCars__13FEPlayerCarDB.0_11IsImpounded.35740",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0()::IsImpounded.35740::~IsImpounded.35740(void)",
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0(void)::IsImpounded.35740::~IsImpounded.35740(void)",
         ),
     ),
     (
         "Callback__CQ313FEPlayerCarDB38GetNumImpoundedCars__13FEPlayerCarDB.0_11IsImpoundedRC14FECareerRecord.35739",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0()::IsImpounded::Callback.35739(FECareerRecord const &) const",
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0(void)::IsImpounded::Callback.35739(FECareerRecord const &) const",
         ),
     ),
     (
@@ -42536,13 +42536,13 @@ expression: "demangle_lines(contents, &config)"
     (
         "_._Q313FEPlayerCarDB46GetNumCareerCarsWithARecord__13FEPlayerCarDB.0_7NumCars.35774",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0()::NumCars.35774::~NumCars.35774(void)",
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0(void)::NumCars.35774::~NumCars.35774(void)",
         ),
     ),
     (
         "Callback__CQ313FEPlayerCarDB46GetNumCareerCarsWithARecord__13FEPlayerCarDB.0_7NumCarsRC14FECareerRecord.35773",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0()::NumCars::Callback.35773(FECareerRecord const &) const",
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0(void)::NumCars::Callback.35773(FECareerRecord const &) const",
         ),
     ),
     (
@@ -156818,7 +156818,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "_vt.Q313FEPlayerCarDB46GetNumCareerCarsWithARecord__13FEPlayerCarDB.0_7NumCars",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0()::NumCars virtual table",
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0(void)::NumCars virtual table",
         ),
     ),
     (
@@ -156830,25 +156830,25 @@ expression: "demangle_lines(contents, &config)"
     (
         "_vt.Q313FEPlayerCarDB38GetNumImpoundedCars__13FEPlayerCarDB.0_11IsImpounded",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0()::IsImpounded virtual table",
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0(void)::IsImpounded virtual table",
         ),
     ),
     (
         "_vt.Q313FEPlayerCarDB41GetTotalBustedPursuits__13FEPlayerCarDB.0_14BustedPursuits",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0()::BustedPursuits virtual table",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0(void)::BustedPursuits virtual table",
         ),
     ),
     (
         "_vt.Q313FEPlayerCarDB41GetTotalEvadedPursuits__13FEPlayerCarDB.0_14EvadedPursuits",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0()::EvadedPursuits virtual table",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0(void)::EvadedPursuits virtual table",
         ),
     ),
     (
         "_vt.Q313FEPlayerCarDB33GetTotalBounty__13FEPlayerCarDB.0_6Bounty",
         Ok(
-            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0()::Bounty virtual table",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0(void)::Bounty virtual table",
         ),
     ),
     (

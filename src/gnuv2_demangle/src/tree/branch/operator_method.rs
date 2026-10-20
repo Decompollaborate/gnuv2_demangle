@@ -1,17 +1,17 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, sync::Arc};
+use alloc::sync::Arc;
 use core::fmt;
 
-use crate::tree::leaf::{MethodQualifier, NamespacedType, Operator, StaticSuffix};
+use crate::tree::leaf::{ArgVec, MethodQualifier, NamespacedType, Operator, StaticSuffix};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct OperatorMethod<'s> {
     operator: Operator,
     method_qualifier: MethodQualifier,
     namespace: Arc<NamespacedType<'s>>,
-    argument_list: Cow<'s, str>,
+    argument_list: ArgVec<'s>,
     static_suffix: StaticSuffix<'s>,
 }
 
@@ -20,7 +20,7 @@ impl<'s> OperatorMethod<'s> {
         operator: Operator,
         method_qualifier: MethodQualifier,
         namespace: Arc<NamespacedType<'s>>,
-        argument_list: Cow<'s, str>,
+        argument_list: ArgVec<'s>,
         static_suffix: StaticSuffix<'s>,
     ) -> Self {
         Self {

@@ -77,7 +77,10 @@ pub(crate) fn demangle_templated_function<'s>(
     };
 
     // Demangle the argument list
-    let (remaining, argument_list) = demangle_argument_list_impl(
+    let Remaining {
+        r: remaining,
+        d: argument_list,
+    } = demangle_argument_list_impl(
         config,
         remaining,
         typ.as_ref().map(Arc::clone),

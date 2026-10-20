@@ -14,11 +14,12 @@ use super::{DemangledArg, NamespacedType};
 use crate::{DemangleConfig, DemangleError};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct ArgVec<'c, 'ns> {
-    config: &'c DemangleConfig,
+pub(crate) struct ArgVec<'ns> {
     // Use Arc to avoid cloning the namespace around
     namespace: Option<Arc<NamespacedType<'ns>>>,
     args: Vec<ProcessedArg>,
+
+    ellipsis_emit_space_after_comma: bool,
 
     /// !HACK(c++filt): Allows to avoid emitting an space between a comma and
     /// the ellipsis.
@@ -28,15 +29,15 @@ pub(crate) struct ArgVec<'c, 'ns> {
     trailing_ellipsis: bool,
 }
 
-impl<'c, 'ns> ArgVec<'c, 'ns> {
+impl<'ns> ArgVec<'ns> {
     pub(crate) fn new(
-        config: &'c DemangleConfig,
+        config: &DemangleConfig,
         namespace: Option<Arc<NamespacedType<'ns>>>,
     ) -> Self {
         Self {
-            config,
             namespace,
             args: Vec::new(),
+            ellipsis_emit_space_after_comma: config.ellipsis_emit_space_after_comma,
             trailing_ellipsis: false,
         }
     }
@@ -108,7 +109,7 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
                     return Err(DemangleError::TrailingDataAfterEllipsis(remaining));
                 }
                 found_end = true;
-                if !self.config.ellipsis_emit_space_after_comma {
+                if !self.ellipsis_emit_space_after_comma {
                     self.trailing_ellipsis = true;
                     return Ok(found_end);
                 }
@@ -157,6 +158,17 @@ impl<'c, 'ns> ArgVec<'c, 'ns> {
             out.push_str("...");
         }
         out
+    }
+}
+
+impl fmt::Display for ArgVec<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if !self.trailing_ellipsis && self.args.is_empty() {
+            write!(f, "void")
+        } else {
+            // TODO: get rid of clone
+            write!(f, "{}", self.clone().join())
+        }
     }
 }
 

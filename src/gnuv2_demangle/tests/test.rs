@@ -2119,14 +2119,38 @@ fn test_demangle_volatile() {
 fn test_demangle_mangled_within_mangled() {
     // wtf??
     static CASES: [(&str, &str); 8] = [
-        ("_vt.Q313FEPlayerCarDB46GetNumCareerCarsWithARecord__13FEPlayerCarDB.0_7NumCars", "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0()::NumCars virtual table"),
-        ("_vt.Q313FEPlayerCarDB33GetTotalFines__13FEPlayerCarDBb.0_5Fines", "FEPlayerCarDB::FEPlayerCarDB::GetTotalFines.0(bool)::Fines virtual table"),
-        ("_vt.Q313FEPlayerCarDB38GetNumImpoundedCars__13FEPlayerCarDB.0_11IsImpounded", "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0()::IsImpounded virtual table"),
-        ("_vt.Q313FEPlayerCarDB41GetTotalBustedPursuits__13FEPlayerCarDB.0_14BustedPursuits", "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0()::BustedPursuits virtual table"),
-        ("_vt.Q313FEPlayerCarDB41GetTotalEvadedPursuits__13FEPlayerCarDB.0_14EvadedPursuits", "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0()::EvadedPursuits virtual table"),
-        ("_vt.Q313FEPlayerCarDB33GetTotalBounty__13FEPlayerCarDB.0_6Bounty", "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0()::Bounty virtual table"),
-        ("_vt.Q313FEPlayerCarDB42GetTotalNumInfractions__13FEPlayerCarDBb.0_19TotalNumInfractions", "FEPlayerCarDB::FEPlayerCarDB::GetTotalNumInfractions.0(bool)::TotalNumInfractions virtual table"),
-        ("_vt.Q313FEPlayerCarDB74GetNumInfraction__13FEPlayerCarDBQ218GInfractionManager14InfractionTypeb.0_13NumInfraction", "FEPlayerCarDB::FEPlayerCarDB::GetNumInfraction.0(GInfractionManager::InfractionType, bool)::NumInfraction virtual table"),
+        (
+            "_vt.Q313FEPlayerCarDB46GetNumCareerCarsWithARecord__13FEPlayerCarDB.0_7NumCars",
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumCareerCarsWithARecord.0(void)::NumCars virtual table",
+        ),
+        (
+            "_vt.Q313FEPlayerCarDB33GetTotalFines__13FEPlayerCarDBb.0_5Fines",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalFines.0(bool)::Fines virtual table",
+        ),
+        (
+            "_vt.Q313FEPlayerCarDB38GetNumImpoundedCars__13FEPlayerCarDB.0_11IsImpounded",
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumImpoundedCars.0(void)::IsImpounded virtual table",
+        ),
+        (
+            "_vt.Q313FEPlayerCarDB41GetTotalBustedPursuits__13FEPlayerCarDB.0_14BustedPursuits",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBustedPursuits.0(void)::BustedPursuits virtual table",
+        ),
+        (
+            "_vt.Q313FEPlayerCarDB41GetTotalEvadedPursuits__13FEPlayerCarDB.0_14EvadedPursuits",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalEvadedPursuits.0(void)::EvadedPursuits virtual table",
+        ),
+        (
+            "_vt.Q313FEPlayerCarDB33GetTotalBounty__13FEPlayerCarDB.0_6Bounty",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalBounty.0(void)::Bounty virtual table",
+        ),
+        (
+            "_vt.Q313FEPlayerCarDB42GetTotalNumInfractions__13FEPlayerCarDBb.0_19TotalNumInfractions",
+            "FEPlayerCarDB::FEPlayerCarDB::GetTotalNumInfractions.0(bool)::TotalNumInfractions virtual table",
+        ),
+        (
+            "_vt.Q313FEPlayerCarDB74GetNumInfraction__13FEPlayerCarDBQ218GInfractionManager14InfractionTypeb.0_13NumInfraction",
+            "FEPlayerCarDB::FEPlayerCarDB::GetNumInfraction.0(GInfractionManager::InfractionType, bool)::NumInfraction virtual table",
+        ),
     ];
     let config = DemangleConfig::new();
 
@@ -2149,7 +2173,7 @@ fn test_demangle_function_inside_local_struct() {
         */
         (
             "inner_func__Q216outer_func__Fv.0_7Private.3",
-            "outer_func.0(void)::Private::inner_func.3()",
+            "outer_func.0(void)::Private::inner_func.3(void)",
             DemangleError::UnknownType('.', ".3"),
         ),
         /*

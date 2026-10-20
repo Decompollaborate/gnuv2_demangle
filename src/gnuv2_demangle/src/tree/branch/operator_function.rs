@@ -1,22 +1,21 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
 use core::fmt;
 
-use crate::tree::leaf::{Operator, StaticSuffix};
+use crate::tree::leaf::{ArgVec, Operator, StaticSuffix};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct OperatorFunction<'s> {
     operator: Operator,
-    argument_list: Cow<'s, str>,
+    argument_list: ArgVec<'s>,
     static_suffix: StaticSuffix<'s>,
 }
 
 impl<'s> OperatorFunction<'s> {
     pub(crate) const fn new(
         operator: Operator,
-        argument_list: Cow<'s, str>,
+        argument_list: ArgVec<'s>,
         static_suffix: StaticSuffix<'s>,
     ) -> Self {
         Self {

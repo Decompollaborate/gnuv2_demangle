@@ -289,7 +289,7 @@ fn demangle_function_pointer_arg<'s>(
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, FunctionPointer), DemangleError<'s>> {
-    let (r, func_args) =
+    let Remaining { r, d: func_args } =
         demangle_argument_list_impl(config, s, None, template_args, true, allow_array_fixup)?;
     let Some(r) = r.strip_prefix('_') else {
         return Err(DemangleError::MissingReturnTypeForFunctionPointer(r));
