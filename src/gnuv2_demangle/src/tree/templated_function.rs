@@ -1,10 +1,10 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::String;
+use alloc::{string::String, sync::Arc};
 use core::fmt;
 
-use crate::tree::{ArrayQualifiers, MethodQualifier, NamespaceKind};
+use crate::tree::{ArrayQualifiers, MethodQualifier, NamespacedType};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct TemplatedFunction<'s> {
@@ -15,7 +15,7 @@ pub struct TemplatedFunction<'s> {
     return_type: String,
     specialization_namespace: Option<String>,
     array_qualifiers: Option<(ArrayQualifiers, bool)>,
-    typ: Option<NamespaceKind<'s>>,
+    typ: Option<Arc<NamespacedType<'s>>>,
 }
 
 impl<'s> TemplatedFunction<'s> {
@@ -28,7 +28,7 @@ impl<'s> TemplatedFunction<'s> {
         return_type: String,
         specialization_namespace: Option<String>,
         array_qualifiers: Option<(ArrayQualifiers, bool)>,
-        typ: Option<NamespaceKind<'s>>,
+        typ: Option<Arc<NamespacedType<'s>>>,
     ) -> Self {
         Self {
             func_name,

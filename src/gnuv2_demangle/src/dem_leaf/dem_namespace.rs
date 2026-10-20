@@ -14,6 +14,7 @@ use crate::{
 };
 
 // 'Q' must be stripped already
+// TODO: change return type to NamespacedType
 pub(crate) fn demangle_namespaces<'s>(
     config: &DemangleConfig,
     s: &'s str,

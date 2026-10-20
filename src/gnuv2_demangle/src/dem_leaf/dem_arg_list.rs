@@ -1,20 +1,20 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
+use alloc::{borrow::Cow, sync::Arc};
 
 use super::{dem_arg::demangle_argument, dem_other::demangle_static_suffix};
 
 use crate::{
     remainer::Remaining,
-    tree::{ArgVec, NamespaceKind, StaticSuffix},
+    tree::{ArgVec, NamespacedType, StaticSuffix},
     DemangleConfig, DemangleError,
 };
 
 pub(crate) fn demangle_argument_list<'s>(
     config: &DemangleConfig,
     args: &'s str,
-    namespace: Option<&'_ NamespaceKind<'_>>,
+    namespace: Option<Arc<NamespacedType<'_>>>,
     template_args: &ArgVec,
     allow_array_fixup: bool,
 ) -> Result<(Cow<'s, str>, StaticSuffix<'s>), DemangleError<'s>> {
@@ -40,14 +40,14 @@ pub(crate) fn demangle_argument_list<'s>(
     Ok((Cow::from(argument_list.join()), static_suffix))
 }
 
-pub(crate) fn demangle_argument_list_impl<'c, 's, 'ns, 'nsp>(
+pub(crate) fn demangle_argument_list_impl<'c, 's, 'ns>(
     config: &'c DemangleConfig,
     mut args: &'s str,
-    namespace: Option<&'nsp NamespaceKind<'ns>>,
+    namespace: Option<Arc<NamespacedType<'ns>>>,
     template_args: &ArgVec,
     allow_data_after_ellipsis: bool,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ArgVec<'c, 'ns, 'nsp>), DemangleError<'s>> {
+) -> Result<(&'s str, ArgVec<'c, 'ns>), DemangleError<'s>> {
     let mut arguments = ArgVec::new(config, namespace);
 
     while !args.is_empty() && !args.starts_with('_') {

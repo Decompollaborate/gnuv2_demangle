@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
+use alloc::{borrow::Cow, sync::Arc};
 
 use crate::{
     dem_leaf::dem_arg_list::demangle_argument_list,
@@ -18,10 +18,8 @@ pub(crate) fn demangle_namespaced_type_class_method<'s>(
 ) -> Result<NamespacedTypeClassMethod<'s>, DemangleError<'s>> {
     let remaining = s;
 
-    let NamespacedType {
-        namespace,
-        type_name: method_name,
-    } = namespaced_type;
+    let method_name = namespaced_type.type_name;
+    let namespaced_type = Arc::new(namespaced_type);
 
     let (argument_list, static_suffix) = if remaining.is_empty() {
         (Cow::from("void"), StaticSuffix::none())
@@ -29,12 +27,13 @@ pub(crate) fn demangle_namespaced_type_class_method<'s>(
         demangle_argument_list(
             config,
             remaining,
-            Some(&namespace),
+            Some(Arc::clone(&namespaced_type)),
             &ArgVec::new(config, None),
             allow_array_fixup,
         )?
     };
 
-    let out = NamespacedTypeClassMethod::new(method_name, namespace, argument_list, static_suffix);
+    let out =
+        NamespacedTypeClassMethod::new(method_name, namespaced_type, argument_list, static_suffix);
     Ok(out)
 }

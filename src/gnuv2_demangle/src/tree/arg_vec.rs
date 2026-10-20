@@ -4,18 +4,20 @@
 use alloc::{
     borrow::Cow,
     string::{String, ToString},
+    sync::Arc,
     vec::Vec,
 };
 use core::fmt;
 
-use super::{DemangledArg, NamespaceKind};
+use super::{DemangledArg, NamespacedType};
 
 use crate::{DemangleConfig, DemangleError};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct ArgVec<'c, 'ns, 'nsp> {
+pub(crate) struct ArgVec<'c, 'ns> {
     config: &'c DemangleConfig,
-    namespace: Option<&'nsp NamespaceKind<'ns>>,
+    // Use Arc to avoid cloning the namespace around
+    namespace: Option<Arc<NamespacedType<'ns>>>,
     args: Vec<ProcessedArg>,
 
     /// !HACK(c++filt): Allows to avoid emitting an space between a comma and
@@ -26,10 +28,10 @@ pub(crate) struct ArgVec<'c, 'ns, 'nsp> {
     trailing_ellipsis: bool,
 }
 
-impl<'c, 'ns, 'nsp> ArgVec<'c, 'ns, 'nsp> {
+impl<'c, 'ns> ArgVec<'c, 'ns> {
     pub(crate) fn new(
         config: &'c DemangleConfig,
-        namespace: Option<&'nsp NamespaceKind<'ns>>,
+        namespace: Option<Arc<NamespacedType<'ns>>>,
     ) -> Self {
         Self {
             config,
@@ -44,13 +46,10 @@ impl<'c, 'ns, 'nsp> ArgVec<'c, 'ns, 'nsp> {
         self.args.len() + extra
     }
 
-    pub(crate) fn get<'p>(
-        &'p self,
-        mut index: usize,
-    ) -> Option<ResolvedProcessedArg<'ns, 'nsp, 'p>> {
-        if let Some(namespace) = self.namespace {
+    pub(crate) fn get<'p>(&'p self, mut index: usize) -> Option<ResolvedProcessedArg<'ns, 'p>> {
+        if let Some(namespace) = &self.namespace {
             if index == 0 {
-                return Some(ResolvedProcessedArg::Namespace(namespace));
+                return Some(ResolvedProcessedArg::Namespace(Arc::clone(namespace)));
             } else {
                 index -= 1;
             }
@@ -127,9 +126,9 @@ impl<'c, 'ns, 'nsp> ArgVec<'c, 'ns, 'nsp> {
             match arg {
                 ProcessedArg::Plain(plain) => args.push(Cow::from(plain.as_str())),
                 ProcessedArg::Lookback { index } => {
-                    let arg = if let Some(namespace) = self.namespace {
+                    let arg = if let Some(namespace) = &self.namespace {
                         if *index == 0 {
-                            Cow::from(namespace)
+                            Cow::from(&namespace.namespace)
                         } else {
                             Cow::clone(
                                 args.get(*index - 1)
@@ -169,16 +168,16 @@ enum ProcessedArg {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) enum ResolvedProcessedArg<'ns, 'nsp, 'p> {
-    Namespace(&'nsp NamespaceKind<'ns>),
+pub(crate) enum ResolvedProcessedArg<'ns, 'p> {
+    Namespace(Arc<NamespacedType<'ns>>),
     Plain(&'p str),
     Ellipsis,
 }
 
-impl fmt::Display for ResolvedProcessedArg<'_, '_, '_> {
+impl fmt::Display for ResolvedProcessedArg<'_, '_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Namespace(ns) => write!(f, "{ns}"),
+            Self::Namespace(ns) => write!(f, "{}", ns.namespace),
             Self::Plain(p) => write!(f, "{p}"),
             Self::Ellipsis => write!(f, "..."),
         }
@@ -186,10 +185,10 @@ impl fmt::Display for ResolvedProcessedArg<'_, '_, '_> {
 }
 
 // silly
-impl<'s> From<ResolvedProcessedArg<'s, '_, 's>> for Cow<'s, str> {
-    fn from(value: ResolvedProcessedArg<'s, '_, 's>) -> Self {
+impl<'s> From<ResolvedProcessedArg<'s, 's>> for Cow<'s, str> {
+    fn from(value: ResolvedProcessedArg<'s, 's>) -> Self {
         match value {
-            ResolvedProcessedArg::Namespace(ntn) => Cow::from(ntn),
+            ResolvedProcessedArg::Namespace(ntn) => Cow::from(&ntn.namespace),
             ResolvedProcessedArg::Plain(p) => Cow::from(p),
             ResolvedProcessedArg::Ellipsis => Cow::from("..."),
         }

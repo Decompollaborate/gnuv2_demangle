@@ -1,6 +1,8 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+use alloc::sync::Arc;
+
 use crate::{
     dem_leaf::{
         dem::demangle_method_qualifier, dem_arg::demangle_argument,
@@ -34,7 +36,7 @@ pub(crate) fn demangle_templated_function<'s>(
     } = demangle_method_qualifier(remaining);
 
     let (remaining, typ) = if let Some(typ) = typ {
-        (remaining, Some(typ.namespace))
+        (remaining, Some(typ))
     } else if let Some(nt) = demangle_namespaced_type(
         config,
         remaining,
@@ -42,10 +44,11 @@ pub(crate) fn demangle_templated_function<'s>(
         DemangleError::InvalidNamespaceOnTemplatedFunction,
     )? {
         let Remaining { r, d: nt } = nt;
-        (r, Some(nt.namespace))
+        (r, Some(nt))
     } else {
         (remaining, None)
     };
+    let typ = typ.map(Arc::new);
 
     // - First there's an optional namespace used in template specializations.
     // - Then there's the optional argument list, which may be omitted if there
@@ -58,7 +61,7 @@ pub(crate) fn demangle_templated_function<'s>(
             demangle_argument(
                 config,
                 r,
-                &ArgVec::new(config, typ.as_ref()),
+                &ArgVec::new(config, typ.as_ref().map(Arc::clone)),
                 &template_args,
                 allow_array_fixup,
             )?
@@ -75,7 +78,7 @@ pub(crate) fn demangle_templated_function<'s>(
     let (remaining, argument_list) = demangle_argument_list_impl(
         config,
         remaining,
-        typ.as_ref(),
+        typ.as_ref().map(Arc::clone),
         &template_args,
         false,
         allow_array_fixup,
@@ -87,7 +90,7 @@ pub(crate) fn demangle_templated_function<'s>(
             let (r, DemangledArg::Plain(ret_type, array_qualifiers)) = demangle_argument(
                 config,
                 r,
-                &ArgVec::new(config, typ.as_ref()),
+                &ArgVec::new(config, typ.as_ref().map(Arc::clone)),
                 &template_args,
                 allow_array_fixup,
             )?

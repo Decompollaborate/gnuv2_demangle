@@ -51,7 +51,7 @@ pub(crate) fn demangle_template_with_return_type<'c, 's>(
     config: &'c DemangleConfig,
     s: &'s str,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ArgVec<'c, 's, 's>, Option<NamespacedType<'s>>), DemangleError<'s>> {
+) -> Result<(&'s str, ArgVec<'c, 's>, Option<NamespacedType<'s>>), DemangleError<'s>> {
     let Some(Remaining { r, d: digit }) = s.p_digit() else {
         return Err(DemangleError::InvalidTemplateReturnCount(s));
     };
@@ -108,7 +108,7 @@ fn demangle_template_types_impl<'c, 's>(
     count: NonZeroUsize,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ArgVec<'c, 's, 's>), DemangleError<'s>> {
+) -> Result<(&'s str, ArgVec<'c, 's>), DemangleError<'s>> {
     let mut remaining = s;
     let mut types = ArgVec::new(config, None);
 

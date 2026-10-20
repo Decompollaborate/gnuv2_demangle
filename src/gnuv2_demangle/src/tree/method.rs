@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
+use alloc::{borrow::Cow, sync::Arc};
 use core::fmt;
 
 use super::{MethodQualifier, NamespacedType, StaticSuffix};
@@ -11,7 +11,7 @@ pub struct Method<'s> {
     method_name: &'s str,
     argument_list: Cow<'s, str>,
     method_qualifier: MethodQualifier,
-    namespace: NamespacedType<'s>,
+    namespace: Arc<NamespacedType<'s>>,
     static_suffix: StaticSuffix<'s>,
 }
 
@@ -20,7 +20,7 @@ impl<'s> Method<'s> {
         method_name: &'s str,
         argument_list: Cow<'s, str>,
         method_qualifier: MethodQualifier,
-        namespace: NamespacedType<'s>,
+        namespace: Arc<NamespacedType<'s>>,
         static_suffix: StaticSuffix<'s>,
     ) -> Self {
         Self {

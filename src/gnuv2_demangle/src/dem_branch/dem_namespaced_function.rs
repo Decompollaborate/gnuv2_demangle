@@ -1,12 +1,12 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
+use alloc::{borrow::Cow, sync::Arc};
 
 use crate::{
     dem_leaf::{dem_arg_list::demangle_argument_list, dem_namespace::demangle_namespaces},
     remainer::Remaining,
-    tree::{ArgVec, NamespaceKind, NamespacedFunction, StaticSuffix},
+    tree::{ArgVec, NamespaceKind, NamespacedFunction, NamespacedType, StaticSuffix},
     DemangleConfig, DemangleError,
 };
 
@@ -20,9 +20,10 @@ pub(crate) fn demangle_namespaced_function<'s>(
     // TODO: consider changing to demangle_namespaced_type
     let Remaining {
         r: remaining,
-        d: (namespaces, _trailing_namespace),
+        d: (namespaces, trailing_namespace),
     } = demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
     let namespaces = NamespaceKind::Namespace(namespaces);
+    let ns = Arc::new(NamespacedType::new(namespaces, trailing_namespace));
 
     let (argument_list, static_suffix) = if remaining.is_empty() {
         (Cow::from("void"), StaticSuffix::none())
@@ -30,12 +31,12 @@ pub(crate) fn demangle_namespaced_function<'s>(
         demangle_argument_list(
             config,
             remaining,
-            Some(&namespaces),
+            Some(Arc::clone(&ns)),
             &ArgVec::new(config, None),
             allow_array_fixup,
         )?
     };
 
-    let nsf = NamespacedFunction::new(func_name, argument_list, namespaces, static_suffix);
+    let nsf = NamespacedFunction::new(func_name, argument_list, ns, static_suffix);
     Ok(nsf)
 }

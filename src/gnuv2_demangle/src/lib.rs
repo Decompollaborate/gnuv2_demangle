@@ -4,6 +4,7 @@
 #![doc = include_str!("../README.md")]
 #![cfg_attr(not(feature = "std"), no_std)]
 #![warn(unnameable_types)]
+#![warn(clippy::clone_on_ref_ptr)]
 #![warn(private_interfaces)]
 #![warn(clippy::unwrap_used)]
 

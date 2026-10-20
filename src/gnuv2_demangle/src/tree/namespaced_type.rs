@@ -21,6 +21,17 @@ impl<'s> NamespacedType<'s> {
     }
 }
 
+impl<'s> fmt::Display for NamespacedType<'s> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self {
+            namespace,
+            type_name: _,
+        } = self;
+
+        write!(f, "{namespace}")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum NamespaceKind<'s> {
     Template(String),

@@ -1,16 +1,16 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
+use alloc::{borrow::Cow, sync::Arc};
 use core::fmt;
 
-use super::{NamespaceKind, StaticSuffix};
+use super::{NamespacedType, StaticSuffix};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct NamespacedFunction<'s> {
     function_name: &'s str,
     argument_list: Cow<'s, str>,
-    namespace: NamespaceKind<'s>,
+    namespace: Arc<NamespacedType<'s>>,
     static_suffix: StaticSuffix<'s>,
 }
 
@@ -18,7 +18,7 @@ impl<'s> NamespacedFunction<'s> {
     pub(crate) const fn new(
         function_name: &'s str,
         argument_list: Cow<'s, str>,
-        namespace: NamespaceKind<'s>,
+        namespace: Arc<NamespacedType<'s>>,
         static_suffix: StaticSuffix<'s>,
     ) -> Self {
         Self {

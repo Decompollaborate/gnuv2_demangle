@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
+use alloc::{borrow::Cow, sync::Arc};
 
 use crate::{
     dem_leaf::{
@@ -35,13 +35,15 @@ pub(crate) fn demangle_operator_method<'s>(
     )?
     .ok_or(DemangleError::InvalidTypeNameForOperator(remaining))?;
 
+    let namespace = Arc::new(namespace);
+
     let (argument_list, static_suffix) = if remaining.is_empty() {
         (Cow::from("void"), StaticSuffix::none())
     } else {
         demangle_argument_list(
             config,
             remaining,
-            Some(&namespace.namespace),
+            Some(Arc::clone(&namespace)),
             &ArgVec::new(config, None),
             allow_array_fixup,
         )?

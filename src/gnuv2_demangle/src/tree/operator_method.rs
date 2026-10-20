@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
+use alloc::{borrow::Cow, sync::Arc};
 use core::fmt;
 
 use super::{MethodQualifier, NamespacedType, Operator, StaticSuffix};
@@ -10,7 +10,7 @@ use super::{MethodQualifier, NamespacedType, Operator, StaticSuffix};
 pub struct OperatorMethod<'s> {
     operator: Operator,
     method_qualifier: MethodQualifier,
-    namespace: NamespacedType<'s>,
+    namespace: Arc<NamespacedType<'s>>,
     argument_list: Cow<'s, str>,
     static_suffix: StaticSuffix<'s>,
 }
@@ -19,7 +19,7 @@ impl<'s> OperatorMethod<'s> {
     pub(crate) const fn new(
         operator: Operator,
         method_qualifier: MethodQualifier,
-        namespace: NamespacedType<'s>,
+        namespace: Arc<NamespacedType<'s>>,
         argument_list: Cow<'s, str>,
         static_suffix: StaticSuffix<'s>,
     ) -> Self {
