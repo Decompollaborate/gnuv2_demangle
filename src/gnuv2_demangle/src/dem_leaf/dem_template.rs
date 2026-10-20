@@ -69,20 +69,12 @@ pub(crate) fn demangle_template_with_return_type<'c, 's>(
         return Err(DemangleError::MalformedTemplateWithReturnType(r));
     };
     let (r, namespaces) = if let Some(q_less) = r.strip_prefix('Q') {
-        let Remaining {
-            r,
-            d: (namespaces, trailing_namespace),
-        } = demangle_namespaces(
+        let Remaining { r, d: nt } = demangle_namespaces(
             config,
             q_less,
             &ArgVec::new(config, None),
             allow_array_fixup,
         )?;
-
-        let nt = NamespacedType {
-            namespace: NamespaceKind::Namespace(namespaces),
-            type_name: trailing_namespace,
-        };
 
         (r, Some(nt))
     } else if r.starts_with(|c| matches!(c, '1'..='9')) {

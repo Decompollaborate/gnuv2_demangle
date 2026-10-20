@@ -9,18 +9,17 @@ use super::{dem::demangle_custom_name, dem_template::demangle_template};
 use crate::{
     demangle,
     remainer::{Remaining, StrParsing},
-    tree::{ArgVec, CustomName, NamespaceVec},
+    tree::{ArgVec, CustomName, NamespaceKind, NamespaceVec, NamespacedType},
     DemangleConfig, DemangleError,
 };
 
 // 'Q' must be stripped already
-// TODO: change return type to NamespacedType
 pub(crate) fn demangle_namespaces<'s>(
     config: &DemangleConfig,
     s: &'s str,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<Remaining<'s, (NamespaceVec<'s>, CustomName<'s>)>, DemangleError<'s>> {
+) -> Result<Remaining<'s, NamespacedType<'s>>, DemangleError<'s>> {
     let Remaining {
         r,
         d: namespace_count,
@@ -46,7 +45,7 @@ fn demangle_namespaces_impl<'s>(
     namespace_count: NonZeroUsize,
     template_args: &ArgVec,
     allow_array_fixup: bool,
-) -> Result<Remaining<'s, (NamespaceVec<'s>, CustomName<'s>)>, DemangleError<'s>> {
+) -> Result<Remaining<'s, NamespacedType<'s>>, DemangleError<'s>> {
     let mut namespaces = NamespaceVec::new();
     let mut remaining = s;
     let mut trailing_type = CustomName::new("");
@@ -84,5 +83,7 @@ fn demangle_namespaces_impl<'s>(
         namespaces.push(n);
     }
 
-    Ok(Remaining::new(remaining, (namespaces, trailing_type)))
+    let namespaces = NamespaceKind::Namespace(namespaces);
+    let nst = NamespacedType::new(namespaces, trailing_type);
+    Ok(Remaining::new(remaining, nst))
 }

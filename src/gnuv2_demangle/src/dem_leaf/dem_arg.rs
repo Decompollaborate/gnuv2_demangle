@@ -171,9 +171,9 @@ where
         'Q' => {
             let Remaining {
                 r: remaining,
-                d: (namespaces, _trailing_namespace),
+                d: ns,
             } = demangle_namespaces(config, &args[1..], template_args, allow_array_fixup)?;
-            (remaining, Type::Namespaces(namespaces))
+            (remaining, Type::Namespaces(ns))
         }
         'T' => {
             // Remembered type / look back

@@ -4,9 +4,7 @@
 use alloc::borrow::Cow;
 use core::fmt;
 
-use crate::tree::CustomName;
-
-use super::{NamespaceVec, Signedness, Template};
+use super::{CustomName, NamespacedType, Signedness, Template};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct TypeMeta<'s> {
@@ -64,7 +62,7 @@ pub(crate) enum Type<'s> {
     /// '1'..='9'
     Class(CustomName<'s>),
     /// 'Q'
-    Namespaces(NamespaceVec<'s>),
+    Namespaces(NamespacedType<'s>),
     /// 'T'
     LookBack {
         referenced_arg: Cow<'s, str>,

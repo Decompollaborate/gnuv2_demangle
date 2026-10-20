@@ -32,10 +32,7 @@ where
 
         Some(t)
     } else if let Some(s) = s.strip_prefix('Q') {
-        let ns = demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?
-            .convert_data(|(namespaces, trailing_namespace)| {
-                NamespacedType::new(NamespaceKind::Namespace(namespaces), trailing_namespace)
-            });
+        let ns = demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
 
         Some(ns)
     } else {
