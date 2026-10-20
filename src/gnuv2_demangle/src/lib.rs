@@ -20,8 +20,7 @@ pub use demangle_error::DemangleError;
 pub use demangler::demangle;
 
 // internal utilities
-pub(crate) mod dem_branch;
-pub(crate) mod dem_leaf;
+pub(crate) mod dem;
 
 pub mod tree;
 

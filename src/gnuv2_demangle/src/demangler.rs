@@ -4,24 +4,26 @@
 use alloc::boxed::Box;
 
 use crate::{
-    dem_branch::{
-        dem_destructor::demangle_destructor,
-        dem_free_function::demangle_free_function,
-        dem_in_function_static_initialized::demangle_in_function_static_initialized,
-        dem_method::demangle_method,
-        dem_namespaced_function::demangle_namespaced_function,
-        dem_namespaced_global::demangle_namespaced_global,
-        dem_namespaced_type_class_method::demangle_namespaced_type_class_method,
-        dem_operator_function::demangle_operator_function,
-        dem_operator_method::demangle_operator_method,
-        dem_templated_function::demangle_templated_function,
-        dem_type_info::{demangle_type_info_function, demangle_type_info_node},
-        dem_virtual_tables::demangle_virtual_table,
+    dem::{
+        dem_branch::{
+            dem_destructor::demangle_destructor,
+            dem_free_function::demangle_free_function,
+            dem_in_function_static_initialized::demangle_in_function_static_initialized,
+            dem_method::demangle_method,
+            dem_namespaced_function::demangle_namespaced_function,
+            dem_namespaced_global::demangle_namespaced_global,
+            dem_namespaced_type_class_method::demangle_namespaced_type_class_method,
+            dem_operator_function::demangle_operator_function,
+            dem_operator_method::demangle_operator_method,
+            dem_templated_function::demangle_templated_function,
+            dem_type_info::{demangle_type_info_function, demangle_type_info_node},
+            dem_virtual_tables::demangle_virtual_table,
+        },
+        dem_leaf::{demangle_namespaced_type, demangle_operator},
     },
-    dem_leaf::{dem_namespaced_type::demangle_namespaced_type, dem_operator::demangle_operator},
     remainer::Remaining,
     str_cutter::StrCutter,
-    tree::{Demangled, GlobalSymKeyed, GlobalSymKeyedKind, GlobalSymKeyedSym},
+    tree::branch::{Demangled, GlobalSymKeyed, GlobalSymKeyedKind, GlobalSymKeyedSym},
     DemangleConfig, DemangleError,
 };
 
