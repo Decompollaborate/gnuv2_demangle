@@ -15,20 +15,18 @@ pub(crate) fn demangle_operator_function<'s>(
     operator: Operator,
     allow_array_fixup: bool,
 ) -> Result<OperatorFunction<'s>, DemangleError<'s>> {
-    let (remaining, method_name) = (s, operator);
-
-    let (argument_list, static_suffix) = if remaining.is_empty() {
+    let (argument_list, static_suffix) = if s.is_empty() {
         (Cow::from("void"), StaticSuffix::none())
     } else {
         demangle_argument_list(
             config,
-            remaining,
+            s,
             None,
             &ArgVec::new(config, None),
             allow_array_fixup,
         )?
     };
 
-    let of = OperatorFunction::new(format!("{method_name}{static_suffix}({argument_list})"));
+    let of = OperatorFunction::new(operator, argument_list, static_suffix);
     Ok(of)
 }

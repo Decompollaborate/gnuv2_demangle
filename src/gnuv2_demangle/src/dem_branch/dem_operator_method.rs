@@ -9,7 +9,7 @@ use crate::{
         dem_namespaced_type::demangle_namespaced_type,
     },
     remainer::Remaining,
-    tree::{ArgVec, NamespacedType, Operator, OperatorMethod, StaticSuffix},
+    tree::{ArgVec, Operator, OperatorMethod, StaticSuffix},
     DemangleConfig, DemangleError,
 };
 
@@ -19,31 +19,21 @@ pub(crate) fn demangle_operator_method<'s>(
     operator: Operator,
     allow_array_fixup: bool,
 ) -> Result<OperatorMethod<'s>, DemangleError<'s>> {
-    let remaining = s;
+    let Remaining {
+        r: remaining,
+        d: method_qualifier,
+    } = demangle_method_qualifier(s);
 
-    let (remaining, class_name, method_name, suffix) = {
-        let Remaining {
-            r: remaining,
-            d: suffix,
-        } = demangle_method_qualifier(remaining);
-
-        let Remaining {
-            r: remaining,
-            d:
-                NamespacedType {
-                    namespace,
-                    type_name: _,
-                },
-        } = demangle_namespaced_type(
-            config,
-            remaining,
-            allow_array_fixup,
-            DemangleError::InvalidClassNameOnOperator,
-        )?
-        .ok_or(DemangleError::InvalidTypeNameForOperator(remaining))?;
-
-        (remaining, Some(namespace), operator, suffix)
-    };
+    let Remaining {
+        r: remaining,
+        d: namespace,
+    } = demangle_namespaced_type(
+        config,
+        remaining,
+        allow_array_fixup,
+        DemangleError::InvalidClassNameOnOperator,
+    )?
+    .ok_or(DemangleError::InvalidTypeNameForOperator(remaining))?;
 
     let (argument_list, static_suffix) = if remaining.is_empty() {
         (Cow::from("void"), StaticSuffix::none())
@@ -51,18 +41,18 @@ pub(crate) fn demangle_operator_method<'s>(
         demangle_argument_list(
             config,
             remaining,
-            class_name.as_ref(),
+            Some(&namespace.namespace),
             &ArgVec::new(config, None),
             allow_array_fixup,
         )?
     };
 
-    let out = if let Some(class_name) = class_name {
-        format!("{class_name}::{method_name}{static_suffix}({argument_list}){suffix}")
-    } else {
-        format!("{method_name}{static_suffix}({argument_list}){suffix}")
-    };
-
-    let om = OperatorMethod::new(out);
+    let om = OperatorMethod::new(
+        operator,
+        method_qualifier,
+        namespace,
+        argument_list,
+        static_suffix,
+    );
     Ok(om)
 }

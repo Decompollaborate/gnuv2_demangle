@@ -19,7 +19,7 @@ pub(crate) fn demangle_namespaced_type_class_method<'s>(
     let remaining = s;
 
     let NamespacedType {
-        namespace: class_name,
+        namespace,
         type_name: method_name,
     } = namespaced_type;
 
@@ -29,14 +29,12 @@ pub(crate) fn demangle_namespaced_type_class_method<'s>(
         demangle_argument_list(
             config,
             remaining,
-            Some(&class_name),
+            Some(&namespace),
             &ArgVec::new(config, None),
             allow_array_fixup,
         )?
     };
 
-    let out = NamespacedTypeClassMethod::new(format!(
-        "{class_name}::{method_name}{static_suffix}({argument_list})"
-    ));
+    let out = NamespacedTypeClassMethod::new(method_name, namespace, argument_list, static_suffix);
     Ok(out)
 }
