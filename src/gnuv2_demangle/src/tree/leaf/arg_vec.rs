@@ -9,7 +9,7 @@ use alloc::{
 };
 use core::fmt;
 
-use super::{DemangledArg, NamespacedType};
+use super::{DemangledArg, FunctionPointer, MethodPointer, NamespacedType};
 
 use crate::{DemangleConfig, DemangleError};
 
@@ -60,6 +60,15 @@ impl<'ns> ArgVec<'ns> {
             let arg = self.args.get(index)?;
             match arg {
                 ProcessedArg::Plain(p) => break Some(ResolvedProcessedArg::Plain(p)),
+                ProcessedArg::FunctionPointer(p) => {
+                    break Some(ResolvedProcessedArg::FunctionPointer(p))
+                }
+                ProcessedArg::MethodPointer(p) => {
+                    break Some(ResolvedProcessedArg::MethodPointer(p))
+                }
+                ProcessedArg::ObjectPointer(p) => {
+                    break Some(ResolvedProcessedArg::ObjectPointer(p))
+                }
                 ProcessedArg::Lookback { index: i } => {
                     if *i >= index {
                         break None;
@@ -87,12 +96,12 @@ impl<'ns> ArgVec<'ns> {
                 ProcessedArg::Plain(format!("{plain}{array_qualifiers}"))
             }
             DemangledArg::FunctionPointer(function_pointer) => {
-                ProcessedArg::Plain(function_pointer.to_string())
+                ProcessedArg::FunctionPointer(function_pointer)
             }
             DemangledArg::MethodPointer(method_pointer) => {
-                ProcessedArg::Plain(method_pointer.to_string())
+                ProcessedArg::MethodPointer(method_pointer)
             }
-            DemangledArg::ObjectPointer(object) => ProcessedArg::Plain(object),
+            DemangledArg::ObjectPointer(object) => ProcessedArg::ObjectPointer(object),
             DemangledArg::Repeat { count, index } => {
                 // Check the index is in-bounds
                 if index >= self.len() {
@@ -126,6 +135,9 @@ impl<'ns> ArgVec<'ns> {
         for arg in &self.args {
             match arg {
                 ProcessedArg::Plain(plain) => args.push(Cow::from(plain.as_str())),
+                ProcessedArg::FunctionPointer(plain) => args.push(Cow::from(plain.to_string())),
+                ProcessedArg::MethodPointer(plain) => args.push(Cow::from(plain.to_string())),
+                ProcessedArg::ObjectPointer(plain) => args.push(Cow::from(plain.as_str())),
                 ProcessedArg::Lookback { index } => {
                     let arg = if let Some(namespace) = &self.namespace {
                         if *index == 0 {
@@ -175,6 +187,9 @@ impl fmt::Display for ArgVec<'_> {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum ProcessedArg {
     Plain(String),
+    FunctionPointer(FunctionPointer),
+    MethodPointer(MethodPointer),
+    ObjectPointer(String),
     Lookback { index: usize },
     Ellipsis,
 }
@@ -183,6 +198,9 @@ enum ProcessedArg {
 pub(crate) enum ResolvedProcessedArg<'ns, 'p> {
     Namespace(Arc<NamespacedType<'ns>>),
     Plain(&'p str),
+    FunctionPointer(&'p FunctionPointer),
+    MethodPointer(&'p MethodPointer),
+    ObjectPointer(&'p str),
     Ellipsis,
 }
 
@@ -191,6 +209,9 @@ impl fmt::Display for ResolvedProcessedArg<'_, '_> {
         match self {
             Self::Namespace(ns) => write!(f, "{}", ns.namespace),
             Self::Plain(p) => write!(f, "{p}"),
+            Self::FunctionPointer(p) => write!(f, "{p}"),
+            Self::MethodPointer(p) => write!(f, "{p}"),
+            Self::ObjectPointer(p) => write!(f, "{p}"),
             Self::Ellipsis => write!(f, "..."),
         }
     }
@@ -202,6 +223,9 @@ impl<'s> From<ResolvedProcessedArg<'s, 's>> for Cow<'s, str> {
         match value {
             ResolvedProcessedArg::Namespace(ntn) => Cow::from(&ntn.namespace),
             ResolvedProcessedArg::Plain(p) => Cow::from(p),
+            ResolvedProcessedArg::FunctionPointer(p) => Cow::from(p.to_string()),
+            ResolvedProcessedArg::MethodPointer(p) => Cow::from(p.to_string()),
+            ResolvedProcessedArg::ObjectPointer(p) => Cow::from(p),
             ResolvedProcessedArg::Ellipsis => Cow::from("..."),
         }
     }
