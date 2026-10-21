@@ -17,7 +17,7 @@ use crate::{
 pub(crate) fn demangle_namespaces<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    template_args: &ArgVec,
+    template_args: &ArgVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, NamespacedType<'s>>, DemangleError<'s>> {
     let Remaining {
@@ -43,7 +43,7 @@ fn demangle_namespaces_impl<'s>(
     config: &DemangleConfig,
     s: &'s str,
     namespace_count: NonZeroUsize,
-    template_args: &ArgVec,
+    template_args: &ArgVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, NamespacedType<'s>>, DemangleError<'s>> {
     let mut namespaces = NamespaceVec::new();

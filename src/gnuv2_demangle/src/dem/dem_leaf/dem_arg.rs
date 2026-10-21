@@ -25,8 +25,8 @@ use crate::{
 pub(crate) fn demangle_argument<'s>(
     config: &DemangleConfig,
     full_args: &'s str,
-    parsed_arguments: &ArgVec,
-    template_args: &ArgVec,
+    parsed_arguments: &ArgVec<'s>,
+    template_args: &ArgVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, DemangledArg), DemangleError<'s>> {
     if let Some(demangled) = demangle_qualifierless_arg(config, full_args)? {
@@ -100,19 +100,14 @@ pub(crate) fn demangle_argument<'s>(
     }
 }
 
-fn demangle_arg_type<'s, 'pa, 't, 'out>(
+fn demangle_arg_type<'s>(
     config: &DemangleConfig,
     args: &'s str,
     mut sign: Signedness,
-    parsed_arguments: &'pa ArgVec,
-    template_args: &'t ArgVec,
+    parsed_arguments: &ArgVec<'s>,
+    template_args: &ArgVec<'s>,
     allow_array_fixup: bool,
-) -> Result<Remaining<'s, TypeMeta<'out>>, DemangleError<'s>>
-where
-    's: 'out,
-    'pa: 'out,
-    't: 'out,
-{
+) -> Result<Remaining<'s, TypeMeta<'s>>, DemangleError<'s>> {
     let c = args
         .chars()
         .next()
@@ -285,7 +280,7 @@ fn demangle_qualifierless_arg<'s>(
 fn demangle_function_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    template_args: &ArgVec,
+    template_args: &ArgVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, FunctionPointer), DemangleError<'s>> {
@@ -369,7 +364,7 @@ fn demangle_method_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
     full_args: &'s str,
-    template_args: &ArgVec,
+    template_args: &ArgVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, MethodPointer), DemangleError<'s>> {
@@ -475,7 +470,7 @@ fn demangle_object_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
     full_args: &'s str,
-    template_args: &ArgVec,
+    template_args: &ArgVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, String), DemangleError<'s>> {

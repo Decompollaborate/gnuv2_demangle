@@ -11,13 +11,13 @@ use crate::{
     DemangleConfig, DemangleError,
 };
 
-pub(crate) fn demangle_argument_list<'s, 'ns>(
+pub(crate) fn demangle_argument_list<'s>(
     config: &DemangleConfig,
     args: &'s str,
-    namespace: Option<Arc<NamespacedType<'ns>>>,
-    template_args: &ArgVec,
+    namespace: Option<Arc<NamespacedType<'s>>>,
+    template_args: &ArgVec<'s>,
     allow_array_fixup: bool,
-) -> Result<(ArgVec<'ns>, StaticSuffix<'s>), DemangleError<'s>> {
+) -> Result<(ArgVec<'s>, StaticSuffix<'s>), DemangleError<'s>> {
     let Remaining {
         r: remaining,
         d: argument_list,
@@ -43,14 +43,14 @@ pub(crate) fn demangle_argument_list<'s, 'ns>(
     Ok((argument_list, static_suffix))
 }
 
-pub(crate) fn demangle_argument_list_impl<'s, 'ns>(
+pub(crate) fn demangle_argument_list_impl<'s>(
     config: &DemangleConfig,
     mut args: &'s str,
-    namespace: Option<Arc<NamespacedType<'ns>>>,
-    template_args: &ArgVec,
+    namespace: Option<Arc<NamespacedType<'s>>>,
+    template_args: &ArgVec<'s>,
     allow_data_after_ellipsis: bool,
     allow_array_fixup: bool,
-) -> Result<Remaining<'s, ArgVec<'ns>>, DemangleError<'s>> {
+) -> Result<Remaining<'s, ArgVec<'s>>, DemangleError<'s>> {
     let mut arguments = ArgVec::new(config, namespace);
 
     while !args.is_empty() && !args.starts_with('_') {

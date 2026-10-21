@@ -47,7 +47,7 @@ impl<'ns> ArgVec<'ns> {
         self.args.len() + extra
     }
 
-    pub(crate) fn get<'p>(&'p self, mut index: usize) -> Option<ResolvedProcessedArg<'ns, 'p>> {
+    pub(crate) fn get<'p>(&'p self, mut index: usize) -> Option<ResolvedProcessedArg<'ns>> {
         if let Some(namespace) = &self.namespace {
             if index == 0 {
                 return Some(ResolvedProcessedArg::Namespace(Arc::clone(namespace)));
@@ -59,15 +59,15 @@ impl<'ns> ArgVec<'ns> {
         loop {
             let arg = self.args.get(index)?;
             match arg {
-                ProcessedArg::Plain(p) => break Some(ResolvedProcessedArg::Plain(p)),
+                ProcessedArg::Plain(p) => break Some(ResolvedProcessedArg::Plain(Arc::clone(p))),
                 ProcessedArg::FunctionPointer(p) => {
-                    break Some(ResolvedProcessedArg::FunctionPointer(p))
+                    break Some(ResolvedProcessedArg::FunctionPointer(Arc::clone(p)))
                 }
                 ProcessedArg::MethodPointer(p) => {
-                    break Some(ResolvedProcessedArg::MethodPointer(p))
+                    break Some(ResolvedProcessedArg::MethodPointer(Arc::clone(p)))
                 }
                 ProcessedArg::ObjectPointer(p) => {
-                    break Some(ResolvedProcessedArg::ObjectPointer(p))
+                    break Some(ResolvedProcessedArg::ObjectPointer(Arc::clone(p)))
                 }
                 ProcessedArg::Lookback { index: i } => {
                     if *i >= index {
@@ -93,15 +93,15 @@ impl<'ns> ArgVec<'ns> {
         // internal one.
         let arg = match arg {
             DemangledArg::Plain(plain, array_qualifiers) => {
-                ProcessedArg::Plain(format!("{plain}{array_qualifiers}"))
+                ProcessedArg::Plain(Arc::new(format!("{plain}{array_qualifiers}")))
             }
             DemangledArg::FunctionPointer(function_pointer) => {
-                ProcessedArg::FunctionPointer(function_pointer)
+                ProcessedArg::FunctionPointer(Arc::new(function_pointer))
             }
             DemangledArg::MethodPointer(method_pointer) => {
-                ProcessedArg::MethodPointer(method_pointer)
+                ProcessedArg::MethodPointer(Arc::new(method_pointer))
             }
-            DemangledArg::ObjectPointer(object) => ProcessedArg::ObjectPointer(object),
+            DemangledArg::ObjectPointer(object) => ProcessedArg::ObjectPointer(Arc::new(object)),
             DemangledArg::Repeat { count, index } => {
                 // Check the index is in-bounds
                 if index >= self.len() {
@@ -186,25 +186,25 @@ impl fmt::Display for ArgVec<'_> {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum ProcessedArg {
-    Plain(String),
-    FunctionPointer(FunctionPointer),
-    MethodPointer(MethodPointer),
-    ObjectPointer(String),
+    Plain(Arc<String>),
+    FunctionPointer(Arc<FunctionPointer>),
+    MethodPointer(Arc<MethodPointer>),
+    ObjectPointer(Arc<String>),
     Lookback { index: usize },
     Ellipsis,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) enum ResolvedProcessedArg<'ns, 'p> {
+pub(crate) enum ResolvedProcessedArg<'ns> {
     Namespace(Arc<NamespacedType<'ns>>),
-    Plain(&'p str),
-    FunctionPointer(&'p FunctionPointer),
-    MethodPointer(&'p MethodPointer),
-    ObjectPointer(&'p str),
+    Plain(Arc<String>),
+    FunctionPointer(Arc<FunctionPointer>),
+    MethodPointer(Arc<MethodPointer>),
+    ObjectPointer(Arc<String>),
     Ellipsis,
 }
 
-impl fmt::Display for ResolvedProcessedArg<'_, '_> {
+impl fmt::Display for ResolvedProcessedArg<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Namespace(ns) => write!(f, "{}", ns.namespace),
@@ -218,14 +218,14 @@ impl fmt::Display for ResolvedProcessedArg<'_, '_> {
 }
 
 // silly
-impl<'s> From<ResolvedProcessedArg<'s, 's>> for Cow<'s, str> {
-    fn from(value: ResolvedProcessedArg<'s, 's>) -> Self {
+impl<'s> From<ResolvedProcessedArg<'s>> for Cow<'s, str> {
+    fn from(value: ResolvedProcessedArg<'s>) -> Self {
         match value {
             ResolvedProcessedArg::Namespace(ntn) => Cow::from(&ntn.namespace),
-            ResolvedProcessedArg::Plain(p) => Cow::from(p),
+            ResolvedProcessedArg::Plain(p) => Cow::from(p.to_string()),
             ResolvedProcessedArg::FunctionPointer(p) => Cow::from(p.to_string()),
             ResolvedProcessedArg::MethodPointer(p) => Cow::from(p.to_string()),
-            ResolvedProcessedArg::ObjectPointer(p) => Cow::from(p),
+            ResolvedProcessedArg::ObjectPointer(p) => Cow::from(p.to_string()),
             ResolvedProcessedArg::Ellipsis => Cow::from("..."),
         }
     }

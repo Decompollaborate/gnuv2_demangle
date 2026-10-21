@@ -16,7 +16,7 @@ use crate::{
 pub(crate) fn demangle_template<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    template_args: &ArgVec,
+    template_args: &ArgVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, Template<'s>>, DemangleError<'s>> {
     let Remaining { r, d: class_name } =
@@ -96,7 +96,7 @@ fn demangle_template_types_impl<'s>(
     config: &DemangleConfig,
     s: &'s str,
     count: NonZeroUsize,
-    template_args: &ArgVec,
+    template_args: &ArgVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, ArgVec<'s>), DemangleError<'s>> {
     let mut remaining = s;
