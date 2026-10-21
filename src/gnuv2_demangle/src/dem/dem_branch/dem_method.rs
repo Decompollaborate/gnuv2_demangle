@@ -6,7 +6,7 @@ use alloc::sync::Arc;
 use crate::{
     dem::dem_leaf::{demangle_argument_list, demangle_method_qualifier, demangle_namespaced_type},
     remainer::Remaining,
-    tree::{branch::Method, leaf::ArgVec},
+    tree::{branch::Method, leaf::TemplatedValueVec},
     DemangleConfig, DemangleError,
 };
 
@@ -38,7 +38,7 @@ pub(crate) fn demangle_method<'s>(
         config,
         remaining,
         Some(Arc::clone(&namespace)),
-        &ArgVec::new(config, None),
+        &TemplatedValueVec::new(),
         allow_array_fixup,
     )?;
 

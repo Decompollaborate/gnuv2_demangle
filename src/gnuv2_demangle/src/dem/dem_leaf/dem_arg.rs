@@ -16,8 +16,8 @@ use crate::{
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::leaf::{
-        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, MethodPointer, Signedness, Type,
-        TypeMeta,
+        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, MethodPointer, Signedness,
+        TemplatedValueVec, Type, TypeMeta,
     },
     DemangleConfig, DemangleError,
 };
@@ -26,7 +26,7 @@ pub(crate) fn demangle_argument<'s>(
     config: &DemangleConfig,
     full_args: &'s str,
     parsed_arguments: &ArgVec<'s>,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, DemangledArg), DemangleError<'s>> {
     if let Some(demangled) = demangle_qualifierless_arg(config, full_args)? {
@@ -105,7 +105,7 @@ fn demangle_arg_type<'s>(
     args: &'s str,
     mut sign: Signedness,
     parsed_arguments: &ArgVec<'s>,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, TypeMeta<'s>>, DemangleError<'s>> {
     let c = args
@@ -280,7 +280,7 @@ fn demangle_qualifierless_arg<'s>(
 fn demangle_function_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, FunctionPointer), DemangleError<'s>> {
@@ -364,7 +364,7 @@ fn demangle_method_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
     full_args: &'s str,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, MethodPointer), DemangleError<'s>> {
@@ -470,7 +470,7 @@ fn demangle_object_pointer_arg<'s>(
     config: &DemangleConfig,
     s: &'s str,
     full_args: &'s str,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, String), DemangleError<'s>> {

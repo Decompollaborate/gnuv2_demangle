@@ -8,7 +8,7 @@ use crate::{
     remainer::Remaining,
     tree::{
         branch::OperatorMethod,
-        leaf::{ArgVec, Operator},
+        leaf::{Operator, TemplatedValueVec},
     },
     DemangleConfig, DemangleError,
 };
@@ -41,7 +41,7 @@ pub(crate) fn demangle_operator_method<'s>(
         config,
         remaining,
         Some(Arc::clone(&namespace)),
-        &ArgVec::new(config, None),
+        &TemplatedValueVec::new(),
         allow_array_fixup,
     )?;
 

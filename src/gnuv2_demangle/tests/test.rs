@@ -1203,6 +1203,40 @@ fn test_demangle_templated_function_with_value_reuse() {
 }
 
 #[test]
+fn test_demangle_templated_with_many_template_parameters() {
+    // TODO: implement this
+    static CASES: [(&str, &str); 2] = [
+        /*
+        template <typename A, typename B, typename C, typename D, typename E, typename F, typename G, typename H, typename I, typename J, typename K, typename L, typename M, typename N, unsigned int N>
+        class fixed_array {};
+
+        class _LIGHTCOMPAREDATA {};
+
+        template <  int N>
+        void _SortLightCompareData(fixed_array<_LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, N> &, float, int) {}
+
+        void test(fixed_array<_LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, 4> & a , float b, int c) {
+            _SortLightCompareData<4>(a, b, c);
+        }
+        */
+        (
+            "test__FRt11fixed_array15Z17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAUi4fi",
+            "",
+        ),
+        (
+            "_SortLightCompareData__H1i4_Rt11fixed_array15Z17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAUiY01fi_v",
+            "",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, _demangled) in CASES {
+        // assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
+        assert!(demangle(mangled, &config).is_err());
+    }
+}
+
+#[test]
 fn test_demangle_array_without_pointer_cfilt() {
     static CASES: [(&str, &str); 9] = [
         // TODO: add a flag to allow emitting the cursed valid syntax instead

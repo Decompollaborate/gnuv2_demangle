@@ -7,7 +7,7 @@ use super::{demangle_argument, demangle_static_suffix};
 
 use crate::{
     remainer::Remaining,
-    tree::leaf::{ArgVec, NamespacedType, StaticSuffix},
+    tree::leaf::{ArgVec, NamespacedType, StaticSuffix, TemplatedValueVec},
     DemangleConfig, DemangleError,
 };
 
@@ -15,7 +15,7 @@ pub(crate) fn demangle_argument_list<'s>(
     config: &DemangleConfig,
     args: &'s str,
     namespace: Option<Arc<NamespacedType<'s>>>,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<(ArgVec<'s>, StaticSuffix<'s>), DemangleError<'s>> {
     let Remaining {
@@ -47,7 +47,7 @@ pub(crate) fn demangle_argument_list_impl<'s>(
     config: &DemangleConfig,
     mut args: &'s str,
     namespace: Option<Arc<NamespacedType<'s>>>,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     allow_data_after_ellipsis: bool,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, ArgVec<'s>>, DemangleError<'s>> {

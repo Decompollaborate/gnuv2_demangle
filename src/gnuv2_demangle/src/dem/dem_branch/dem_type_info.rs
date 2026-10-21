@@ -5,7 +5,7 @@ use crate::{
     dem::dem_leaf::demangle_argument,
     tree::{
         branch::{TypeInfoFunction, TypeInfoNode},
-        leaf::{ArgVec, DemangledArg},
+        leaf::{ArgVec, DemangledArg, TemplatedValueVec},
     },
     DemangleConfig, DemangleError,
 };
@@ -20,7 +20,7 @@ pub(crate) fn demangle_type_info_function<'s>(
         config,
         s,
         &ArgVec::new(config, None),
-        &ArgVec::new(config, None),
+        &TemplatedValueVec::new(),
         allow_array_fixup,
     )?
     else {
@@ -44,7 +44,7 @@ pub(crate) fn demangle_type_info_node<'s>(
         config,
         s,
         &ArgVec::new(config, None),
-        &ArgVec::new(config, None),
+        &TemplatedValueVec::new(),
         allow_array_fixup,
     )?
     else {

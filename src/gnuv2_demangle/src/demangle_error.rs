@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use core::{error, fmt};
+use core::{error, fmt, num::NonZeroUsize};
 
 /// Information about demangling failure.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -26,6 +26,8 @@ pub enum DemangleError<'s> {
     InvalidCustomNameOnNamespace(&'s str),
     InvalidCustomNameOnTemplate(&'s str),
     InvalidNamespaceOnTemplatedFunction(&'s str),
+    UnexpectedTypeRepetitionOnTemplateTypenameList(&'s str, NonZeroUsize, usize),
+    UnexpectedEllipsisOnOnTemplateTypenameList(&'s str),
     InvalidSymbolNameOnTemplateType(&'s str),
     InvalidClassNameOnMethodArgument(&'s str),
     UnknownType(char, &'s str),

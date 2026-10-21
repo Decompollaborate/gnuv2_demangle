@@ -5,7 +5,7 @@ use super::demangle_argument;
 
 use crate::{
     remainer::Remaining,
-    tree::leaf::{ArgVec, DemangledArg, Operator},
+    tree::leaf::{ArgVec, DemangledArg, Operator, TemplatedValueVec},
     DemangleConfig, DemangleError,
 };
 
@@ -89,7 +89,7 @@ pub(crate) fn demangle_operator<'s>(
                 config,
                 cast,
                 &ArgVec::new(config, None),
-                &ArgVec::new(config, None),
+                &TemplatedValueVec::new(),
                 allow_array_fixup,
             )?
             else {

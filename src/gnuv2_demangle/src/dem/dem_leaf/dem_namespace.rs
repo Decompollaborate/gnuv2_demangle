@@ -9,7 +9,7 @@ use super::{demangle_custom_name, demangle_template};
 use crate::{
     demangle,
     remainer::{Remaining, StrParsing},
-    tree::leaf::{ArgVec, CustomName, NamespaceKind, NamespaceVec, NamespacedType},
+    tree::leaf::{CustomName, NamespaceKind, NamespaceVec, NamespacedType, TemplatedValueVec},
     DemangleConfig, DemangleError,
 };
 
@@ -17,7 +17,7 @@ use crate::{
 pub(crate) fn demangle_namespaces<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, NamespacedType<'s>>, DemangleError<'s>> {
     let Remaining {
@@ -43,7 +43,7 @@ fn demangle_namespaces_impl<'s>(
     config: &DemangleConfig,
     s: &'s str,
     namespace_count: NonZeroUsize,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, NamespacedType<'s>>, DemangleError<'s>> {
     let mut namespaces = NamespaceVec::new();

@@ -5,7 +5,7 @@ use super::{demangle_custom_name, demangle_namespaces, demangle_template};
 
 use crate::{
     remainer::Remaining,
-    tree::leaf::{ArgVec, NamespaceKind, NamespacedType},
+    tree::leaf::{NamespaceKind, NamespacedType, TemplatedValueVec},
     DemangleConfig, DemangleError,
 };
 
@@ -25,12 +25,12 @@ where
 
         Some(Remaining::new(r, nt))
     } else if let Some(s) = s.strip_prefix('t') {
-        let t = demangle_template(config, s, &ArgVec::new(config, None), allow_array_fixup)?
+        let t = demangle_template(config, s, &TemplatedValueVec::new(), allow_array_fixup)?
             .convert_data(|d| d.into_namespaced_type());
 
         Some(t)
     } else if let Some(s) = s.strip_prefix('Q') {
-        let ns = demangle_namespaces(config, s, &ArgVec::new(config, None), allow_array_fixup)?;
+        let ns = demangle_namespaces(config, s, &TemplatedValueVec::new(), allow_array_fixup)?;
 
         Some(ns)
     } else {

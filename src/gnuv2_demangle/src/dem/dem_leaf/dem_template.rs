@@ -1,7 +1,6 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::ToString;
 use core::num::NonZeroUsize;
 
 use super::{demangle_argument, demangle_custom_name, demangle_namespaces};
@@ -9,14 +8,17 @@ use super::{demangle_argument, demangle_custom_name, demangle_namespaces};
 use crate::{
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
-    tree::leaf::{ArgVec, DemangledArg, FunctionPointer, NamespaceKind, NamespacedType, Template},
+    tree::leaf::{
+        ArgVec, DemangledArg, FunctionPointer, NamespaceKind, NamespacedType, Template,
+        TemplateElement, TemplatedTypename, TemplatedValue, TemplatedValueVec,
+    },
     DemangleConfig, DemangleError,
 };
 
 pub(crate) fn demangle_template<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, Template<'s>>, DemangleError<'s>> {
     let Remaining { r, d: class_name } =
@@ -49,7 +51,7 @@ pub(crate) fn demangle_template_with_return_type<'s>(
     config: &DemangleConfig,
     s: &'s str,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ArgVec<'s>, Option<NamespacedType<'s>>), DemangleError<'s>> {
+) -> Result<(&'s str, TemplatedValueVec<'s>, Option<NamespacedType<'s>>), DemangleError<'s>> {
     let Some(Remaining { r, d: digit }) = s.p_digit() else {
         return Err(DemangleError::InvalidTemplateReturnCount(s));
     };
@@ -59,7 +61,7 @@ pub(crate) fn demangle_template_with_return_type<'s>(
         config,
         r,
         digit,
-        &ArgVec::new(config, None),
+        &TemplatedValueVec::new(),
         allow_array_fixup,
     )?;
 
@@ -67,12 +69,8 @@ pub(crate) fn demangle_template_with_return_type<'s>(
         return Err(DemangleError::MalformedTemplateWithReturnType(r));
     };
     let (r, namespaces) = if let Some(q_less) = r.strip_prefix('Q') {
-        let Remaining { r, d: nt } = demangle_namespaces(
-            config,
-            q_less,
-            &ArgVec::new(config, None),
-            allow_array_fixup,
-        )?;
+        let Remaining { r, d: nt } =
+            demangle_namespaces(config, q_less, &TemplatedValueVec::new(), allow_array_fixup)?;
 
         (r, Some(nt))
     } else if r.starts_with(|c| matches!(c, '1'..='9')) {
@@ -96,24 +94,53 @@ fn demangle_template_types_impl<'s>(
     config: &DemangleConfig,
     s: &'s str,
     count: NonZeroUsize,
-    template_args: &ArgVec<'s>,
+    template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ArgVec<'s>), DemangleError<'s>> {
+) -> Result<(&'s str, TemplatedValueVec<'s>), DemangleError<'s>> {
     let mut remaining = s;
-    let mut types = ArgVec::new(config, None);
+    let mut types = TemplatedValueVec::new();
 
     for _i in 0..count.get() {
-        let (r, arg, allow_data_after_ellipsis) = if let Some(r) = remaining.strip_prefix('Z') {
+        let (r, element) = if let Some(r) = remaining.strip_prefix('Z') {
             // typename / class
-            let (r, arg) = demangle_argument(config, r, &types, template_args, allow_array_fixup)?;
-            (r, arg, true)
+            let (r, arg) = demangle_argument(
+                config,
+                r,
+                &ArgVec::new(config, None),
+                template_args,
+                allow_array_fixup,
+            )?;
+
+            let typename = match arg {
+                DemangledArg::Plain(p, array_qualifiers) => {
+                    TemplatedTypename::Plain(p, array_qualifiers)
+                }
+                DemangledArg::FunctionPointer(function_pointer) => {
+                    TemplatedTypename::FunctionPointer(function_pointer)
+                }
+                DemangledArg::MethodPointer(method_pointer) => {
+                    TemplatedTypename::MethodPointer(method_pointer)
+                }
+                DemangledArg::ObjectPointer(op) => TemplatedTypename::ObjectPointer(op),
+                DemangledArg::Repeat { count, index } => {
+                    return Err(
+                        DemangleError::UnexpectedTypeRepetitionOnTemplateTypenameList(
+                            s, count, index,
+                        ),
+                    )
+                }
+                DemangledArg::Ellipsis => {
+                    return Err(DemangleError::UnexpectedEllipsisOnOnTemplateTypenameList(s))
+                }
+            };
+            (r, TemplateElement::Typename(typename))
         } else {
             // value
-            let Remaining { r, d: arg } =
+            let Remaining { r, d: value } =
                 demangle_templated_value(config, remaining, template_args, allow_array_fixup)?;
-            (r, arg, false)
+            (r, TemplateElement::Value(value))
         };
-        types.push(arg, remaining, r, allow_data_after_ellipsis)?;
+        types.push(element);
         remaining = r;
     }
 
@@ -123,9 +150,9 @@ fn demangle_template_types_impl<'s>(
 fn demangle_templated_value<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    template_args: &ArgVec,
+    template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
-) -> Result<Remaining<'s, DemangledArg>, DemangleError<'s>> {
+) -> Result<Remaining<'s, TemplatedValue<'s>>, DemangleError<'s>> {
     let mut r = s;
     let mut is_pointer = false;
     let mut is_reference = false;
@@ -154,17 +181,17 @@ fn demangle_templated_value<'s>(
             config,
             r,
             &ArgVec::new(config, None),
-            &ArgVec::new(config, None),
+            &TemplatedValueVec::new(),
             allow_array_fixup,
         )?;
 
-        let (aux, t) = match demangled_arg {
+        match demangled_arg {
             DemangledArg::Plain(..) => {
                 let Remaining { r: aux, d: symbol } =
                     demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
                 let ampersand = if is_pointer { "&" } else { "" };
                 let t = format!("{ampersand}{symbol}");
-                (aux, t)
+                (aux, TemplatedValue::ObjectReference(t))
             }
             DemangledArg::FunctionPointer(function_pointer) => {
                 // Function pointers as types in template lists
@@ -190,30 +217,34 @@ fn demangle_templated_value<'s>(
                 let ampersand = if is_pointer { "&" } else { "" };
                 let t = if config.fix_function_pointers_in_template_lists {
                     if is_pointer {
-                        format!("({return_type}(*)({args})) {ampersand}{actual_sym}")
+                        TemplatedValue::FunctionPointer(format!(
+                            "({return_type}(*)({args})) {ampersand}{actual_sym}"
+                        ))
                     } else {
-                        format!("({return_type}(&)({args})) {ampersand}{actual_sym}")
+                        TemplatedValue::FunctionReference(format!(
+                            "({return_type}(&)({args})) {ampersand}{actual_sym}"
+                        ))
                     }
                 } else {
-                    format!("{ampersand}{actual_sym}({args})")
+                    TemplatedValue::FunctionRaw(format!("{ampersand}{actual_sym}({args})"))
                 };
                 (aux, t)
             }
             DemangledArg::ObjectPointer(..) => {
+                // TODO: merge with DemangledArg::Plain ?
+                // TODO: does it make sense to have them both?
                 let Remaining { r: aux, d: symbol } =
                     demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
                 let ampersand = if is_pointer { "&" } else { "" };
                 let t = format!("{ampersand}{symbol}");
-                (aux, t)
+                (aux, TemplatedValue::ObjectReference(t))
             }
             DemangledArg::MethodPointer(..)
             | DemangledArg::Repeat { .. }
             | DemangledArg::Ellipsis => {
                 return Err(DemangleError::InvalidTemplatedPointerReferenceValue(r))
             }
-        };
-
-        (aux, DemangledArg::Plain(t, None.into()))
+        }
     } else {
         let remaining = r;
         let Remaining { r, d: c } = remaining
@@ -233,8 +264,7 @@ fn demangle_templated_value<'s>(
                         .map_err(|_| DemangleError::InvalidTemplatedCharacterValue(r, number))?,
                 )
                 .ok_or(DemangleError::InvalidTemplatedCharacterValue(r, number))?;
-                let t = format!("'{demangled_char}'");
-                (r, DemangledArg::Plain(t, None.into()))
+                (r, TemplatedValue::Character(demangled_char))
             }
             // "short" | "int" | "long" | "long long"
             's' | 'i' | 'l' | 'x' => {
@@ -260,10 +290,7 @@ fn demangle_templated_value<'s>(
                     let Some(templated_value) = template_args.get(index) else {
                         return Err(DemangleError::IndexTooBigForYArgument(s, index));
                     };
-                    (
-                        r,
-                        DemangledArg::Plain(templated_value.to_string(), None.into()),
-                    )
+                    (r, TemplatedValue::LookbackInt(templated_value))
                 } else {
                     let (r, negative) = r.c_maybe_strip_prefix('m');
                     let Remaining { r, d: number } = if let Some(r) = r.strip_prefix('_') {
@@ -273,8 +300,7 @@ fn demangle_templated_value<'s>(
                         r.p_number()
                             .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?
                     };
-                    let t = format!("{}{}", if negative { "-" } else { "" }, number);
-                    (r, DemangledArg::Plain(t, None.into()))
+                    (r, TemplatedValue::Int { number, negative })
                 }
             }
             // 'f' => {}, // "float"
@@ -282,31 +308,28 @@ fn demangle_templated_value<'s>(
             // 'r' => {}, // "long double"
             // "bool"
             'b' => match r.chars().next() {
-                Some('1') => (
-                    &r[1..],
-                    DemangledArg::Plain("true".to_string(), None.into()),
-                ),
-                Some('0') => (
-                    &r[1..],
-                    DemangledArg::Plain("false".to_string(), None.into()),
-                ),
+                Some('1') => (&r[1..], TemplatedValue::Bool(true)),
+                Some('0') => (&r[1..], TemplatedValue::Bool(false)),
                 _ => return Err(DemangleError::InvalidTemplatedBoolean(r)),
             },
             '1'..='9' => {
                 // enum
-                let Remaining { r, d: _enum_name } = demangle_custom_name(
+                let Remaining { r, d: enum_name } = demangle_custom_name(
                     remaining,
                     DemangleError::InvalidEnumNameForTemplatedValue,
                 )?;
-
-                // TODO: <(SomeEnum)0> is valid c++, try to use it somehow.
 
                 let (r, negative) = r.c_maybe_strip_prefix('m');
                 let Remaining { r, d: number } = r
                     .p_number()
                     .ok_or(DemangleError::InvalidValueForIntegralTemplated(r))?;
-                let t = format!("{}{}", if negative { "-" } else { "" }, number);
-                (r, DemangledArg::Plain(t, None.into()))
+
+                let tv = TemplatedValue::Enum {
+                    enum_name,
+                    number,
+                    negative,
+                };
+                (r, tv)
             }
             _ => return Err(DemangleError::InvalidTypeValueForTemplated(c, r)),
         }

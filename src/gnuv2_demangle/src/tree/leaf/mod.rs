@@ -11,6 +11,7 @@ mod namespaced_type;
 mod operator;
 mod static_suffix;
 mod template;
+mod templated_value_vec;
 mod typ;
 
 pub(crate) use arg::{ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, Signedness};
@@ -23,4 +24,7 @@ pub(crate) use namespaced_type::{NamespaceKind, NamespacedType};
 pub(crate) use operator::Operator;
 pub(crate) use static_suffix::StaticSuffix;
 pub(crate) use template::Template;
+pub(crate) use templated_value_vec::{
+    TemplateElement, TemplatedTypename, TemplatedValue, TemplatedValueVec,
+};
 pub(crate) use typ::{Type, TypeMeta};

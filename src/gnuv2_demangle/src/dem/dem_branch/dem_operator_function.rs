@@ -5,7 +5,7 @@ use crate::{
     dem::dem_leaf::demangle_argument_list,
     tree::{
         branch::OperatorFunction,
-        leaf::{ArgVec, Operator},
+        leaf::{Operator, TemplatedValueVec},
     },
     DemangleConfig, DemangleError,
 };
@@ -20,7 +20,7 @@ pub(crate) fn demangle_operator_function<'s>(
         config,
         s,
         None,
-        &ArgVec::new(config, None),
+        &TemplatedValueVec::new(),
         allow_array_fixup,
     )?;
 

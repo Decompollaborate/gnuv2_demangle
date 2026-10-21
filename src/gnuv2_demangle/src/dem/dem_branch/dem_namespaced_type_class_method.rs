@@ -7,7 +7,7 @@ use crate::{
     dem::dem_leaf::demangle_argument_list,
     tree::{
         branch::NamespacedTypeClassMethod,
-        leaf::{ArgVec, NamespacedType},
+        leaf::{NamespacedType, TemplatedValueVec},
     },
     DemangleConfig, DemangleError,
 };
@@ -28,7 +28,7 @@ pub(crate) fn demangle_namespaced_type_class_method<'s>(
         config,
         remaining,
         Some(Arc::clone(&namespaced_type)),
-        &ArgVec::new(config, None),
+        &TemplatedValueVec::new(),
         allow_array_fixup,
     )?;
 

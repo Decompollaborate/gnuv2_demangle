@@ -3,7 +3,7 @@
 
 use crate::{
     dem::dem_leaf::demangle_argument_list,
-    tree::{branch::FreeFunction, leaf::ArgVec},
+    tree::{branch::FreeFunction, leaf::TemplatedValueVec},
     DemangleConfig, DemangleError,
 };
 
@@ -18,7 +18,7 @@ pub(crate) fn demangle_free_function<'s>(
         config,
         args,
         None,
-        &ArgVec::new(config, None),
+        &TemplatedValueVec::new(),
         allow_array_fixup,
     )?;
 
