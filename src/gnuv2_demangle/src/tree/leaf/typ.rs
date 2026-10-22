@@ -17,15 +17,16 @@ impl<'s> TypeMeta<'s> {
         Self { sign, typ }
     }
 
-    pub(crate) const fn sign(&self) -> Signedness {
-        self.sign
-    }
-    pub(crate) const fn typ(&self) -> &Type<'s> {
-        &self.typ
-    }
-
     pub(crate) const fn class_like(&self) -> bool {
         self.typ.class_like()
+    }
+}
+
+impl fmt::Display for TypeMeta<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self { sign, typ } = self;
+
+        write!(f, "{sign}{typ}")
     }
 }
 

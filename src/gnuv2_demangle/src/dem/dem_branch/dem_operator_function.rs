@@ -13,7 +13,7 @@ use crate::{
 pub(crate) fn demangle_operator_function<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    operator: Operator,
+    operator: Operator<'s>,
     allow_array_fixup: bool,
 ) -> Result<OperatorFunction<'s>, DemangleError<'s>> {
     let (argument_list, static_suffix) = demangle_argument_list(

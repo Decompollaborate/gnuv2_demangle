@@ -11,7 +11,7 @@ use crate::{
     remainer::Remaining,
     tree::{
         branch::TemplatedFunction,
-        leaf::{ArgVec, DemangledArg},
+        leaf::{ArgVec, DemangledArg, PlainArgArray},
     },
     DemangleConfig, DemangleError,
 };
@@ -59,19 +59,18 @@ pub(crate) fn demangle_templated_function<'s>(
 
     // Demangle the specialization namespace
     let (remaining, specialization_namespace) = if let Some(r) = remaining.strip_prefix('_') {
-        let (r, DemangledArg::Plain(specialization_namespace, array_qualifiers)) =
-            demangle_argument(
-                config,
-                r,
-                &ArgVec::new(config, typ.as_ref().map(Arc::clone)),
-                &template_args,
-                allow_array_fixup,
-            )?
+        let (r, DemangledArg::Plain(specialization_namespace)) = demangle_argument(
+            config,
+            r,
+            &ArgVec::new(config, typ.as_ref().map(Arc::clone)),
+            &template_args,
+            allow_array_fixup,
+        )?
         else {
             return Err(DemangleError::MalformedTemplatedSpecializationInvalidNamespace(r));
         };
 
-        (r, Some((specialization_namespace, array_qualifiers)))
+        (r, Some(specialization_namespace))
     } else {
         (remaining, None)
     };
@@ -90,47 +89,50 @@ pub(crate) fn demangle_templated_function<'s>(
     )?;
 
     // Demangle the return type
-    let (specialization_namespace, return_type, array_qualifiers) =
-        if let Some(r) = remaining.strip_prefix('_') {
-            let (r, DemangledArg::Plain(ret_type, array_qualifiers)) = demangle_argument(
-                config,
-                r,
-                &ArgVec::new(config, typ.as_ref().map(Arc::clone)),
-                &template_args,
-                allow_array_fixup,
-            )?
-            else {
-                return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(r));
-            };
-
-            if !r.is_empty() {
-                return Err(
-                    DemangleError::TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(r),
-                );
-            }
-            (specialization_namespace, ret_type, array_qualifiers)
-        } else if let Some((actual_return_type, array_qualifiers)) = specialization_namespace {
-            // If there's no argument list and this symbol is not a template
-            // specialization inside a namespace then we mistakenly consumed the
-            // return type as the specialization_namespace
-
-            if !remaining.is_empty() {
-                return Err(
-                    DemangleError::TrailingDataAfterReturnTypeOfTemplatedSpecialization(remaining),
-                );
-            }
-
-            (None, actual_return_type, array_qualifiers)
-        } else {
-            return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(remaining));
+    let (specialization_namespace, return_type) = if let Some(r) = remaining.strip_prefix('_') {
+        let (r, DemangledArg::Plain(ret_type)) = demangle_argument(
+            config,
+            r,
+            &ArgVec::new(config, typ.as_ref().map(Arc::clone)),
+            &template_args,
+            allow_array_fixup,
+        )?
+        else {
+            return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(r));
         };
+
+        if !r.is_empty() {
+            return Err(
+                DemangleError::TrailingDataAfterReturnTypeOfMalformedTemplateWithReturnType(r),
+            );
+        }
+
+        (specialization_namespace, ret_type)
+    } else if let Some(actual_return_type) = specialization_namespace {
+        // If there's no argument list and this symbol is not a template
+        // specialization inside a namespace then we mistakenly consumed the
+        // return type as the specialization_namespace
+
+        if !remaining.is_empty() {
+            return Err(
+                DemangleError::TrailingDataAfterReturnTypeOfTemplatedSpecialization(remaining),
+            );
+        }
+
+        (None, actual_return_type)
+    } else {
+        return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(remaining));
+    };
 
     let template_args = template_args.join();
     let argument_list = argument_list.join();
 
-    let array_qualifiers = array_qualifiers
-        .into_option()
-        .map(|x| (x, config.fix_array_in_return_position));
+    let PlainArgArray {
+        plain: return_type,
+        array_qualifiers,
+    } = return_type;
+
+    let array_qualifiers = array_qualifiers.map(|x| (x, config.fix_array_in_return_position));
 
     Ok(TemplatedFunction::new(
         func_name,
@@ -138,7 +140,7 @@ pub(crate) fn demangle_templated_function<'s>(
         template_args,
         argument_list,
         return_type,
-        specialization_namespace.map(|(x, _)| x),
+        specialization_namespace.map(|x| x.plain), //.map(|(x, _)| x),
         array_qualifiers,
         typ,
     ))

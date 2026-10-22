@@ -16,7 +16,7 @@ pub(crate) fn demangle_type_info_function<'s>(
 ) -> Result<TypeInfoFunction<'s>, DemangleError<'s>> {
     let allow_array_fixup = true;
 
-    let (remaining, DemangledArg::Plain(demangled_type, array_qualifiers)) = demangle_argument(
+    let (remaining, DemangledArg::Plain(demangled_type)) = demangle_argument(
         config,
         s,
         &ArgVec::new(config, None),
@@ -28,7 +28,7 @@ pub(crate) fn demangle_type_info_function<'s>(
     };
 
     if remaining.is_empty() {
-        Ok(TypeInfoFunction::new(demangled_type, array_qualifiers))
+        Ok(TypeInfoFunction::new(demangled_type))
     } else {
         Err(DemangleError::TrailingDataOnTypeInfoFunction(remaining))
     }
@@ -40,7 +40,7 @@ pub(crate) fn demangle_type_info_node<'s>(
 ) -> Result<TypeInfoNode<'s>, DemangleError<'s>> {
     let allow_array_fixup = true;
 
-    let (remaining, DemangledArg::Plain(demangled_type, array_qualifiers)) = demangle_argument(
+    let (remaining, DemangledArg::Plain(demangled_type)) = demangle_argument(
         config,
         s,
         &ArgVec::new(config, None),
@@ -52,7 +52,7 @@ pub(crate) fn demangle_type_info_node<'s>(
     };
 
     if remaining.is_empty() {
-        Ok(TypeInfoNode::new(demangled_type, array_qualifiers))
+        Ok(TypeInfoNode::new(demangled_type))
     } else {
         Err(DemangleError::TrailingDataOnTypeInfoNode(remaining))
     }

@@ -1,15 +1,12 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::String;
 use core::fmt;
 
-use super::ArrayQualifiers;
-
-use crate::option_display::OptionDisplay;
+use super::PlainArgArray;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) enum Operator {
+pub(crate) enum Operator<'s> {
     // Memory
     New,          // "nw"
     Delete,       // "dl"
@@ -70,13 +67,10 @@ pub(crate) enum Operator {
     Call,  // "cl"
     Comma, // "cm"
 
-    UserDefined {
-        typ: String,
-        array_qualifiers: OptionDisplay<ArrayQualifiers>,
-    },
+    UserDefined(PlainArgArray<'s>),
 }
 
-impl fmt::Display for Operator {
+impl fmt::Display for Operator<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::New => write!(f, "operator new"),
@@ -130,10 +124,7 @@ impl fmt::Display for Operator {
             Self::Call => write!(f, "operator()"),
             Self::Comma => write!(f, "operator, "),
 
-            Self::UserDefined {
-                typ,
-                array_qualifiers,
-            } => write!(f, "operator {typ}{array_qualifiers}"),
+            Self::UserDefined(typ) => write!(f, "operator {typ}"),
         }
     }
 }

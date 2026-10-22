@@ -7,14 +7,14 @@ use crate::tree::leaf::{ArgVec, Operator, StaticSuffix};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct OperatorFunction<'s> {
-    operator: Operator,
+    operator: Operator<'s>,
     argument_list: ArgVec<'s>,
     static_suffix: StaticSuffix<'s>,
 }
 
 impl<'s> OperatorFunction<'s> {
     pub(crate) const fn new(
-        operator: Operator,
+        operator: Operator<'s>,
         argument_list: ArgVec<'s>,
         static_suffix: StaticSuffix<'s>,
     ) -> Self {

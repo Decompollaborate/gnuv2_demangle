@@ -16,8 +16,8 @@ use crate::{
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::leaf::{
-        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, MethodPointer, Signedness,
-        TemplatedValueVec, Type, TypeMeta,
+        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, MethodPointer, PlainArg,
+        PlainArgArray, Signedness, TemplatedValueVec, Type, TypeMeta,
     },
     DemangleConfig, DemangleError,
 };
@@ -28,7 +28,7 @@ pub(crate) fn demangle_argument<'s>(
     parsed_arguments: &ArgVec<'s>,
     template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
-) -> Result<(&'s str, DemangledArg), DemangleError<'s>> {
+) -> Result<(&'s str, DemangledArg<'s>), DemangleError<'s>> {
     if let Some(demangled) = demangle_qualifierless_arg(config, full_args)? {
         return Ok(demangled);
     }
@@ -86,17 +86,11 @@ pub(crate) fn demangle_argument<'s>(
         if must_be_class_like && !typ.class_like() {
             return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
         }
-        let sign = &typ.sign();
 
-        let out = format!(
-            "{}{}{}{}",
-            sign,
-            typ.typ(),
-            if !post_qualifiers.is_empty() { " " } else { "" },
-            post_qualifiers.to_string().trim_matches(' ')
-        );
+        let pa = PlainArg::new(typ, post_qualifiers);
+        let paa = PlainArgArray::new(pa, array_qualifiers.into_option());
 
-        Ok((r, DemangledArg::Plain(out, array_qualifiers)))
+        Ok((r, DemangledArg::Plain(paa)))
     }
 }
 
@@ -246,7 +240,7 @@ fn demangle_arg_type<'s>(
 fn demangle_qualifierless_arg<'s>(
     _config: &DemangleConfig,
     full_args: &'s str,
-) -> Result<Option<(&'s str, DemangledArg)>, DemangleError<'s>> {
+) -> Result<Option<(&'s str, DemangledArg<'s>)>, DemangleError<'s>> {
     #[expect(clippy::manual_map)]
     let maybe_demangled = if let Some(repeater) = full_args.strip_prefix('N') {
         let remaining = repeater;
@@ -300,12 +294,19 @@ fn demangle_function_pointer_arg<'s>(
     } = qualifiers;
 
     let fp = match return_type {
-        DemangledArg::Plain(plain, array_qualifiers) => FunctionPointer {
-            return_type: format!("{sign}{plain}"),
-            array_qualifiers,
-            post_qualifiers: post_qualifiers.to_string(),
-            args: func_args.join(),
-        },
+        DemangledArg::Plain(plain_array) => {
+            let PlainArgArray {
+                plain,
+                array_qualifiers,
+            } = plain_array;
+
+            FunctionPointer {
+                return_type: format!("{sign}{plain}"),
+                array_qualifiers: array_qualifiers.into(),
+                post_qualifiers: post_qualifiers.to_string(),
+                args: func_args.join(),
+            }
+        }
         DemangledArg::FunctionPointer(function_pointer) => {
             let FunctionPointer {
                 return_type: sub_return_type,
@@ -381,7 +382,7 @@ fn demangle_method_pointer_arg<'s>(
             demangle_custom_name(s, DemangleError::InvalidClassNameOnMethodArgument)?;
         (r, Cow::from(class_name))
     } else {
-        let (r, DemangledArg::Plain(class_name, array_qualifiers)) = demangle_argument(
+        let (r, DemangledArg::Plain(class_name)) = demangle_argument(
             config,
             s,
             &ArgVec::new(config, None),
@@ -391,6 +392,11 @@ fn demangle_method_pointer_arg<'s>(
         else {
             return Err(DemangleError::InvalidClassNameOnMethodArgument(s));
         };
+
+        let PlainArgArray {
+            plain: class_name,
+            array_qualifiers,
+        } = class_name;
         if array_qualifiers.is_some() {
             return Err(DemangleError::InvalidClassNameOnMethodArgument(s));
         }
@@ -420,7 +426,7 @@ fn demangle_method_pointer_arg<'s>(
                 r
             };
 
-            let (r, DemangledArg::Plain(class_name_again, array_qualifiers)) = demangle_argument(
+            let (r, DemangledArg::Plain(paa)) = demangle_argument(
                 config,
                 r,
                 &ArgVec::new(config, None),
@@ -432,7 +438,13 @@ fn demangle_method_pointer_arg<'s>(
                     func_pointer,
                 ));
             };
-            if class_name != class_name_again {
+
+            let PlainArgArray {
+                plain: class_name_again,
+                array_qualifiers,
+            } = paa;
+
+            if class_name != Cow::from(class_name_again) {
                 return Err(DemangleError::MethodPointerWrongClassName(func_pointer));
             }
             if array_qualifiers.is_some() {
@@ -488,7 +500,7 @@ fn demangle_object_pointer_arg<'s>(
             demangle_custom_name(s, DemangleError::InvalidClassNameOnObjectMemberArgument)?;
         (r, Cow::from(class_name))
     } else {
-        let (r, DemangledArg::Plain(class_name, array_qualifiers)) = demangle_argument(
+        let (r, DemangledArg::Plain(class_name)) = demangle_argument(
             config,
             s,
             &ArgVec::new(config, None),
@@ -498,6 +510,11 @@ fn demangle_object_pointer_arg<'s>(
         else {
             return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
         };
+
+        let PlainArgArray {
+            plain: class_name,
+            array_qualifiers,
+        } = class_name;
         if array_qualifiers.is_some() {
             return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
         }
@@ -509,7 +526,7 @@ fn demangle_object_pointer_arg<'s>(
         return Err(DemangleError::MissingTypeForObjectMemberPointer(r));
     };
 
-    let (r, DemangledArg::Plain(member_type, arr)) = demangle_argument(
+    let (r, DemangledArg::Plain(member_type)) = demangle_argument(
         config,
         r,
         &ArgVec::new(config, None),
@@ -520,10 +537,15 @@ fn demangle_object_pointer_arg<'s>(
         return Err(DemangleError::InvalidTypeForObjectMemberPointer(full_args));
     };
 
+    let PlainArgArray {
+        plain: member_type,
+        array_qualifiers: arr,
+    } = member_type;
+
     // Arrays makes everything harder.
-    let mut arg = member_type;
+    let mut arg = member_type.to_string();
     arg.push(' ');
-    if let Some(arr) = arr.as_option() {
+    if let Some(arr) = &arr {
         if !arr.inner_post_qualifiers.is_empty() {
             arg.push('(');
             arg.push_str(&arr.inner_post_qualifiers.to_string());
@@ -531,7 +553,7 @@ fn demangle_object_pointer_arg<'s>(
     }
     let post_qualifiers = qualifiers.post_qualifiers;
     arg += &format!("({class_name}::{post_qualifiers})");
-    if let Some(arr) = arr.as_option() {
+    if let Some(arr) = &arr {
         if !arr.inner_post_qualifiers.is_empty() {
             arg.push(')');
         }

@@ -8,7 +8,7 @@ use crate::tree::leaf::{ArgVec, MethodQualifier, NamespacedType, Operator, Stati
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct OperatorMethod<'s> {
-    operator: Operator,
+    operator: Operator<'s>,
     method_qualifier: MethodQualifier,
     namespace: Arc<NamespacedType<'s>>,
     argument_list: ArgVec<'s>,
@@ -17,7 +17,7 @@ pub struct OperatorMethod<'s> {
 
 impl<'s> OperatorMethod<'s> {
     pub(crate) const fn new(
-        operator: Operator,
+        operator: Operator<'s>,
         method_qualifier: MethodQualifier,
         namespace: Arc<NamespacedType<'s>>,
         argument_list: ArgVec<'s>,

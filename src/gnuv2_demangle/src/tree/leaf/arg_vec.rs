@@ -9,7 +9,7 @@ use alloc::{
 };
 use core::fmt;
 
-use super::{DemangledArg, FunctionPointer, MethodPointer, NamespacedType};
+use super::{DemangledArg, FunctionPointer, MethodPointer, NamespacedType, PlainArgArray};
 
 use crate::{DemangleConfig, DemangleError};
 
@@ -17,7 +17,7 @@ use crate::{DemangleConfig, DemangleError};
 pub(crate) struct ArgVec<'ns> {
     // Use Arc to avoid cloning the namespace around
     namespace: Option<Arc<NamespacedType<'ns>>>,
-    args: Vec<ProcessedArg>,
+    args: Vec<ProcessedArg<'ns>>,
 
     ellipsis_emit_space_after_comma: bool,
 
@@ -47,7 +47,7 @@ impl<'ns> ArgVec<'ns> {
         self.args.len() + extra
     }
 
-    pub(crate) fn get<'p>(&'p self, mut index: usize) -> Option<ResolvedProcessedArg<'ns>> {
+    pub(crate) fn get(&self, mut index: usize) -> Option<ResolvedProcessedArg<'ns>> {
         if let Some(namespace) = &self.namespace {
             if index == 0 {
                 return Some(ResolvedProcessedArg::Namespace(Arc::clone(namespace)));
@@ -82,7 +82,7 @@ impl<'ns> ArgVec<'ns> {
 
     pub(crate) fn push<'s>(
         &mut self,
-        arg: DemangledArg,
+        arg: DemangledArg<'ns>,
         s: &'s str,
         remaining: &'s str,
         allow_data_after_ellipsis: bool,
@@ -92,9 +92,7 @@ impl<'ns> ArgVec<'ns> {
         // Map the external `DemangledArg` representation to our `ProcessedArg`
         // internal one.
         let arg = match arg {
-            DemangledArg::Plain(plain, array_qualifiers) => {
-                ProcessedArg::Plain(Arc::new(format!("{plain}{array_qualifiers}")))
-            }
+            DemangledArg::Plain(plain) => ProcessedArg::Plain(Arc::new(plain)),
             DemangledArg::FunctionPointer(function_pointer) => {
                 ProcessedArg::FunctionPointer(Arc::new(function_pointer))
             }
@@ -134,7 +132,7 @@ impl<'ns> ArgVec<'ns> {
 
         for arg in &self.args {
             match arg {
-                ProcessedArg::Plain(plain) => args.push(Cow::from(plain.as_str())),
+                ProcessedArg::Plain(plain) => args.push(Cow::from(plain.to_string())),
                 ProcessedArg::FunctionPointer(plain) => args.push(Cow::from(plain.to_string())),
                 ProcessedArg::MethodPointer(plain) => args.push(Cow::from(plain.to_string())),
                 ProcessedArg::ObjectPointer(plain) => args.push(Cow::from(plain.as_str())),
@@ -185,8 +183,8 @@ impl fmt::Display for ArgVec<'_> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-enum ProcessedArg {
-    Plain(Arc<String>),
+enum ProcessedArg<'ns> {
+    Plain(Arc<PlainArgArray<'ns>>),
     FunctionPointer(Arc<FunctionPointer>),
     MethodPointer(Arc<MethodPointer>),
     ObjectPointer(Arc<String>),
@@ -197,7 +195,7 @@ enum ProcessedArg {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum ResolvedProcessedArg<'ns> {
     Namespace(Arc<NamespacedType<'ns>>),
-    Plain(Arc<String>),
+    Plain(Arc<PlainArgArray<'ns>>),
     FunctionPointer(Arc<FunctionPointer>),
     MethodPointer(Arc<MethodPointer>),
     ObjectPointer(Arc<String>),

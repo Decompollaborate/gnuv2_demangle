@@ -16,7 +16,7 @@ use crate::{
 pub(crate) fn demangle_operator_method<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    operator: Operator,
+    operator: Operator<'s>,
     allow_array_fixup: bool,
 ) -> Result<OperatorMethod<'s>, DemangleError<'s>> {
     let Remaining {

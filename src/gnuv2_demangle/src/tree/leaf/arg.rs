@@ -1,21 +1,93 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::String;
+use alloc::{
+    borrow::Cow,
+    string::{String, ToString},
+};
 use core::{fmt, num::NonZeroUsize};
 
-use super::ArgPostQualifierVec;
+use super::{ArgPostQualifierVec, TypeMeta};
 
 use crate::option_display::OptionDisplay;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) enum DemangledArg {
-    Plain(String, OptionDisplay<ArrayQualifiers>),
+pub(crate) enum DemangledArg<'s> {
+    Plain(PlainArgArray<'s>),
     FunctionPointer(FunctionPointer),
     MethodPointer(MethodPointer),
     ObjectPointer(String),
     Repeat { count: NonZeroUsize, index: usize },
     Ellipsis,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct PlainArgArray<'s> {
+    pub(crate) plain: PlainArg<'s>,
+    pub(crate) array_qualifiers: Option<ArrayQualifiers>,
+}
+
+impl<'s> PlainArgArray<'s> {
+    pub(crate) const fn new(
+        plain: PlainArg<'s>,
+        array_qualifiers: Option<ArrayQualifiers>,
+    ) -> Self {
+        Self {
+            plain,
+            array_qualifiers,
+        }
+    }
+}
+
+impl fmt::Display for PlainArgArray<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self {
+            plain,
+            array_qualifiers,
+        } = self;
+
+        write!(f, "{plain}")?;
+        if let Some(array_qualifiers) = array_qualifiers {
+            write!(f, "{array_qualifiers}")?;
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct PlainArg<'s> {
+    pub(crate) typ: TypeMeta<'s>,
+    pub(crate) post_qualifiers: ArgPostQualifierVec,
+}
+
+impl<'s> PlainArg<'s> {
+    pub(crate) const fn new(typ: TypeMeta<'s>, post_qualifiers: ArgPostQualifierVec) -> Self {
+        Self {
+            typ,
+            post_qualifiers,
+        }
+    }
+}
+
+impl fmt::Display for PlainArg<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let PlainArg {
+            typ,
+            post_qualifiers,
+        } = self;
+
+        write!(f, "{typ}")?;
+        if !post_qualifiers.is_empty() {
+            write!(f, " {}", post_qualifiers.to_string().trim_matches(' '))?;
+        }
+        Ok(())
+    }
+}
+
+impl From<PlainArg<'_>> for Cow<'static, str> {
+    fn from(value: PlainArg<'_>) -> Self {
+        Cow::from(value.to_string())
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]

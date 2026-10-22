@@ -112,9 +112,7 @@ fn demangle_template_types_impl<'s>(
             )?;
 
             let typename = match arg {
-                DemangledArg::Plain(p, array_qualifiers) => {
-                    TemplatedTypename::Plain(p, array_qualifiers)
-                }
+                DemangledArg::Plain(p) => TemplatedTypename::Plain(p),
                 DemangledArg::FunctionPointer(function_pointer) => {
                     TemplatedTypename::FunctionPointer(function_pointer)
                 }

@@ -14,7 +14,10 @@ mod template;
 mod templated_value_vec;
 mod typ;
 
-pub(crate) use arg::{ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, Signedness};
+pub(crate) use arg::{
+    ArrayQualifiers, DemangledArg, FunctionPointer, MethodPointer, PlainArg, PlainArgArray,
+    Signedness,
+};
 pub(crate) use arg_qualifier::{ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers};
 pub(crate) use arg_vec::ArgVec;
 pub(crate) use custom_name::CustomName;

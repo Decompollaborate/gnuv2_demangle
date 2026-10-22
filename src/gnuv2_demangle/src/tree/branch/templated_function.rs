@@ -4,7 +4,7 @@
 use alloc::{string::String, sync::Arc};
 use core::fmt;
 
-use crate::tree::leaf::{ArrayQualifiers, MethodQualifier, NamespacedType};
+use crate::tree::leaf::{ArrayQualifiers, MethodQualifier, NamespacedType, PlainArg};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct TemplatedFunction<'s> {
@@ -12,8 +12,8 @@ pub struct TemplatedFunction<'s> {
     method_qualifier: MethodQualifier,
     template_args: String,
     argument_list: String,
-    return_type: String,
-    specialization_namespace: Option<String>,
+    return_type: PlainArg<'s>,
+    specialization_namespace: Option<PlainArg<'s>>,
     array_qualifiers: Option<(ArrayQualifiers, bool)>,
     typ: Option<Arc<NamespacedType<'s>>>,
 }
@@ -25,8 +25,8 @@ impl<'s> TemplatedFunction<'s> {
         method_qualifier: MethodQualifier,
         template_args: String,
         argument_list: String,
-        return_type: String,
-        specialization_namespace: Option<String>,
+        return_type: PlainArg<'s>,
+        specialization_namespace: Option<PlainArg<'s>>,
         array_qualifiers: Option<(ArrayQualifiers, bool)>,
         typ: Option<Arc<NamespacedType<'s>>>,
     ) -> Self {

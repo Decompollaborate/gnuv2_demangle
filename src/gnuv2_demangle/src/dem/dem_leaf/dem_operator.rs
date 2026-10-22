@@ -13,7 +13,7 @@ pub(crate) fn demangle_operator<'s>(
     config: &DemangleConfig,
     s: &'s str,
     allow_array_fixup: bool,
-) -> Result<Option<Remaining<'s, Operator>>, DemangleError<'s>> {
+) -> Result<Option<Remaining<'s, Operator<'s>>>, DemangleError<'s>> {
     let end_index = s.find("__").ok_or(DemangleError::InvalidSpecialMethod(s))?;
     let op = &s[..end_index];
 
@@ -85,7 +85,7 @@ pub(crate) fn demangle_operator<'s>(
             let Some(cast) = op.strip_prefix("op") else {
                 return Ok(None);
             };
-            let (remaining, DemangledArg::Plain(typ, array_qualifiers)) = demangle_argument(
+            let (remaining, DemangledArg::Plain(typ)) = demangle_argument(
                 config,
                 cast,
                 &ArgVec::new(config, None),
@@ -99,10 +99,7 @@ pub(crate) fn demangle_operator<'s>(
                 return Err(DemangleError::MalformedCastOperatorOverload(remaining));
             }
 
-            Operator::UserDefined {
-                typ,
-                array_qualifiers,
-            }
+            Operator::UserDefined(typ)
         }
     };
 
