@@ -83,13 +83,13 @@ pub(crate) enum TemplatedValue<'s> {
     Character(char),
     LookbackInt(String),
     Int {
-        number: usize,
+        number: u32,
         negative: bool,
     },
     Bool(bool),
     Enum {
         enum_name: CustomName<'s>,
-        number: usize,
+        number: u32,
         negative: bool,
     },
 }

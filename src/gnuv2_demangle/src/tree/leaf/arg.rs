@@ -5,7 +5,7 @@ use alloc::{
     borrow::Cow,
     string::{String, ToString},
 };
-use core::{fmt, num::NonZeroUsize};
+use core::{fmt, num::NonZeroU32};
 
 use super::{ArgPostQualifierVec, TypeMeta};
 
@@ -17,7 +17,7 @@ pub(crate) enum DemangledArg<'s> {
     FunctionPointer(FunctionPointer),
     MethodPointer(MethodPointer),
     ObjectPointer(String),
-    Repeat { count: NonZeroUsize, index: usize },
+    Repeat { count: NonZeroU32, index: u32 },
     Ellipsis,
 }
 

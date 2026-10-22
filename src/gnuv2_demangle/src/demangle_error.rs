@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use core::{error, fmt, num::NonZeroUsize};
+use core::{error, fmt, num::NonZeroU32};
 
 /// Information about demangling failure.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -26,7 +26,7 @@ pub enum DemangleError<'s> {
     InvalidCustomNameOnNamespace(&'s str),
     InvalidCustomNameOnTemplate(&'s str),
     InvalidNamespaceOnTemplatedFunction(&'s str),
-    UnexpectedTypeRepetitionOnTemplateTypenameList(&'s str, NonZeroUsize, usize),
+    UnexpectedTypeRepetitionOnTemplateTypenameList(&'s str, NonZeroU32, u32),
     UnexpectedEllipsisOnOnTemplateTypenameList(&'s str),
     InvalidSymbolNameOnTemplateType(&'s str),
     InvalidClassNameOnMethodArgument(&'s str),
@@ -39,7 +39,7 @@ pub enum DemangleError<'s> {
     PrimitiveInsteadOfClass(&'s str),
     InvalidNamespaceCount(&'s str),
     InvalidLookbackCount(&'s str),
-    LookbackCountTooBig(&'s str, usize, usize),
+    LookbackCountTooBig(&'s str, u32, usize),
     InvalidTypeOnTypeInfoFunction(&'s str),
     TrailingDataOnTypeInfoFunction(&'s str),
     InvalidTypeOnTypeInfoNode(&'s str),
@@ -50,7 +50,7 @@ pub enum DemangleError<'s> {
     InvalidTemplatedPointerReferenceValue(&'s str),
     InvalidFunctionPointerTypeInTemplatedList(&'s str, &'s str),
     InvalidTemplatedNumberForCharacterValue(&'s str),
-    InvalidTemplatedCharacterValue(&'s str, usize),
+    InvalidTemplatedCharacterValue(&'s str, u32),
     InvalidTemplatedBoolean(&'s str),
     VTableMissingCPlusMarker(&'s str),
     InvalidNamespacedGlobal(&'s str, &'s str),
@@ -69,8 +69,8 @@ pub enum DemangleError<'s> {
     // TODO: figure out what is X for and rename this
     InvalidValueForIndexOnXArgument(&'s str),
     InvalidValueForNumber1OnXArgument(&'s str),
-    InvalidNumber1OnXArgument(&'s str, usize),
-    IndexTooBigForXArgument(&'s str, usize),
+    InvalidNumber1OnXArgument(&'s str, u32),
+    IndexTooBigForXArgument(&'s str, u32),
     TrailingDataAfterArgumentList(&'s str),
     NonNumericStaticSuffix(&'s str),
     MalformedTemplateWithReturnTypeMissingReturnType(&'s str),
@@ -84,12 +84,12 @@ pub enum DemangleError<'s> {
     MethodPointerClassNameAsArray(&'s str),
     UnknownMethodMemberArgKind(&'s str),
     MissingBitwidthForExtensionInteger(&'s str),
-    InvalidBitwidthForExtensionInteger(&'s str, usize),
+    InvalidBitwidthForExtensionInteger(&'s str, u32),
     InvalidEnumNameForTemplatedValue(&'s str),
     MissingLookbackIndexForTemplatedValue(&'s str),
     MissingLookbackSecondDigitForTemplatedValue(&'s str),
-    InvalidLookbackSecondDigitForTemplatedValue(&'s str, usize),
-    IndexTooBigForYArgument(&'s str, usize),
+    InvalidLookbackSecondDigitForTemplatedValue(&'s str, u32),
+    IndexTooBigForYArgument(&'s str, u32),
     InvalidQualifierForObjectMemberArg(&'s str),
     InvalidClassNameOnObjectMemberArgument(&'s str),
     MissingTypeForObjectMemberPointer(&'s str),

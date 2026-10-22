@@ -16,10 +16,10 @@ where
 {
     let Remaining { r, d: length } = s.p_number().ok_or_else(|| err(s))?;
 
-    if r.len() < length {
+    if r.len() < length as usize {
         Err(err(s))
     } else {
-        Ok(Remaining::split_at(r, length).convert_data(CustomName::new))
+        Ok(Remaining::split_at(r, length as usize).convert_data(CustomName::new))
     }
 }
 

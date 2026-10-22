@@ -67,14 +67,14 @@ pub(crate) enum Type<'s> {
     /// 'T'
     LookBack {
         referenced_arg: Cow<'s, str>,
-        lookback: usize,
+        lookback: u32,
     },
     /// 't'
     Template(Template<'s>),
     /// 'X'
     TemplatedFunctionIndex {
         referenced_arg: Cow<'s, str>,
-        lookback: usize,
+        lookback: u32,
     },
 }
 

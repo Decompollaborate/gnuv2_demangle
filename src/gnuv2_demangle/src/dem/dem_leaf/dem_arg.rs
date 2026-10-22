@@ -5,7 +5,7 @@ use alloc::{
     borrow::Cow,
     string::{String, ToString},
 };
-use core::num::NonZeroUsize;
+use core::num::NonZeroU32;
 
 use super::{
     demangle_arg_qualifiers, demangle_argument_list_impl, demangle_custom_name,
@@ -169,14 +169,9 @@ fn demangle_arg_type<'s>(
                 .p_number_maybe_multi_digit()
                 .ok_or(DemangleError::InvalidLookbackCount(args))?;
 
-            let referenced_arg =
-                parsed_arguments
-                    .get(lookback)
-                    .ok_or(DemangleError::LookbackCountTooBig(
-                        args,
-                        lookback,
-                        parsed_arguments.len(),
-                    ))?;
+            let referenced_arg = parsed_arguments.get(lookback as usize).ok_or(
+                DemangleError::LookbackCountTooBig(args, lookback, parsed_arguments.len()),
+            )?;
 
             let referenced_arg = Cow::from(referenced_arg);
             (
@@ -213,7 +208,7 @@ fn demangle_arg_type<'s>(
                 return Err(DemangleError::InvalidNumber1OnXArgument(r, number1));
             }
 
-            let Some(t) = template_args.get(index) else {
+            let Some(t) = template_args.get(index as usize) else {
                 return Err(DemangleError::IndexTooBigForXArgument(r, index));
             };
 
@@ -251,7 +246,7 @@ fn demangle_qualifierless_arg<'s>(
             .p_number_maybe_multi_digit()
             .ok_or(DemangleError::InvalidRepeatingArgument(full_args))?;
         let count =
-            NonZeroUsize::new(count).ok_or(DemangleError::InvalidRepeatingArgument(full_args))?;
+            NonZeroU32::new(count).ok_or(DemangleError::InvalidRepeatingArgument(full_args))?;
 
         let Remaining {
             r: remaining,

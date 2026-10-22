@@ -2,7 +2,7 @@
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
 use alloc::{borrow::Cow, string::ToString};
-use core::num::NonZeroUsize;
+use core::num::NonZeroU32;
 
 use super::{demangle_custom_name, demangle_template};
 
@@ -34,7 +34,7 @@ pub(crate) fn demangle_namespaces<'s>(
     .ok_or(DemangleError::InvalidNamespaceCount(s))?;
 
     let namespace_count =
-        NonZeroUsize::new(namespace_count).ok_or(DemangleError::InvalidNamespaceCount(s))?;
+        NonZeroU32::new(namespace_count).ok_or(DemangleError::InvalidNamespaceCount(s))?;
 
     demangle_namespaces_impl(config, r, namespace_count, template_args, allow_array_fixup)
 }
@@ -42,7 +42,7 @@ pub(crate) fn demangle_namespaces<'s>(
 fn demangle_namespaces_impl<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    namespace_count: NonZeroUsize,
+    namespace_count: NonZeroU32,
     template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, NamespacedType<'s>>, DemangleError<'s>> {

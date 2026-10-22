@@ -70,10 +70,10 @@ impl<'ns> ArgVec<'ns> {
                     break Some(ResolvedProcessedArg::ObjectPointer(Arc::clone(p)))
                 }
                 ProcessedArg::Lookback { index: i } => {
-                    if *i >= index {
+                    if *i as usize >= index {
                         break None;
                     }
-                    index = *i;
+                    index = *i as usize;
                 }
                 ProcessedArg::Ellipsis => break Some(ResolvedProcessedArg::Ellipsis),
             }
@@ -102,7 +102,7 @@ impl<'ns> ArgVec<'ns> {
             DemangledArg::ObjectPointer(object) => ProcessedArg::ObjectPointer(Arc::new(object)),
             DemangledArg::Repeat { count, index } => {
                 // Check the index is in-bounds
-                if index >= self.len() {
+                if index as usize >= self.len() {
                     return Err(DemangleError::InvalidRepeatingArgument(s));
                 }
 
@@ -142,13 +142,13 @@ impl<'ns> ArgVec<'ns> {
                             Cow::from(&namespace.namespace)
                         } else {
                             Cow::clone(
-                                args.get(*index - 1)
+                                args.get((*index as usize).wrapping_sub(1))
                                     .expect("Indices were verified when pushing the arguments"),
                             )
                         }
                     } else {
                         Cow::clone(
-                            args.get(*index)
+                            args.get(*index as usize)
                                 .expect("Indices were verified when pushing the arguments"),
                         )
                     };
@@ -188,7 +188,7 @@ enum ProcessedArg<'ns> {
     FunctionPointer(Arc<FunctionPointer>),
     MethodPointer(Arc<MethodPointer>),
     ObjectPointer(Arc<String>),
-    Lookback { index: usize },
+    Lookback { index: u32 },
     Ellipsis,
 }
 

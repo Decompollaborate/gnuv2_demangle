@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use core::num::NonZeroUsize;
+use core::num::NonZeroU32;
 
 use super::{demangle_argument, demangle_custom_name, demangle_namespaces};
 
@@ -30,7 +30,7 @@ pub(crate) fn demangle_template<'s>(
     else {
         return Err(DemangleError::InvalidTemplateCount(r));
     };
-    let digit = NonZeroUsize::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(r))?;
+    let digit = NonZeroU32::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(r))?;
 
     let (remaining, types) =
         demangle_template_types_impl(config, remaining, digit, template_args, allow_array_fixup)?;
@@ -55,7 +55,7 @@ pub(crate) fn demangle_template_with_return_type<'s>(
     let Some(Remaining { r, d: digit }) = s.p_digit() else {
         return Err(DemangleError::InvalidTemplateReturnCount(s));
     };
-    let digit = NonZeroUsize::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(s))?;
+    let digit = NonZeroU32::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(s))?;
 
     let (r, types) = demangle_template_types_impl(
         config,
@@ -93,7 +93,7 @@ pub(crate) fn demangle_template_with_return_type<'s>(
 fn demangle_template_types_impl<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    count: NonZeroUsize,
+    count: NonZeroU32,
     template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, TemplatedValueVec<'s>), DemangleError<'s>> {
@@ -256,12 +256,8 @@ fn demangle_templated_value<'s>(
                 let Remaining { r, d: number } = r
                     .p_number()
                     .ok_or(DemangleError::InvalidTemplatedNumberForCharacterValue(r))?;
-                let demangled_char = char::from_u32(
-                    number
-                        .try_into()
-                        .map_err(|_| DemangleError::InvalidTemplatedCharacterValue(r, number))?,
-                )
-                .ok_or(DemangleError::InvalidTemplatedCharacterValue(r, number))?;
+                let demangled_char = char::from_u32(number)
+                    .ok_or(DemangleError::InvalidTemplatedCharacterValue(r, number))?;
                 (r, TemplatedValue::Character(demangled_char))
             }
             // "short" | "int" | "long" | "long long"
@@ -285,7 +281,7 @@ fn demangle_templated_value<'s>(
                         ));
                     }
 
-                    let Some(templated_value) = template_args.get(index) else {
+                    let Some(templated_value) = template_args.get(index as usize) else {
                         return Err(DemangleError::IndexTooBigForYArgument(s, index));
                     };
                     (r, TemplatedValue::LookbackInt(templated_value))

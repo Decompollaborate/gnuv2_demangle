@@ -57,15 +57,15 @@ pub(crate) trait StrParsing<'s> {
     fn p_number_str(&'s self) -> Option<Remaining<'s, &'s str>>;
 
     #[must_use]
-    fn p_number(&'s self) -> Option<Remaining<'s, usize>>;
+    fn p_number(&'s self) -> Option<Remaining<'s, u32>>;
     #[must_use]
-    fn p_hex_number(&'s self) -> Option<Remaining<'s, usize>>;
+    fn p_hex_number(&'s self) -> Option<Remaining<'s, u32>>;
     #[must_use]
-    fn p_digit(&'s self) -> Option<Remaining<'s, usize>>;
+    fn p_digit(&'s self) -> Option<Remaining<'s, u32>>;
     /// Parse either a single digit followed by nondigits or a multidigit followed
     /// by an underscore.
     #[must_use]
-    fn p_number_maybe_multi_digit(&'s self) -> Option<Remaining<'s, usize>>;
+    fn p_number_maybe_multi_digit(&'s self) -> Option<Remaining<'s, u32>>;
 
     #[must_use]
     fn p_first(&'s self) -> Option<Remaining<'s, char>>;
@@ -91,27 +91,27 @@ impl<'s> StrParsing<'s> for str {
         Some(Remaining::new(remaining, data))
     }
 
-    fn p_number(&'s self) -> Option<Remaining<'s, usize>> {
+    fn p_number(&'s self) -> Option<Remaining<'s, u32>> {
         self.p_number_str()?.convert_data_opt(|d| d.parse().ok())
     }
 
-    fn p_hex_number(&'s self) -> Option<Remaining<'s, usize>> {
+    fn p_hex_number(&'s self) -> Option<Remaining<'s, u32>> {
         let (remaining, data) = if let Some(index) = self.find(|c: char| !c.is_ascii_hexdigit()) {
             (
                 &self[index..],
-                usize::from_str_radix(&self[..index], 16).ok()?,
+                u32::from_str_radix(&self[..index], 16).ok()?,
             )
         } else {
-            ("", usize::from_str_radix(self, 16).ok()?)
+            ("", u32::from_str_radix(self, 16).ok()?)
         };
 
         Some(Remaining::new(remaining, data))
     }
 
-    fn p_digit(&'s self) -> Option<Remaining<'s, usize>> {
+    fn p_digit(&'s self) -> Option<Remaining<'s, u32>> {
         let c = self.chars().next()?;
         if c.is_ascii_digit() {
-            let digit = (c as usize).wrapping_sub('0' as usize);
+            let digit = (c as u32).wrapping_sub('0' as u32);
 
             Some(Remaining::new(&self[1..], digit))
         } else {
@@ -119,7 +119,7 @@ impl<'s> StrParsing<'s> for str {
         }
     }
 
-    fn p_number_maybe_multi_digit(&'s self) -> Option<Remaining<'s, usize>> {
+    fn p_number_maybe_multi_digit(&'s self) -> Option<Remaining<'s, u32>> {
         if self.is_empty() {
             None
         } else if self.len() == 1 {
