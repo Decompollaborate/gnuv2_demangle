@@ -1,10 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{
-    borrow::Cow,
-    string::{String, ToString},
-};
+use alloc::{borrow::Cow, string::ToString};
 use core::num::NonZeroU32;
 
 use super::{
@@ -16,8 +13,8 @@ use crate::{
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::leaf::{
-        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, MethodPointer, PlainArg,
-        PlainArgArray, Signedness, TemplatedValueVec, Type, TypeMeta,
+        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, MethodPointer, ObjectPointer,
+        PlainArg, PlainArgArray, Signedness, TemplatedValueVec, Type, TypeMeta,
     },
     DemangleConfig, DemangleError,
 };
@@ -470,7 +467,7 @@ fn demangle_object_pointer_arg<'s>(
     template_args: &TemplatedValueVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
-) -> Result<(&'s str, String), DemangleError<'s>> {
+) -> Result<(&'s str, ObjectPointer<'s>), DemangleError<'s>> {
     if qualifiers.sign != Signedness::No
         || !qualifiers.post_qualifiers.valid_as_method_pointer_arg()
         || qualifiers.array_qualifiers.is_some()
@@ -480,31 +477,22 @@ fn demangle_object_pointer_arg<'s>(
         return Err(DemangleError::InvalidQualifierForObjectMemberArg(full_args));
     }
 
-    let (r, class_name) = if s.starts_with(|c| matches!(c, '1'..='9')) {
-        let Remaining { r, d: class_name } =
-            demangle_custom_name(s, DemangleError::InvalidClassNameOnObjectMemberArgument)?;
-        (r, Cow::from(class_name))
-    } else {
-        let (r, DemangledArg::Plain(class_name)) = demangle_argument(
-            config,
-            s,
-            &ArgVec::new(config, None),
-            template_args,
-            allow_array_fixup,
-        )?
-        else {
-            return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
-        };
+    let (r, DemangledArg::Plain(class_name)) = demangle_argument(
+        config,
+        s,
+        &ArgVec::new(config, None),
+        template_args,
+        allow_array_fixup,
+    )?
+    else {
+        return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
+    };
 
-        let PlainArgArray {
-            plain: class_name,
-            array_qualifiers,
-        } = class_name;
-        if array_qualifiers.is_some() {
-            return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
-        }
-
-        (r, Cow::from(class_name))
+    let PlainArgArray {
+        plain: class_name,
+        array_qualifiers: None,
+    } = class_name else {
+        return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
     };
 
     let Some(r) = r.strip_prefix('_') else {
@@ -524,26 +512,15 @@ fn demangle_object_pointer_arg<'s>(
 
     let PlainArgArray {
         plain: member_type,
-        array_qualifiers: arr,
+        array_qualifiers,
     } = member_type;
 
-    // Arrays makes everything harder.
-    let mut arg = member_type.to_string();
-    arg.push(' ');
-    if let Some(arr) = &arr {
-        if !arr.inner_post_qualifiers.is_empty() {
-            arg.push('(');
-            arg.push_str(&arr.inner_post_qualifiers.to_string());
-        }
-    }
-    let post_qualifiers = qualifiers.post_qualifiers;
-    arg += &format!("({class_name}::{post_qualifiers})");
-    if let Some(arr) = &arr {
-        if !arr.inner_post_qualifiers.is_empty() {
-            arg.push(')');
-        }
-        arg.push_str(&arr.arrays.to_string());
-    }
+    let op = ObjectPointer::new(
+        class_name,
+        member_type,
+        array_qualifiers,
+        qualifiers.post_qualifiers,
+    );
 
-    Ok((r, arg))
+    Ok((r, op))
 }

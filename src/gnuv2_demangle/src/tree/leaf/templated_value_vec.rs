@@ -8,7 +8,7 @@ use alloc::{
     vec::Vec,
 };
 
-use super::{CustomName, FunctionPointer, MethodPointer, PlainArgArray};
+use super::{CustomName, FunctionPointer, MethodPointer, ObjectPointer, PlainArgArray};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct TemplatedValueVec<'s> {
@@ -55,7 +55,7 @@ pub(crate) enum TemplatedTypename<'s> {
     Plain(PlainArgArray<'s>),
     FunctionPointer(FunctionPointer),
     MethodPointer(MethodPointer<'s>),
-    ObjectPointer(String),
+    ObjectPointer(ObjectPointer<'s>),
     #[expect(dead_code)]
     Dummy(core::marker::PhantomData<&'s str>),
 }

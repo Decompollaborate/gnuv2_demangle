@@ -9,7 +9,9 @@ use alloc::{
 };
 use core::fmt;
 
-use super::{DemangledArg, FunctionPointer, MethodPointer, NamespacedType, PlainArgArray};
+use super::{
+    DemangledArg, FunctionPointer, MethodPointer, NamespacedType, ObjectPointer, PlainArgArray,
+};
 
 use crate::{DemangleConfig, DemangleError};
 
@@ -135,7 +137,7 @@ impl<'ns> ArgVec<'ns> {
                 ProcessedArg::Plain(plain) => args.push(Cow::from(plain.to_string())),
                 ProcessedArg::FunctionPointer(plain) => args.push(Cow::from(plain.to_string())),
                 ProcessedArg::MethodPointer(plain) => args.push(Cow::from(plain.to_string())),
-                ProcessedArg::ObjectPointer(plain) => args.push(Cow::from(plain.as_str())),
+                ProcessedArg::ObjectPointer(plain) => args.push(Cow::from(plain.to_string())),
                 ProcessedArg::Lookback { index } => {
                     let arg = if let Some(namespace) = &self.namespace {
                         if *index == 0 {
@@ -187,7 +189,7 @@ enum ProcessedArg<'ns> {
     Plain(Arc<PlainArgArray<'ns>>),
     FunctionPointer(Arc<FunctionPointer>),
     MethodPointer(Arc<MethodPointer<'ns>>),
-    ObjectPointer(Arc<String>),
+    ObjectPointer(Arc<ObjectPointer<'ns>>),
     Lookback { index: u32 },
     Ellipsis,
 }
@@ -198,7 +200,7 @@ pub(crate) enum ResolvedProcessedArg<'ns> {
     Plain(Arc<PlainArgArray<'ns>>),
     FunctionPointer(Arc<FunctionPointer>),
     MethodPointer(Arc<MethodPointer<'ns>>),
-    ObjectPointer(Arc<String>),
+    ObjectPointer(Arc<ObjectPointer<'ns>>),
     Ellipsis,
 }
 

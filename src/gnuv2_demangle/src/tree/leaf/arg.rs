@@ -16,7 +16,7 @@ pub(crate) enum DemangledArg<'s> {
     Plain(PlainArgArray<'s>),
     FunctionPointer(FunctionPointer),
     MethodPointer(MethodPointer<'s>),
-    ObjectPointer(String),
+    ObjectPointer(ObjectPointer<'s>),
     Repeat { count: NonZeroU32, index: u32 },
     Ellipsis,
 }
@@ -191,6 +191,60 @@ impl fmt::Display for MethodPointer<'_> {
             }
             write!(f, "{}", arr.arrays)?;
         }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct ObjectPointer<'s> {
+    class_name: PlainArg<'s>,
+    member_type: PlainArg<'s>,
+    array_qualifiers: Option<ArrayQualifiers>,
+    post_qualifiers: ArgPostQualifierVec,
+}
+
+impl<'s> ObjectPointer<'s> {
+    pub(crate) const fn  new(
+        class_name: PlainArg<'s>,
+        member_type: PlainArg<'s>,
+        array_qualifiers: Option<ArrayQualifiers>,
+        post_qualifiers: ArgPostQualifierVec,
+    ) -> Self {
+        Self {
+            class_name,
+            member_type,
+            array_qualifiers,
+            post_qualifiers,
+        }
+    }
+}
+
+impl fmt::Display for ObjectPointer<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self {
+            class_name,
+            member_type,
+            array_qualifiers,
+            post_qualifiers,
+        } = self;
+
+        // Arrays makes everything harder.
+        write!(f, "{member_type} ")?;
+
+        if let Some(arr) = &array_qualifiers {
+            if !arr.inner_post_qualifiers.is_empty() {
+                write!(f, "({}", arr.inner_post_qualifiers)?;
+            }
+        }
+
+        write!(f, "({class_name}::{post_qualifiers})")?;
+        if let Some(arr) = &array_qualifiers {
+            if !arr.inner_post_qualifiers.is_empty() {
+                write!(f, ")")?;
+            }
+            write!(f, "{}", arr.arrays)?;
+        }
+
         Ok(())
     }
 }
