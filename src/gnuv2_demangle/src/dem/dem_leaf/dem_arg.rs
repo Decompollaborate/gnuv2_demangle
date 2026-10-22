@@ -363,7 +363,7 @@ fn demangle_method_pointer_arg<'s>(
     template_args: &TemplatedValueVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
-) -> Result<(&'s str, MethodPointer), DemangleError<'s>> {
+) -> Result<(&'s str, MethodPointer<'s>), DemangleError<'s>> {
     if qualifiers.sign != Signedness::No
         || !qualifiers.post_qualifiers.valid_as_method_pointer_arg()
     {
@@ -372,31 +372,21 @@ fn demangle_method_pointer_arg<'s>(
         return Err(DemangleError::InvalidQualifierForMethodMemberArg(full_args));
     }
 
-    let (r, class_name) = if s.starts_with(|c| matches!(c, '1'..='9')) {
-        let Remaining { r, d: class_name } =
-            demangle_custom_name(s, DemangleError::InvalidClassNameOnMethodArgument)?;
-        (r, Cow::from(class_name))
-    } else {
-        let (r, DemangledArg::Plain(class_name)) = demangle_argument(
-            config,
-            s,
-            &ArgVec::new(config, None),
-            template_args,
-            allow_array_fixup,
-        )?
-        else {
-            return Err(DemangleError::InvalidClassNameOnMethodArgument(s));
-        };
-
-        let PlainArgArray {
+    let (
+        r,
+        DemangledArg::Plain(PlainArgArray {
             plain: class_name,
-            array_qualifiers,
-        } = class_name;
-        if array_qualifiers.is_some() {
-            return Err(DemangleError::InvalidClassNameOnMethodArgument(s));
-        }
-
-        (r, Cow::from(class_name))
+            array_qualifiers: None,
+        }),
+    ) = demangle_argument(
+        config,
+        s,
+        &ArgVec::new(config, None),
+        template_args,
+        allow_array_fixup,
+    )?
+    else {
+        return Err(DemangleError::InvalidClassNameOnMethodArgument(s));
     };
 
     let (r, is_const_method) = r.c_maybe_strip_prefix('C');
@@ -439,7 +429,7 @@ fn demangle_method_pointer_arg<'s>(
                 array_qualifiers,
             } = paa;
 
-            if class_name != Cow::from(class_name_again) {
+            if class_name != class_name_again {
                 return Err(DemangleError::MethodPointerWrongClassName(func_pointer));
             }
             if array_qualifiers.is_some() {
@@ -460,7 +450,7 @@ fn demangle_method_pointer_arg<'s>(
         let arg = MethodPointer {
             return_type,
             array_qualifiers,
-            class: class_name.to_string(),
+            class: class_name,
             post_qualifiers,
             args,
             is_const_method,

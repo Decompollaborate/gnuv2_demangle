@@ -186,7 +186,7 @@ impl fmt::Display for ArgVec<'_> {
 enum ProcessedArg<'ns> {
     Plain(Arc<PlainArgArray<'ns>>),
     FunctionPointer(Arc<FunctionPointer>),
-    MethodPointer(Arc<MethodPointer>),
+    MethodPointer(Arc<MethodPointer<'ns>>),
     ObjectPointer(Arc<String>),
     Lookback { index: u32 },
     Ellipsis,
@@ -197,7 +197,7 @@ pub(crate) enum ResolvedProcessedArg<'ns> {
     Namespace(Arc<NamespacedType<'ns>>),
     Plain(Arc<PlainArgArray<'ns>>),
     FunctionPointer(Arc<FunctionPointer>),
-    MethodPointer(Arc<MethodPointer>),
+    MethodPointer(Arc<MethodPointer<'ns>>),
     ObjectPointer(Arc<String>),
     Ellipsis,
 }

@@ -15,7 +15,7 @@ use crate::option_display::OptionDisplay;
 pub(crate) enum DemangledArg<'s> {
     Plain(PlainArgArray<'s>),
     FunctionPointer(FunctionPointer),
-    MethodPointer(MethodPointer),
+    MethodPointer(MethodPointer<'s>),
     ObjectPointer(String),
     Repeat { count: NonZeroU32, index: u32 },
     Ellipsis,
@@ -99,10 +99,10 @@ pub(crate) struct FunctionPointer {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct MethodPointer {
+pub(crate) struct MethodPointer<'s> {
     pub(crate) return_type: String,
     pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
-    pub(crate) class: String, // TODO: `&'s str` instead? should be easy, i think...
+    pub(crate) class: PlainArg<'s>,
     pub(crate) post_qualifiers: String,
     pub(crate) args: String,
     pub(crate) is_const_method: bool,
@@ -149,7 +149,7 @@ impl fmt::Display for FunctionPointer {
     }
 }
 
-impl fmt::Display for MethodPointer {
+impl fmt::Display for MethodPointer<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let MethodPointer {
             return_type,

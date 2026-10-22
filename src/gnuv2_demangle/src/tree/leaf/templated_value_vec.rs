@@ -54,7 +54,7 @@ impl fmt::Display for TemplateElement<'_> {
 pub(crate) enum TemplatedTypename<'s> {
     Plain(PlainArgArray<'s>),
     FunctionPointer(FunctionPointer),
-    MethodPointer(MethodPointer),
+    MethodPointer(MethodPointer<'s>),
     ObjectPointer(String),
     #[expect(dead_code)]
     Dummy(core::marker::PhantomData<&'s str>),
