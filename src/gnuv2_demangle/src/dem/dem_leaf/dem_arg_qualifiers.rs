@@ -1,12 +1,12 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::String;
+use alloc::vec::Vec;
 
 use crate::{
     remainer::{Remaining, StrParsing},
     tree::leaf::{
-        ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers, ArrayQualifiers, Signedness,
+        ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers, ArrayQualifiers, ArrayVec, Signedness,
     },
     DemangleConfig, DemangleError,
 };
@@ -68,8 +68,8 @@ fn demangle_arg_post_qualifiers<'s>(
 fn demangle_array_pseudo_qualifier<'s>(
     config: &DemangleConfig,
     s: &'s str,
-    mut sign: Signedness,
-    mut post_qualifiers: ArgPostQualifierVec,
+    sign: Signedness,
+    post_qualifiers: ArgPostQualifierVec,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, ArgQualifiers>, DemangleError<'s>> {
     if !s.starts_with('A') {
@@ -81,16 +81,12 @@ fn demangle_array_pseudo_qualifier<'s>(
         return Ok(Remaining::new(s, qualifiers));
     }
 
-    let mut array_qualifiers = ArrayQualifiers {
-        inner_post_qualifiers: ArgPostQualifierVec::new(),
-        arrays: String::new(),
-    };
-
     if sign != Signedness::No {
         // Avoid stuff like "signed signed"
         return Err(DemangleError::PrevQualifiersInInvalidPostioniAtArrayArgument(s));
     }
-    array_qualifiers.inner_post_qualifiers = post_qualifiers;
+
+    let mut arrays = Vec::new();
 
     let mut args = s;
     while let Some(remaining) = args.strip_prefix('A') {
@@ -111,19 +107,17 @@ fn demangle_array_pseudo_qualifier<'s>(
             array_length
         };
 
-        array_qualifiers
-            .arrays
-            .push_str(&format!("[{array_length}]"));
+        arrays.push(array_length);
         args = remaining;
     }
+
+    let array_qualifiers = ArrayQualifiers::new(post_qualifiers, ArrayVec::new(arrays));
 
     let Remaining {
         r,
         d: (sign_other, post),
     } = demangle_arg_post_qualifiers(args)?;
-    sign = sign_other;
-    post_qualifiers = post;
 
-    let qualifiers = ArgQualifiers::new(sign, post_qualifiers, Some(array_qualifiers).into());
+    let qualifiers = ArgQualifiers::new(sign_other, post, Some(array_qualifiers).into());
     Ok(Remaining::new(r, qualifiers))
 }

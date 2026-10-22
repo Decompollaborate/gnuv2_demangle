@@ -7,7 +7,7 @@ use alloc::{
 };
 use core::{fmt, num::NonZeroU32};
 
-use super::{ArgPostQualifierVec, TypeMeta};
+use super::{ArgPostQualifierVec, ArrayQualifiers, TypeMeta};
 
 use crate::option_display::OptionDisplay;
 
@@ -192,45 +192,5 @@ impl fmt::Display for MethodPointer {
             write!(f, "{}", arr.arrays)?;
         }
         Ok(())
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) enum Signedness {
-    No,
-    Signed,
-    Unsigned,
-}
-
-impl fmt::Display for Signedness {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Self::No => Ok(()),
-            Self::Signed => write!(f, "signed "),
-            Self::Unsigned => write!(f, "unsigned "),
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct ArrayQualifiers {
-    pub(crate) inner_post_qualifiers: ArgPostQualifierVec,
-    // TODO: would be better to store this as a vector instead of an array?
-    pub(crate) arrays: String,
-}
-
-impl fmt::Display for ArrayQualifiers {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, " ")?;
-
-        if !self.inner_post_qualifiers.is_empty() {
-            // Only add parenthesis if there are post_qualifiers, like a
-            // pointer.
-            // Arrays without being decaying to pointers can happen in, for
-            // example, templated functions.
-            write!(f, "({})", self.inner_post_qualifiers)?;
-        }
-
-        write!(f, "{}", self.arrays)
     }
 }

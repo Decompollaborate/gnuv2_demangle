@@ -552,7 +552,7 @@ fn demangle_object_pointer_arg<'s>(
         if !arr.inner_post_qualifiers.is_empty() {
             arg.push(')');
         }
-        arg.push_str(&arr.arrays);
+        arg.push_str(&arr.arrays.to_string());
     }
 
     Ok((r, arg))
