@@ -8,6 +8,8 @@ use alloc::{
     vec::Vec,
 };
 
+use crate::tree::leaf::{ArgVec, FunctionPointerReturnType};
+
 use super::{CustomName, FunctionPointer, MemberPointer, MethodPointer, PlainArgArray};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -36,7 +38,6 @@ impl<'s> TemplatedValueVec<'s> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[expect(clippy::large_enum_variant)]
 pub(crate) enum TemplateElement<'s> {
     Typename(TemplatedTypename<'s>), // i.e. class
     Value(TemplatedValue<'s>),
@@ -74,10 +75,10 @@ impl fmt::Display for TemplatedTypename<'_> {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum TemplatedValue<'s> {
-    ObjectReference(String),
-    FunctionPointer(String),
-    FunctionReference(String),
-    FunctionRaw(String),
+    ObjectReference(ObjectReferenceValue<'s>),
+    FunctionPointer(FunctionPointerValue<'s>),
+    FunctionReference(FunctionReferenceValue<'s>),
+    FunctionRaw(FunctionRawValue<'s>),
     Character(char),
     LookbackInt(String),
     Int {
@@ -121,5 +122,135 @@ impl fmt::Display for TemplatedValue<'_> {
                 write!(f, "{number}")
             }
         }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct ObjectReferenceValue<'s> {
+    symbol: CustomName<'s>,
+    is_pointer: bool,
+}
+
+impl<'s> ObjectReferenceValue<'s> {
+    pub(crate) const fn new(symbol: CustomName<'s>, is_pointer: bool) -> Self {
+        Self { symbol, is_pointer }
+    }
+}
+
+impl fmt::Display for ObjectReferenceValue<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self { symbol, is_pointer } = self;
+
+        if *is_pointer {
+            write!(f, "&{symbol}")
+        } else {
+            write!(f, "{symbol}")
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct FunctionPointerValue<'s> {
+    actual_sym: &'s str,
+    args: ArgVec<'s>,
+    is_pointer: bool,
+    return_type: FunctionPointerReturnType<'s>,
+}
+
+impl<'s> FunctionPointerValue<'s> {
+    pub(crate) const fn new(
+        actual_sym: &'s str,
+        args: ArgVec<'s>,
+        is_pointer: bool,
+        return_type: FunctionPointerReturnType<'s>,
+    ) -> Self {
+        Self {
+            actual_sym,
+            args,
+            is_pointer,
+            return_type,
+        }
+    }
+}
+
+impl fmt::Display for FunctionPointerValue<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self {
+            actual_sym,
+            args,
+            is_pointer,
+            return_type,
+        } = self;
+
+        let ampersand = if *is_pointer { "&" } else { "" };
+        write!(f, "({return_type}(*)({args})) {ampersand}{actual_sym}")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct FunctionReferenceValue<'s> {
+    actual_sym: &'s str,
+    args: ArgVec<'s>,
+    is_pointer: bool,
+    return_type: FunctionPointerReturnType<'s>,
+}
+
+impl<'s> FunctionReferenceValue<'s> {
+    pub(crate) const fn new(
+        actual_sym: &'s str,
+        args: ArgVec<'s>,
+        is_pointer: bool,
+        return_type: FunctionPointerReturnType<'s>,
+    ) -> Self {
+        Self {
+            actual_sym,
+            args,
+            is_pointer,
+            return_type,
+        }
+    }
+}
+
+impl fmt::Display for FunctionReferenceValue<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self {
+            actual_sym,
+            args,
+            is_pointer,
+            return_type,
+        } = self;
+
+        let ampersand = if *is_pointer { "&" } else { "" };
+        write!(f, "({return_type}(&)({args})) {ampersand}{actual_sym}")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct FunctionRawValue<'s> {
+    actual_sym: &'s str,
+    args: ArgVec<'s>,
+    is_pointer: bool,
+}
+
+impl<'s> FunctionRawValue<'s> {
+    pub(crate) const fn new(actual_sym: &'s str, args: ArgVec<'s>, is_pointer: bool) -> Self {
+        Self {
+            actual_sym,
+            args,
+            is_pointer,
+        }
+    }
+}
+
+impl fmt::Display for FunctionRawValue<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self {
+            actual_sym,
+            args,
+            is_pointer,
+        } = self;
+
+        let ampersand = if *is_pointer { "&" } else { "" };
+        write!(f, "{ampersand}{actual_sym}({args})")
     }
 }

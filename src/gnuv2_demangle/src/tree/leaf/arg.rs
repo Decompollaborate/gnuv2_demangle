@@ -1,10 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{
-    borrow::Cow,
-    string::{String, ToString},
-};
+use alloc::string::{String, ToString};
 use core::{fmt, num::NonZeroU32};
 
 use super::{ArgPostQualifierVec, ArgVec, ArrayQualifiers, TypeMeta};
@@ -85,12 +82,6 @@ impl fmt::Display for PlainArg<'_> {
             write!(f, " {}", post_qualifiers.to_string().trim_matches(' '))?;
         }
         Ok(())
-    }
-}
-
-impl From<PlainArg<'_>> for Cow<'static, str> {
-    fn from(value: PlainArg<'_>) -> Self {
-        Cow::from(value.to_string())
     }
 }
 

@@ -9,7 +9,8 @@ use crate::{
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::leaf::{
-        ArgVec, DemangledArg, FunctionPointer, NamespaceKind, NamespacedType, Template,
+        ArgVec, DemangledArg, FunctionPointer, FunctionPointerValue, FunctionRawValue,
+        FunctionReferenceValue, NamespaceKind, NamespacedType, ObjectReferenceValue, Template,
         TemplateElement, TemplatedTypename, TemplatedValue, TemplatedValueVec,
     },
     DemangleConfig, DemangleError,
@@ -182,8 +183,8 @@ fn demangle_templated_value<'s>(
             DemangledArg::Plain(..) => {
                 let Remaining { r: aux, d: symbol } =
                     demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
-                let ampersand = if is_pointer { "&" } else { "" };
-                let t = format!("{ampersand}{symbol}");
+
+                let t = ObjectReferenceValue::new(symbol, is_pointer);
                 (aux, TemplatedValue::ObjectReference(t))
             }
             DemangledArg::FunctionPointer(function_pointer) => {
@@ -207,19 +208,24 @@ fn demangle_templated_value<'s>(
                     ));
                 };
 
-                let ampersand = if is_pointer { "&" } else { "" };
                 let t = if config.fix_function_pointers_in_template_lists {
                     if is_pointer {
-                        TemplatedValue::FunctionPointer(format!(
-                            "({return_type}(*)({args})) {ampersand}{actual_sym}"
+                        TemplatedValue::FunctionPointer(FunctionPointerValue::new(
+                            actual_sym,
+                            args,
+                            is_pointer,
+                            return_type,
                         ))
                     } else {
-                        TemplatedValue::FunctionReference(format!(
-                            "({return_type}(&)({args})) {ampersand}{actual_sym}"
+                        TemplatedValue::FunctionReference(FunctionReferenceValue::new(
+                            actual_sym,
+                            args,
+                            is_pointer,
+                            return_type,
                         ))
                     }
                 } else {
-                    TemplatedValue::FunctionRaw(format!("{ampersand}{actual_sym}({args})"))
+                    TemplatedValue::FunctionRaw(FunctionRawValue::new(actual_sym, args, is_pointer))
                 };
                 (aux, t)
             }
@@ -228,8 +234,8 @@ fn demangle_templated_value<'s>(
                 // TODO: does it make sense to have them both?
                 let Remaining { r: aux, d: symbol } =
                     demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
-                let ampersand = if is_pointer { "&" } else { "" };
-                let t = format!("{ampersand}{symbol}");
+
+                let t = ObjectReferenceValue::new(symbol, is_pointer);
                 (aux, TemplatedValue::ObjectReference(t))
             }
             DemangledArg::MethodPointer(..)

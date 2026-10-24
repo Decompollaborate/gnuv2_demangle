@@ -32,6 +32,7 @@ pub(crate) use signedness::Signedness;
 pub(crate) use static_suffix::StaticSuffix;
 pub(crate) use template::Template;
 pub(crate) use templated_value_vec::{
+    FunctionPointerValue, FunctionRawValue, FunctionReferenceValue, ObjectReferenceValue,
     TemplateElement, TemplatedTypename, TemplatedValue, TemplatedValueVec,
 };
 pub(crate) use typ::{Type, TypeMeta};
