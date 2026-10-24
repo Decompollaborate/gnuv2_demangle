@@ -20,6 +20,10 @@ impl<'s> TypeMeta<'s> {
     pub(crate) const fn class_like(&self) -> bool {
         self.typ.class_like()
     }
+
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        self.typ.ends_with_gt()
+    }
 }
 
 impl fmt::Display for TypeMeta<'_> {
@@ -100,6 +104,36 @@ impl<'s> Type<'s> {
             Self::LookBack { .. } => false,
             Self::Template(_) => true,
             Self::TemplatedFunctionIndex { .. } => false,
+        }
+    }
+
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        match self {
+            Self::Char => false,
+            Self::Short => false,
+            Self::Int => false,
+            Self::Long => false,
+            Self::LongLong => false,
+            Self::Float => false,
+            Self::Double => false,
+            Self::LongDouble => false,
+            Self::Bool => false,
+            Self::WChar => false,
+            Self::Void => false,
+            Self::UInt128 => false,
+            Self::SInt128 => false,
+            Self::Int128 => false,
+            Self::Class(_custom_name) => false,
+            Self::Namespaces(namespaced_type) => namespaced_type.ends_with_gt(),
+            Self::LookBack {
+                referenced_arg: _,
+                lookback: _,
+            } => false,
+            Self::Template(template) => template.ends_with_gt(),
+            Self::TemplatedFunctionIndex {
+                referenced_arg: _,
+                lookback: _,
+            } => false,
         }
     }
 }

@@ -3,26 +3,28 @@
 
 use core::fmt;
 
-use alloc::string::String;
-
-use super::{CustomName, NamespaceKind, NamespacedType};
+use super::{CustomName, NamespaceKind, NamespacedType, TemplatedValueVec};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct Template<'s> {
-    template: String,
     class_name: CustomName<'s>,
+    template: TemplatedValueVec<'s>,
 }
 
 impl<'s> Template<'s> {
-    pub(crate) const fn new(template: String, class_name: CustomName<'s>) -> Self {
+    pub(crate) const fn new(class_name: CustomName<'s>, template: TemplatedValueVec<'s>) -> Self {
         Self {
-            template,
             class_name,
+            template,
         }
     }
 
     pub(crate) fn class_name(&self) -> CustomName<'s> {
         self.class_name
+    }
+
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        true
     }
 
     pub(crate) fn into_namespaced_type(self) -> NamespacedType<'s> {
@@ -35,11 +37,11 @@ impl<'s> Template<'s> {
 impl fmt::Display for Template<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let Self {
-            template,
             class_name,
+            template,
         } = self;
 
-        if template.ends_with('>') {
+        if template.ends_with_gt() {
             write!(f, "{}<{} >", class_name, template)
         } else {
             write!(f, "{}<{}>", class_name, template)

@@ -1,11 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{
-    string::{String, ToString},
-    sync::Arc,
-    vec::Vec,
-};
+use alloc::{sync::Arc, vec::Vec};
 use core::fmt;
 
 use super::{
@@ -27,14 +23,27 @@ impl<'s> TemplatedValueVec<'s> {
         self.vec.get(index).map(Arc::clone)
     }
 
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        self.vec.last().is_some_and(|x| x.ends_with_gt())
+    }
+
     pub(crate) fn push(&mut self, element: TemplateElement<'s>) {
         self.vec.push(Arc::new(element));
     }
+}
 
-    pub(crate) fn join(self) -> String {
-        let vec: Vec<String> = self.vec.into_iter().map(|x| x.to_string()).collect();
+impl fmt::Display for TemplatedValueVec<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut iter = self.vec.iter();
 
-        vec.join(", ")
+        if let Some(first) = iter.next() {
+            write!(f, "{first}")?;
+        }
+        for value in iter {
+            write!(f, ", {value}")?;
+        }
+
+        Ok(())
     }
 }
 
@@ -42,6 +51,15 @@ impl<'s> TemplatedValueVec<'s> {
 pub(crate) enum TemplateElement<'s> {
     Typename(TemplatedTypename<'s>), // i.e. class
     Value(TemplatedValue<'s>),
+}
+
+impl<'s> TemplateElement<'s> {
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        match self {
+            Self::Typename(templated_typename) => templated_typename.ends_with_gt(),
+            Self::Value(templated_value) => templated_value.ends_with_gt(),
+        }
+    }
 }
 
 impl fmt::Display for TemplateElement<'_> {
@@ -59,6 +77,17 @@ pub(crate) enum TemplatedTypename<'s> {
     FunctionPointer(FunctionPointer<'s>),
     MethodPointer(MethodPointer<'s>),
     MemberPointer(MemberPointer<'s>),
+}
+
+impl<'s> TemplatedTypename<'s> {
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        match self {
+            Self::Plain(plain_arg_array) => plain_arg_array.ends_with_gt(),
+            Self::FunctionPointer(..) => false,
+            Self::MethodPointer(..) => false,
+            Self::MemberPointer(..) => false,
+        }
+    }
 }
 
 impl fmt::Display for TemplatedTypename<'_> {
@@ -92,6 +121,12 @@ pub(crate) enum TemplatedValue<'s> {
         number: u32,
         negative: bool,
     },
+}
+
+impl<'s> TemplatedValue<'s> {
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        false
+    }
 }
 
 impl fmt::Display for TemplatedValue<'_> {

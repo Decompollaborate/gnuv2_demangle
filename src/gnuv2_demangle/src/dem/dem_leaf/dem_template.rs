@@ -36,9 +36,7 @@ pub(crate) fn demangle_template<'s>(
     let (remaining, types) =
         demangle_template_types_impl(config, remaining, digit, template_args, allow_array_fixup)?;
 
-    let templated = types.join();
-
-    let t = Template::new(templated, class_name);
+    let t = Template::new(class_name, types);
 
     Ok(Remaining::new(remaining, t))
 }

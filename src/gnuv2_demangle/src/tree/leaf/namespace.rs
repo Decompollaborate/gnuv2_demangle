@@ -20,6 +20,10 @@ impl<'s> NamespaceVec<'s> {
         }
     }
 
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        self.namepace_list.last().is_some_and(|x| x.ends_with_gt())
+    }
+
     pub(crate) fn push(&mut self, ns: NamespaceElement<'s>) {
         self.namepace_list.push(ns);
     }
@@ -48,6 +52,16 @@ pub(crate) enum NamespaceElement<'s> {
     Template(Template<'s>),
     DemangledSymbol(Demangled<'s>),
     Plain(CustomName<'s>),
+}
+
+impl<'s> NamespaceElement<'s> {
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        match self {
+            Self::Template(template) => template.ends_with_gt(),
+            Self::DemangledSymbol(demangled) => demangled.ends_with_gt(),
+            Self::Plain(_custom_name) => false,
+        }
+    }
 }
 
 impl fmt::Display for NamespaceElement<'_> {

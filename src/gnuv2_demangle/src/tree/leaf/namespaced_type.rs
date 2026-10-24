@@ -19,6 +19,10 @@ impl<'s> NamespacedType<'s> {
             type_name,
         }
     }
+
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        self.namespace.ends_with_gt()
+    }
 }
 
 impl<'s> fmt::Display for NamespacedType<'s> {
@@ -37,6 +41,16 @@ pub(crate) enum NamespaceKind<'s> {
     Template(Template<'s>),
     Namespace(NamespaceVec<'s>),
     Class(CustomName<'s>),
+}
+
+impl<'s> NamespaceKind<'s> {
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        match self {
+            Self::Template(template) => template.ends_with_gt(),
+            Self::Namespace(namespace_vec) => namespace_vec.ends_with_gt(),
+            Self::Class(_custom_name) => false,
+        }
+    }
 }
 
 impl<'s> fmt::Display for NamespaceKind<'s> {

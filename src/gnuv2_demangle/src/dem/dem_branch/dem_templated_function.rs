@@ -124,8 +124,6 @@ pub(crate) fn demangle_templated_function<'s>(
         return Err(DemangleError::MalformedTemplateWithReturnTypeMissingReturnType(remaining));
     };
 
-    let template_args = template_args.join();
-
     let PlainArgArray {
         plain: return_type,
         array_qualifiers,
@@ -139,7 +137,7 @@ pub(crate) fn demangle_templated_function<'s>(
         template_args,
         argument_list,
         return_type,
-        specialization_namespace.map(|x| x.plain), //.map(|(x, _)| x),
+        specialization_namespace.map(|x| x.plain),
         array_qualifiers,
         typ,
     ))

@@ -1,16 +1,18 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{string::String, sync::Arc};
+use alloc::sync::Arc;
 use core::fmt;
 
-use crate::tree::leaf::{ArgVec, ArrayQualifiers, MethodQualifier, NamespacedType, PlainArg};
+use crate::tree::leaf::{
+    ArgVec, ArrayQualifiers, MethodQualifier, NamespacedType, PlainArg, TemplatedValueVec,
+};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct TemplatedFunction<'s> {
     func_name: &'s str,
     method_qualifier: MethodQualifier,
-    template_args: String,
+    template_args: TemplatedValueVec<'s>,
     argument_list: ArgVec<'s>,
     return_type: PlainArg<'s>,
     specialization_namespace: Option<PlainArg<'s>>,
@@ -23,7 +25,7 @@ impl<'s> TemplatedFunction<'s> {
     pub(crate) const fn new(
         func_name: &'s str,
         method_qualifier: MethodQualifier,
-        template_args: String,
+        template_args: TemplatedValueVec<'s>,
         argument_list: ArgVec<'s>,
         return_type: PlainArg<'s>,
         specialization_namespace: Option<PlainArg<'s>>,
@@ -74,7 +76,7 @@ impl fmt::Display for TemplatedFunction<'_> {
         }
 
         write!(f, "{func_name}<{}", template_args)?;
-        if template_args.ends_with('>') {
+        if template_args.ends_with_gt() {
             write!(f, " ")?;
         }
         write!(f, ">({argument_list}){method_qualifier}")?;

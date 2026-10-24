@@ -36,6 +36,16 @@ impl<'s> PlainArgArray<'s> {
     }
 }
 
+impl<'s> PlainArgArray<'s> {
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        if self.array_qualifiers.is_some() {
+            false
+        } else {
+            self.plain.ends_with_gt()
+        }
+    }
+}
+
 impl fmt::Display for PlainArgArray<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let Self {
@@ -67,6 +77,14 @@ impl<'s> PlainArg<'s> {
 
     fn ends_with_ptr_like(&self) -> bool {
         self.post_qualifiers.ends_with_ptr_like()
+    }
+
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        if self.post_qualifiers.is_empty() {
+            self.typ.ends_with_gt()
+        } else {
+            false
+        }
     }
 }
 

@@ -28,6 +28,12 @@ pub enum Demangled<'s> {
     NamespacedGlobal(NamespacedGlobal<'s>),
 }
 
+impl<'s> Demangled<'s> {
+    pub(crate) fn ends_with_gt(&self) -> bool {
+        false
+    }
+}
+
 impl<'s> fmt::Display for Demangled<'s> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
