@@ -108,12 +108,25 @@ impl ArgPostQualifierVec {
 
 impl fmt::Display for ArgPostQualifierVec {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut needs_space = false;
+
         for q in self.qualifiers.iter().rev() {
+            if needs_space {
+                write!(f, " ")?;
+                needs_space = false;
+            }
+
             match q {
                 ArgPostQualifier::Pointer => write!(f, "*")?,
                 ArgPostQualifier::Reference => write!(f, "&")?,
-                ArgPostQualifier::Const => write!(f, "const ")?,
-                ArgPostQualifier::Volatile => write!(f, "volatile ")?,
+                ArgPostQualifier::Const => {
+                    write!(f, "const")?;
+                    needs_space = true;
+                }
+                ArgPostQualifier::Volatile => {
+                    write!(f, "volatile")?;
+                    needs_space = true;
+                }
             }
         }
 

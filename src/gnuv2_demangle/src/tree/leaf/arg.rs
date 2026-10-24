@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::{String, ToString};
+use alloc::string::String;
 use core::{fmt, num::NonZeroU32};
 
 use super::{ArgPostQualifierVec, ArgVec, ArrayQualifiers, TypeMeta};
@@ -97,7 +97,7 @@ impl fmt::Display for PlainArg<'_> {
 
         write!(f, "{typ}")?;
         if !post_qualifiers.is_empty() {
-            write!(f, " {}", post_qualifiers.to_string().trim_matches(' '))?;
+            write!(f, " {post_qualifiers}")?;
         }
         Ok(())
     }
