@@ -35417,7 +35417,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "BindFunction__H2ZP8ISimableZi_P9lua_StatePCcPFX11_X01T1_v",
-        "void BindFunction<ISimable *, int>(lua_State *, char const *, ISimable *(*)(int), char const *)",
+        "void BindFunction<ISimable *, int>(lua_State *, char const *, ISimable * (*)(int), char const *)",
     ),
     (
         "FunctionArg1Thunk__H2ZP16GRuntimeInstanceZi_P9lua_State_i",
@@ -35425,7 +35425,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "BindFunction__H2ZP16GRuntimeInstanceZi_P9lua_StatePCcPFX11_X01T1_v",
-        "void BindFunction<GRuntimeInstance *, int>(lua_State *, char const *, GRuntimeInstance *(*)(int), char const *)",
+        "void BindFunction<GRuntimeInstance *, int>(lua_State *, char const *, GRuntimeInstance * (*)(int), char const *)",
     ),
     (
         "BindFunction__H1Zi_P9lua_StatePCcPFv_X01T1_v",

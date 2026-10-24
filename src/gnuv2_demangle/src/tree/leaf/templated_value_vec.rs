@@ -36,6 +36,7 @@ impl<'s> TemplatedValueVec<'s> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[expect(clippy::large_enum_variant)]
 pub(crate) enum TemplateElement<'s> {
     Typename(TemplatedTypename<'s>), // i.e. class
     Value(TemplatedValue<'s>),

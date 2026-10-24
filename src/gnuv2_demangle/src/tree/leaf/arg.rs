@@ -67,6 +67,10 @@ impl<'s> PlainArg<'s> {
             post_qualifiers,
         }
     }
+
+    fn ends_with_ptr_like(&self) -> bool {
+        self.post_qualifiers.ends_with_ptr_like()
+    }
 }
 
 impl fmt::Display for PlainArg<'_> {
@@ -140,7 +144,7 @@ impl fmt::Display for FunctionPointer<'_> {
                 write!(f, "({}", arr.inner_post_qualifiers)?;
             }
         }
-        if !return_type.ends_with_ptr() && !wrote_space {
+        if !return_type.ends_with_ptr_like() && !wrote_space {
             write!(f, " ")?;
         }
         write!(f, "({})", post_qualifiers.trim_matches(' '))?;
@@ -213,7 +217,7 @@ impl fmt::Display for MethodPointer<'_> {
                 write!(f, "({}", arr.inner_post_qualifiers)?;
             }
         }
-        if !return_type.ends_with_ptr() && !wrote_space {
+        if !return_type.ends_with_ptr_like() && !wrote_space {
             write!(f, " ")?;
         }
         write!(f, "({}::{})", class, post_qualifiers.trim_matches(' '))?;
@@ -286,31 +290,25 @@ impl fmt::Display for MemberPointer<'_> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct FunctionPointerReturnType<'s> {
-    return_type: String,
-    pht: core::marker::PhantomData<&'s str>,
+pub(crate) enum FunctionPointerReturnType<'s> {
+    PlainArg(PlainArg<'s>),
+    MemberPointer(MemberPointer<'s>),
 }
 
 impl<'s> FunctionPointerReturnType<'s> {
-    pub(crate) const fn new(return_type: String) -> Self {
-        Self {
-            return_type,
-            pht: core::marker::PhantomData,
+    fn ends_with_ptr_like(&self) -> bool {
+        match self {
+            Self::PlainArg(plain) => plain.ends_with_ptr_like(),
+            Self::MemberPointer(..) => true,
         }
-    }
-
-    fn ends_with_ptr(&self) -> bool {
-        self.return_type.ends_with(['*', '&'])
     }
 }
 
 impl fmt::Display for FunctionPointerReturnType<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let Self {
-            return_type,
-            pht: _,
-        } = self;
-
-        write!(f, "{return_type}")
+        match self {
+            Self::PlainArg(plain) => write!(f, "{plain}"),
+            Self::MemberPointer(member_pointer) => write!(f, "{member_pointer}"),
+        }
     }
 }

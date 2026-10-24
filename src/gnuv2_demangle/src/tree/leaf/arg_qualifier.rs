@@ -58,6 +58,13 @@ impl ArgPostQualifierVec {
         self.qualifiers.is_empty()
     }
 
+    pub(crate) fn ends_with_ptr_like(&self) -> bool {
+        matches!(
+            self.qualifiers.first(),
+            Some(ArgPostQualifier::Pointer | ArgPostQualifier::Reference)
+        )
+    }
+
     pub(crate) fn valid_as_method_pointer_arg(&self) -> bool {
         // method pointer args have a few restrictions on how they are qualified.
 

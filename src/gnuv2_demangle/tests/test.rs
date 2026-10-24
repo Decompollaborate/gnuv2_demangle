@@ -580,7 +580,7 @@ fn test_demangle_namespaced_globals() {
 
 #[test]
 fn test_demangle_function_pointers() {
-    static CASES: [(&str, &str); 7] = [
+    static CASES: [(&str, &str); 8] = [
         ("set_terminate__FPFv_v", "set_terminate(void (*)(void))"),
         ("set_unexpected__FPFv_v", "set_unexpected(void (*)(void))"),
         ("pointerness__FPFiGt9Something1x42_t9Something1x39iPFiRt9Something1x42_RCt9Something1x39", "pointerness(Something<39> (*)(int, Something<42>), int, Something<39> const &(*)(int, Something<42> &))"),
@@ -588,6 +588,7 @@ fn test_demangle_function_pointers() {
         ("InstallShader__14pddiBaseShaderPCcPFP17pddiRenderContextPCcPCc_P14pddiBaseShaderT1", "pddiBaseShader::InstallShader(char const *, pddiBaseShader *(*)(pddiRenderContext *, char const *, char const *), char const *)"),
         ("set_unexpected__FPPPPFv_v", "set_unexpected(void (****)(void))"),
         ("set_unexpected__FRPPPPPPPFv_v", "set_unexpected(void (*******&)(void))"),
+        ("function_pointer_sign__FPFUc_Sc", "function_pointer_sign(signed char (*)(unsigned char))"), 
     ];
     let config = DemangleConfig::new();
 
@@ -1763,7 +1764,7 @@ fn test_demangle_all_operators() {
         namespace Something {
             class X {
             public:
-                int operator->*(int X::*) const  { return 0; }
+                int operator->*(int X::*) const { return 0; }
             };
         }
 
@@ -2341,31 +2342,44 @@ fn test_demangle_pointer_to_member() {
     public:
     };
 
-    void class_field_arg(int X::*)  {
+    void class_field_arg(int X::*) {
     }
-    void class_field_function_pointer_arg(  int X::* (*) (const float X::* , volatile wchar_t  X::* ))  {
+
+    void class_field_function_pointer_arg(  int X::* (*) (const float X::* , volatile wchar_t  X::* )) {
     }
-    void class_field_function_pointer_arg_with_signs(  signed char X::* (*) (const unsigned char X::* , const char X::* , const unsigned short X::* , volatile unsigned long long  X::* ))  {
+    void class_field_function_pointer_arg_with_signs(  signed char X::* (*) (unsigned char X::* , char X::* , unsigned short X::* , unsigned long long  X::* )) {
     }
-    void class_field_function_pointer_arg_with_classes(  int X::* (*) (const NamespaceABC::Y X::* , volatile NamespaceABC::Parent::Z*  X::* ))  {
+    void class_field_function_pointer_arg_with_signs_volatile(  signed char X::* (*) (const unsigned char X::* , const char X::* , const unsigned short X::* , volatile unsigned long long  X::* )) {
+    }
+    void class_field_function_pointer_arg_with_signz_volatile(  signed char X::* (*) (const unsigned char X::* , const char X::* , const unsigned short X::* , long long unsigned volatile   X::* )) {
+    }
+    void class_field_function_pointer_arg_with_classes(  int X::* (*) (const NamespaceABC::Y X::* , volatile NamespaceABC::Parent::Z*  X::* )) {
     }
     */
     static CASES: [(&str, &str); 1] = [
         ("class_field_arg__FPO1X_i", "class_field_arg(int (X::*))"),
-        // These cases aren't passing yet.
+        // TODO: These cases aren't passing yet.
         /*
         (
             "class_field_function_pointer_arg__FPFPO1X_CfPO1X_Vw_PO1X_i",
             "class_field_function_pointer_arg(int (X::*(*)(float const (X::*), wchar_t volatile (X::*))))",
         ),
         (
-            "class_field_function_pointer_arg_with_signs__FPFPO1X_CUcPO1X_CcPO1X_CUsPO1X_UVx_PO1X_Sc",
-            "class_field_function_pointer_arg_with_signs(signed char (X::*(*)(unsigned char const (X::*), char const (X::*), unsigned short const (X::*), volatile unsigned long long (X::*))))",
+            "class_field_function_pointer_arg_with_signs__FPFPO1X_UcPO1X_cPO1X_UsPO1X_Ux_PO1X_Sc",
+            "class_field_function_pointer_arg_with_signs(signed char (X::*(*)(unsigned char (X::*), char (X::*), unsigned short (X::*), unsigned long long (X::*))))",
+        ),
+        (
+            "class_field_function_pointer_arg_with_signs_volatile__FPFPO1X_CUcPO1X_CcPO1X_CUsPO1X_UVx_PO1X_Sc",
+            "class_field_function_pointer_arg_with_signs_volatile(signed char (X::*(*)(unsigned char const (X::*), char const (X::*), unsigned short const (X::*), volatile unsigned long long (X::*))))",
+        ),
+        (
+            "class_field_function_pointer_arg_with_signz_volatile__FPFPO1X_CUcPO1X_CcPO1X_CUsPO1X_UVx_PO1X_Sc",
+            "class_field_function_pointer_arg_with_signz_volatile(signed char (X::*(*)(unsigned char const (X::*), char const (X::*), unsigned short const (X::*), volatile unsigned long long (X::*))))",
         ),
         (
             "class_field_function_pointer_arg_with_classes__FPFPO1X_CQ212NamespaceABC1YPO1X_PVQ312NamespaceABC6Parent1Z_PO1X_i",
             "class_field_function_pointer_arg_with_classes(int (X::*(*)(NamespaceABC::Y const (X::*), NamespaceABC::Parent::Z volatile *(X::*))))",
-        ),
+        )
         */
     ];
     let config = DemangleConfig::new();

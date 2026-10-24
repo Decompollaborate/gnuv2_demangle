@@ -286,6 +286,10 @@ fn demangle_function_pointer_arg<'s>(
         array_qualifiers,
     } = qualifiers;
 
+    if sign != Signedness::No {
+        return Err(DemangleError::InvalidSignednessForFunctionPointer(s));
+    }
+
     let fp = match return_type {
         DemangledArg::Plain(plain_array) => {
             let PlainArgArray {
@@ -294,7 +298,7 @@ fn demangle_function_pointer_arg<'s>(
             } = plain_array;
 
             FunctionPointer::new(
-                FunctionPointerReturnType::new(format!("{sign}{plain}")),
+                FunctionPointerReturnType::PlainArg(plain),
                 array_qualifiers.into(),
                 post_qualifiers.to_string(),
                 func_args.join(),
@@ -313,7 +317,7 @@ fn demangle_function_pointer_arg<'s>(
                 array_qualifiers: sub_array_qualifiers,
                 // This is kinda hacky, but it seems to work...
                 post_qualifiers: format!(
-                    "{sign}{post_qualifiers}({sub_post_qualifiers})({func_args}){array_qualifiers}",
+                    "{post_qualifiers}({sub_post_qualifiers})({func_args}){array_qualifiers}",
                 ),
                 args: sub_args,
             }
@@ -334,13 +338,13 @@ fn demangle_function_pointer_arg<'s>(
                 sub_return_type,
                 sub_array_qualifiers,
                 format!(
-                    "{sign}{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}{array_qualifiers}",
+                    "{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}{array_qualifiers}",
                 ),
                 sub_args,
             )
         }
         DemangledArg::MemberPointer(object) => FunctionPointer::new(
-            FunctionPointerReturnType::new(format!("{sign}{object}")),
+            FunctionPointerReturnType::MemberPointer(object),
             None.into(),
             post_qualifiers.to_string(),
             func_args.join(),
