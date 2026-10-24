@@ -1,7 +1,6 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, string::ToString};
 use core::num::NonZeroU32;
 
 use super::{demangle_custom_name, demangle_template};
@@ -9,7 +8,10 @@ use super::{demangle_custom_name, demangle_template};
 use crate::{
     demangle,
     remainer::{Remaining, StrParsing},
-    tree::leaf::{CustomName, NamespaceKind, NamespaceVec, NamespacedType, TemplatedValueVec},
+    tree::leaf::{
+        CustomName, NamespaceElement, NamespaceKind, NamespaceVec, NamespacedType,
+        TemplatedValueVec,
+    },
     DemangleConfig, DemangleError,
 };
 
@@ -60,8 +62,9 @@ fn demangle_namespaces_impl<'s>(
         let (r, n) = if let Some(temp) = remaining.strip_prefix('t') {
             let Remaining { r, d: t } =
                 demangle_template(config, temp, template_args, allow_array_fixup)?;
+
             trailing_type = t.class_name();
-            (r, Cow::from(t.to_string()))
+            (r, NamespaceElement::Template(t))
         } else {
             let Remaining { r, d: ns } =
                 demangle_custom_name(remaining, DemangleError::InvalidCustomNameOnNamespace)?;
@@ -73,8 +76,8 @@ fn demangle_namespaces_impl<'s>(
             // actually need further demangling.
             // If we fail, then we just keep the old namespace.
             let new_ns = match demangle(ns.into_raw(), config) {
-                Ok(new_ns) => Cow::from(new_ns.to_string()),
-                Err(_e) => Cow::from(ns),
+                Ok(new_ns) => NamespaceElement::DemangledSymbol(new_ns),
+                Err(_e) => NamespaceElement::Plain(ns),
             };
 
             (r, new_ns)

@@ -1,12 +1,16 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, string::ToString, vec::Vec};
+use alloc::vec::Vec;
 use core::fmt;
+
+use super::{CustomName, Template};
+
+use crate::tree::Demangled;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct NamespaceVec<'s> {
-    namepace_list: Vec<Cow<'s, str>>,
+    namepace_list: Vec<NamespaceElement<'s>>,
 }
 
 impl<'s> NamespaceVec<'s> {
@@ -16,7 +20,7 @@ impl<'s> NamespaceVec<'s> {
         }
     }
 
-    pub(crate) fn push(&mut self, ns: Cow<'s, str>) {
+    pub(crate) fn push(&mut self, ns: NamespaceElement<'s>) {
         self.namepace_list.push(ns);
     }
 }
@@ -38,31 +42,20 @@ impl<'s> fmt::Display for NamespaceVec<'s> {
     }
 }
 
-// silly
-impl<'s> From<&NamespaceVec<'s>> for Cow<'s, str> {
-    fn from(value: &NamespaceVec<'s>) -> Self {
-        if value.namepace_list.len() == 1 {
-            Cow::clone(
-                value
-                    .namepace_list
-                    .first()
-                    .expect("Already checked the len"),
-            )
-        } else {
-            Cow::from(value.to_string())
-        }
-    }
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[expect(clippy::large_enum_variant)]
+pub(crate) enum NamespaceElement<'s> {
+    Template(Template<'s>),
+    DemangledSymbol(Demangled<'s>),
+    Plain(CustomName<'s>),
 }
-impl<'s> From<NamespaceVec<'s>> for Cow<'s, str> {
-    fn from(value: NamespaceVec<'s>) -> Self {
-        if value.namepace_list.len() == 1 {
-            value
-                .namepace_list
-                .into_iter()
-                .next()
-                .expect("Already checked the len")
-        } else {
-            Cow::from(value.to_string())
+
+impl fmt::Display for NamespaceElement<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Template(template) => write!(f, "{template}"),
+            Self::DemangledSymbol(demangled) => write!(f, "{demangled}"),
+            Self::Plain(custom_name) => write!(f, "{custom_name}"),
         }
     }
 }

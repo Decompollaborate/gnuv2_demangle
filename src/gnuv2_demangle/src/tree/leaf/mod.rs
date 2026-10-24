@@ -25,7 +25,7 @@ pub(crate) use arg_vec::ArgVec;
 pub(crate) use array::{ArrayQualifiers, ArrayVec};
 pub(crate) use custom_name::CustomName;
 pub(crate) use method_qualifier::MethodQualifier;
-pub(crate) use namespace::NamespaceVec;
+pub(crate) use namespace::{NamespaceElement, NamespaceVec};
 pub(crate) use namespaced_type::{NamespaceKind, NamespacedType};
 pub(crate) use operator::Operator;
 pub(crate) use signedness::Signedness;

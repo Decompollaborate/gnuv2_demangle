@@ -54,7 +54,7 @@ impl<'s> From<&NamespaceKind<'s>> for Cow<'s, str> {
     fn from(value: &NamespaceKind<'s>) -> Self {
         match value {
             NamespaceKind::Template(template) => Cow::from(template.to_string()),
-            NamespaceKind::Namespace(namespace_vec) => Cow::from(namespace_vec),
+            NamespaceKind::Namespace(namespace_vec) => Cow::from(namespace_vec.to_string()),
             NamespaceKind::Class(class) => Cow::from(*class),
         }
     }
