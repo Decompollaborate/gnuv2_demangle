@@ -13,8 +13,9 @@ use crate::{
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::leaf::{
-        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, MethodPointer, ObjectPointer,
-        PlainArg, PlainArgArray, Signedness, TemplatedValueVec, Type, TypeMeta,
+        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, FunctionPointerReturnType,
+        MethodPointer, ObjectPointer, PlainArg, PlainArgArray, Signedness, TemplatedValueVec, Type,
+        TypeMeta,
     },
     DemangleConfig, DemangleError,
 };
@@ -269,7 +270,7 @@ fn demangle_function_pointer_arg<'s>(
     template_args: &TemplatedValueVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
-) -> Result<(&'s str, FunctionPointer), DemangleError<'s>> {
+) -> Result<(&'s str, FunctionPointer<'s>), DemangleError<'s>> {
     let Remaining { r, d: func_args } =
         demangle_argument_list_impl(config, s, None, template_args, true, allow_array_fixup)?;
     let Some(r) = r.strip_prefix('_') else {
@@ -292,12 +293,12 @@ fn demangle_function_pointer_arg<'s>(
                 array_qualifiers,
             } = plain_array;
 
-            FunctionPointer {
-                return_type: format!("{sign}{plain}"),
-                array_qualifiers: array_qualifiers.into(),
-                post_qualifiers: post_qualifiers.to_string(),
-                args: func_args.join(),
-            }
+            FunctionPointer::new(
+                FunctionPointerReturnType::new(format!("{sign}{plain}")),
+                array_qualifiers.into(),
+                post_qualifiers.to_string(),
+                func_args.join(),
+            )
         }
         DemangledArg::FunctionPointer(function_pointer) => {
             let FunctionPointer {
@@ -329,21 +330,21 @@ fn demangle_function_pointer_arg<'s>(
             } = method_pointer;
             let func_args = func_args.join();
             let const_qualifier = if is_const_method { " const" } else { "" };
-            FunctionPointer {
-                return_type: sub_return_type,
-                array_qualifiers: sub_array_qualifiers,
-                post_qualifiers: format!(
+            FunctionPointer::new(
+                sub_return_type,
+                sub_array_qualifiers,
+                format!(
                     "{sign}{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}{array_qualifiers}",
                 ),
-                args: sub_args,
-            }
+                sub_args,
+            )
         }
-        DemangledArg::ObjectPointer(object) => FunctionPointer {
-            return_type: format!("{sign}{object}"),
-            array_qualifiers: None.into(),
-            post_qualifiers: post_qualifiers.to_string(),
-            args: func_args.join(),
-        },
+        DemangledArg::ObjectPointer(object) => FunctionPointer::new(
+            FunctionPointerReturnType::new(format!("{sign}{object}")),
+            None.into(),
+            post_qualifiers.to_string(),
+            func_args.join(),
+        ),
         DemangledArg::Repeat { .. } | DemangledArg::Ellipsis => {
             return Err(DemangleError::InvalidReturnTypeForFunctionPointer(r))
         }
@@ -444,14 +445,14 @@ fn demangle_method_pointer_arg<'s>(
             args,
         } = fp;
 
-        let arg = MethodPointer {
+        let arg = MethodPointer::new(
             return_type,
             array_qualifiers,
-            class: class_name,
+            class_name,
             post_qualifiers,
             args,
             is_const_method,
-        };
+        );
         Ok((r, arg))
     } else {
         // What else could this be?
@@ -477,7 +478,13 @@ fn demangle_object_pointer_arg<'s>(
         return Err(DemangleError::InvalidQualifierForObjectMemberArg(full_args));
     }
 
-    let (r, DemangledArg::Plain(class_name)) = demangle_argument(
+    let (
+        r,
+        DemangledArg::Plain(PlainArgArray {
+            plain: class_name,
+            array_qualifiers: None,
+        }),
+    ) = demangle_argument(
         config,
         s,
         &ArgVec::new(config, None),
@@ -485,13 +492,6 @@ fn demangle_object_pointer_arg<'s>(
         allow_array_fixup,
     )?
     else {
-        return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
-    };
-
-    let PlainArgArray {
-        plain: class_name,
-        array_qualifiers: None,
-    } = class_name else {
         return Err(DemangleError::InvalidClassNameOnObjectMemberArgument(s));
     };
 

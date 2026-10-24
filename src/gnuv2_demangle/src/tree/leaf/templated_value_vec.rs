@@ -53,11 +53,9 @@ impl fmt::Display for TemplateElement<'_> {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum TemplatedTypename<'s> {
     Plain(PlainArgArray<'s>),
-    FunctionPointer(FunctionPointer),
+    FunctionPointer(FunctionPointer<'s>),
     MethodPointer(MethodPointer<'s>),
     ObjectPointer(ObjectPointer<'s>),
-    #[expect(dead_code)]
-    Dummy(core::marker::PhantomData<&'s str>),
 }
 
 impl fmt::Display for TemplatedTypename<'_> {
@@ -69,7 +67,6 @@ impl fmt::Display for TemplatedTypename<'_> {
             }
             Self::MethodPointer(method_pointer) => write!(f, "{method_pointer}"),
             Self::ObjectPointer(op) => write!(f, "{op}"),
-            Self::Dummy(_phantom_data) => unreachable!(),
         }
     }
 }

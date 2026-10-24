@@ -14,7 +14,7 @@ use crate::option_display::OptionDisplay;
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum DemangledArg<'s> {
     Plain(PlainArgArray<'s>),
-    FunctionPointer(FunctionPointer),
+    FunctionPointer(FunctionPointer<'s>),
     MethodPointer(MethodPointer<'s>),
     ObjectPointer(ObjectPointer<'s>),
     Repeat { count: NonZeroU32, index: u32 },
@@ -91,24 +91,30 @@ impl From<PlainArg<'_>> for Cow<'static, str> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct FunctionPointer {
-    pub(crate) return_type: String,
+pub(crate) struct FunctionPointer<'s> {
+    pub(crate) return_type: FunctionPointerReturnType<'s>,
     pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
     pub(crate) post_qualifiers: String,
     pub(crate) args: String,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct MethodPointer<'s> {
-    pub(crate) return_type: String,
-    pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
-    pub(crate) class: PlainArg<'s>,
-    pub(crate) post_qualifiers: String,
-    pub(crate) args: String,
-    pub(crate) is_const_method: bool,
+impl<'s> FunctionPointer<'s> {
+    pub(crate) const fn new(
+        return_type: FunctionPointerReturnType<'s>,
+        array_qualifiers: OptionDisplay<ArrayQualifiers>,
+        post_qualifiers: String,
+        args: String,
+    ) -> Self {
+        Self {
+            return_type,
+            array_qualifiers,
+            post_qualifiers,
+            args,
+        }
+    }
 }
 
-impl fmt::Display for FunctionPointer {
+impl fmt::Display for FunctionPointer<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let FunctionPointer {
             return_type,
@@ -134,7 +140,7 @@ impl fmt::Display for FunctionPointer {
                 write!(f, "({}", arr.inner_post_qualifiers)?;
             }
         }
-        if !return_type.ends_with(['*', '&']) && !wrote_space {
+        if !return_type.ends_with_ptr() && !wrote_space {
             write!(f, " ")?;
         }
         write!(f, "({})", post_qualifiers.trim_matches(' '))?;
@@ -146,6 +152,36 @@ impl fmt::Display for FunctionPointer {
             write!(f, "{}", arr.arrays)?;
         }
         Ok(())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct MethodPointer<'s> {
+    pub(crate) return_type: FunctionPointerReturnType<'s>,
+    pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
+    pub(crate) class: PlainArg<'s>,
+    pub(crate) post_qualifiers: String,
+    pub(crate) args: String,
+    pub(crate) is_const_method: bool,
+}
+
+impl<'s> MethodPointer<'s> {
+    pub(crate) const fn new(
+        return_type: FunctionPointerReturnType<'s>,
+        array_qualifiers: OptionDisplay<ArrayQualifiers>,
+        class: PlainArg<'s>,
+        post_qualifiers: String,
+        args: String,
+        is_const_method: bool,
+    ) -> Self {
+        Self {
+            return_type,
+            array_qualifiers,
+            class,
+            post_qualifiers,
+            args,
+            is_const_method,
+        }
     }
 }
 
@@ -177,7 +213,7 @@ impl fmt::Display for MethodPointer<'_> {
                 write!(f, "({}", arr.inner_post_qualifiers)?;
             }
         }
-        if !return_type.ends_with(['*', '&']) && !wrote_space {
+        if !return_type.ends_with_ptr() && !wrote_space {
             write!(f, " ")?;
         }
         write!(f, "({}::{})", class, post_qualifiers.trim_matches(' '))?;
@@ -204,7 +240,7 @@ pub(crate) struct ObjectPointer<'s> {
 }
 
 impl<'s> ObjectPointer<'s> {
-    pub(crate) const fn  new(
+    pub(crate) const fn new(
         class_name: PlainArg<'s>,
         member_type: PlainArg<'s>,
         array_qualifiers: Option<ArrayQualifiers>,
@@ -246,5 +282,35 @@ impl fmt::Display for ObjectPointer<'_> {
         }
 
         Ok(())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct FunctionPointerReturnType<'s> {
+    return_type: String,
+    pht: core::marker::PhantomData<&'s str>,
+}
+
+impl<'s> FunctionPointerReturnType<'s> {
+    pub(crate) const fn new(return_type: String) -> Self {
+        Self {
+            return_type,
+            pht: core::marker::PhantomData,
+        }
+    }
+
+    fn ends_with_ptr(&self) -> bool {
+        self.return_type.ends_with(['*', '&'])
+    }
+}
+
+impl fmt::Display for FunctionPointerReturnType<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let Self {
+            return_type,
+            pht: _,
+        } = self;
+
+        write!(f, "{return_type}")
     }
 }

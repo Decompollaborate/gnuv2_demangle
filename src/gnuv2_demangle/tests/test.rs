@@ -2319,6 +2319,62 @@ fn test_demangle_in_function_static_initialized() {
     }
 }
 
+#[test]
+fn test_demangle_pointer_to_member() {
+    // Code to generate those entries:
+    // EE GCC 2.95.3 (SN BUILD v1.14)
+    /*
+    namespace NamespaceABC {
+        class Y {
+        public:
+        };
+
+        class Parent {
+            public:
+            class Z {
+            public:
+            };
+        };
+    }
+
+    class X {
+    public:
+    };
+
+    void class_field_arg(int X::*)  {
+    }
+    void class_field_function_pointer_arg(  int X::* (*) (const float X::* , volatile wchar_t  X::* ))  {
+    }
+    void class_field_function_pointer_arg_with_signs(  signed char X::* (*) (const unsigned char X::* , const char X::* , const unsigned short X::* , volatile unsigned long long  X::* ))  {
+    }
+    void class_field_function_pointer_arg_with_classes(  int X::* (*) (const NamespaceABC::Y X::* , volatile NamespaceABC::Parent::Z*  X::* ))  {
+    }
+    */
+    static CASES: [(&str, &str); 1] = [
+        ("class_field_arg__FPO1X_i", "class_field_arg(int (X::*))"),
+        // These cases aren't passing yet.
+        /*
+        (
+            "class_field_function_pointer_arg__FPFPO1X_CfPO1X_Vw_PO1X_i",
+            "class_field_function_pointer_arg(int (X::*(*)(float const (X::*), wchar_t volatile (X::*))))",
+        ),
+        (
+            "class_field_function_pointer_arg_with_signs__FPFPO1X_CUcPO1X_CcPO1X_CUsPO1X_UVx_PO1X_Sc",
+            "class_field_function_pointer_arg_with_signs(signed char (X::*(*)(unsigned char const (X::*), char const (X::*), unsigned short const (X::*), volatile unsigned long long (X::*))))",
+        ),
+        (
+            "class_field_function_pointer_arg_with_classes__FPFPO1X_CQ212NamespaceABC1YPO1X_PVQ312NamespaceABC6Parent1Z_PO1X_i",
+            "class_field_function_pointer_arg_with_classes(int (X::*(*)(NamespaceABC::Y const (X::*), NamespaceABC::Parent::Z volatile *(X::*))))",
+        ),
+        */
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {
