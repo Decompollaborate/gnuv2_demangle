@@ -14,7 +14,7 @@ use crate::{
     str_cutter::StrCutter,
     tree::leaf::{
         ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, FunctionPointerReturnType,
-        MethodPointer, ObjectPointer, PlainArg, PlainArgArray, Signedness, TemplatedValueVec, Type,
+        MemberPointer, MethodPointer, PlainArg, PlainArgArray, Signedness, TemplatedValueVec, Type,
         TypeMeta,
     },
     DemangleConfig, DemangleError,
@@ -59,7 +59,7 @@ pub(crate) fn demangle_argument<'s>(
             qualifiers,
             allow_array_fixup,
         )?;
-        Ok((r, DemangledArg::ObjectPointer(mp)))
+        Ok((r, DemangledArg::MemberPointer(mp)))
     } else {
         // 'G' is used for classes, structs and unions, so we must make sure we
         // don't parse a primitive type next, otherwise this is not properly
@@ -339,7 +339,7 @@ fn demangle_function_pointer_arg<'s>(
                 sub_args,
             )
         }
-        DemangledArg::ObjectPointer(object) => FunctionPointer::new(
+        DemangledArg::MemberPointer(object) => FunctionPointer::new(
             FunctionPointerReturnType::new(format!("{sign}{object}")),
             None.into(),
             post_qualifiers.to_string(),
@@ -468,7 +468,7 @@ fn demangle_object_pointer_arg<'s>(
     template_args: &TemplatedValueVec<'s>,
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
-) -> Result<(&'s str, ObjectPointer<'s>), DemangleError<'s>> {
+) -> Result<(&'s str, MemberPointer<'s>), DemangleError<'s>> {
     if qualifiers.sign != Signedness::No
         || !qualifiers.post_qualifiers.valid_as_method_pointer_arg()
         || qualifiers.array_qualifiers.is_some()
@@ -515,7 +515,7 @@ fn demangle_object_pointer_arg<'s>(
         array_qualifiers,
     } = member_type;
 
-    let op = ObjectPointer::new(
+    let op = MemberPointer::new(
         class_name,
         member_type,
         array_qualifiers,

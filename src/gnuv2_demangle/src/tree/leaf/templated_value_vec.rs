@@ -8,7 +8,7 @@ use alloc::{
     vec::Vec,
 };
 
-use super::{CustomName, FunctionPointer, MethodPointer, ObjectPointer, PlainArgArray};
+use super::{CustomName, FunctionPointer, MemberPointer, MethodPointer, PlainArgArray};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct TemplatedValueVec<'s> {
@@ -55,7 +55,7 @@ pub(crate) enum TemplatedTypename<'s> {
     Plain(PlainArgArray<'s>),
     FunctionPointer(FunctionPointer<'s>),
     MethodPointer(MethodPointer<'s>),
-    ObjectPointer(ObjectPointer<'s>),
+    MemberPointer(MemberPointer<'s>),
 }
 
 impl fmt::Display for TemplatedTypename<'_> {
@@ -66,7 +66,7 @@ impl fmt::Display for TemplatedTypename<'_> {
                 write!(f, "{function_pointer}")
             }
             Self::MethodPointer(method_pointer) => write!(f, "{method_pointer}"),
-            Self::ObjectPointer(op) => write!(f, "{op}"),
+            Self::MemberPointer(op) => write!(f, "{op}"),
         }
     }
 }

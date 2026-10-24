@@ -119,7 +119,7 @@ fn demangle_template_types_impl<'s>(
                 DemangledArg::MethodPointer(method_pointer) => {
                     TemplatedTypename::MethodPointer(method_pointer)
                 }
-                DemangledArg::ObjectPointer(op) => TemplatedTypename::ObjectPointer(op),
+                DemangledArg::MemberPointer(op) => TemplatedTypename::MemberPointer(op),
                 DemangledArg::Repeat { count, index } => {
                     return Err(
                         DemangleError::UnexpectedTypeRepetitionOnTemplateTypenameList(
@@ -228,7 +228,7 @@ fn demangle_templated_value<'s>(
                 };
                 (aux, t)
             }
-            DemangledArg::ObjectPointer(..) => {
+            DemangledArg::MemberPointer(..) => {
                 // TODO: merge with DemangledArg::Plain ?
                 // TODO: does it make sense to have them both?
                 let Remaining { r: aux, d: symbol } =

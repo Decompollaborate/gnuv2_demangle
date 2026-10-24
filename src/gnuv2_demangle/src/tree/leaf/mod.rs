@@ -17,7 +17,7 @@ mod templated_value_vec;
 mod typ;
 
 pub(crate) use arg::{
-    DemangledArg, FunctionPointer, FunctionPointerReturnType, MethodPointer, ObjectPointer,
+    DemangledArg, FunctionPointer, FunctionPointerReturnType, MemberPointer, MethodPointer,
     PlainArg, PlainArgArray,
 };
 pub(crate) use arg_qualifier::{ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers};

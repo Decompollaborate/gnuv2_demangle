@@ -16,7 +16,7 @@ pub(crate) enum DemangledArg<'s> {
     Plain(PlainArgArray<'s>),
     FunctionPointer(FunctionPointer<'s>),
     MethodPointer(MethodPointer<'s>),
-    ObjectPointer(ObjectPointer<'s>),
+    MemberPointer(MemberPointer<'s>),
     Repeat { count: NonZeroU32, index: u32 },
     Ellipsis,
 }
@@ -232,14 +232,14 @@ impl fmt::Display for MethodPointer<'_> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) struct ObjectPointer<'s> {
+pub(crate) struct MemberPointer<'s> {
     class_name: PlainArg<'s>,
     member_type: PlainArg<'s>,
     array_qualifiers: Option<ArrayQualifiers>,
     post_qualifiers: ArgPostQualifierVec,
 }
 
-impl<'s> ObjectPointer<'s> {
+impl<'s> MemberPointer<'s> {
     pub(crate) const fn new(
         class_name: PlainArg<'s>,
         member_type: PlainArg<'s>,
@@ -255,7 +255,7 @@ impl<'s> ObjectPointer<'s> {
     }
 }
 
-impl fmt::Display for ObjectPointer<'_> {
+impl fmt::Display for MemberPointer<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let Self {
             class_name,

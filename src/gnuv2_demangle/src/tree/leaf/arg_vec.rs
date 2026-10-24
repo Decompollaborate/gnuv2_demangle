@@ -10,7 +10,7 @@ use alloc::{
 use core::fmt;
 
 use super::{
-    DemangledArg, FunctionPointer, MethodPointer, NamespacedType, ObjectPointer, PlainArgArray,
+    DemangledArg, FunctionPointer, MemberPointer, MethodPointer, NamespacedType, PlainArgArray,
 };
 
 use crate::{DemangleConfig, DemangleError};
@@ -68,8 +68,8 @@ impl<'ns> ArgVec<'ns> {
                 ProcessedArg::MethodPointer(p) => {
                     break Some(ResolvedProcessedArg::MethodPointer(Arc::clone(p)))
                 }
-                ProcessedArg::ObjectPointer(p) => {
-                    break Some(ResolvedProcessedArg::ObjectPointer(Arc::clone(p)))
+                ProcessedArg::MemberPointer(p) => {
+                    break Some(ResolvedProcessedArg::MemberPointer(Arc::clone(p)))
                 }
                 ProcessedArg::Lookback { index: i } => {
                     if *i as usize >= index {
@@ -101,7 +101,7 @@ impl<'ns> ArgVec<'ns> {
             DemangledArg::MethodPointer(method_pointer) => {
                 ProcessedArg::MethodPointer(Arc::new(method_pointer))
             }
-            DemangledArg::ObjectPointer(object) => ProcessedArg::ObjectPointer(Arc::new(object)),
+            DemangledArg::MemberPointer(object) => ProcessedArg::MemberPointer(Arc::new(object)),
             DemangledArg::Repeat { count, index } => {
                 // Check the index is in-bounds
                 if index as usize >= self.len() {
@@ -137,7 +137,7 @@ impl<'ns> ArgVec<'ns> {
                 ProcessedArg::Plain(plain) => args.push(Cow::from(plain.to_string())),
                 ProcessedArg::FunctionPointer(plain) => args.push(Cow::from(plain.to_string())),
                 ProcessedArg::MethodPointer(plain) => args.push(Cow::from(plain.to_string())),
-                ProcessedArg::ObjectPointer(plain) => args.push(Cow::from(plain.to_string())),
+                ProcessedArg::MemberPointer(plain) => args.push(Cow::from(plain.to_string())),
                 ProcessedArg::Lookback { index } => {
                     let arg = if let Some(namespace) = &self.namespace {
                         if *index == 0 {
@@ -189,7 +189,7 @@ enum ProcessedArg<'ns> {
     Plain(Arc<PlainArgArray<'ns>>),
     FunctionPointer(Arc<FunctionPointer<'ns>>),
     MethodPointer(Arc<MethodPointer<'ns>>),
-    ObjectPointer(Arc<ObjectPointer<'ns>>),
+    MemberPointer(Arc<MemberPointer<'ns>>),
     Lookback { index: u32 },
     Ellipsis,
 }
@@ -200,7 +200,7 @@ pub(crate) enum ResolvedProcessedArg<'ns> {
     Plain(Arc<PlainArgArray<'ns>>),
     FunctionPointer(Arc<FunctionPointer<'ns>>),
     MethodPointer(Arc<MethodPointer<'ns>>),
-    ObjectPointer(Arc<ObjectPointer<'ns>>),
+    MemberPointer(Arc<MemberPointer<'ns>>),
     Ellipsis,
 }
 
@@ -211,7 +211,7 @@ impl fmt::Display for ResolvedProcessedArg<'_> {
             Self::Plain(p) => write!(f, "{p}"),
             Self::FunctionPointer(p) => write!(f, "{p}"),
             Self::MethodPointer(p) => write!(f, "{p}"),
-            Self::ObjectPointer(p) => write!(f, "{p}"),
+            Self::MemberPointer(p) => write!(f, "{p}"),
             Self::Ellipsis => write!(f, "..."),
         }
     }
@@ -225,7 +225,7 @@ impl<'s> From<ResolvedProcessedArg<'s>> for Cow<'s, str> {
             ResolvedProcessedArg::Plain(p) => Cow::from(p.to_string()),
             ResolvedProcessedArg::FunctionPointer(p) => Cow::from(p.to_string()),
             ResolvedProcessedArg::MethodPointer(p) => Cow::from(p.to_string()),
-            ResolvedProcessedArg::ObjectPointer(p) => Cow::from(p.to_string()),
+            ResolvedProcessedArg::MemberPointer(p) => Cow::from(p.to_string()),
             ResolvedProcessedArg::Ellipsis => Cow::from("..."),
         }
     }
