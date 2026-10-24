@@ -10,6 +10,7 @@ use super::{
 };
 
 use crate::{
+    option_display::OptionDisplay,
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::leaf::{
@@ -86,7 +87,7 @@ pub(crate) fn demangle_argument<'s>(
         }
 
         let pa = PlainArg::new(typ, post_qualifiers);
-        let paa = PlainArgArray::new(pa, array_qualifiers.into_option());
+        let paa = PlainArgArray::new(pa, array_qualifiers);
 
         Ok((r, DemangledArg::Plain(paa)))
     }
@@ -310,6 +311,8 @@ fn demangle_function_pointer_arg<'s>(
                 args: sub_args,
             } = function_pointer;
 
+            let array_qualifiers: OptionDisplay<_> = array_qualifiers.into();
+
             FunctionPointer {
                 return_type: sub_return_type,
                 array_qualifiers: sub_array_qualifiers,
@@ -330,6 +333,8 @@ fn demangle_function_pointer_arg<'s>(
                 args: sub_args,
                 is_const_method,
             } = method_pointer;
+
+            let array_qualifiers: OptionDisplay<_> = array_qualifiers.into();
 
             let const_qualifier = if is_const_method { " const" } else { "" };
             FunctionPointer::new(

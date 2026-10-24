@@ -6,20 +6,18 @@ use core::fmt;
 
 use super::{ArrayQualifiers, Signedness};
 
-use crate::option_display::OptionDisplay;
-
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct ArgQualifiers {
     pub(crate) sign: Signedness,
     pub(crate) post_qualifiers: ArgPostQualifierVec,
-    pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
+    pub(crate) array_qualifiers: Option<ArrayQualifiers>,
 }
 
 impl ArgQualifiers {
     pub(crate) const fn new(
         sign: Signedness,
         post_qualifiers: ArgPostQualifierVec,
-        array_qualifiers: OptionDisplay<ArrayQualifiers>,
+        array_qualifiers: Option<ArrayQualifiers>,
     ) -> Self {
         Self {
             sign,

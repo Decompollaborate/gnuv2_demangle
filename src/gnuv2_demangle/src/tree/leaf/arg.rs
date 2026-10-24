@@ -6,8 +6,6 @@ use core::{fmt, num::NonZeroU32};
 
 use super::{ArgPostQualifierVec, ArgVec, ArrayQualifiers, TypeMeta};
 
-use crate::option_display::OptionDisplay;
-
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum DemangledArg<'s> {
     Plain(PlainArgArray<'s>),
@@ -106,7 +104,7 @@ impl fmt::Display for PlainArg<'_> {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct FunctionPointer<'s> {
     pub(crate) return_type: FunctionPointerReturnType<'s>,
-    pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
+    pub(crate) array_qualifiers: Option<ArrayQualifiers>,
     pub(crate) post_qualifiers: String,
     pub(crate) args: ArgVec<'s>,
 }
@@ -114,7 +112,7 @@ pub(crate) struct FunctionPointer<'s> {
 impl<'s> FunctionPointer<'s> {
     pub(crate) const fn new(
         return_type: FunctionPointerReturnType<'s>,
-        array_qualifiers: OptionDisplay<ArrayQualifiers>,
+        array_qualifiers: Option<ArrayQualifiers>,
         post_qualifiers: String,
         args: ArgVec<'s>,
     ) -> Self {
@@ -136,7 +134,6 @@ impl fmt::Display for FunctionPointer<'_> {
             args,
         } = self;
 
-        let array_qualifiers = array_qualifiers.as_option();
         let mut wrote_space = false;
 
         write!(f, "{return_type}")?;
@@ -171,7 +168,7 @@ impl fmt::Display for FunctionPointer<'_> {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct MethodPointer<'s> {
     pub(crate) return_type: FunctionPointerReturnType<'s>,
-    pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
+    pub(crate) array_qualifiers: Option<ArrayQualifiers>,
     pub(crate) class: PlainArg<'s>,
     pub(crate) post_qualifiers: String,
     pub(crate) args: ArgVec<'s>,
@@ -181,7 +178,7 @@ pub(crate) struct MethodPointer<'s> {
 impl<'s> MethodPointer<'s> {
     pub(crate) const fn new(
         return_type: FunctionPointerReturnType<'s>,
-        array_qualifiers: OptionDisplay<ArrayQualifiers>,
+        array_qualifiers: Option<ArrayQualifiers>,
         class: PlainArg<'s>,
         post_qualifiers: String,
         args: ArgVec<'s>,
@@ -209,7 +206,6 @@ impl fmt::Display for MethodPointer<'_> {
             is_const_method,
         } = self;
 
-        let array_qualifiers = array_qualifiers.as_option();
         let mut wrote_space = false;
 
         write!(f, "{return_type}")?;

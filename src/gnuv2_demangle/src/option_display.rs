@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use core::{fmt, ops};
+use core::fmt;
 
 /// An [`Option`] that implements [`Display`] if the inner type does it too.
 ///
@@ -10,23 +10,6 @@ use core::{fmt, ops};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
 #[repr(transparent)]
 pub(crate) struct OptionDisplay<T>(Option<T>);
-
-impl<T> OptionDisplay<T> {
-    pub(crate) fn as_option(&self) -> &Option<T> {
-        &self.0
-    }
-    pub(crate) fn into_option(self) -> Option<T> {
-        self.0
-    }
-}
-
-impl<T> ops::Deref for OptionDisplay<T> {
-    type Target = Option<T>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
 
 impl<T> fmt::Display for OptionDisplay<T>
 where
@@ -44,11 +27,5 @@ where
 impl<T> From<Option<T>> for OptionDisplay<T> {
     fn from(value: Option<T>) -> Self {
         Self(value)
-    }
-}
-
-impl<T> From<OptionDisplay<T>> for Option<T> {
-    fn from(value: OptionDisplay<T>) -> Self {
-        value.0
     }
 }
