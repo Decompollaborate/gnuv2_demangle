@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, string::ToString, sync::Arc, vec::Vec};
+use alloc::{sync::Arc, vec::Vec};
 use core::fmt;
 
 use super::{
@@ -218,20 +218,6 @@ impl fmt::Display for ResolvedProcessedArg<'_> {
             Self::MethodPointer(p) => write!(f, "{p}"),
             Self::MemberPointer(p) => write!(f, "{p}"),
             Self::Ellipsis => write!(f, "..."),
-        }
-    }
-}
-
-// silly
-impl<'s> From<ResolvedProcessedArg<'s>> for Cow<'s, str> {
-    fn from(value: ResolvedProcessedArg<'s>) -> Self {
-        match value {
-            ResolvedProcessedArg::Namespace(ntn) => Cow::from(&ntn.namespace),
-            ResolvedProcessedArg::Plain(p) => Cow::from(p.to_string()),
-            ResolvedProcessedArg::FunctionPointer(p) => Cow::from(p.to_string()),
-            ResolvedProcessedArg::MethodPointer(p) => Cow::from(p.to_string()),
-            ResolvedProcessedArg::MemberPointer(p) => Cow::from(p.to_string()),
-            ResolvedProcessedArg::Ellipsis => Cow::from("..."),
         }
     }
 }

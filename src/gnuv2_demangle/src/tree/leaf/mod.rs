@@ -21,7 +21,7 @@ pub(crate) use arg::{
     PlainArg, PlainArgArray,
 };
 pub(crate) use arg_qualifier::{ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers};
-pub(crate) use arg_vec::ArgVec;
+pub(crate) use arg_vec::{ArgVec, ResolvedProcessedArg};
 pub(crate) use array::{ArrayQualifiers, ArrayVec};
 pub(crate) use custom_name::CustomName;
 pub(crate) use method_qualifier::MethodQualifier;

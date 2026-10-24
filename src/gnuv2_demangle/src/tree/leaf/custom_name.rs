@@ -1,7 +1,6 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
 use core::fmt;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -22,12 +21,5 @@ impl<'s> CustomName<'s> {
 impl<'s> fmt::Display for CustomName<'s> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.name)
-    }
-}
-
-// silly
-impl<'s> From<CustomName<'s>> for Cow<'s, str> {
-    fn from(value: CustomName<'s>) -> Self {
-        Cow::from(value.name)
     }
 }

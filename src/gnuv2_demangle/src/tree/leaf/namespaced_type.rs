@@ -1,7 +1,6 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, string::ToString};
 use core::fmt;
 
 use super::{CustomName, NamespaceVec, Template};
@@ -59,17 +58,6 @@ impl<'s> fmt::Display for NamespaceKind<'s> {
             Self::Template(t) => write!(f, "{t}"),
             Self::Namespace(ns) => write!(f, "{ns}"),
             Self::Class(c) => write!(f, "{c}"),
-        }
-    }
-}
-
-// silly
-impl<'s> From<&NamespaceKind<'s>> for Cow<'s, str> {
-    fn from(value: &NamespaceKind<'s>) -> Self {
-        match value {
-            NamespaceKind::Template(template) => Cow::from(template.to_string()),
-            NamespaceKind::Namespace(namespace_vec) => Cow::from(namespace_vec.to_string()),
-            NamespaceKind::Class(class) => Cow::from(*class),
         }
     }
 }

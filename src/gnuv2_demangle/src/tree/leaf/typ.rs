@@ -1,10 +1,12 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, sync::Arc};
+use alloc::sync::Arc;
 use core::fmt;
 
-use super::{CustomName, NamespacedType, Signedness, Template, TemplateElement};
+use super::{
+    CustomName, NamespacedType, ResolvedProcessedArg, Signedness, Template, TemplateElement,
+};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct TypeMeta<'s> {
@@ -70,7 +72,7 @@ pub(crate) enum Type<'s> {
     Namespaces(NamespacedType<'s>),
     /// 'T'
     LookBack {
-        referenced_arg: Cow<'s, str>,
+        referenced_arg: ResolvedProcessedArg<'s>,
         lookback: u32,
     },
     /// 't'

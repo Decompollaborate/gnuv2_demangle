@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{borrow::Cow, string::ToString};
+use alloc::string::ToString;
 use core::num::NonZeroU32;
 
 use super::{
@@ -171,7 +171,6 @@ fn demangle_arg_type<'s>(
                 DemangleError::LookbackCountTooBig(args, lookback, parsed_arguments.len()),
             )?;
 
-            let referenced_arg = Cow::from(referenced_arg);
             (
                 r,
                 Type::LookBack {
