@@ -1,6 +1,8 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
+use core::fmt;
+
 use alloc::string::String;
 
 use super::{CustomName, NamespaceKind, NamespacedType};
@@ -19,22 +21,28 @@ impl<'s> Template<'s> {
         }
     }
 
-    pub(crate) fn template(&self) -> &str {
-        &self.template
-    }
-    pub(crate) fn into_template(self) -> String {
-        self.template
-    }
     pub(crate) fn class_name(&self) -> CustomName<'s> {
         self.class_name
     }
 
     pub(crate) fn into_namespaced_type(self) -> NamespacedType<'s> {
+        let class_name = self.class_name;
+
+        NamespacedType::new(NamespaceKind::Template(self), class_name)
+    }
+}
+
+impl fmt::Display for Template<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let Self {
             template,
             class_name,
         } = self;
 
-        NamespacedType::new(NamespaceKind::Template(template), class_name)
+        if template.ends_with('>') {
+            write!(f, "{}<{} >", class_name, template)
+        } else {
+            write!(f, "{}<{}>", class_name, template)
+        }
     }
 }

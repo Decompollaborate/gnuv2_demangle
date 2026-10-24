@@ -127,7 +127,7 @@ impl fmt::Display for Type<'_> {
                 referenced_arg,
                 lookback: _,
             } => write!(f, "{referenced_arg}"),
-            Type::Template(template) => write!(f, "{}", template.template()),
+            Type::Template(template) => write!(f, "{template}"),
             Type::TemplatedFunctionIndex {
                 referenced_arg,
                 lookback: _,

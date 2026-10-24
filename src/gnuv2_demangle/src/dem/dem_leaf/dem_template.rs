@@ -36,13 +36,8 @@ pub(crate) fn demangle_template<'s>(
         demangle_template_types_impl(config, remaining, digit, template_args, allow_array_fixup)?;
 
     let templated = types.join();
-    let template = if templated.ends_with('>') {
-        format!("{}<{} >", class_name, templated)
-    } else {
-        format!("{}<{}>", class_name, templated)
-    };
 
-    let t = Template::new(template, class_name);
+    let t = Template::new(templated, class_name);
 
     Ok(Remaining::new(remaining, t))
 }

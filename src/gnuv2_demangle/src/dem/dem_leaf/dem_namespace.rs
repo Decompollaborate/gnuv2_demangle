@@ -61,7 +61,7 @@ fn demangle_namespaces_impl<'s>(
             let Remaining { r, d: t } =
                 demangle_template(config, temp, template_args, allow_array_fixup)?;
             trailing_type = t.class_name();
-            (r, Cow::from(t.into_template()))
+            (r, Cow::from(t.to_string()))
         } else {
             let Remaining { r, d: ns } =
                 demangle_custom_name(remaining, DemangleError::InvalidCustomNameOnNamespace)?;
