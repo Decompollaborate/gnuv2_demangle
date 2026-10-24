@@ -1,12 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{
-    borrow::Cow,
-    string::{String, ToString},
-    sync::Arc,
-    vec::Vec,
-};
+use alloc::{borrow::Cow, string::ToString, sync::Arc, vec::Vec};
 use core::fmt;
 
 use super::{
@@ -129,7 +124,7 @@ impl<'ns> ArgVec<'ns> {
         Ok(found_end)
     }
 
-    fn join(self) -> String {
+    fn resolve_args(&self) -> Vec<Arc<ResolvedProcessedArg<'ns>>> {
         let mut args = Vec::with_capacity(self.args.len() + 1);
 
         for arg in &self.args {
@@ -168,24 +163,7 @@ impl<'ns> ArgVec<'ns> {
             }
         }
 
-        let mut iter = args.into_iter();
-        let mut out = String::new();
-        let mut out = if let Some(first) = iter.next() {
-            out.push_str(&first.to_string());
-            iter.fold(out, |acc, x| acc + &format!(", {x}"))
-        } else {
-            out
-        };
-
-        if self.trailing_ellipsis {
-            // !HACK(c++filt): Special case to mimic c++filt, since it doesn't
-            // !use an space between the comma and the ellipsis.
-            if !out.is_empty() {
-                out.push(',');
-            }
-            out.push_str("...");
-        }
-        out
+        args
     }
 }
 
@@ -194,8 +172,29 @@ impl fmt::Display for ArgVec<'_> {
         if !self.trailing_ellipsis && self.args.is_empty() {
             write!(f, "void")
         } else {
-            // TODO: get rid of clone
-            write!(f, "{}", self.clone().join())
+            let mut resolved_args = self.resolve_args().into_iter();
+
+            let mut wrote_anything = false;
+            if let Some(first) = resolved_args.next() {
+                write!(f, "{first}")?;
+                wrote_anything = true;
+            }
+
+            for arg in resolved_args {
+                write!(f, ", {arg}")?;
+                wrote_anything = true;
+            }
+
+            if self.trailing_ellipsis {
+                // !HACK(c++filt): Special case to mimic c++filt, since it doesn't
+                // !use an space between the comma and the ellipsis.
+                if wrote_anything {
+                    write!(f, ",")?;
+                }
+                write!(f, "...")?;
+            }
+
+            Ok(())
         }
     }
 }
