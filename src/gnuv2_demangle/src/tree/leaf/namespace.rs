@@ -6,7 +6,7 @@ use core::fmt;
 
 use super::{CustomName, Template};
 
-use crate::tree::Demangled;
+use crate::{tree::Demangled, utils};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct NamespaceVec<'s> {
@@ -31,16 +31,9 @@ impl<'s> NamespaceVec<'s> {
 
 impl<'s> fmt::Display for NamespaceVec<'s> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let mut iter = self.namepace_list.iter();
+        let iter = self.namepace_list.iter();
 
-        let Some(n) = iter.next() else {
-            return Ok(());
-        };
-
-        write!(f, "{n}")?;
-        for n in iter {
-            write!(f, "::{n}")?;
-        }
+        utils::write_joining(f, iter, "::")?;
 
         Ok(())
     }

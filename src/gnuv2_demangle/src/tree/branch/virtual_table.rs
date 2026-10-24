@@ -4,7 +4,7 @@
 use alloc::vec::Vec;
 use core::fmt;
 
-use crate::tree::leaf::NamespacedType;
+use crate::{tree::leaf::NamespacedType, utils};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct VirtualTable<'s> {
@@ -21,14 +21,8 @@ impl fmt::Display for VirtualTable<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let Self { namespaces } = self;
 
-        let mut iter = namespaces.iter();
-
-        if let Some(ns) = iter.next() {
-            write!(f, "{}", ns.namespace)?;
-        }
-        for ns in iter {
-            write!(f, "::{}", ns.namespace)?;
-        }
+        let iter = namespaces.iter();
+        utils::write_joining(f, iter, "::")?;
 
         write!(f, " virtual table")
     }

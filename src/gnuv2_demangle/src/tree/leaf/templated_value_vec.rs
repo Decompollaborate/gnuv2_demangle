@@ -9,6 +9,8 @@ use super::{
     PlainArgArray,
 };
 
+use crate::utils;
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct TemplatedValueVec<'s> {
     vec: Vec<Arc<TemplateElement<'s>>>,
@@ -34,15 +36,9 @@ impl<'s> TemplatedValueVec<'s> {
 
 impl fmt::Display for TemplatedValueVec<'_> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let mut iter = self.vec.iter();
+        let iter = self.vec.iter();
 
-        if let Some(first) = iter.next() {
-            write!(f, "{first}")?;
-        }
-        for value in iter {
-            write!(f, ", {value}")?;
-        }
-
+        utils::write_joining(f, iter, ", ")?;
         Ok(())
     }
 }
