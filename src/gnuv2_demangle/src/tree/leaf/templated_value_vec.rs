@@ -1,20 +1,21 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use core::fmt;
-
 use alloc::{
     string::{String, ToString},
+    sync::Arc,
     vec::Vec,
 };
+use core::fmt;
 
-use crate::tree::leaf::{ArgVec, FunctionPointerReturnType};
-
-use super::{CustomName, FunctionPointer, MemberPointer, MethodPointer, PlainArgArray};
+use super::{
+    ArgVec, CustomName, FunctionPointer, FunctionPointerReturnType, MemberPointer, MethodPointer,
+    PlainArgArray,
+};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct TemplatedValueVec<'s> {
-    vec: Vec<TemplateElement<'s>>,
+    vec: Vec<Arc<TemplateElement<'s>>>,
 }
 
 impl<'s> TemplatedValueVec<'s> {
@@ -22,12 +23,12 @@ impl<'s> TemplatedValueVec<'s> {
         Self { vec: Vec::new() }
     }
 
-    pub(crate) fn get(&self, index: usize) -> Option<String> {
-        self.vec.get(index).map(ToString::to_string)
+    pub(crate) fn get(&self, index: usize) -> Option<Arc<TemplateElement<'s>>> {
+        self.vec.get(index).map(Arc::clone)
     }
 
     pub(crate) fn push(&mut self, element: TemplateElement<'s>) {
-        self.vec.push(element);
+        self.vec.push(Arc::new(element));
     }
 
     pub(crate) fn join(self) -> String {
@@ -80,7 +81,7 @@ pub(crate) enum TemplatedValue<'s> {
     FunctionReference(FunctionReferenceValue<'s>),
     FunctionRaw(FunctionRawValue<'s>),
     Character(char),
-    LookbackInt(String),
+    LookbackInt(Arc<TemplateElement<'s>>),
     Int {
         number: u32,
         negative: bool,

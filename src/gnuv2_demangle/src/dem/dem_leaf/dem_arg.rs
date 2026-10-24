@@ -206,11 +206,10 @@ fn demangle_arg_type<'s>(
                 return Err(DemangleError::InvalidNumber1OnXArgument(r, number1));
             }
 
-            let Some(t) = template_args.get(index as usize) else {
+            let Some(referenced_arg) = template_args.get(index as usize) else {
                 return Err(DemangleError::IndexTooBigForXArgument(r, index));
             };
 
-            let referenced_arg = Cow::from(t);
             (
                 r,
                 Type::TemplatedFunctionIndex {

@@ -1,10 +1,10 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::borrow::Cow;
+use alloc::{borrow::Cow, sync::Arc};
 use core::fmt;
 
-use super::{CustomName, NamespacedType, Signedness, Template};
+use super::{CustomName, NamespacedType, Signedness, Template, TemplateElement};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct TypeMeta<'s> {
@@ -73,7 +73,7 @@ pub(crate) enum Type<'s> {
     Template(Template<'s>),
     /// 'X'
     TemplatedFunctionIndex {
-        referenced_arg: Cow<'s, str>,
+        referenced_arg: Arc<TemplateElement<'s>>,
         lookback: u32,
     },
 }
