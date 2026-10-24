@@ -54,7 +54,7 @@ impl<'ns> ArgVec<'ns> {
             if index == 0 {
                 return Some(ResolvedProcessedArg::Namespace(Arc::clone(namespace)));
             } else {
-                index -= 1;
+                index = index.checked_sub(1)?;
             }
         }
 
@@ -130,37 +130,53 @@ impl<'ns> ArgVec<'ns> {
     }
 
     pub(crate) fn join(self) -> String {
-        let mut args = Vec::with_capacity(self.args.len());
+        let mut args = Vec::with_capacity(self.args.len() + 1);
 
         for arg in &self.args {
             match arg {
-                ProcessedArg::Plain(plain) => args.push(Cow::from(plain.to_string())),
-                ProcessedArg::FunctionPointer(plain) => args.push(Cow::from(plain.to_string())),
-                ProcessedArg::MethodPointer(plain) => args.push(Cow::from(plain.to_string())),
-                ProcessedArg::MemberPointer(plain) => args.push(Cow::from(plain.to_string())),
+                ProcessedArg::Plain(plain) => {
+                    args.push(Arc::new(ResolvedProcessedArg::Plain(Arc::clone(plain))))
+                }
+                ProcessedArg::FunctionPointer(plain) => args.push(Arc::new(
+                    ResolvedProcessedArg::FunctionPointer(Arc::clone(plain)),
+                )),
+                ProcessedArg::MethodPointer(plain) => args.push(Arc::new(
+                    ResolvedProcessedArg::MethodPointer(Arc::clone(plain)),
+                )),
+                ProcessedArg::MemberPointer(plain) => args.push(Arc::new(
+                    ResolvedProcessedArg::MemberPointer(Arc::clone(plain)),
+                )),
                 ProcessedArg::Lookback { index } => {
                     let arg = if let Some(namespace) = &self.namespace {
                         if *index == 0 {
-                            Cow::from(&namespace.namespace)
+                            Arc::new(ResolvedProcessedArg::Namespace(Arc::clone(namespace)))
                         } else {
-                            Cow::clone(
+                            Arc::clone(
                                 args.get((*index as usize).wrapping_sub(1))
                                     .expect("Indices were verified when pushing the arguments"),
                             )
                         }
                     } else {
-                        Cow::clone(
+                        Arc::clone(
                             args.get(*index as usize)
                                 .expect("Indices were verified when pushing the arguments"),
                         )
                     };
                     args.push(arg);
                 }
-                ProcessedArg::Ellipsis => args.push(Cow::from("...")),
+                ProcessedArg::Ellipsis => args.push(Arc::new(ResolvedProcessedArg::Ellipsis)),
             }
         }
 
-        let mut out = args.join(", ");
+        let mut iter = args.into_iter();
+        let mut out = String::new();
+        let mut out = if let Some(first) = iter.next() {
+            out.push_str(&first.to_string());
+            iter.fold(out, |acc, x| acc + &format!(", {x}"))
+        } else {
+            out
+        };
+
         if self.trailing_ellipsis {
             // !HACK(c++filt): Special case to mimic c++filt, since it doesn't
             // !use an space between the comma and the ellipsis.
