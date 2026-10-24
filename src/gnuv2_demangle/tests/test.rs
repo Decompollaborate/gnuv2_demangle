@@ -833,7 +833,7 @@ fn test_demangle_template_with_return_type() {
 
         ("DoThing__H2ZQ35Other11CharacterAi12StateManagerZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiv_28some_return_with_underscores", "some_return_with_underscores Other::CharacterAi::DoThing<Other::CharacterAi::StateManager, Other::CharacterAi::Loco>(void)"),
         ("DoThing__H2ZQ35Other11CharacterAi12StateManagerZQ35Other11CharacterAi4Loco_Q25Other11CharacterAii_28some_return_with_underscores", "some_return_with_underscores Other::CharacterAi::DoThing<Other::CharacterAi::StateManager, Other::CharacterAi::Loco>(int)"),
-        ("DoThing__H2ZQ35Other11CharacterAi12StateManagerZQ35Other11CharacterAi4Loco_Q25Other11CharacterAi_28some_return_with_underscores", "some_return_with_underscores Other::CharacterAi::DoThing<Other::CharacterAi::StateManager, Other::CharacterAi::Loco>()"),
+        ("DoThing__H2ZQ35Other11CharacterAi12StateManagerZQ35Other11CharacterAi4Loco_Q25Other11CharacterAi_28some_return_with_underscores", "some_return_with_underscores Other::CharacterAi::DoThing<Other::CharacterAi::StateManager, Other::CharacterAi::Loco>(void)"),
 
         ("find__H2ZP5tNameZ5tName_X01X01RCX11G26random_access_iterator_tag_X01", "tName * find<tName *, tName>(tName *, tName *, tName const &, random_access_iterator_tag)"),
         ("BlendPriorities__H1ZQ218RadicalMathLibrary6Vector_6choreoPCQ26choreot13BlendPriority1ZX01iRX01_b", "bool choreo::BlendPriorities<RadicalMathLibrary::Vector>(choreo::BlendPriority<RadicalMathLibrary::Vector> const *, int, RadicalMathLibrary::Vector &)"),
@@ -899,7 +899,7 @@ fn test_demangle_operator_on_templated() {
 }
 
 #[test]
-fn test_demangle_method_as_argument_() {
+fn test_demangle_method_as_argument() {
     // Code to generate first entry:
     // EE GCC 2.95.3 (SN BUILD v1.14)
     /*
@@ -912,11 +912,11 @@ fn test_demangle_method_as_argument_() {
     static CASES: [(&str, &str); 3] = [
         (
             "class_method_args__FPM9SomeClassFP9SomeClass_v",
-            "class_method_args(void (SomeClass::*)())",
+            "class_method_args(void (SomeClass::*)(void))",
         ),
         (
             "class_method_args__FPM9SomeClassCFPC9SomeClass_v",
-            "class_method_args(void (SomeClass::*)() const)",
+            "class_method_args(void (SomeClass::*)(void) const)",
         ),
         /*
         // note `const` is not mangled.
@@ -928,7 +928,7 @@ fn test_demangle_method_as_argument_() {
         */
         (
             "class_method_args__FPVPPM9SomeClassFP9SomeClass_v",
-            "class_method_args(void (SomeClass::**volatile *)())",
+            "class_method_args(void (SomeClass::**volatile *)(void))",
         ),
     ];
     let config = DemangleConfig::new();
@@ -1038,7 +1038,7 @@ fn test_demangle_method_as_argument_in_templated_many() {
         ),
         (
             "BlendDriverNoContext__H2ZfZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
-            "void choreo::BlendDriverNoContext<float, choreo::FootBlendDriver>(choreo::FootBlendDriver *, float (choreo::FootBlendDriver::*)() const, float, int, choreo::BlendPriority<float> *, int, int &)",
+            "void choreo::BlendDriverNoContext<float, choreo::FootBlendDriver>(choreo::FootBlendDriver *, float (choreo::FootBlendDriver::*)(void) const, float, int, choreo::BlendPriority<float> *, int, int &)",
         ),
         (
             "BlendDriverWithContext__H3ZQ218RadicalMathLibrary6VectorZiZQ26choreo16JointBlendDriver_6choreoX11PX21PMX21CFPCX21X11RX01_vfiPQ26choreot13BlendPriority1ZX01iRi_v",
@@ -1058,7 +1058,7 @@ fn test_demangle_method_as_argument_in_templated_many() {
         ),
         (
             "BlendDriverNoContext__H2ZfZQ26choreo15RootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
-            "void choreo::BlendDriverNoContext<float, choreo::RootBlendDriver>(choreo::RootBlendDriver *, float (choreo::RootBlendDriver::*)() const, float, int, choreo::BlendPriority<float> *, int, int &)",
+            "void choreo::BlendDriverNoContext<float, choreo::RootBlendDriver>(choreo::RootBlendDriver *, float (choreo::RootBlendDriver::*)(void) const, float, int, choreo::BlendPriority<float> *, int, int &)",
         ),
     ];
     let config = DemangleConfig::new();
@@ -1931,7 +1931,7 @@ fn test_demangle_namespaced_specializations() {
         ),
         (
             "DeleteObjects__H1Z8GHandler_12GObjectBlock_v",
-            "void GObjectBlock::DeleteObjects<GHandler>()",
+            "void GObjectBlock::DeleteObjects<GHandler>(void)",
         ),
         /*
 namespace UMath {

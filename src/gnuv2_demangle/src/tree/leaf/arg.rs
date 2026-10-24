@@ -7,7 +7,7 @@ use alloc::{
 };
 use core::{fmt, num::NonZeroU32};
 
-use super::{ArgPostQualifierVec, ArrayQualifiers, TypeMeta};
+use super::{ArgPostQualifierVec, ArgVec, ArrayQualifiers, TypeMeta};
 
 use crate::option_display::OptionDisplay;
 
@@ -99,7 +99,7 @@ pub(crate) struct FunctionPointer<'s> {
     pub(crate) return_type: FunctionPointerReturnType<'s>,
     pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
     pub(crate) post_qualifiers: String,
-    pub(crate) args: String,
+    pub(crate) args: ArgVec<'s>,
 }
 
 impl<'s> FunctionPointer<'s> {
@@ -107,7 +107,7 @@ impl<'s> FunctionPointer<'s> {
         return_type: FunctionPointerReturnType<'s>,
         array_qualifiers: OptionDisplay<ArrayQualifiers>,
         post_qualifiers: String,
-        args: String,
+        args: ArgVec<'s>,
     ) -> Self {
         Self {
             return_type,
@@ -165,7 +165,7 @@ pub(crate) struct MethodPointer<'s> {
     pub(crate) array_qualifiers: OptionDisplay<ArrayQualifiers>,
     pub(crate) class: PlainArg<'s>,
     pub(crate) post_qualifiers: String,
-    pub(crate) args: String,
+    pub(crate) args: ArgVec<'s>,
     pub(crate) is_const_method: bool,
 }
 
@@ -175,7 +175,7 @@ impl<'s> MethodPointer<'s> {
         array_qualifiers: OptionDisplay<ArrayQualifiers>,
         class: PlainArg<'s>,
         post_qualifiers: String,
-        args: String,
+        args: ArgVec<'s>,
         is_const_method: bool,
     ) -> Self {
         Self {

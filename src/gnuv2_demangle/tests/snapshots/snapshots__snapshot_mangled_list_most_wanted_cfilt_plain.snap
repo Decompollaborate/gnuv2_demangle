@@ -33229,7 +33229,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "DeleteObjects__H1Z8GTrigger_12GObjectBlock_v",
-        "void GObjectBlock::DeleteObjects<GTrigger>()",
+        "void GObjectBlock::DeleteObjects<GTrigger>(void)",
     ),
     (
         "GetPaddedObjectSize__H1Z7GMarker_v_Ui",
@@ -33237,7 +33237,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "DeleteObjects__H1Z7GMarker_12GObjectBlock_v",
-        "void GObjectBlock::DeleteObjects<GMarker>()",
+        "void GObjectBlock::DeleteObjects<GMarker>(void)",
     ),
     (
         "GetPaddedObjectSize__H1Z10GCharacter_v_Ui",
@@ -33245,7 +33245,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "DeleteObjects__H1Z10GCharacter_12GObjectBlock_v",
-        "void GObjectBlock::DeleteObjects<GCharacter>()",
+        "void GObjectBlock::DeleteObjects<GCharacter>(void)",
     ),
     (
         "GetPaddedObjectSize__H1Z9GActivity_v_Ui",
@@ -33253,7 +33253,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "DeleteObjects__H1Z9GActivity_12GObjectBlock_v",
-        "void GObjectBlock::DeleteObjects<GActivity>()",
+        "void GObjectBlock::DeleteObjects<GActivity>(void)",
     ),
     (
         "GetPaddedObjectSize__H1Z6GState_v_Ui",
@@ -33261,7 +33261,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "DeleteObjects__H1Z6GState_12GObjectBlock_v",
-        "void GObjectBlock::DeleteObjects<GState>()",
+        "void GObjectBlock::DeleteObjects<GState>(void)",
     ),
     (
         "GetPaddedObjectSize__H1Z8GHandler_v_Ui",
@@ -33269,7 +33269,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "DeleteObjects__H1Z8GHandler_12GObjectBlock_v",
-        "void GObjectBlock::DeleteObjects<GHandler>()",
+        "void GObjectBlock::DeleteObjects<GHandler>(void)",
     ),
     (
         "FindInstances__H1Z8GHandler_P6GVaultPQ33UTL3Stdt4list2ZUiZ22_type_ID_AttribKeyListPUiT2_Ui",
@@ -35469,7 +35469,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "BindVoidMethod__H1Z11GRaceStatus_P9lua_StatePCcT1PMX01FPX01_v_v",
-        "void BindVoidMethod<GRaceStatus>(lua_State *, char const *, char const *, void (GRaceStatus::*)())",
+        "void BindVoidMethod<GRaceStatus>(lua_State *, char const *, char const *, void (GRaceStatus::*)(void))",
     ),
     (
         "BindVoidMethod__H2Z11GRaceStatusZP16GRuntimeInstance_P9lua_StatePCcT1PMX01FPX01X11_v_v",
@@ -35493,7 +35493,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "BindMethod__H2ZbZ8ISimable_P9lua_StatePCcT1PMX11CFPCX11_X01_v",
-        "void BindMethod<bool, ISimable>(lua_State *, char const *, char const *, bool (ISimable::*)() const)",
+        "void BindMethod<bool, ISimable>(lua_State *, char const *, char const *, bool (ISimable::*)(void) const)",
     ),
     (
         "VoidFunctionArg4Thunk__H4ZP16GRuntimeInstanceZP16GRuntimeInstanceZfZb_P9lua_State_i",
@@ -58401,15 +58401,15 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "BlendVisualLookAttribute__16IVisualTreatmentR8bMatrix4ffPMQ36Attrib3Gen10visuallookCFPCQ36Attrib3Gen10visuallook_RCQ25UMath7Matrix4",
-        "IVisualTreatment::BlendVisualLookAttribute(bMatrix4 &, float, float, UMath::Matrix4 const &(Attrib::Gen::visuallook::*)() const)",
+        "IVisualTreatment::BlendVisualLookAttribute(bMatrix4 &, float, float, UMath::Matrix4 const &(Attrib::Gen::visuallook::*)(void) const)",
     ),
     (
         "BlendVisualLookAttribute__16IVisualTreatmentRfffPMQ36Attrib3Gen10visuallookCFPCQ36Attrib3Gen10visuallook_RCf",
-        "IVisualTreatment::BlendVisualLookAttribute(float &, float, float, float const &(Attrib::Gen::visuallook::*)() const)",
+        "IVisualTreatment::BlendVisualLookAttribute(float &, float, float, float const &(Attrib::Gen::visuallook::*)(void) const)",
     ),
     (
         "BlendVisualLookAttribute__16IVisualTreatmentR8bVector4ffPMQ36Attrib3Gen10visuallookCFPCQ36Attrib3Gen10visuallook_RCQ25UMath7Vector4",
-        "IVisualTreatment::BlendVisualLookAttribute(bVector4 &, float, float, UMath::Vector4 const &(Attrib::Gen::visuallook::*)() const)",
+        "IVisualTreatment::BlendVisualLookAttribute(bVector4 &, float, float, UMath::Vector4 const &(Attrib::Gen::visuallook::*)(void) const)",
     ),
     (
         "UpdateVisualLook__16IVisualTreatment",

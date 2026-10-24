@@ -301,7 +301,7 @@ fn demangle_function_pointer_arg<'s>(
                 FunctionPointerReturnType::PlainArg(plain),
                 array_qualifiers.into(),
                 post_qualifiers.to_string(),
-                func_args.join(),
+                func_args,
             )
         }
         DemangledArg::FunctionPointer(function_pointer) => {
@@ -311,7 +311,7 @@ fn demangle_function_pointer_arg<'s>(
                 post_qualifiers: sub_post_qualifiers,
                 args: sub_args,
             } = function_pointer;
-            let func_args = func_args.join();
+
             FunctionPointer {
                 return_type: sub_return_type,
                 array_qualifiers: sub_array_qualifiers,
@@ -332,7 +332,7 @@ fn demangle_function_pointer_arg<'s>(
                 args: sub_args,
                 is_const_method,
             } = method_pointer;
-            let func_args = func_args.join();
+
             let const_qualifier = if is_const_method { " const" } else { "" };
             FunctionPointer::new(
                 sub_return_type,
@@ -347,7 +347,7 @@ fn demangle_function_pointer_arg<'s>(
             FunctionPointerReturnType::MemberPointer(object),
             None.into(),
             post_qualifiers.to_string(),
-            func_args.join(),
+            func_args,
         ),
         DemangledArg::Repeat { .. } | DemangledArg::Ellipsis => {
             return Err(DemangleError::InvalidReturnTypeForFunctionPointer(r))

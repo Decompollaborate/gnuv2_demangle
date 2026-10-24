@@ -49892,7 +49892,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "DeleteObjects__H1Z8GTrigger_12GObjectBlock_v",
         Ok(
-            "void GObjectBlock::DeleteObjects<GTrigger>()",
+            "void GObjectBlock::DeleteObjects<GTrigger>(void)",
         ),
     ),
     (
@@ -49904,7 +49904,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "DeleteObjects__H1Z7GMarker_12GObjectBlock_v",
         Ok(
-            "void GObjectBlock::DeleteObjects<GMarker>()",
+            "void GObjectBlock::DeleteObjects<GMarker>(void)",
         ),
     ),
     (
@@ -49916,7 +49916,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "DeleteObjects__H1Z10GCharacter_12GObjectBlock_v",
         Ok(
-            "void GObjectBlock::DeleteObjects<GCharacter>()",
+            "void GObjectBlock::DeleteObjects<GCharacter>(void)",
         ),
     ),
     (
@@ -49928,7 +49928,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "DeleteObjects__H1Z9GActivity_12GObjectBlock_v",
         Ok(
-            "void GObjectBlock::DeleteObjects<GActivity>()",
+            "void GObjectBlock::DeleteObjects<GActivity>(void)",
         ),
     ),
     (
@@ -49940,7 +49940,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "DeleteObjects__H1Z6GState_12GObjectBlock_v",
         Ok(
-            "void GObjectBlock::DeleteObjects<GState>()",
+            "void GObjectBlock::DeleteObjects<GState>(void)",
         ),
     ),
     (
@@ -49952,7 +49952,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "DeleteObjects__H1Z8GHandler_12GObjectBlock_v",
         Ok(
-            "void GObjectBlock::DeleteObjects<GHandler>()",
+            "void GObjectBlock::DeleteObjects<GHandler>(void)",
         ),
     ),
     (
@@ -53254,7 +53254,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "BindVoidMethod__H1Z11GRaceStatus_P9lua_StatePCcT1PMX01FPX01_v_v",
         Ok(
-            "void BindVoidMethod<GRaceStatus>(lua_State *, char const *, char const *, void (GRaceStatus::*)())",
+            "void BindVoidMethod<GRaceStatus>(lua_State *, char const *, char const *, void (GRaceStatus::*)(void))",
         ),
     ),
     (
@@ -53290,7 +53290,7 @@ expression: "demangle_lines(contents, &config)"
     (
         "BindMethod__H2ZbZ8ISimable_P9lua_StatePCcT1PMX11CFPCX11_X01_v",
         Ok(
-            "void BindMethod<bool, ISimable>(lua_State *, char const *, char const *, bool (ISimable::*)() const)",
+            "void BindMethod<bool, ISimable>(lua_State *, char const *, char const *, bool (ISimable::*)(void) const)",
         ),
     ),
     (
@@ -87694,19 +87694,19 @@ expression: "demangle_lines(contents, &config)"
     (
         "BlendVisualLookAttribute__16IVisualTreatmentR8bMatrix4ffPMQ36Attrib3Gen10visuallookCFPCQ36Attrib3Gen10visuallook_RCQ25UMath7Matrix4",
         Ok(
-            "IVisualTreatment::BlendVisualLookAttribute(bMatrix4 &, float, float, UMath::Matrix4 const &(Attrib::Gen::visuallook::*)() const)",
+            "IVisualTreatment::BlendVisualLookAttribute(bMatrix4 &, float, float, UMath::Matrix4 const &(Attrib::Gen::visuallook::*)(void) const)",
         ),
     ),
     (
         "BlendVisualLookAttribute__16IVisualTreatmentRfffPMQ36Attrib3Gen10visuallookCFPCQ36Attrib3Gen10visuallook_RCf",
         Ok(
-            "IVisualTreatment::BlendVisualLookAttribute(float &, float, float, float const &(Attrib::Gen::visuallook::*)() const)",
+            "IVisualTreatment::BlendVisualLookAttribute(float &, float, float, float const &(Attrib::Gen::visuallook::*)(void) const)",
         ),
     ),
     (
         "BlendVisualLookAttribute__16IVisualTreatmentR8bVector4ffPMQ36Attrib3Gen10visuallookCFPCQ36Attrib3Gen10visuallook_RCQ25UMath7Vector4",
         Ok(
-            "IVisualTreatment::BlendVisualLookAttribute(bVector4 &, float, float, UMath::Vector4 const &(Attrib::Gen::visuallook::*)() const)",
+            "IVisualTreatment::BlendVisualLookAttribute(bVector4 &, float, float, UMath::Vector4 const &(Attrib::Gen::visuallook::*)(void) const)",
         ),
     ),
     (

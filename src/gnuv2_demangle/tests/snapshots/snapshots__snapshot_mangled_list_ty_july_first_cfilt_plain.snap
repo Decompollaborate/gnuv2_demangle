@@ -43757,7 +43757,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "InitStateFuncs__15GameCameraStateP20GameCameraStateFuncsPM10GameCameraFP10GameCamera_v",
-        "GameCameraState::InitStateFuncs(GameCameraStateFuncs *, void (GameCamera::*)())",
+        "GameCameraState::InitStateFuncs(GameCameraStateFuncs *, void (GameCamera::*)(void))",
     ),
     (
         "bInitialised",

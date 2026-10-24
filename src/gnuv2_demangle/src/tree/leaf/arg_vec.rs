@@ -129,7 +129,7 @@ impl<'ns> ArgVec<'ns> {
         Ok(found_end)
     }
 
-    pub(crate) fn join(self) -> String {
+    fn join(self) -> String {
         let mut args = Vec::with_capacity(self.args.len() + 1);
 
         for arg in &self.args {

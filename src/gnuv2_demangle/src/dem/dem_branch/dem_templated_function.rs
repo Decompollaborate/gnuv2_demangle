@@ -125,7 +125,6 @@ pub(crate) fn demangle_templated_function<'s>(
     };
 
     let template_args = template_args.join();
-    let argument_list = argument_list.join();
 
     let PlainArgArray {
         plain: return_type,

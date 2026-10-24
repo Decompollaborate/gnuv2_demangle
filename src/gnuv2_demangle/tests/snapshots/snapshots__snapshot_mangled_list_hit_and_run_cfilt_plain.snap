@@ -34785,7 +34785,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "BlendDriverNoContext__H2ZfZQ26choreo15FootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
-        "void choreo::BlendDriverNoContext<float, choreo::FootBlendDriver>(choreo::FootBlendDriver *, float (choreo::FootBlendDriver::*)() const, float, int, choreo::BlendPriority<float> *, int, int &)",
+        "void choreo::BlendDriverNoContext<float, choreo::FootBlendDriver>(choreo::FootBlendDriver *, float (choreo::FootBlendDriver::*)(void) const, float, int, choreo::BlendPriority<float> *, int, int &)",
     ),
     (
         "BlendPriorities__H1Zf_6choreoPCQ26choreot13BlendPriority1ZX01iRX01_b",
@@ -36389,7 +36389,7 @@ expression: "demangle_lines_plain(contents, &config)"
     ),
     (
         "BlendDriverNoContext__H2ZfZQ26choreo15RootBlendDriver_6choreoPX11PMX11CFPCX11_X01fiPQ26choreot13BlendPriority1ZX01iRi_v",
-        "void choreo::BlendDriverNoContext<float, choreo::RootBlendDriver>(choreo::RootBlendDriver *, float (choreo::RootBlendDriver::*)() const, float, int, choreo::BlendPriority<float> *, int, int &)",
+        "void choreo::BlendDriverNoContext<float, choreo::RootBlendDriver>(choreo::RootBlendDriver *, float (choreo::RootBlendDriver::*)(void) const, float, int, choreo::BlendPriority<float> *, int, int &)",
     ),
     (
         "__tfQ26choreo11RootBlender",
