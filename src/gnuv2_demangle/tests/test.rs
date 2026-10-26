@@ -2389,6 +2389,98 @@ fn test_demangle_pointer_to_member() {
     }
 }
 
+#[test]
+fn test_demangle_function_pointer_as_return_type_for_argument() {
+    // Code to generate those entries:
+    // EE GCC 2.95.3 (SN BUILD v1.14)
+    /*
+    class Test {
+    public:
+        int get(void);
+        int get2(void) const;
+    };
+
+    int evil(int (Test::* arg)(void)) {
+        //return arg();
+        return 4;
+    }
+
+    int call_evil() {
+        return evil(&Test::get);
+    }
+
+    typedef int (Test::* MethodType)(void);
+
+    void even_worse(MethodType (* arg) (int, char, Test &), int) {
+    }
+
+    MethodType return_method(int, char, Test&) {
+        return &Test::get;
+    }
+
+    void call_even_worse() {
+        even_worse(return_method, 4);
+    }
+
+
+    typedef int (Test::* MethodTypeConst)(void) const;
+
+    void even_worse_const(MethodTypeConst (* arg) (int, char, Test &), int) {
+    }
+
+    MethodTypeConst return_method_const(int, char, Test&) {
+        return &Test::get2;
+    }
+
+    void call_even_worse_const() {
+        even_worse_const(return_method_const, 4);
+    }
+    */
+    static CASES: [(&str, &str); 6] = [
+        (
+            "evil__FPM4TestFP4Test_i",
+            "evil(int (Test::*)(void))",
+        ),
+        (
+            "call_evil__Fv",
+            "call_evil(void)",
+        ),
+        /*
+        (
+            "even_worse__FPFicR4Test_PM4TestFP4Test_ii",
+            "even_worse(int (Test::*(*)(int, char, Test &))(Test *), int)",
+        ),
+        */
+        (
+            "return_method__FicR4Test",
+            "return_method(int, char, Test &)",
+        ),
+        (
+            "call_even_worse__Fv",
+            "call_even_worse(void)",
+        ),
+        /*
+        (
+            "even_worse_const__FPFicR4Test_PM4TestCFPC4Test_ii",
+            "even_worse_const(int (Test::*(*)(int, char, Test &))(Test const *) const, int)",
+        ),
+        */
+        (
+            "return_method_const__FicR4Test",
+            "return_method_const(int, char, Test &)",
+        ),
+        (
+            "call_even_worse_const__Fv",
+            "call_even_worse_const(void)",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
+    }
+}
+
 /*
 #[test]
 fn test_demangle_single() {
