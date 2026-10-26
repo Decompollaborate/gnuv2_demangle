@@ -2359,10 +2359,8 @@ fn test_demangle_pointer_to_member() {
     void class_field_function_pointer_arg_with_classes(  int X::* (*) (const NamespaceABC::Y X::* , volatile NamespaceABC::Parent::Z*  X::* )) {
     }
     */
-    static CASES: [(&str, &str); 1] = [
+    static CASES: [(&str, &str); 4] = [
         ("class_field_arg__FPO1X_i", "class_field_arg(int (X::*))"),
-        // TODO: These cases aren't passing yet.
-        /*
         (
             "class_field_function_pointer_arg__FPFPO1X_CfPO1X_Vw_PO1X_i",
             "class_field_function_pointer_arg(int (X::*(*)(float const (X::*), wchar_t volatile (X::*))))",
@@ -2371,6 +2369,8 @@ fn test_demangle_pointer_to_member() {
             "class_field_function_pointer_arg_with_signs__FPFPO1X_UcPO1X_cPO1X_UsPO1X_Ux_PO1X_Sc",
             "class_field_function_pointer_arg_with_signs(signed char (X::*(*)(unsigned char (X::*), char (X::*), unsigned short (X::*), unsigned long long (X::*))))",
         ),
+        // TODO: Not implemented yet. 'V'
+        /*
         (
             "class_field_function_pointer_arg_with_signs_volatile__FPFPO1X_CUcPO1X_CcPO1X_CUsPO1X_UVx_PO1X_Sc",
             "class_field_function_pointer_arg_with_signs_volatile(signed char (X::*(*)(unsigned char const (X::*), char const (X::*), unsigned short const (X::*), volatile unsigned long long (X::*))))",
@@ -2379,11 +2379,11 @@ fn test_demangle_pointer_to_member() {
             "class_field_function_pointer_arg_with_signz_volatile__FPFPO1X_CUcPO1X_CcPO1X_CUsPO1X_UVx_PO1X_Sc",
             "class_field_function_pointer_arg_with_signz_volatile(signed char (X::*(*)(unsigned char const (X::*), char const (X::*), unsigned short const (X::*), volatile unsigned long long (X::*))))",
         ),
+        */
         (
             "class_field_function_pointer_arg_with_classes__FPFPO1X_CQ212NamespaceABC1YPO1X_PVQ312NamespaceABC6Parent1Z_PO1X_i",
             "class_field_function_pointer_arg_with_classes(int (X::*(*)(NamespaceABC::Y const (X::*), NamespaceABC::Parent::Z volatile *(X::*))))",
-        )
-        */
+        ),
     ];
     let config = DemangleConfig::new();
 
@@ -2439,26 +2439,22 @@ fn test_demangle_function_pointer_as_return_type_for_argument() {
         even_worse_const(return_method_const, 4);
     }
     */
-    static CASES: [(&str, &str); 6] = [
+    static CASES: [(&str, &str); 8] = [
         ("evil__FPM4TestFP4Test_i", "evil(int (Test::*)(void))"),
         ("call_evil__Fv", "call_evil(void)"),
-        /*
         (
             "even_worse__FPFicR4Test_PM4TestFP4Test_ii",
-            "even_worse(int (Test::*(*)(int, char, Test &))(Test *), int)",
+            "even_worse(int (Test::*(*)(int, char, Test &))(void), int)",
         ),
-        */
         (
             "return_method__FicR4Test",
             "return_method(int, char, Test &)",
         ),
         ("call_even_worse__Fv", "call_even_worse(void)"),
-        /*
         (
             "even_worse_const__FPFicR4Test_PM4TestCFPC4Test_ii",
-            "even_worse_const(int (Test::*(*)(int, char, Test &))(Test const *) const, int)",
+            "even_worse_const(int (Test::*(*)(int, char, Test &))(void) const, int)",
         ),
-        */
         (
             "return_method_const__FicR4Test",
             "return_method_const(int, char, Test &)",

@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `demangle` returns a `Demangled` type instead of a plain `String`.
+- Remove all internal use of `String`s and `Cow`s in favor of proper typed
+  tree-like data.
+
+### Fixed
+
+- Fix syntax for demangled function/method/member pointers on function
+  pointers.
 
 ## [0.5.0] - 2026-10-12
 

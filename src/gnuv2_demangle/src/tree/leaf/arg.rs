@@ -282,6 +282,10 @@ impl<'s> MemberPointer<'s> {
             post_qualifiers,
         }
     }
+
+    const fn ends_with_ptr_like(&self) -> bool {
+        true
+    }
 }
 
 impl fmt::Display for MemberPointer<'_> {
@@ -293,16 +297,24 @@ impl fmt::Display for MemberPointer<'_> {
             post_qualifiers,
         } = self;
 
-        // Arrays makes everything harder.
-        write!(f, "{member_type} ")?;
+        let mut wrote_space = false;
+
+        write!(f, "{member_type}")?;
 
         if let Some(arr) = &array_qualifiers {
+            write!(f, " ")?;
+            wrote_space = true;
             if !arr.inner_post_qualifiers.is_empty() {
                 write!(f, "({}", arr.inner_post_qualifiers)?;
             }
         }
+        if !member_type.ends_with_ptr_like() && !wrote_space {
+            write!(f, " ")?;
+        }
 
-        write!(f, "({class_name}::{post_qualifiers})")?;
+        write!(f, "(")?;
+        write!(f, "{class_name}::{post_qualifiers}")?;
+        write!(f, ")")?;
         if let Some(arr) = &array_qualifiers {
             if !arr.inner_post_qualifiers.is_empty() {
                 write!(f, ")")?;
@@ -328,7 +340,7 @@ impl<'s> FunctionPointerReturnType<'s> {
             Self::PlainArg(plain) => plain.ends_with_ptr_like(),
             Self::FunctionPointer(function_pointer) => function_pointer.ends_with_ptr_like(),
             Self::MethodPointer(method_pointer) => method_pointer.ends_with_ptr_like(),
-            Self::MemberPointer(..) => true,
+            Self::MemberPointer(object_pointer) => object_pointer.ends_with_ptr_like(),
         }
     }
 
@@ -362,7 +374,23 @@ impl<'s> FunctionPointerReturnType<'s> {
                 write!(f, "{class}::{post_qualifiers}")
             }
             FunctionPointerReturnType::MemberPointer(member_pointer) => {
-                write!(f, "{member_pointer}")
+                let MemberPointer {
+                    class_name,
+                    member_type,
+                    array_qualifiers,
+                    post_qualifiers,
+                } = member_pointer;
+
+                write!(f, "{member_type} ")?;
+
+                if let Some(arr) = &array_qualifiers {
+                    if !arr.inner_post_qualifiers.is_empty() {
+                        write!(f, "({}", arr.inner_post_qualifiers)?;
+                    }
+                }
+
+                write!(f, "(")?;
+                write!(f, "{class_name}::{post_qualifiers}")
             }
         }
     }
@@ -403,7 +431,22 @@ impl<'s> FunctionPointerReturnType<'s> {
                     write!(f, "{array_qualifiers}")?;
                 }
             }
-            FunctionPointerReturnType::MemberPointer(..) => {}
+            FunctionPointerReturnType::MemberPointer(member_pointer) => {
+                let MemberPointer {
+                    class_name: _,
+                    member_type: _,
+                    array_qualifiers,
+                    post_qualifiers: _,
+                } = member_pointer;
+
+                write!(f, ")")?;
+                if let Some(arr) = &array_qualifiers {
+                    if !arr.inner_post_qualifiers.is_empty() {
+                        write!(f, ")")?;
+                    }
+                    write!(f, "{}", arr.arrays)?;
+                }
+            }
         }
 
         Ok(())
