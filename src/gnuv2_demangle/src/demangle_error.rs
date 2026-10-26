@@ -57,6 +57,7 @@ pub enum DemangleError<'s> {
     TrailingDataOnNamespacedGlobal(&'s str),
     MissingReturnTypeForFunctionPointer(&'s str),
     InvalidSignednessForFunctionPointer(&'s str),
+    InvalidArrayQualifiersForFunctionPointer(&'s str),
     InvalidReturnTypeForFunctionPointer(&'s str),
     InvalidGlobalSymKeyed(&'s str),
     InvalidArraySize(&'s str),

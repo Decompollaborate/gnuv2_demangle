@@ -8,7 +8,6 @@
 #![warn(private_interfaces)]
 #![warn(clippy::unwrap_used)]
 
-#[macro_use]
 extern crate alloc;
 
 mod demangle_config;
@@ -24,7 +23,6 @@ pub(crate) mod dem;
 
 pub mod tree;
 
-pub(crate) mod option_display;
 pub(crate) mod remainer;
 pub(crate) mod str_cutter;
 pub(crate) mod utils;

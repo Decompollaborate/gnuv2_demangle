@@ -10,13 +10,11 @@ use super::{
 };
 
 use crate::{
-    option_display::OptionDisplay,
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::leaf::{
-        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, FunctionPointerReturnType,
-        MemberPointer, MethodPointer, PlainArg, PlainArgArray, Signedness, TemplatedValueVec, Type,
-        TypeMeta,
+        ArgQualifiers, ArgVec, DemangledArg, FunctionPointer, MemberPointer, MethodPointer,
+        PlainArg, PlainArgArray, Signedness, TemplatedValueVec, Type, TypeMeta,
     },
     DemangleConfig, DemangleError,
 };
@@ -288,74 +286,33 @@ fn demangle_function_pointer_arg<'s>(
     if sign != Signedness::No {
         return Err(DemangleError::InvalidSignednessForFunctionPointer(s));
     }
+    if array_qualifiers.is_some() {
+        return Err(DemangleError::InvalidArrayQualifiersForFunctionPointer(s));
+    }
 
-    let fp = match return_type {
+    let (ret, array_qualifiers) = match return_type {
         DemangledArg::Plain(plain_array) => {
             let PlainArgArray {
                 plain,
                 array_qualifiers,
             } = plain_array;
 
-            FunctionPointer::new(
-                FunctionPointerReturnType::PlainArg(plain),
-                array_qualifiers.into(),
-                post_qualifiers.to_string(),
-                func_args,
-            )
+            (plain.into(), array_qualifiers)
         }
-        DemangledArg::FunctionPointer(function_pointer) => {
-            let FunctionPointer {
-                return_type: sub_return_type,
-                array_qualifiers: sub_array_qualifiers,
-                post_qualifiers: sub_post_qualifiers,
-                args: sub_args,
-            } = function_pointer;
-
-            let array_qualifiers: OptionDisplay<_> = array_qualifiers.into();
-
-            FunctionPointer {
-                return_type: sub_return_type,
-                array_qualifiers: sub_array_qualifiers,
-                // This is kinda hacky, but it seems to work...
-                post_qualifiers: format!(
-                    "{post_qualifiers}({sub_post_qualifiers})({func_args}){array_qualifiers}",
-                ),
-                args: sub_args,
-            }
-        }
-        DemangledArg::MethodPointer(method_pointer) => {
-            // Copied from the FunctionPointer block. Untested
-            let MethodPointer {
-                return_type: sub_return_type,
-                array_qualifiers: sub_array_qualifiers,
-                class,
-                post_qualifiers: sub_post_qualifiers,
-                args: sub_args,
-                is_const_method,
-            } = method_pointer;
-
-            let array_qualifiers: OptionDisplay<_> = array_qualifiers.into();
-
-            let const_qualifier = if is_const_method { " const" } else { "" };
-            FunctionPointer::new(
-                sub_return_type,
-                sub_array_qualifiers,
-                format!(
-                    "{post_qualifiers}({class}::{sub_post_qualifiers})({func_args}){const_qualifier}{array_qualifiers}",
-                ),
-                sub_args,
-            )
-        }
-        DemangledArg::MemberPointer(object) => FunctionPointer::new(
-            FunctionPointerReturnType::MemberPointer(object),
-            None.into(),
-            post_qualifiers.to_string(),
-            func_args,
-        ),
+        DemangledArg::FunctionPointer(function_pointer) => (function_pointer.into(), None),
+        DemangledArg::MethodPointer(method_pointer) => (method_pointer.into(), None),
+        DemangledArg::MemberPointer(member_pointer) => (member_pointer.into(), None),
         DemangledArg::Repeat { .. } | DemangledArg::Ellipsis => {
             return Err(DemangleError::InvalidReturnTypeForFunctionPointer(r))
         }
     };
+
+    let fp = FunctionPointer::new(
+        ret,
+        array_qualifiers,
+        post_qualifiers.to_string(),
+        func_args,
+    );
 
     Ok((r, fp))
 }

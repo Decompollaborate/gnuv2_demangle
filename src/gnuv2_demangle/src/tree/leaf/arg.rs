@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::String;
+use alloc::{boxed::Box, string::String};
 use core::{fmt, num::NonZeroU32};
 
 use super::{ArgPostQualifierVec, ArgVec, ArrayQualifiers, TypeMeta};
@@ -123,6 +123,10 @@ impl<'s> FunctionPointer<'s> {
             args,
         }
     }
+
+    fn ends_with_ptr_like(&self) -> bool {
+        true
+    }
 }
 
 impl fmt::Display for FunctionPointer<'_> {
@@ -136,7 +140,11 @@ impl fmt::Display for FunctionPointer<'_> {
 
         let mut wrote_space = false;
 
-        write!(f, "{return_type}")?;
+        // We can't just write! the return_type, since it may be a function
+        // pointer, and those wrap the argument around instead of just being at
+        // the beginning of the declaration.
+        return_type.fmt_prev(f)?;
+
         if let Some(arr) = array_qualifiers {
             // A return type being a pointer to array has a terrible syntax,
             // which we need to break up.
@@ -161,6 +169,10 @@ impl fmt::Display for FunctionPointer<'_> {
             }
             write!(f, "{}", arr.arrays)?;
         }
+
+        // Display the rest of the returned value, mostly for function pointers.
+        return_type.fmt_post(f)?;
+
         Ok(())
     }
 }
@@ -193,6 +205,10 @@ impl<'s> MethodPointer<'s> {
             is_const_method,
         }
     }
+
+    fn ends_with_ptr_like(&self) -> bool {
+        true
+    }
 }
 
 impl fmt::Display for MethodPointer<'_> {
@@ -208,7 +224,8 @@ impl fmt::Display for MethodPointer<'_> {
 
         let mut wrote_space = false;
 
-        write!(f, "{return_type}")?;
+        return_type.fmt_prev(f)?;
+
         if let Some(arr) = array_qualifiers {
             // A return type being a pointer to array has a terrible syntax,
             // which we need to break up.
@@ -236,6 +253,9 @@ impl fmt::Display for MethodPointer<'_> {
             }
             write!(f, "{}", arr.arrays)?;
         }
+
+        return_type.fmt_post(f)?;
+
         Ok(())
     }
 }
@@ -297,6 +317,8 @@ impl fmt::Display for MemberPointer<'_> {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum FunctionPointerReturnType<'s> {
     PlainArg(PlainArg<'s>),
+    FunctionPointer(Box<FunctionPointer<'s>>),
+    MethodPointer(Box<MethodPointer<'s>>),
     MemberPointer(MemberPointer<'s>),
 }
 
@@ -304,16 +326,107 @@ impl<'s> FunctionPointerReturnType<'s> {
     fn ends_with_ptr_like(&self) -> bool {
         match self {
             Self::PlainArg(plain) => plain.ends_with_ptr_like(),
+            Self::FunctionPointer(function_pointer) => function_pointer.ends_with_ptr_like(),
+            Self::MethodPointer(method_pointer) => method_pointer.ends_with_ptr_like(),
             Self::MemberPointer(..) => true,
         }
     }
+
+    pub(crate) fn fmt_prev(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            FunctionPointerReturnType::PlainArg(plain_arg) => write!(f, "{plain_arg}"),
+            FunctionPointerReturnType::FunctionPointer(function_pointer) => {
+                let FunctionPointer {
+                    return_type,
+                    array_qualifiers: _,
+                    post_qualifiers,
+                    args: _,
+                } = function_pointer.as_ref();
+
+                return_type.fmt_prev(f)?;
+                write!(f, " (")?;
+                write!(f, "{post_qualifiers}")
+            }
+            FunctionPointerReturnType::MethodPointer(method_pointer) => {
+                let MethodPointer {
+                    return_type: _,
+                    array_qualifiers: _,
+                    class,
+                    post_qualifiers,
+                    args: _,
+                    is_const_method: _,
+                } = method_pointer.as_ref();
+
+                method_pointer.return_type.fmt_prev(f)?;
+                write!(f, " (")?;
+                write!(f, "{class}::{post_qualifiers}")
+            }
+            FunctionPointerReturnType::MemberPointer(member_pointer) => {
+                write!(f, "{member_pointer}")
+            }
+        }
+    }
+
+    pub(crate) fn fmt_post(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            FunctionPointerReturnType::PlainArg(..) => {}
+            FunctionPointerReturnType::FunctionPointer(function_pointer) => {
+                let FunctionPointer {
+                    return_type: _,
+                    array_qualifiers,
+                    post_qualifiers: _,
+                    args,
+                } = function_pointer.as_ref();
+
+                write!(f, ")")?;
+                write!(f, "({args})")?;
+                if let Some(array_qualifiers) = array_qualifiers {
+                    write!(f, "{array_qualifiers}")?;
+                }
+            }
+            FunctionPointerReturnType::MethodPointer(method_pointer) => {
+                let MethodPointer {
+                    return_type: _,
+                    array_qualifiers,
+                    class: _,
+                    post_qualifiers: _,
+                    args,
+                    is_const_method,
+                } = method_pointer.as_ref();
+
+                write!(f, ")")?;
+                write!(f, "({args})")?;
+                if *is_const_method {
+                    write!(f, " const")?;
+                }
+                if let Some(array_qualifiers) = array_qualifiers {
+                    write!(f, "{array_qualifiers}")?;
+                }
+            }
+            FunctionPointerReturnType::MemberPointer(..) => {}
+        }
+
+        Ok(())
+    }
 }
 
-impl fmt::Display for FunctionPointerReturnType<'_> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Self::PlainArg(plain) => write!(f, "{plain}"),
-            Self::MemberPointer(member_pointer) => write!(f, "{member_pointer}"),
-        }
+impl<'s> From<PlainArg<'s>> for FunctionPointerReturnType<'s> {
+    fn from(value: PlainArg<'s>) -> Self {
+        Self::PlainArg(value)
+    }
+}
+impl<'s> From<FunctionPointer<'s>> for FunctionPointerReturnType<'s> {
+    fn from(value: FunctionPointer<'s>) -> Self {
+        Self::FunctionPointer(Box::new(value))
+    }
+}
+impl<'s> From<MethodPointer<'s>> for FunctionPointerReturnType<'s> {
+    fn from(value: MethodPointer<'s>) -> Self {
+        Self::MethodPointer(Box::new(value))
+    }
+}
+impl<'s> From<MemberPointer<'s>> for FunctionPointerReturnType<'s> {
+    fn from(value: MemberPointer<'s>) -> Self {
+        Self::MemberPointer(value)
     }
 }

@@ -600,7 +600,10 @@ fn test_demangle_function_pointers() {
 #[test]
 fn test_demangle_function_pointers_within_function_pointers() {
     static CASES: [(&str, &str); 3] = [
-        ("set_terminate__FPFPCc_PFbi_ii", "set_terminate(int (*(*)(char const *))(bool, int), int)"),
+        (
+            "set_terminate__FPFPCc_PFbi_ii",
+            "set_terminate(int (*(*)(char const *))(bool, int), int)",
+        ),
         ("set_terminate__FPFv_PFv_viT0PFv_PFPFv_PFv_v_v", "set_terminate(void (*(*)(void))(void), int, void (*(*)(void))(void), void (*(*)(void))(void (*(*)(void))(void)))"),
         (
             "i_hope_nobody_actually_writes_something_like_this__FPFPPFGQ213radPs2CdDrive14DirectoryEntryiPCQ213radPs2CdDrive14DirectoryEntry_Q213radPs2CdDrive14DirectoryEntryPFGQ213radPs2CdDrive14DirectoryEntryiPCQ213radPs2CdDrive14DirectoryEntry_Q213radPs2CdDrive14DirectoryEntryGQ213radPs2CdDrive14DirectoryEntry_PFGQ213radPs2CdDrive14DirectoryEntryiPCQ213radPs2CdDrive14DirectoryEntry_Q213radPs2CdDrive14DirectoryEntryPPFGQ213radPs2CdDrive14DirectoryEntryiPCQ213radPs2CdDrive14DirectoryEntry_Q213radPs2CdDrive14DirectoryEntryT0",
@@ -2437,14 +2440,8 @@ fn test_demangle_function_pointer_as_return_type_for_argument() {
     }
     */
     static CASES: [(&str, &str); 6] = [
-        (
-            "evil__FPM4TestFP4Test_i",
-            "evil(int (Test::*)(void))",
-        ),
-        (
-            "call_evil__Fv",
-            "call_evil(void)",
-        ),
+        ("evil__FPM4TestFP4Test_i", "evil(int (Test::*)(void))"),
+        ("call_evil__Fv", "call_evil(void)"),
         /*
         (
             "even_worse__FPFicR4Test_PM4TestFP4Test_ii",
@@ -2455,10 +2452,7 @@ fn test_demangle_function_pointer_as_return_type_for_argument() {
             "return_method__FicR4Test",
             "return_method(int, char, Test &)",
         ),
-        (
-            "call_even_worse__Fv",
-            "call_even_worse(void)",
-        ),
+        ("call_even_worse__Fv", "call_even_worse(void)"),
         /*
         (
             "even_worse_const__FPFicR4Test_PM4TestCFPC4Test_ii",
@@ -2469,10 +2463,7 @@ fn test_demangle_function_pointer_as_return_type_for_argument() {
             "return_method_const__FicR4Test",
             "return_method_const(int, char, Test &)",
         ),
-        (
-            "call_even_worse_const__Fv",
-            "call_even_worse_const(void)",
-        ),
+        ("call_even_worse_const__Fv", "call_even_worse_const(void)"),
     ];
     let config = DemangleConfig::new();
 

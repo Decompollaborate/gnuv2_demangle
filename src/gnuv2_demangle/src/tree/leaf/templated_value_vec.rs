@@ -214,8 +214,14 @@ impl fmt::Display for FunctionPointerValue<'_> {
             return_type,
         } = self;
 
+        write!(f, "(")?;
+        return_type.fmt_prev(f)?;
+        write!(f, "(*)({args})) ")?;
+
+        // TODo: shouldn't we be calling return_type.fmt_post(f)?; here?
+
         let ampersand = if *is_pointer { "&" } else { "" };
-        write!(f, "({return_type}(*)({args})) {ampersand}{actual_sym}")
+        write!(f, "{ampersand}{actual_sym}")
     }
 }
 
@@ -252,8 +258,14 @@ impl fmt::Display for FunctionReferenceValue<'_> {
             return_type,
         } = self;
 
+        write!(f, "(")?;
+        return_type.fmt_prev(f)?;
+        write!(f, "(&)({args})) ")?;
+
+        // TODo: shouldn't we be calling return_type.fmt_post(f)?; here?
+
         let ampersand = if *is_pointer { "&" } else { "" };
-        write!(f, "({return_type}(&)({args})) {ampersand}{actual_sym}")
+        write!(f, "{ampersand}{actual_sym}")
     }
 }
 

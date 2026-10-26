@@ -76,7 +76,7 @@ fn demangle_array_pseudo_qualifier<'s>(
         let qualifiers = ArgQualifiers {
             sign,
             post_qualifiers,
-            array_qualifiers: None.into(),
+            array_qualifiers: None,
         };
         return Ok(Remaining::new(s, qualifiers));
     }
@@ -118,6 +118,6 @@ fn demangle_array_pseudo_qualifier<'s>(
         d: (sign_other, post),
     } = demangle_arg_post_qualifiers(args)?;
 
-    let qualifiers = ArgQualifiers::new(sign_other, post, Some(array_qualifiers).into());
+    let qualifiers = ArgQualifiers::new(sign_other, post, Some(array_qualifiers));
     Ok(Remaining::new(r, qualifiers))
 }
