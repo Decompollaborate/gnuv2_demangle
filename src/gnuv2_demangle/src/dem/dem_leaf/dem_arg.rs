@@ -1,7 +1,6 @@
 /* SPDX-FileCopyrightText: © 2025 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::string::ToString;
 use core::num::NonZeroU32;
 
 use super::{
@@ -307,13 +306,7 @@ fn demangle_function_pointer_arg<'s>(
         }
     };
 
-    let fp = FunctionPointer::new(
-        ret,
-        array_qualifiers,
-        post_qualifiers.to_string(),
-        func_args,
-    );
-
+    let fp = FunctionPointer::new(ret, array_qualifiers, post_qualifiers, func_args);
     Ok((r, fp))
 }
 

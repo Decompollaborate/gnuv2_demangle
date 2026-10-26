@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: © 2026 Decompollaborate */
 /* SPDX-License-Identifier: MIT OR Apache-2.0 */
 
-use alloc::{boxed::Box, string::String};
+use alloc::boxed::Box;
 use core::{fmt, num::NonZeroU32};
 
 use super::{ArgPostQualifierVec, ArgVec, ArrayQualifiers, TypeMeta};
@@ -105,7 +105,7 @@ impl fmt::Display for PlainArg<'_> {
 pub(crate) struct FunctionPointer<'s> {
     pub(crate) return_type: FunctionPointerReturnType<'s>,
     pub(crate) array_qualifiers: Option<ArrayQualifiers>,
-    pub(crate) post_qualifiers: String,
+    pub(crate) post_qualifiers: ArgPostQualifierVec,
     pub(crate) args: ArgVec<'s>,
 }
 
@@ -113,7 +113,7 @@ impl<'s> FunctionPointer<'s> {
     pub(crate) const fn new(
         return_type: FunctionPointerReturnType<'s>,
         array_qualifiers: Option<ArrayQualifiers>,
-        post_qualifiers: String,
+        post_qualifiers: ArgPostQualifierVec,
         args: ArgVec<'s>,
     ) -> Self {
         Self {
@@ -161,7 +161,7 @@ impl fmt::Display for FunctionPointer<'_> {
         if !return_type.ends_with_ptr_like() && !wrote_space {
             write!(f, " ")?;
         }
-        write!(f, "({})", post_qualifiers.trim_matches(' '))?;
+        write!(f, "({post_qualifiers})")?;
         write!(f, "({args})")?;
         if let Some(arr) = array_qualifiers {
             if !arr.inner_post_qualifiers.is_empty() {
@@ -182,7 +182,7 @@ pub(crate) struct MethodPointer<'s> {
     pub(crate) return_type: FunctionPointerReturnType<'s>,
     pub(crate) array_qualifiers: Option<ArrayQualifiers>,
     pub(crate) class: PlainArg<'s>,
-    pub(crate) post_qualifiers: String,
+    pub(crate) post_qualifiers: ArgPostQualifierVec,
     pub(crate) args: ArgVec<'s>,
     pub(crate) is_const_method: bool,
 }
@@ -192,7 +192,7 @@ impl<'s> MethodPointer<'s> {
         return_type: FunctionPointerReturnType<'s>,
         array_qualifiers: Option<ArrayQualifiers>,
         class: PlainArg<'s>,
-        post_qualifiers: String,
+        post_qualifiers: ArgPostQualifierVec,
         args: ArgVec<'s>,
         is_const_method: bool,
     ) -> Self {
@@ -242,7 +242,7 @@ impl fmt::Display for MethodPointer<'_> {
         if !return_type.ends_with_ptr_like() && !wrote_space {
             write!(f, " ")?;
         }
-        write!(f, "({}::{})", class, post_qualifiers.trim_matches(' '))?;
+        write!(f, "({class}::{post_qualifiers})")?;
         write!(f, "({args})")?;
         if *is_const_method {
             write!(f, " const")?;
