@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-10-27
+
 ### Added
 
 - Experimental tree-like output format for `g2dem` with the `--tree`/`-t` flag.
@@ -127,8 +129,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release.
 
-[unreleased]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.5.0...main
+[unreleased]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.6.0...main
 
+[0.6.0]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/Decompollaborate/gnuv2_demangle/compare/0.2.0...0.3.0
