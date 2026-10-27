@@ -61,8 +61,8 @@ impl fmt::Display for PlainArgArray<'_> {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct PlainArg<'s> {
-    pub(crate) typ: TypeMeta<'s>,
-    pub(crate) post_qualifiers: ArgPostQualifierVec,
+    typ: TypeMeta<'s>,
+    post_qualifiers: ArgPostQualifierVec,
 }
 
 impl<'s> PlainArg<'s> {
@@ -103,10 +103,10 @@ impl fmt::Display for PlainArg<'_> {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct FunctionPointer<'s> {
-    pub(crate) return_type: FunctionPointerReturnType<'s>,
-    pub(crate) array_qualifiers: Option<ArrayQualifiers>,
-    pub(crate) post_qualifiers: ArgPostQualifierVec,
-    pub(crate) args: ArgVec<'s>,
+    pub(super) return_type: FunctionPointerReturnType<'s>,
+    pub(super) array_qualifiers: Option<ArrayQualifiers>,
+    pub(super) post_qualifiers: ArgPostQualifierVec,
+    pub(super) args: ArgVec<'s>,
 }
 
 impl<'s> FunctionPointer<'s> {
@@ -179,23 +179,27 @@ impl fmt::Display for FunctionPointer<'_> {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct MethodPointer<'s> {
-    pub(crate) return_type: FunctionPointerReturnType<'s>,
-    pub(crate) array_qualifiers: Option<ArrayQualifiers>,
-    pub(crate) class: PlainArg<'s>,
-    pub(crate) post_qualifiers: ArgPostQualifierVec,
-    pub(crate) args: ArgVec<'s>,
-    pub(crate) is_const_method: bool,
+    return_type: FunctionPointerReturnType<'s>,
+    array_qualifiers: Option<ArrayQualifiers>,
+    class: PlainArg<'s>,
+    post_qualifiers: ArgPostQualifierVec,
+    args: ArgVec<'s>,
+    is_const_method: bool,
 }
 
 impl<'s> MethodPointer<'s> {
-    pub(crate) const fn new(
-        return_type: FunctionPointerReturnType<'s>,
-        array_qualifiers: Option<ArrayQualifiers>,
+    pub(crate) fn new(
+        function_pointer: FunctionPointer<'s>,
         class: PlainArg<'s>,
-        post_qualifiers: ArgPostQualifierVec,
-        args: ArgVec<'s>,
         is_const_method: bool,
     ) -> Self {
+        let FunctionPointer {
+            return_type,
+            array_qualifiers,
+            post_qualifiers,
+            args,
+        } = function_pointer;
+
         Self {
             return_type,
             array_qualifiers,

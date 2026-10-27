@@ -190,12 +190,18 @@ pub(crate) struct FunctionPointerValue<'s> {
 }
 
 impl<'s> FunctionPointerValue<'s> {
-    pub(crate) const fn new(
+    pub(crate) fn new(
+        function_pointer: FunctionPointer<'s>,
         actual_sym: &'s str,
-        args: ArgVec<'s>,
         is_pointer: bool,
-        return_type: FunctionPointerReturnType<'s>,
     ) -> Self {
+        let FunctionPointer {
+            return_type,
+            array_qualifiers: _,
+            post_qualifiers: _,
+            args,
+        } = function_pointer;
+
         Self {
             actual_sym,
             args,
@@ -234,12 +240,18 @@ pub(crate) struct FunctionReferenceValue<'s> {
 }
 
 impl<'s> FunctionReferenceValue<'s> {
-    pub(crate) const fn new(
+    pub(crate) fn new(
+        function_pointer: FunctionPointer<'s>,
         actual_sym: &'s str,
-        args: ArgVec<'s>,
         is_pointer: bool,
-        return_type: FunctionPointerReturnType<'s>,
     ) -> Self {
+        let FunctionPointer {
+            return_type,
+            array_qualifiers: _,
+            post_qualifiers: _,
+            args,
+        } = function_pointer;
+
         Self {
             actual_sym,
             args,
@@ -277,7 +289,18 @@ pub(crate) struct FunctionRawValue<'s> {
 }
 
 impl<'s> FunctionRawValue<'s> {
-    pub(crate) const fn new(actual_sym: &'s str, args: ArgVec<'s>, is_pointer: bool) -> Self {
+    pub(crate) fn new(
+        function_pointer: FunctionPointer<'s>,
+        actual_sym: &'s str,
+        is_pointer: bool,
+    ) -> Self {
+        let FunctionPointer {
+            return_type: _,
+            array_qualifiers: _,
+            post_qualifiers: _,
+            args,
+        } = function_pointer;
+
         Self {
             actual_sym,
             args,

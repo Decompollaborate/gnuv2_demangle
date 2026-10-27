@@ -395,21 +395,8 @@ fn demangle_method_pointer_arg<'s>(
 
         let (r, fp) =
             demangle_function_pointer_arg(config, r, template_args, qualifiers, allow_array_fixup)?;
-        let FunctionPointer {
-            return_type,
-            array_qualifiers,
-            post_qualifiers,
-            args,
-        } = fp;
 
-        let arg = MethodPointer::new(
-            return_type,
-            array_qualifiers,
-            class_name,
-            post_qualifiers,
-            args,
-            is_const_method,
-        );
+        let arg = MethodPointer::new(fp, class_name, is_const_method);
         Ok((r, arg))
     } else {
         // What else could this be?

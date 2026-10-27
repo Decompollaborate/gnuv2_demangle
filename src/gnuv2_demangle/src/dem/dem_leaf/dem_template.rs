@@ -9,9 +9,9 @@ use crate::{
     remainer::{Remaining, StrParsing},
     str_cutter::StrCutter,
     tree::leaf::{
-        ArgVec, DemangledArg, FunctionPointer, FunctionPointerValue, FunctionRawValue,
-        FunctionReferenceValue, NamespaceKind, NamespacedType, ObjectReferenceValue, Template,
-        TemplateElement, TemplatedTypename, TemplatedValue, TemplatedValueVec,
+        ArgVec, DemangledArg, FunctionPointerValue, FunctionRawValue, FunctionReferenceValue,
+        NamespaceKind, NamespacedType, ObjectReferenceValue, Template, TemplateElement,
+        TemplatedTypename, TemplatedValue, TemplatedValueVec,
     },
     DemangleConfig, DemangleError,
 };
@@ -188,13 +188,6 @@ fn demangle_templated_value<'s>(
             DemangledArg::FunctionPointer(function_pointer) => {
                 // Function pointers as types in template lists
 
-                let FunctionPointer {
-                    return_type,
-                    array_qualifiers: _,
-                    post_qualifiers: _,
-                    args,
-                } = function_pointer;
-
                 let Remaining { r: aux, d: symbol } =
                     demangle_custom_name(aux, DemangleError::InvalidSymbolNameOnTemplateType)?;
                 let symbol = symbol.into_raw();
@@ -209,21 +202,23 @@ fn demangle_templated_value<'s>(
                 let t = if config.fix_function_pointers_in_template_lists {
                     if is_pointer {
                         TemplatedValue::FunctionPointer(FunctionPointerValue::new(
+                            function_pointer,
                             actual_sym,
-                            args,
                             is_pointer,
-                            return_type,
                         ))
                     } else {
                         TemplatedValue::FunctionReference(FunctionReferenceValue::new(
+                            function_pointer,
                             actual_sym,
-                            args,
                             is_pointer,
-                            return_type,
                         ))
                     }
                 } else {
-                    TemplatedValue::FunctionRaw(FunctionRawValue::new(actual_sym, args, is_pointer))
+                    TemplatedValue::FunctionRaw(FunctionRawValue::new(
+                        function_pointer,
+                        actual_sym,
+                        is_pointer,
+                    ))
                 };
                 (aux, t)
             }
