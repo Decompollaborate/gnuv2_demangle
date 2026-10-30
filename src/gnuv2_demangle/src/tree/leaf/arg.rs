@@ -4,7 +4,7 @@
 use alloc::boxed::Box;
 use core::{fmt, num::NonZeroU32};
 
-use super::{ArgPostQualifierVec, ArgVec, ArrayQualifiers, TypeMeta};
+use super::{ArgPostQualifierVec, ArgPreQualifierVec, ArgVec, ArrayQualifiers, TypeMeta};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum DemangledArg<'s> {
@@ -63,13 +63,19 @@ impl fmt::Display for PlainArgArray<'_> {
 pub(crate) struct PlainArg<'s> {
     typ: TypeMeta<'s>,
     post_qualifiers: ArgPostQualifierVec,
+    pre_qualifiers: ArgPreQualifierVec,
 }
 
 impl<'s> PlainArg<'s> {
-    pub(crate) const fn new(typ: TypeMeta<'s>, post_qualifiers: ArgPostQualifierVec) -> Self {
+    pub(crate) const fn new(
+        typ: TypeMeta<'s>,
+        post_qualifiers: ArgPostQualifierVec,
+        pre_qualifiers: ArgPreQualifierVec,
+    ) -> Self {
         Self {
             typ,
             post_qualifiers,
+            pre_qualifiers,
         }
     }
 
@@ -91,8 +97,10 @@ impl fmt::Display for PlainArg<'_> {
         let PlainArg {
             typ,
             post_qualifiers,
+            pre_qualifiers,
         } = self;
 
+        write!(f, "{pre_qualifiers}")?;
         write!(f, "{typ}")?;
         if !post_qualifiers.is_empty() {
             write!(f, " {post_qualifiers}")?;
@@ -106,6 +114,7 @@ pub(crate) struct FunctionPointer<'s> {
     pub(super) return_type: FunctionPointerReturnType<'s>,
     pub(super) array_qualifiers: Option<ArrayQualifiers>,
     pub(super) post_qualifiers: ArgPostQualifierVec,
+    pub(super) pre_qualifiers: ArgPreQualifierVec,
     pub(super) args: ArgVec<'s>,
 }
 
@@ -114,12 +123,14 @@ impl<'s> FunctionPointer<'s> {
         return_type: FunctionPointerReturnType<'s>,
         array_qualifiers: Option<ArrayQualifiers>,
         post_qualifiers: ArgPostQualifierVec,
+        pre_qualifiers: ArgPreQualifierVec,
         args: ArgVec<'s>,
     ) -> Self {
         Self {
             return_type,
             array_qualifiers,
             post_qualifiers,
+            pre_qualifiers,
             args,
         }
     }
@@ -135,10 +146,13 @@ impl fmt::Display for FunctionPointer<'_> {
             return_type,
             array_qualifiers,
             post_qualifiers,
+            pre_qualifiers,
             args,
         } = self;
 
         let mut wrote_space = false;
+
+        write!(f, "{pre_qualifiers}")?;
 
         // We can't just write! the return_type, since it may be a function
         // pointer, and those wrap the argument around instead of just being at
@@ -183,6 +197,7 @@ pub(crate) struct MethodPointer<'s> {
     array_qualifiers: Option<ArrayQualifiers>,
     class: PlainArg<'s>,
     post_qualifiers: ArgPostQualifierVec,
+    pre_qualifiers: ArgPreQualifierVec,
     args: ArgVec<'s>,
     is_const_method: bool,
 }
@@ -197,6 +212,7 @@ impl<'s> MethodPointer<'s> {
             return_type,
             array_qualifiers,
             post_qualifiers,
+            pre_qualifiers,
             args,
         } = function_pointer;
 
@@ -205,6 +221,7 @@ impl<'s> MethodPointer<'s> {
             array_qualifiers,
             class,
             post_qualifiers,
+            pre_qualifiers,
             args,
             is_const_method,
         }
@@ -222,12 +239,14 @@ impl fmt::Display for MethodPointer<'_> {
             array_qualifiers,
             class,
             post_qualifiers,
+            pre_qualifiers,
             args,
             is_const_method,
         } = self;
 
         let mut wrote_space = false;
 
+        write!(f, "{pre_qualifiers}")?;
         return_type.fmt_prev(f)?;
 
         if let Some(arr) = array_qualifiers {
@@ -270,6 +289,7 @@ pub(crate) struct MemberPointer<'s> {
     member_type: PlainArg<'s>,
     array_qualifiers: Option<ArrayQualifiers>,
     post_qualifiers: ArgPostQualifierVec,
+    pre_qualifiers: ArgPreQualifierVec,
 }
 
 impl<'s> MemberPointer<'s> {
@@ -278,12 +298,14 @@ impl<'s> MemberPointer<'s> {
         member_type: PlainArg<'s>,
         array_qualifiers: Option<ArrayQualifiers>,
         post_qualifiers: ArgPostQualifierVec,
+        pre_qualifiers: ArgPreQualifierVec,
     ) -> Self {
         Self {
             class_name,
             member_type,
             array_qualifiers,
             post_qualifiers,
+            pre_qualifiers,
         }
     }
 
@@ -299,10 +321,12 @@ impl fmt::Display for MemberPointer<'_> {
             member_type,
             array_qualifiers,
             post_qualifiers,
+            pre_qualifiers,
         } = self;
 
         let mut wrote_space = false;
 
+        write!(f, "{pre_qualifiers}")?;
         write!(f, "{member_type}")?;
 
         if let Some(arr) = &array_qualifiers {
@@ -356,9 +380,11 @@ impl<'s> FunctionPointerReturnType<'s> {
                     return_type,
                     array_qualifiers: _,
                     post_qualifiers,
+                    pre_qualifiers,
                     args: _,
                 } = function_pointer.as_ref();
 
+                write!(f, "{pre_qualifiers}")?;
                 return_type.fmt_prev(f)?;
                 write!(f, " (")?;
                 write!(f, "{post_qualifiers}")
@@ -369,10 +395,12 @@ impl<'s> FunctionPointerReturnType<'s> {
                     array_qualifiers: _,
                     class,
                     post_qualifiers,
+                    pre_qualifiers,
                     args: _,
                     is_const_method: _,
                 } = method_pointer.as_ref();
 
+                write!(f, "{pre_qualifiers}")?;
                 method_pointer.return_type.fmt_prev(f)?;
                 write!(f, " (")?;
                 write!(f, "{class}::{post_qualifiers}")
@@ -383,8 +411,10 @@ impl<'s> FunctionPointerReturnType<'s> {
                     member_type,
                     array_qualifiers,
                     post_qualifiers,
+                    pre_qualifiers,
                 } = member_pointer;
 
+                write!(f, "{pre_qualifiers}")?;
                 write!(f, "{member_type} ")?;
 
                 if let Some(arr) = &array_qualifiers {
@@ -407,6 +437,7 @@ impl<'s> FunctionPointerReturnType<'s> {
                     return_type: _,
                     array_qualifiers,
                     post_qualifiers: _,
+                    pre_qualifiers: _,
                     args,
                 } = function_pointer.as_ref();
 
@@ -422,6 +453,7 @@ impl<'s> FunctionPointerReturnType<'s> {
                     array_qualifiers,
                     class: _,
                     post_qualifiers: _,
+                    pre_qualifiers: _,
                     args,
                     is_const_method,
                 } = method_pointer.as_ref();
@@ -441,6 +473,7 @@ impl<'s> FunctionPointerReturnType<'s> {
                     member_type: _,
                     array_qualifiers,
                     post_qualifiers: _,
+                    pre_qualifiers: _,
                 } = member_pointer;
 
                 write!(f, ")")?;

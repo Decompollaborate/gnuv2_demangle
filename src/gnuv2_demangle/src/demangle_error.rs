@@ -63,6 +63,7 @@ pub enum DemangleError<'s> {
     InvalidArraySize(&'s str),
     MalformedArrayArgumment(&'s str),
     PrevQualifiersInInvalidPostioniAtArrayArgument(&'s str),
+    InvalidPreQualifier(&'s str),
     MalformedCastOperatorOverload(&'s str),
     InvalidTemplateCount(&'s str),
     InvalidTemplateReturnCount(&'s str),

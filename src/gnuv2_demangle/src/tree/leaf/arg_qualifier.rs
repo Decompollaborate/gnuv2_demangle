@@ -10,6 +10,7 @@ use super::{ArrayQualifiers, Signedness};
 pub(crate) struct ArgQualifiers {
     pub(crate) sign: Signedness,
     pub(crate) post_qualifiers: ArgPostQualifierVec,
+    pub(crate) pre_qualifiers: ArgPreQualifierVec,
     pub(crate) array_qualifiers: Option<ArrayQualifiers>,
 }
 
@@ -17,11 +18,13 @@ impl ArgQualifiers {
     pub(crate) const fn new(
         sign: Signedness,
         post_qualifiers: ArgPostQualifierVec,
+        pre_qualifiers: ArgPreQualifierVec,
         array_qualifiers: Option<ArrayQualifiers>,
     ) -> Self {
         Self {
             sign,
             post_qualifiers,
+            pre_qualifiers,
             array_qualifiers,
         }
     }
@@ -126,6 +129,80 @@ impl fmt::Display for ArgPostQualifierVec {
                     needs_space = true;
                 }
             }
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) enum ArgPreQualifier {
+    Const,
+    Volatile,
+}
+
+impl ArgPreQualifier {
+    pub(crate) const fn from_char(c: char) -> Option<Self> {
+        match c {
+            'C' => Some(Self::Const),
+            'V' => Some(Self::Volatile),
+            _ => None,
+        }
+    }
+}
+
+impl fmt::Display for ArgPreQualifier {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Const => write!(f, "const"),
+            Self::Volatile => write!(f, "volatile"),
+        }
+    }
+}
+
+// Qualifiers should be displayed in reverse order
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(crate) struct ArgPreQualifierVec {
+    qualifiers: [Option<ArgPreQualifier>; 2],
+    count: u8,
+}
+
+impl ArgPreQualifierVec {
+    pub(crate) const fn new() -> Self {
+        Self {
+            qualifiers: [None; 2],
+            count: 0,
+        }
+    }
+
+    pub(crate) fn push(&mut self, qualifier: ArgPreQualifier) -> bool {
+        let count = self.count as usize;
+
+        // avoid duplicated entries
+        if self.qualifiers[0] == Some(qualifier) || self.qualifiers[1] == Some(qualifier) {
+            return false;
+        }
+
+        if count < self.qualifiers.len() {
+            self.qualifiers[count] = Some(qualifier);
+            self.count += 1;
+            true
+        } else {
+            false
+        }
+    }
+}
+
+impl fmt::Display for ArgPreQualifierVec {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let back_skip = self.qualifiers.len().saturating_sub(self.count as usize);
+
+        for q in self.qualifiers.iter().rev().skip(back_skip) {
+            let Some(q) = q else {
+                break;
+            };
+
+            write!(f, "{q} ")?;
         }
 
         Ok(())

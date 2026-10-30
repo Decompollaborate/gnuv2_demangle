@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for pre qualifiers (like `const` and `volatile`) on function
+  arguments.
+
 ## [0.6.0] - 2026-10-27
 
 ### Added

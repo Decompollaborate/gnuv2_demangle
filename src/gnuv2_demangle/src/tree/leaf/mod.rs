@@ -20,7 +20,9 @@ pub(crate) use arg::{
     DemangledArg, FunctionPointer, FunctionPointerReturnType, MemberPointer, MethodPointer,
     PlainArg, PlainArgArray,
 };
-pub(crate) use arg_qualifier::{ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers};
+pub(crate) use arg_qualifier::{
+    ArgPostQualifier, ArgPostQualifierVec, ArgPreQualifier, ArgPreQualifierVec, ArgQualifiers,
+};
 pub(crate) use arg_vec::{ArgVec, ResolvedProcessedArg};
 pub(crate) use array::{ArrayQualifiers, ArrayVec};
 pub(crate) use custom_name::CustomName;

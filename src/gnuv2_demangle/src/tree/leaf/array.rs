@@ -4,18 +4,24 @@
 use alloc::vec::Vec;
 use core::fmt;
 
-use super::ArgPostQualifierVec;
+use super::{ArgPostQualifierVec, ArgPreQualifierVec};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct ArrayQualifiers {
     pub(crate) inner_post_qualifiers: ArgPostQualifierVec,
+    pub(crate) inner_pre_qualifiers: ArgPreQualifierVec,
     pub(crate) arrays: ArrayVec,
 }
 
 impl ArrayQualifiers {
-    pub(crate) const fn new(inner_post_qualifiers: ArgPostQualifierVec, arrays: ArrayVec) -> Self {
+    pub(crate) const fn new(
+        inner_post_qualifiers: ArgPostQualifierVec,
+        inner_pre_qualifiers: ArgPreQualifierVec,
+        arrays: ArrayVec,
+    ) -> Self {
         Self {
             inner_post_qualifiers,
+            inner_pre_qualifiers,
             arrays,
         }
     }
@@ -25,10 +31,11 @@ impl fmt::Display for ArrayQualifiers {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let Self {
             inner_post_qualifiers,
+            inner_pre_qualifiers,
             arrays,
         } = self;
 
-        write!(f, " ")?;
+        write!(f, " {inner_pre_qualifiers}")?;
 
         if !inner_post_qualifiers.is_empty() {
             // Only add parenthesis if there are post_qualifiers, like a

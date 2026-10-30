@@ -67,6 +67,7 @@ pub(crate) fn demangle_argument<'s>(
         let ArgQualifiers {
             sign,
             post_qualifiers,
+            pre_qualifiers,
             array_qualifiers,
         } = qualifiers;
 
@@ -83,7 +84,7 @@ pub(crate) fn demangle_argument<'s>(
             return Err(DemangleError::PrimitiveInsteadOfClass(full_args));
         }
 
-        let pa = PlainArg::new(typ, post_qualifiers);
+        let pa = PlainArg::new(typ, post_qualifiers, pre_qualifiers);
         let paa = PlainArgArray::new(pa, array_qualifiers);
 
         Ok((r, DemangledArg::Plain(paa)))
@@ -279,6 +280,7 @@ fn demangle_function_pointer_arg<'s>(
     let ArgQualifiers {
         sign,
         post_qualifiers,
+        pre_qualifiers,
         array_qualifiers,
     } = qualifiers;
 
@@ -306,7 +308,13 @@ fn demangle_function_pointer_arg<'s>(
         }
     };
 
-    let fp = FunctionPointer::new(ret, array_qualifiers, post_qualifiers, func_args);
+    let fp = FunctionPointer::new(
+        ret,
+        array_qualifiers,
+        post_qualifiers,
+        pre_qualifiers,
+        func_args,
+    );
     Ok((r, fp))
 }
 
@@ -413,10 +421,19 @@ fn demangle_object_pointer_arg<'s>(
     qualifiers: ArgQualifiers,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, MemberPointer<'s>), DemangleError<'s>> {
-    if qualifiers.sign != Signedness::No
-        || !qualifiers.post_qualifiers.valid_as_method_pointer_arg()
-        || qualifiers.array_qualifiers.is_some()
-    {
+    let ArgQualifiers {
+        sign: Signedness::No,
+        post_qualifiers,
+        pre_qualifiers,
+        array_qualifiers: None,
+    } = qualifiers
+    else {
+        // The only qualifer valid for this seems to be pointer (`*`), not
+        // even references (`&`) seem to be valid C++
+        return Err(DemangleError::InvalidQualifierForObjectMemberArg(full_args));
+    };
+
+    if !post_qualifiers.valid_as_method_pointer_arg() {
         // The only qualifer valid for this seems to be pointer (`*`), not
         // even references (`&`) seem to be valid C++
         return Err(DemangleError::InvalidQualifierForObjectMemberArg(full_args));
@@ -463,7 +480,8 @@ fn demangle_object_pointer_arg<'s>(
         class_name,
         member_type,
         array_qualifiers,
-        qualifiers.post_qualifiers,
+        post_qualifiers,
+        pre_qualifiers,
     );
 
     Ok((r, op))

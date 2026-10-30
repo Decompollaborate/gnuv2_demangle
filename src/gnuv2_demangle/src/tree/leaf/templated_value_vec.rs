@@ -199,6 +199,7 @@ impl<'s> FunctionPointerValue<'s> {
             return_type,
             array_qualifiers: _,
             post_qualifiers: _,
+            pre_qualifiers: _,
             args,
         } = function_pointer;
 
@@ -249,6 +250,7 @@ impl<'s> FunctionReferenceValue<'s> {
             return_type,
             array_qualifiers: _,
             post_qualifiers: _,
+            pre_qualifiers: _,
             args,
         } = function_pointer;
 
@@ -298,6 +300,7 @@ impl<'s> FunctionRawValue<'s> {
             return_type: _,
             array_qualifiers: _,
             post_qualifiers: _,
+            pre_qualifiers: _,
             args,
         } = function_pointer;
 

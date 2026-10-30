@@ -6,7 +6,8 @@ use alloc::vec::Vec;
 use crate::{
     remainer::{Remaining, StrParsing},
     tree::leaf::{
-        ArgPostQualifier, ArgPostQualifierVec, ArgQualifiers, ArrayQualifiers, ArrayVec, Signedness,
+        ArgPostQualifier, ArgPostQualifierVec, ArgPreQualifier, ArgPreQualifierVec, ArgQualifiers,
+        ArrayQualifiers, ArrayVec, Signedness,
     },
     DemangleConfig, DemangleError,
 };
@@ -18,17 +19,24 @@ pub(crate) fn demangle_arg_qualifiers<'s>(
 ) -> Result<Remaining<'s, ArgQualifiers>, DemangleError<'s>> {
     let Remaining {
         r,
-        d: (sign, post_qualifiers),
+        d: (sign, post_qualifiers, pre_qualifiers),
     } = demangle_arg_post_qualifiers(s)?;
-    let Remaining { r, d: qualifiers } =
-        demangle_array_pseudo_qualifier(config, r, sign, post_qualifiers, allow_array_fixup)?;
+    let Remaining { r, d: qualifiers } = demangle_array_pseudo_qualifier(
+        config,
+        r,
+        sign,
+        post_qualifiers,
+        pre_qualifiers,
+        allow_array_fixup,
+    )?;
 
     Ok(Remaining::new(r, qualifiers))
 }
 
 fn demangle_arg_post_qualifiers<'s>(
     s: &'s str,
-) -> Result<Remaining<'s, (Signedness, ArgPostQualifierVec)>, DemangleError<'s>> {
+) -> Result<Remaining<'s, (Signedness, ArgPostQualifierVec, ArgPreQualifierVec)>, DemangleError<'s>>
+{
     let mut remaining = s;
     let mut post_qualifiers = ArgPostQualifierVec::new();
 
@@ -60,7 +68,12 @@ fn demangle_arg_post_qualifiers<'s>(
         (remaining, Signedness::No)
     };
 
-    Ok(Remaining::new(remaining, (sign, post_qualifiers)))
+    let Remaining {
+        r,
+        d: pre_qualifiers,
+    } = demangle_pre_qualifiers(remaining)?;
+
+    Ok(Remaining::new(r, (sign, post_qualifiers, pre_qualifiers)))
 }
 
 // `allow_array_fixup` exists because array sizes are not always messed up.
@@ -70,14 +83,11 @@ fn demangle_array_pseudo_qualifier<'s>(
     s: &'s str,
     sign: Signedness,
     post_qualifiers: ArgPostQualifierVec,
+    pre_qualifiers: ArgPreQualifierVec,
     allow_array_fixup: bool,
 ) -> Result<Remaining<'s, ArgQualifiers>, DemangleError<'s>> {
     if !s.starts_with('A') {
-        let qualifiers = ArgQualifiers {
-            sign,
-            post_qualifiers,
-            array_qualifiers: None,
-        };
+        let qualifiers = ArgQualifiers::new(sign, post_qualifiers, pre_qualifiers, None);
         return Ok(Remaining::new(s, qualifiers));
     }
 
@@ -111,13 +121,35 @@ fn demangle_array_pseudo_qualifier<'s>(
         args = remaining;
     }
 
-    let array_qualifiers = ArrayQualifiers::new(post_qualifiers, ArrayVec::new(arrays));
+    let array_qualifiers =
+        ArrayQualifiers::new(post_qualifiers, pre_qualifiers, ArrayVec::new(arrays));
 
     let Remaining {
         r,
-        d: (sign_other, post),
+        d: (sign_other, post, pre),
     } = demangle_arg_post_qualifiers(args)?;
 
-    let qualifiers = ArgQualifiers::new(sign_other, post, Some(array_qualifiers));
+    let qualifiers = ArgQualifiers::new(sign_other, post, pre, Some(array_qualifiers));
     Ok(Remaining::new(r, qualifiers))
+}
+
+fn demangle_pre_qualifiers<'s>(
+    s: &'s str,
+) -> Result<Remaining<'s, ArgPreQualifierVec>, DemangleError<'s>> {
+    let mut remaining = s;
+    let mut pre_qualifiers = ArgPreQualifierVec::new();
+
+    while let Some(Remaining { r, d: c }) = remaining.p_first() {
+        let Some(pre) = ArgPreQualifier::from_char(c) else {
+            break;
+        };
+
+        if !pre_qualifiers.push(pre) {
+            return Err(DemangleError::InvalidPreQualifier(remaining));
+        }
+        remaining = r;
+    }
+
+    let out = Remaining::new(remaining, pre_qualifiers);
+    Ok(out)
 }
