@@ -24,21 +24,13 @@ pub(crate) fn demangle_template<'s>(
 ) -> Result<Remaining<'s, Template<'s>>, DemangleError<'s>> {
     let Remaining { r, d: class_name } =
         demangle_custom_name(s, DemangleError::InvalidCustomNameOnTemplate)?;
-    let Some(Remaining {
-        r: remaining,
-        d: digit,
-    }) = r.p_digit()
-    else {
-        return Err(DemangleError::InvalidTemplateCount(r));
-    };
-    let digit = NonZeroU32::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(r))?;
 
-    let (remaining, types) =
-        demangle_template_types_impl(config, remaining, digit, template_args, allow_array_fixup)?;
+    let Remaining { r, d: types } =
+        demangle_template_types(config, r, template_args, allow_array_fixup)?;
 
     let t = Template::new(class_name, types);
 
-    Ok(Remaining::new(remaining, t))
+    Ok(Remaining::new(r, t))
 }
 
 pub(crate) fn demangle_template_with_return_type<'s>(
@@ -46,18 +38,8 @@ pub(crate) fn demangle_template_with_return_type<'s>(
     s: &'s str,
     allow_array_fixup: bool,
 ) -> Result<(&'s str, TemplatedValueVec<'s>, Option<NamespacedType<'s>>), DemangleError<'s>> {
-    let Some(Remaining { r, d: digit }) = s.p_digit() else {
-        return Err(DemangleError::InvalidTemplateReturnCount(s));
-    };
-    let digit = NonZeroU32::new(digit).ok_or(DemangleError::TemplateReturnCountIsZero(s))?;
-
-    let (r, types) = demangle_template_types_impl(
-        config,
-        r,
-        digit,
-        &TemplatedValueVec::new(),
-        allow_array_fixup,
-    )?;
+    let Remaining { r, d: types } =
+        demangle_template_types(config, s, &TemplatedValueVec::new(), allow_array_fixup)?;
 
     let Some(r) = r.strip_prefix('_') else {
         return Err(DemangleError::MalformedTemplateWithReturnType(r));
@@ -84,13 +66,54 @@ pub(crate) fn demangle_template_with_return_type<'s>(
     Ok((r, types, namespaces))
 }
 
+fn demangle_template_types<'s>(
+    config: &DemangleConfig,
+    s: &'s str,
+    template_args: &TemplatedValueVec<'s>,
+    allow_array_fixup: bool,
+) -> Result<Remaining<'s, TemplatedValueVec<'s>>, DemangleError<'s>> {
+    let Some(Remaining { r, d: first_digit }) = s.p_digit() else {
+        return Err(DemangleError::InvalidTemplateCount(s));
+    };
+
+    // The count of a template list may be ambiguos since it may be followed by
+    // the length of an enum.
+    // To mitigate this, we do a two pass try to demangle the template list:
+    // First assuming the count is a single digit and demangle the rest. If
+    // that fails then we read the count as a two digit number. If this fails
+    // too we just gave up and return the error from the first try.
+    // We don't keep trying with more digits until we run out of digits because
+    // it is very unlikely for a template list to actually have more than 99
+    // types and values.
+
+    let count = NonZeroU32::new(first_digit).ok_or(DemangleError::TemplateReturnCountIsZero(s))?;
+    let trailing_error =
+        match demangle_template_types_impl(config, r, count, template_args, allow_array_fixup) {
+            Ok(types) => return Ok(types),
+            Err(e) => e,
+        };
+
+    if let Some(Remaining { r, d: second_digit }) = r.p_digit() {
+        let count = first_digit * 10 + second_digit;
+        let count = NonZeroU32::new(count).ok_or(DemangleError::TemplateReturnCountIsZero(s))?;
+
+        if let Ok(types) =
+            demangle_template_types_impl(config, r, count, template_args, allow_array_fixup)
+        {
+            return Ok(types);
+        }
+    }
+
+    Err(trailing_error)
+}
+
 fn demangle_template_types_impl<'s>(
     config: &DemangleConfig,
     s: &'s str,
     count: NonZeroU32,
     template_args: &TemplatedValueVec<'s>,
     allow_array_fixup: bool,
-) -> Result<(&'s str, TemplatedValueVec<'s>), DemangleError<'s>> {
+) -> Result<Remaining<'s, TemplatedValueVec<'s>>, DemangleError<'s>> {
     let mut remaining = s;
     let mut types = TemplatedValueVec::new();
 
@@ -136,7 +159,7 @@ fn demangle_template_types_impl<'s>(
         remaining = r;
     }
 
-    Ok((remaining, types))
+    Ok(Remaining::new(remaining, types))
 }
 
 fn demangle_templated_value<'s>(

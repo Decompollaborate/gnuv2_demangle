@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for pre qualifiers (like `const` and `volatile`) on function
   arguments.
+- Support template lists with more than 9 types/values.
+  - Support is extended up to 99 elements in the template list.
 
 ## [0.6.0] - 2026-10-27
 

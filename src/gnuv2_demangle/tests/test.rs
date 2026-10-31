@@ -1209,14 +1209,23 @@ fn test_demangle_templated_function_with_value_reuse() {
 #[test]
 fn test_demangle_templated_with_many_template_parameters() {
     // TODO: implement this
-    static CASES: [(&str, &str); 2] = [
+    static CASES: [(&str, &str); 4] = [
         /*
         template <typename A, typename B, typename C, typename D, typename E, typename F, typename G, typename H, typename I, typename J, typename K, typename L, typename M, typename N, unsigned int N>
         class fixed_array {};
 
+        class X {};
+
         class _LIGHTCOMPAREDATA {};
 
-        template <  int N>
+        template <int N>
+        void _SortLightCompareData(fixed_array<X, X, X, X, X, X, X, X, X, X, X, X, X, X, N> &, float, int) {}
+
+        void test(fixed_array<X, X, X, X, X, X, X, X, X, X, X, X, X, X, 4> & a , float b, int c) {
+            _SortLightCompareData<4>(a, b, c);
+        }
+
+        template <int N>
         void _SortLightCompareData(fixed_array<_LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, N> &, float, int) {}
 
         void test(fixed_array<_LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, 4> & a , float b, int c) {
@@ -1224,19 +1233,26 @@ fn test_demangle_templated_with_many_template_parameters() {
         }
         */
         (
+            "test__FRt11fixed_array15Z1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XUi4fi",
+            "test(fixed_array<X, X, X, X, X, X, X, X, X, X, X, X, X, X, 4> &, float, int)",
+        ),
+        (
+            "_SortLightCompareData__H1i4_Rt11fixed_array15Z1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XZ1XUiY01fi_v",
+            "void _SortLightCompareData<4>(fixed_array<X, X, X, X, X, X, X, X, X, X, X, X, X, X, 4> &, float, int)",
+        ),
+        (
             "test__FRt11fixed_array15Z17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAUi4fi",
-            "",
+            "test(fixed_array<_LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, 4> &, float, int)",
         ),
         (
             "_SortLightCompareData__H1i4_Rt11fixed_array15Z17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAZ17_LIGHTCOMPAREDATAUiY01fi_v",
-            "",
+            "void _SortLightCompareData<4>(fixed_array<_LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, _LIGHTCOMPAREDATA, 4> &, float, int)",
         ),
     ];
     let config = DemangleConfig::new();
 
-    for (mangled, _demangled) in CASES {
-        // assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
-        assert!(demangle(mangled, &config).is_err());
+    for (mangled, demangled) in CASES {
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
 
@@ -1799,6 +1815,7 @@ fn test_demangle_all_operators() {
     }
 }
 
+// TODO
 /*
 #[test]
 fn test_demangle_templated_class_complex() {
@@ -1817,6 +1834,7 @@ fn test_demangle_templated_class_complex() {
 }
 */
 
+// TODO
 /*
 #[test]
 fn test_demangle_templated_function_complex() {

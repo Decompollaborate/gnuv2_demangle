@@ -66,7 +66,6 @@ pub enum DemangleError<'s> {
     InvalidPreQualifier(&'s str),
     MalformedCastOperatorOverload(&'s str),
     InvalidTemplateCount(&'s str),
-    InvalidTemplateReturnCount(&'s str),
     TemplateReturnCountIsZero(&'s str),
     MalformedTemplateWithReturnType(&'s str),
     // TODO: figure out what is X for and rename this
