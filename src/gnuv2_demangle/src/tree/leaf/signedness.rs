@@ -10,6 +10,16 @@ pub(crate) enum Signedness {
     Unsigned,
 }
 
+impl Signedness {
+    pub(crate) const fn from_char(c: char) -> Option<Self> {
+        match c {
+            'S' => Some(Self::Signed),
+            'U' => Some(Self::Unsigned),
+            _ => None,
+        }
+    }
+}
+
 impl fmt::Display for Signedness {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {

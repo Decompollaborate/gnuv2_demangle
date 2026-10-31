@@ -37,36 +37,16 @@ fn demangle_arg_post_qualifiers<'s>(
     s: &'s str,
 ) -> Result<Remaining<'s, (Signedness, ArgPostQualifierVec, ArgPreQualifierVec)>, DemangleError<'s>>
 {
-    let mut remaining = s;
-    let mut post_qualifiers = ArgPostQualifierVec::new();
-
-    while !remaining.is_empty() {
-        let Remaining { r, d: c } = remaining
-            .p_first()
-            .ok_or(DemangleError::RanOutOfArguments)?;
-
-        let post = match c {
-            'P' => ArgPostQualifier::Pointer,
-            'R' => ArgPostQualifier::Reference,
-            'C' => ArgPostQualifier::Const,
-            'V' => ArgPostQualifier::Volatile,
-            _ => break,
-        };
-
-        post_qualifiers.push(post);
-        remaining = r;
-    }
+    let Remaining {
+        r: remaining,
+        d: post_qualifiers,
+    } = demangle_post_qualifiers(s)?;
 
     // There can be at most one signedness qualifier as far as I know
-    let (remaining, sign) = if let Some(Remaining { r, d: c }) = remaining.p_first() {
-        match c {
-            'S' => (r, Signedness::Signed),
-            'U' => (r, Signedness::Unsigned),
-            _ => (remaining, Signedness::No),
-        }
-    } else {
-        (remaining, Signedness::No)
-    };
+    let (remaining, sign) = remaining
+        .p_first()
+        .and_then(|Remaining { r, d: c }| Signedness::from_char(c).map(|s| (r, s)))
+        .unwrap_or((remaining, Signedness::No));
 
     let Remaining {
         r,
@@ -131,6 +111,29 @@ fn demangle_array_pseudo_qualifier<'s>(
 
     let qualifiers = ArgQualifiers::new(sign_other, post, pre, Some(array_qualifiers));
     Ok(Remaining::new(r, qualifiers))
+}
+
+fn demangle_post_qualifiers<'s>(
+    s: &'s str,
+) -> Result<Remaining<'s, ArgPostQualifierVec>, DemangleError<'s>> {
+    let mut remaining = s;
+    let mut post_qualifiers = ArgPostQualifierVec::new();
+
+    while !remaining.is_empty() {
+        let Remaining { r, d: c } = remaining
+            .p_first()
+            .ok_or(DemangleError::RanOutOfArguments)?;
+
+        let Some(post) = ArgPostQualifier::from_char(c) else {
+            break;
+        };
+
+        post_qualifiers.push(post);
+        remaining = r;
+    }
+
+    let out = Remaining::new(remaining, post_qualifiers);
+    Ok(out)
 }
 
 fn demangle_pre_qualifiers<'s>(

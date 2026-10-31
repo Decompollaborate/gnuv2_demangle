@@ -38,6 +38,18 @@ pub(crate) enum ArgPostQualifier {
     Volatile,
 }
 
+impl ArgPostQualifier {
+    pub(crate) const fn from_char(c: char) -> Option<Self> {
+        match c {
+            'P' => Some(Self::Pointer),
+            'R' => Some(Self::Reference),
+            'C' => Some(Self::Const),
+            'V' => Some(Self::Volatile),
+            _ => None,
+        }
+    }
+}
+
 // Qualifiers should be displayed in reverse order
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct ArgPostQualifierVec {
@@ -135,11 +147,18 @@ impl fmt::Display for ArgPostQualifierVec {
     }
 }
 
+// Remember to update ARG_PRE_QUALIFIER_COUNT to match the amount of variants
+// of this enum.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) enum ArgPreQualifier {
     Const,
     Volatile,
 }
+
+// Ideally we could avoid having to define a const for this, but sadly Rust
+// doesn't provide an `EnumType::VARIANT_COUNT` or similar to get how many
+// variants an enum has
+const ARG_PRE_QUALIFIER_COUNT: usize = 2;
 
 impl ArgPreQualifier {
     pub(crate) const fn from_char(c: char) -> Option<Self> {
@@ -160,10 +179,14 @@ impl fmt::Display for ArgPreQualifier {
     }
 }
 
-// Qualifiers should be displayed in reverse order
+/// A list of pre qualifiers for a given type.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub(crate) struct ArgPreQualifierVec {
-    qualifiers: [Option<ArgPreQualifier>; 2],
+    // Checks there are no duplicated qualifiers applied, so we don't have
+    // `const const` or `volatile volatile`.
+    // Because of this, we know there's a maximum amount of elements this list
+    // can have, the same as many ArgPreQualifier variants there are.
+    qualifiers: [Option<ArgPreQualifier>; ARG_PRE_QUALIFIER_COUNT],
     count: u8,
 }
 
@@ -178,8 +201,14 @@ impl ArgPreQualifierVec {
     pub(crate) fn push(&mut self, qualifier: ArgPreQualifier) -> bool {
         let count = self.count as usize;
 
-        // avoid duplicated entries
-        if self.qualifiers[0] == Some(qualifier) || self.qualifiers[1] == Some(qualifier) {
+        // Avoid duplicated entries to ensure uniqueness of qualifiers.
+        // No `volatile volatile` that c++filt may accept.
+        if self
+            .qualifiers
+            .iter()
+            .take(count)
+            .any(|old_q| old_q == &Some(qualifier))
+        {
             return false;
         }
 
@@ -197,6 +226,7 @@ impl fmt::Display for ArgPreQualifierVec {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let back_skip = self.qualifiers.len().saturating_sub(self.count as usize);
 
+        // Qualifiers should be displayed in reverse order
         for q in self.qualifiers.iter().rev().skip(back_skip) {
             let Some(q) = q else {
                 break;
