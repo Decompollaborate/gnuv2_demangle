@@ -1208,7 +1208,6 @@ fn test_demangle_templated_function_with_value_reuse() {
 
 #[test]
 fn test_demangle_templated_with_many_template_parameters() {
-    // TODO: implement this
     static CASES: [(&str, &str); 4] = [
         /*
         template <typename A, typename B, typename C, typename D, typename E, typename F, typename G, typename H, typename I, typename J, typename K, typename L, typename M, typename N, unsigned int N>
@@ -1815,34 +1814,13 @@ fn test_demangle_all_operators() {
     }
 }
 
-// TODO
-/*
 #[test]
 fn test_demangle_templated_class_complex() {
     static CASES: [(&str, &str); 1] = [
         // c++filt can't demangle this symbol.
         (
             "a_function__Q25silly9SomeClassRCQ224namespace_for_the_vectort7rVector13ZiZcZbZwZrZsZQ213more_stacking11APlainClassZQ213more_stacking11APlainClassZQ213more_stacking11APlainClassZPvZPiZPCcZRCc",
-            "silly::SomeClass::a_function(const namespace_for_the_vector::rVector<int, char, bool, wchar_t, long double, short, more_stacking::APlainClass, more_stacking::APlainClass, more_stacking::APlainClass, void*, int*, const char *, const char &> &)"
-        ),
-    ];
-    let mut config = DemangleConfig::new();
-
-    for (mangled, demangled) in CASES {
-        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
-    }
-}
-*/
-
-// TODO
-/*
-#[test]
-fn test_demangle_templated_function_complex() {
-    // c++filt fails to demangle this symbol
-    static CASES: [(&str, &str); 1] = [
-        (
-            "SetState__H11ZQ35Other11CharacterAi4LocoZQ35Other11CharacterAi12StateManagerZiZiZiZiZiZiZiZQ213radPs2CdDrive14DirectoryEntryZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiRX11X01X21X31X41X51X61X71X81X91X_10_1_v",
-            "",
+            "silly::SomeClass::a_function(namespace_for_the_vector::rVector<int, char, bool, wchar_t, long double, short, more_stacking::APlainClass, more_stacking::APlainClass, more_stacking::APlainClass, void *, int *, char const *, char const &> const &)"
         ),
     ];
     let config = DemangleConfig::new();
@@ -1851,7 +1829,22 @@ fn test_demangle_templated_function_complex() {
         assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
     }
 }
-*/
+
+#[test]
+fn test_demangle_templated_function_complex() {
+    // c++filt fails to demangle this symbol
+    static CASES: [(&str, &str); 1] = [
+        (
+            "SetState__H11ZQ35Other11CharacterAi4LocoZQ35Other11CharacterAi12StateManagerZiZiZiZiZiZiZiZQ213radPs2CdDrive14DirectoryEntryZQ35Other11CharacterAi4Loco_Q25Other11CharacterAiRX11X01X21X31X41X51X61X71X81X91X_10_1_v",
+            "void Other::CharacterAi::SetState<Other::CharacterAi::Loco, Other::CharacterAi::StateManager, int, int, int, int, int, int, int, radPs2CdDrive::DirectoryEntry, Other::CharacterAi::Loco>(Other::CharacterAi::StateManager &, Other::CharacterAi::Loco, int, int, int, int, int, int, int, radPs2CdDrive::DirectoryEntry, Other::CharacterAi::Loco)",
+        ),
+    ];
+    let config = DemangleConfig::new();
+
+    for (mangled, demangled) in CASES {
+        assert_eq!(Ok(demangled), demangle(mangled, &config).as_deref());
+    }
+}
 
 #[test]
 fn test_demangle_dot_as_cplus_marker() {
